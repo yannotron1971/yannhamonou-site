@@ -149,7 +149,7 @@ body.v4.is-light.tone-bright {
   font-family: var(--v4-display);
   font-weight: 900;
   font-stretch: 75%;
-  font-size: clamp(56px, 11vw, 168px);
+  font-size: clamp(48px, min(10vw, 13vh), 140px);
   line-height: 0.88;
   letter-spacing: -0.025em;
   text-transform: uppercase;
