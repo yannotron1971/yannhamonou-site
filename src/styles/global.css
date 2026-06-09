@@ -22,7 +22,7 @@ body.v4 {
   --v4-line-soft:   rgba(255 255 255 / 0.06);
   --v4-ink:         oklch(0.954 0.003 75);
   --v4-ink-mute:    oklch(0.591 0.004 75);
-  --v4-ink-dim:     oklch(0.407 0.003 75);
+  --v4-ink-dim:     oklch(0.52 0.003 75);
   --v4-accent:      oklch(0.954 0.003 75);
   --v4-accent-warm: oklch(0.910 0.025 75);
   --v4-smoke-rgb:   255 255 255;
@@ -403,7 +403,8 @@ body.v4.is-light.tone-bright {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-block: clamp(48px, 8vw, 120px);
+  padding-block-start: clamp(48px, 8vw, 120px);
+  padding-block-end: clamp(80px, 12vh, 160px);
 }
 
 .v4-hero__content {
