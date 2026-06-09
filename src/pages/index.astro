@@ -79,7 +79,7 @@ const recentPosts = allPosts
   <div class="v4-marquee-wrap" aria-hidden="true">
     <div class="v4-marquee">
       {[...clients, ...clients].map(c => (
-        <img src={c.logo} alt={c.name} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
+        <img src={c.logo} alt={c.name} width={c.w} height={c.h} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
       ))}
     </div>
   </div>

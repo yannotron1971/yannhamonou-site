@@ -209,7 +209,7 @@ export const cases = [
     descriptor: 'Inbound Growth',
     stat: '#1 Rank',
     statSub: '500% organic traffic growth',
-    image: '/work/Arnlea-H.webp',
+    image: '/work/Arnlea-H.avif',
     summary: 'Took Arnlea from invisible in search to top-3 rankings, generating 100+ qualified visits per month.',
   },
   {
@@ -253,10 +253,10 @@ export const numbers = [
 ];
 
 export const clients = [
-  { name: 'Arnlea', logo: '/logos/arnlea.webp' },
-  { name: 'Viewport3', logo: '/logos/viewport3.png', darkInvert: true },
-  { name: 'BowtieMaster', logo: '/logos/Bowtie.webp' },
-  { name: 'Incident Insight', logo: '/logos/IncidentInsight.avif' },
+  { name: 'Arnlea',          logo: '/logos/arnlea.webp',          w: 1130, h: 225 },
+  { name: 'Viewport3',       logo: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
+  { name: 'BowtieMaster',    logo: '/logos/Bowtie.webp',          w: 3023, h: 693 },
+  { name: 'Incident Insight',logo: '/logos/IncidentInsight.avif', w: 1102, h: 276 },
 ];
 
 export const testimonials = [
