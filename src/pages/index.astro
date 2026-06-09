@@ -1,0 +1,311 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { reader } from '../lib/keystatic';
+import { services, cases, clients, numbers, testimonials, faq } from '../data/index';
+
+const allPosts = await reader.collections.posts.all();
+const recentPosts = allPosts
+  .sort((a, b) => {
+    const da = a.entry.publishedDate ?? '';
+    const db = b.entry.publishedDate ?? '';
+    return db > da ? 1 : -1;
+  })
+  .slice(0, 3);
+---
+
+<Layout
+  title="Marketing Consultant Aberdeen — Yann Hamonou"
+  description="B2B marketing consultant and digital marketing specialist based in Aberdeen, Scotland. Strategy, SEO, paid media, and automation that generate qualified leads for Scottish SMEs. Free 30-min review."
+>
+  <!-- HERO -->
+  <section class="v4-hero v4-block" style="padding-top:clamp(32px,4vw,56px)">
+    <img
+      src="/dunnottar-castle.avif"
+      alt=""
+      aria-hidden="true"
+      class="v4-hero__bg"
+      loading="eager"
+      fetchpriority="low"
+    />
+    <div class="v4-wrap v4-hero__content">
+      <!-- Smoke wisps -->
+      <div class="v4-smoke" style="width:600px;height:600px;top:-200px;right:-200px;opacity:0.35" aria-hidden="true"></div>
+      <div class="v4-smoke" style="width:400px;height:400px;bottom:-100px;left:10%;opacity:0.2" aria-hidden="true"></div>
+
+      <div class="v4-eyebrow" style="margin-bottom:32px">B2B Marketing Consultant — Aberdeen, Scotland</div>
+
+      <h1 class="v4-hero__headline">
+        <div class="v4-hero-h v4-hero__line">
+          <span class="v4-hero__dash" aria-hidden="true"></span>
+          Marketing
+        </div>
+        <div class="v4-hero-h v4-hero__line">
+          Consultant
+        </div>
+        <div class="v4-hero-h v4-hero__line" style="color:var(--v4-ink-dim)">
+          Aberdeen
+        </div>
+      </h1>
+
+      <p style="font-size:clamp(16px,1.8vw,20px);color:var(--v4-ink-mute);max-width:540px;line-height:1.6;font-weight:300;margin-top:24px;margin-bottom:32px">
+        Strategy, SEO, and paid media that generate qualified leads for Scottish B2B businesses — not vanity metrics.
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:40px">
+        <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 28px">
+          Book free 30-min review →
+        </a>
+        <a href="/work" class="v4-btn v4-btn--outline" style="height:48px;font-size:15px;padding:0 28px">
+          See results
+        </a>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:24px">
+        {[
+          { num: '20+', label: 'Years B2B experience' },
+          { num: '#1', label: 'Google rank in 4 weeks' },
+          { num: '500%', label: 'Organic traffic growth' },
+        ].map(s => (
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(22px,3vw,30px);letter-spacing:-0.02em;color:var(--v4-accent-warm)">{s.num}</span>
+            <span style="font-size:12px;color:var(--v4-ink-dim);line-height:1.3;max-width:80px">{s.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="v4-hero__bar" style="margin-top:48px">
+        <span class="v4-hero__location">Stonehaven · Aberdeenshire · Scotland</span>
+        <a href="#intro" class="v4-hero__scroll">
+          Scroll to explore
+          <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS MARQUEE -->
+  <div class="v4-marquee-wrap" aria-hidden="true">
+    <div class="v4-marquee">
+      {[...clients, ...clients].map(c => (
+        <img src={c.logo} alt={c.name} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
+      ))}
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="v4-block tight" id="intro">
+    <div class="v4-wrap">
+      <div class="v4-intro">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:20px">The proposition</div>
+          <p class="v4-intro__lead">
+            Wasting money on digital marketing that doesn't connect to revenue?
+            <strong>I fix that.</strong> Strategy first, then execution — SEO, paid media, positioning, and automation — all pointed at the same goal: <strong>qualified leads and sustainable growth.</strong>
+          </p>
+          <div style="margin-top:32px">
+            <a href="/contact" class="v4-btn v4-btn--primary">
+              Book a free 30-min review
+            </a>
+          </div>
+        </div>
+        <div class="v4-intro__stats">
+          {numbers.map(n => (
+            <div class="v4-stat">
+              <div class="v4-stat__num">{n.num}</div>
+              <div class="v4-stat__label">{n.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap">
+      <div class="v4-section-head">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:12px">Selected work</div>
+          <h2 class="v4-section-h">Results</h2>
+        </div>
+        <a href="/work" class="v4-btn v4-btn--outline" style="align-self:flex-end">All work →</a>
+      </div>
+      <div class="v4-works-rail">
+        {cases.map(c => (
+          <a href={`/work/${c.slug}`} class="v4-work-card" aria-label={`${c.client} — ${c.descriptor}`}>
+            {c.image && typeof c.image === 'string' && <img src={c.image} alt={c.client} class="v4-work-card__img" loading="lazy" />}
+            <div class="v4-work-card__foot">
+              <div class="v4-work-card__client">{c.client}</div>
+              <div class="v4-work-card__meta">{c.year} · {c.descriptor}</div>
+              <div class="v4-work-card__stat">{c.stat}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="v4-block">
+    <div class="v4-wrap">
+      <div class="v4-section-head">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:12px">What I do</div>
+          <h2 class="v4-section-h">Services</h2>
+        </div>
+      </div>
+      <div class="v4-services">
+        {services.map(s => (
+          <a href={`/services/${s.slug}`} class="v4-service-card">
+            <div class="v4-service-card__num">{s.num}</div>
+            <div class="v4-service-card__title">{s.title}</div>
+            <div class="v4-service-card__desc">{s.desc}</div>
+            <div class="v4-service-card__arrow">Explore <span aria-hidden="true">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap">
+      <div class="v4-section-head">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:12px">What clients say</div>
+          <h2 class="v4-section-h">Proof</h2>
+        </div>
+      </div>
+      <div class="v4-testimonials" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
+        {testimonials.map(t => (
+          <div class="v4-testimonial">
+            <p class="v4-testimonial__quote">"{t.quote}"</p>
+            <div class="v4-testimonial__attr">
+              <div>
+                <div class="v4-testimonial__name">{t.name}</div>
+                <div class="v4-testimonial__role">{t.role} · {t.company}{t.location ? ` · ${t.location}` : ''}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="v4-block tight">
+    <div class="v4-wrap" style="max-width:800px">
+      <div class="v4-section-head">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:12px">Common questions</div>
+          <h2 class="v4-section-h">FAQ</h2>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
+        {faq.map(item => (
+          <details class="v4-faq-item" style="background:var(--v4-panel)">
+            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
+              {item.q}
+              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
+            </summary>
+            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL CAPTURE -->
+  <section class="v4-block tight">
+    <div class="v4-wrap" style="max-width:720px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:12px">Free B2B marketing insights</div>
+          <h2 class="v4-section-h" style="margin-bottom:16px">Get the<br/>Playbook</h2>
+          <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.6">
+            Practical strategy, SEO and lead gen insights for Scottish B2B businesses — sent to your inbox. No fluff. Unsubscribe any time.
+          </p>
+        </div>
+        <form
+          action="https://formspree.io/f/xdoqkgpr"
+          method="POST"
+          style="display:flex;flex-direction:column;gap:10px"
+        >
+          <input type="hidden" name="_subject" value="Newsletter signup" />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="your@company.com"
+            autocomplete="email"
+            style="width:100%;height:48px;padding:0 16px;border-radius:10px;border:1px solid var(--v4-line-soft);background:var(--v4-panel);color:var(--v4-ink);font-size:15px;font-family:var(--v4-body)"
+          />
+          <button type="submit" class="v4-btn v4-btn--primary" style="height:48px;justify-content:center">
+            Subscribe →
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT POSTS -->
+  {recentPosts.length > 0 && (
+    <section class="v4-block tight" style="background:var(--v4-bg-2)">
+      <div class="v4-wrap">
+        <div class="v4-section-head">
+          <div>
+            <div class="v4-eyebrow" style="margin-bottom:12px">From the journal</div>
+            <h2 class="v4-section-h">Insights</h2>
+          </div>
+          <a href="/journal" class="v4-btn v4-btn--outline" style="align-self:flex-end">All posts →</a>
+        </div>
+        <div class="v4-posts">
+          {recentPosts.map(post => (
+            <a href={`/journal/${post.slug}`} class="v4-post-card">
+              <div class="v4-post-card__body">
+                <div class="v4-post-card__cat">{post.entry.category}</div>
+                <div class="v4-post-card__title">{post.entry.title}</div>
+                <div class="v4-post-card__desc">{post.entry.description}</div>
+                <div class="v4-post-card__date">
+                  {post.entry.publishedDate
+                    ? new Date(post.entry.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+                    : ''}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CLOSER -->
+  <section class="v4-block">
+    <div class="v4-wrap">
+      <div class="v4-closer">
+        <div class="v4-eyebrow" style="margin-bottom:16px">Ready to talk?</div>
+        <h2 class="v4-section-h" style="margin-bottom:16px">Let's Make Your<br/>Marketing Work</h2>
+        <p style="font-size:17px;color:var(--v4-ink-mute);max-width:560px;margin:0 auto 32px;line-height:1.6">
+          Book a free 30-minute strategy review. I'll look at what you're doing, what's working, and what's holding you back — then tell you exactly what I'd prioritise.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+          <a href="/contact" class="v4-btn v4-btn--primary" style="font-size:15px;height:48px;padding:0 32px">
+            Book the free review →
+          </a>
+          <a href="/digital-marketing-aberdeen" class="v4-btn v4-btn--outline" style="font-size:15px;height:48px;padding:0 32px">
+            Digital marketing Aberdeen
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  details.v4-faq-item summary::-webkit-details-marker { display: none; }
+  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
+  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
+  @media (max-width: 640px) {
+    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  }
+</style>

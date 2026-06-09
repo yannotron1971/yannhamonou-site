@@ -1,0 +1,306 @@
+---
+const navLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Work', href: '/work' },
+  { label: 'Journal', href: '/journal' },
+];
+
+const services = [
+  { label: 'Marketing Strategy', href: '/services/strategy' },
+  { label: 'Positioning', href: '/services/positioning' },
+  { label: 'SEO & GEO', href: '/services/seo-aberdeen' },
+  { label: 'Paid Media', href: '/services/paid' },
+  { label: 'Web & CRO', href: '/services/web' },
+  { label: 'Marketing Automation', href: '/services/automation' },
+];
+---
+
+<nav class="v4-nav" aria-label="Main navigation">
+  <div class="v4-wrap v4-nav__inner">
+    <!-- Brand -->
+    <a href="/" class="v4-nav__brand" aria-label="Yann Hamonou — Home">
+      <span class="v4-nav__brand-dot" aria-hidden="true"></span>
+      Yann.Hamonou
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="v4-nav__links" role="list">
+      <!-- Services dropdown -->
+      <li class="v4-nav__dropdown-wrap" id="services-dropdown-wrap">
+        <button
+          class="v4-nav__dropdown-trigger"
+          aria-haspopup="true"
+          aria-expanded="false"
+          id="services-trigger"
+        >
+          Services <span class="v4-nav__chevron" aria-hidden="true">›</span>
+        </button>
+        <ul class="v4-nav__dropdown" role="list" id="services-menu">
+          <li>
+            <a href="/services" class="v4-nav__dropdown-all">All services →</a>
+          </li>
+          {services.map(s => (
+            <li><a href={s.href}>{s.label}</a></li>
+          ))}
+        </ul>
+      </li>
+      {navLinks.map(link => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
+    </ul>
+
+    <!-- Right cluster -->
+    <div class="v4-nav__right">
+      <!-- Theme toggle -->
+      <div class="v4-theme-toggle" role="group" aria-label="Theme selector" id="theme-toggle">
+        <button class="v4-theme-toggle__btn" id="btn-dark" aria-label="Dark theme" title="Dark">
+          ◐
+        </button>
+        <button class="v4-theme-toggle__btn" id="btn-warm" aria-label="Light warm theme" title="Light — Warm">
+          ☀
+        </button>
+        <button class="v4-theme-toggle__btn" id="btn-cool" aria-label="Light cool theme" title="Light — Cool">
+          ◑
+        </button>
+        <button class="v4-theme-toggle__btn" id="btn-bright" aria-label="Light bright theme" title="Light — Bright">
+          ○
+        </button>
+      </div>
+
+      <!-- Contact CTA (desktop) -->
+      <a href="/contact" class="v4-nav__cta" style="display:none" id="nav-cta-desktop">
+        Free Consultation
+      </a>
+
+      <!-- Hamburger -->
+      <button class="v4-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="v4-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation">
+  <button class="v4-drawer__close" id="drawer-close" aria-label="Close menu">✕</button>
+  <ul class="v4-drawer__links" role="list">
+    <li>
+      <a href="/services">Services</a>
+      <ul class="v4-drawer__sub" role="list">
+        {services.map(s => (
+          <li><a href={s.href}>{s.label}</a></li>
+        ))}
+      </ul>
+    </li>
+    {navLinks.map(link => (
+      <li><a href={link.href}>{link.label}</a></li>
+    ))}
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</div>
+
+<script>
+  // Theme toggle
+  const body = document.body;
+  const btns: Record<string, HTMLButtonElement | null> = {
+    dark:   document.getElementById('btn-dark') as HTMLButtonElement,
+    warm:   document.getElementById('btn-warm') as HTMLButtonElement,
+    cool:   document.getElementById('btn-cool') as HTMLButtonElement,
+    bright: document.getElementById('btn-bright') as HTMLButtonElement,
+  };
+
+  function applyTheme(theme: string, paper: string) {
+    body.classList.remove('is-light', 'tone-warm', 'tone-cool', 'tone-bright');
+    Object.values(btns).forEach(b => b?.classList.remove('is-active'));
+    if (theme === 'light') {
+      body.classList.add('is-light', `tone-${paper}`);
+      btns[paper]?.classList.add('is-active');
+      localStorage.setItem('v4-theme', 'light');
+      localStorage.setItem('v4-paper', paper);
+    } else {
+      btns.dark?.classList.add('is-active');
+      localStorage.setItem('v4-theme', 'dark');
+      localStorage.removeItem('v4-paper');
+    }
+  }
+
+  // Initialise from localStorage
+  const savedTheme = localStorage.getItem('v4-theme') ?? 'dark';
+  const savedPaper = localStorage.getItem('v4-paper') ?? 'warm';
+  applyTheme(savedTheme, savedPaper);
+
+  btns.dark?.addEventListener('click', () => applyTheme('dark', ''));
+  btns.warm?.addEventListener('click', () => applyTheme('light', 'warm'));
+  btns.cool?.addEventListener('click', () => applyTheme('light', 'cool'));
+  btns.bright?.addEventListener('click', () => applyTheme('light', 'bright'));
+
+  // Show CTA on desktop
+  const cta = document.getElementById('nav-cta-desktop');
+  if (window.innerWidth > 760 && cta) cta.style.display = '';
+
+  // Mobile drawer
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobile-drawer');
+  const drawerClose = document.getElementById('drawer-close');
+
+  function openDrawer() {
+    drawer?.classList.add('is-open');
+    hamburger?.classList.add('is-open');
+    hamburger?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer?.classList.remove('is-open');
+    hamburger?.classList.remove('is-open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  hamburger?.addEventListener('click', () => {
+    drawer?.classList.contains('is-open') ? closeDrawer() : openDrawer();
+  });
+  drawerClose?.addEventListener('click', closeDrawer);
+
+  // Close on drawer link click
+  drawer?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeDrawer(); closeDropdown(); }
+  });
+
+  // Services dropdown
+  const trigger = document.getElementById('services-trigger') as HTMLButtonElement | null;
+  const menu = document.getElementById('services-menu');
+  const wrap = document.getElementById('services-dropdown-wrap');
+
+  function openDropdown() {
+    trigger?.setAttribute('aria-expanded', 'true');
+    wrap?.classList.add('is-open');
+  }
+  function closeDropdown() {
+    trigger?.setAttribute('aria-expanded', 'false');
+    wrap?.classList.remove('is-open');
+  }
+
+  trigger?.addEventListener('click', () => {
+    wrap?.classList.contains('is-open') ? closeDropdown() : openDropdown();
+  });
+
+  // Close when focus moves outside the dropdown
+  wrap?.addEventListener('focusout', e => {
+    if (!wrap.contains(e.relatedTarget as Node)) closeDropdown();
+  });
+
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!wrap?.contains(e.target as Node)) closeDropdown();
+  });
+</script>
+
+<style>
+  /* Services dropdown */
+  .v4-nav__dropdown-wrap {
+    position: relative;
+  }
+
+  .v4-nav__dropdown-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    color: var(--v4-ink-mute);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s ease;
+    letter-spacing: 0.01em;
+  }
+  .v4-nav__dropdown-trigger:hover,
+  .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown-trigger {
+    color: var(--v4-ink);
+  }
+
+  .v4-nav__chevron {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 16px;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  .v4-nav__dropdown-wrap.is-open .v4-nav__chevron {
+    transform: rotate(90deg);
+  }
+
+  .v4-nav__dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--v4-panel);
+    border: 1px solid var(--v4-line-soft);
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 220px;
+    list-style: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 100;
+  }
+  .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown {
+    display: block;
+  }
+
+  .v4-nav__dropdown li a {
+    display: block;
+    padding: 9px 14px;
+    font-size: 13px;
+    color: var(--v4-ink-mute);
+    border-radius: 8px;
+    transition: background 0.12s ease, color 0.12s ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .v4-nav__dropdown li a:hover {
+    background: var(--v4-panel-2);
+    color: var(--v4-ink);
+  }
+
+  .v4-nav__dropdown-all {
+    font-family: var(--v4-mono) !important;
+    font-size: 11px !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--v4-ink-dim) !important;
+    border-bottom: 1px solid var(--v4-line-soft);
+    border-radius: 0 !important;
+    margin-bottom: 4px;
+    padding-bottom: 10px !important;
+  }
+  .v4-nav__dropdown-all:hover {
+    background: none !important;
+    color: var(--v4-ink) !important;
+  }
+
+  /* Mobile drawer sub-list */
+  .v4-drawer__sub {
+    list-style: none;
+    padding: 4px 0 8px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .v4-drawer__sub li a {
+    font-size: 14px;
+    color: var(--v4-ink-dim);
+    padding: 6px 0;
+    display: block;
+  }
+</style>

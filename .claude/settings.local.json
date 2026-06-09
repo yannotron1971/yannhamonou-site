@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s http://localhost:4323/digital-marketing-aberdeen)",
+      "Bash(curl -s http://localhost:4323/)",
+      "Bash(curl -s http://localhost:4323/services/strategy)",
+      "Bash(curl -s http://localhost:4323/about)",
+      "Read(//c/Users/yann_/.claude/skills/seo-data/**)",
+      "Bash(python scripts/gsc_query.py --report queries --days 90 --limit 30 --output json)",
+      "Bash(npm run *)",
+      "Bash(node -e \"const {createReader} = require\\('@keystatic/core/reader'\\); \")",
+      "WebFetch(domain:www.yannhamonou.com)"
+    ]
+  }
+}

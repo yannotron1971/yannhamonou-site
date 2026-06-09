@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { reader } from '../../lib/keystatic';
+import Markdoc from '@markdoc/markdoc';
+
+export async function getStaticPaths() {
+  const posts = await reader.collections.posts.all();
+  return posts.map(post => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await reader.collections.posts.read(slug!);
+
+if (!post) return Astro.redirect('/journal');
+
+function fmtDate(d: string | null) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+const { node: markdocNode } = await post.body();
+const transformed = Markdoc.transform(markdocNode);
+const renderedContent = Markdoc.renderers.html(transformed);
+---
+
+<Layout
+  title={post.title}
+  description={post.description ?? undefined}
+  ogType="article"
+  publishedTime={post.publishedDate ?? undefined}
+  modifiedTime={post.modifiedDate ?? post.publishedDate ?? undefined}
+  tags={[post.category]}
+  breadcrumbs={[
+    { name: 'Home', item: `${Astro.site}` },
+    { name: 'Journal', item: `${Astro.site}journal` },
+    { name: post.title, item: `${Astro.site}journal/${slug}` },
+  ]}
+>
+  <!-- Post header -->
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap" style="max-width:760px">
+      <a href="/journal" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+        ← All posts
+      </a>
+      <div style="margin-top:24px;display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <span class="v4-eyebrow" style="padding:4px 10px;background:var(--v4-panel-2);border-radius:999px;color:var(--v4-ink-mute)">{post.category}</span>
+        <span class="v4-eyebrow">{fmtDate(post.publishedDate)}</span>
+      </div>
+      <h1 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(32px,5vw,72px);line-height:0.92;letter-spacing:-0.02em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:24px">
+        {post.title}
+      </h1>
+      {post.description && (
+        <p style="font-size:18px;color:var(--v4-ink-mute);line-height:1.6;font-weight:300">
+          {post.description}
+        </p>
+      )}
+      <div style="margin-top:24px;display:flex;align-items:center;gap:8px">
+        <span style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim)">By Yann Hamonou</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <section class="v4-block tight">
+    <div class="v4-prose" set:html={renderedContent} />
+  </section>
+
+  <!-- Email capture -->
+  <section class="v4-block tight">
+    <div class="v4-wrap" style="max-width:640px">
+      <div style="background:var(--v4-panel);border:1px solid var(--v4-line-soft);border-radius:20px;padding:clamp(32px,5vw,48px)">
+        <div class="v4-eyebrow" style="margin-bottom:12px">Free B2B marketing insights</div>
+        <h2 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(24px,3vw,36px);text-transform:uppercase;letter-spacing:-0.02em;color:var(--v4-accent-warm);margin-bottom:12px;line-height:1">
+          Get the Playbook
+        </h2>
+        <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.6;margin-bottom:24px">
+          Practical B2B marketing strategy — SEO, positioning, and lead gen — sent direct to your inbox. No fluff, no pitch. Unsubscribe any time.
+        </p>
+        <form
+          action="https://formspree.io/f/xdoqkgpr"
+          method="POST"
+          style="display:flex;gap:10px;flex-wrap:wrap"
+        >
+          <input type="hidden" name="_subject" value="Newsletter signup" />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="your@company.com"
+            autocomplete="email"
+            style="flex:1;min-width:200px;height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--v4-line-soft);background:var(--v4-bg);color:var(--v4-ink);font-size:14px;font-family:var(--v4-body)"
+          />
+          <button type="submit" class="v4-btn v4-btn--primary" style="height:44px;font-size:14px;padding:0 24px;flex-shrink:0">
+            Subscribe →
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:640px;text-align:center">
+      <h2 class="v4-section-h" style="margin-bottom:16px">Want This Applied<br/>To Your Business?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+        Book a free 30-minute strategy review. We'll look at how these ideas apply specifically to your situation.
+      </p>
+      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</Layout>

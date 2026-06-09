@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { testimonials, cases, services } from '../data/index';
+
+const faq = [
+  {
+    q: 'What digital marketing services do you offer in Aberdeen?',
+    a: 'The full range: marketing strategy, SEO and local search, paid media (Google Ads, LinkedIn, Meta), positioning and messaging, website conversion optimisation, and marketing automation. Most Aberdeen SME engagements combine two or three of these rather than treating them as separate projects — because the channels amplify each other when they share a strategy.',
+  },
+  {
+    q: 'Do you work with businesses outside Aberdeen city centre?',
+    a: 'Yes. Based in Stonehaven, I work with clients across Aberdeenshire — Westhill, Portlethen, Ellon, Inverurie, Banchory — as well as Aberdeen city, and remotely with clients across Scotland and the rest of the UK. Most of the work is delivered online; geography is not a barrier.',
+  },
+  {
+    q: 'What industries do you work with in Aberdeen?',
+    a: 'Predominantly B2B: energy sector and oil & gas supply chain, professional and financial services, industrial equipment and engineering, technology companies, and B2B SaaS. The common thread is businesses with a defined sales cycle and an identifiable buyer — not consumer brands.',
+  },
+  {
+    q: 'How is working with a local digital marketing consultant different from an agency?',
+    a: 'A local consultant brings one thing an agency cannot: accountability without overhead. You work with one person who understands the Aberdeen market, takes direct ownership of results, and has no incentive to sell you services you do not need. There is no account manager between you and the person doing the work.',
+  },
+  {
+    q: 'How do I get started?',
+    a: 'The free 30-minute strategy review is the right first step. No pitch, no agenda — I look at your current marketing situation, identify the biggest gap, and tell you exactly what I would prioritise. From there you decide whether to engage.',
+  },
+];
+---
+
+<Layout
+  title="Digital Marketing Aberdeen — B2B Marketing Consultant · Yann Hamonou"
+  description="Digital marketing consultant based in Aberdeen and Stonehaven. Strategy, SEO, paid media, and automation for Aberdeen and Scottish B2B SMEs. Free 30-min review."
+>
+  <!-- Hero -->
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">B2B Digital Marketing · Aberdeen</div>
+      <h1
+        style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(40px,7vw,110px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:24px"
+      >
+        Digital Marketing<br/>Aberdeen
+      </h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
+        B2B digital marketing strategy and execution for Aberdeen and Scottish SMEs. SEO, paid media, positioning, and automation — all pointed at the same goal: qualified leads and sustainable growth.
+      </p>
+      <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px">
+        <a href="/contact" class="v4-btn v4-btn--primary">Book a free 30-min review</a>
+        <a href="/services" class="v4-btn v4-btn--outline">See all services →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Aberdeen context -->
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:20px">Why Aberdeen is different</div>
+          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
+            <p>
+              Digital marketing in Aberdeen operates in a specific commercial environment. The city's economy is dominated by energy, professional services, and industrial supply — B2B markets where buying decisions are relationship-driven, sales cycles are long, and generic national campaigns rarely convert.
+            </p>
+            <p>
+              The businesses that grow consistently here do not chase trends. They build marketing systems with clear positioning, a visible search presence for the terms their buyers actually use, and paid campaigns sized to their sales cycle — not a media agency's billing target.
+            </p>
+            <p>
+              That is the kind of digital marketing I deliver: practical, accountable, and built around your specific situation rather than a template.
+            </p>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="v4-eyebrow" style="margin-bottom:4px">Services for Aberdeen businesses</div>
+          {services.map(s => (
+            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:12px;border:1px solid var(--v4-line-soft);transition:background 0.2s ease;text-decoration:none"
+              onmouseover="this.style.background='var(--v4-panel-3)'"
+              onmouseout="this.style.background='var(--v4-panel)'"
+            >
+              <span style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);flex-shrink:0;padding-top:2px">{s.num}</span>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--v4-ink);margin-bottom:4px">{s.title}</div>
+                <div style="font-size:13px;color:var(--v4-ink-mute);line-height:1.5">{s.desc}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What good digital marketing looks like for Aberdeen SMEs -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">How I work</div>
+      <h2 class="v4-section-h" style="margin-bottom:16px;max-width:700px">Digital Marketing That Connects<br/>to Revenue</h2>
+      <p style="font-size:17px;color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:48px">
+        Most Aberdeen SMEs have tried marketing that did not work — an agency campaign that generated clicks but no leads, an SEO retainer that produced reports but no rankings, a LinkedIn spend with nothing to show for it. The problem is almost never the channel. It is strategy, or positioning, or the wrong metrics.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+        {[
+          {
+            title: 'Strategy before spend',
+            body: 'Every engagement starts with a clear picture of your market position, your buyer, and where the real opportunity is. Digital marketing without a strategy is just spend.',
+          },
+          {
+            title: 'Local SEO that actually ranks',
+            body: 'Aberdeen search is competitive but winnable. Technical foundations, Google Business Profile optimisation, and content built for how your buyers search — not generic keyword lists.',
+          },
+          {
+            title: 'Paid media without waste',
+            body: 'Google Ads, LinkedIn, and Meta campaigns built around your sales cycle. Every campaign includes conversion tracking, audience segmentation, and a feedback loop that improves week on week.',
+          },
+          {
+            title: 'Automation that scales',
+            body: 'Lead nurture, CRM workflows, and email sequences that keep your pipeline moving without manual follow-up. Built for Aberdeen B2B sales cycles, not e-commerce funnels.',
+          },
+        ].map(item => (
+          <div style="padding:28px;background:var(--v4-panel);border-radius:12px;border:1px solid var(--v4-line-soft)">
+            <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(18px,2vw,22px);text-transform:uppercase;letter-spacing:-0.01em;color:var(--v4-accent-warm);margin-bottom:12px">
+              {item.title}
+            </h3>
+            <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO Aberdeen spotlight -->
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div style="background:var(--v4-panel);border-radius:20px;padding:clamp(32px,4vw,56px);border:1px solid var(--v4-line-soft);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:16px">Most in-demand service</div>
+          <h2 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(28px,4vw,52px);text-transform:uppercase;letter-spacing:-0.02em;color:var(--v4-accent-warm);margin-bottom:16px;line-height:1">
+            SEO Aberdeen
+          </h2>
+          <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.65;max-width:520px;margin-bottom:24px">
+            The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" style="color:var(--v4-ink);text-decoration:underline;text-underline-offset:3px">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <a href="/services/seo-aberdeen" class="v4-btn v4-btn--primary" style="height:40px;font-size:13px;padding:0 20px">
+              SEO Aberdeen service →
+            </a>
+            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="v4-btn v4-btn--outline" style="height:40px;font-size:13px;padding:0 20px">
+              Read the Aberdeen SEO guide →
+            </a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px;text-align:right;flex-shrink:0">
+          <div>
+            <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">#3</div>
+            <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Google rank<br/>in 4 weeks</div>
+          </div>
+          <div>
+            <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">500%</div>
+            <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Organic traffic<br/>growth</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">Aberdeen results</div>
+      <h2 class="v4-section-h" style="margin-bottom:40px">What This Delivers</h2>
+      <div style="display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;border:1px solid var(--v4-line-soft)">
+        {cases.map(c => (
+          <a
+            href={`/work/${c.slug}`}
+            style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--v4-panel);padding:clamp(24px,3vw,40px);transition:background 0.2s ease;text-decoration:none"
+            onmouseover="this.style.background='var(--v4-panel-3)'"
+            onmouseout="this.style.background='var(--v4-panel)'"
+          >
+            <div>
+              <div class="v4-eyebrow" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
+              <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(22px,3vw,36px);text-transform:uppercase;letter-spacing:-0.015em;color:var(--v4-accent-warm);margin-bottom:8px">
+                {c.client}
+              </h3>
+              <p style="font-size:15px;color:var(--v4-ink-mute)">{c.summary}</p>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">
+                {c.stat}
+              </div>
+              <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
+                {c.statSub}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">What clients say</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+        {testimonials.map(t => (
+          <div class="v4-testimonial">
+            <p class="v4-testimonial__quote">"{t.quote}"</p>
+            <div class="v4-testimonial__attr">
+              <div>
+                <div class="v4-testimonial__name">{t.name}</div>
+                <div class="v4-testimonial__role">{t.role} · {t.company}{t.location ? ` · ${t.location}` : ''}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="v4-block tight">
+    <div class="v4-wrap" style="max-width:800px">
+      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
+      <h2 class="v4-section-h" style="margin-bottom:40px">Digital Marketing Aberdeen — FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
+        {faq.map(item => (
+          <details class="v4-faq-item" style="background:var(--v4-panel)">
+            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
+              {item.q}
+              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
+            </summary>
+            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:640px;text-align:center">
+      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Make Your<br/>Marketing Work?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+        Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
+      </p>
+      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  details.v4-faq-item summary::-webkit-details-marker { display: none; }
+  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
+  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
+  @media (max-width: 760px) {
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns:1fr auto"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="text-align:right"] {
+      text-align: left !important;
+    }
+  }
+</style>

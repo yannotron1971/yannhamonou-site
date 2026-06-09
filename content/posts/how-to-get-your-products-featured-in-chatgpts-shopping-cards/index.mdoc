@@ -1,0 +1,85 @@
+---
+title: "How to Get Your Products Featured in ChatGPT's Shopping Cards"
+description: "Learn how to optimise your product listings to appear in ChatGPT's shopping cards. Schema markup, conversational keyword optimisation, and supporting content strategies to increase organic visibility."
+publishedDate: "2025-09-05"
+category: seo
+---
+
+ChatGPT now shows shopping cards — product listings pulled from the web — in response to product queries. For e-commerce and B2B product sellers, this is a new visibility channel worth understanding and optimising for.
+
+This isn't paid advertising. It's organic visibility driven by how well your product data is structured and how clearly your content matches buyer queries.
+
+## Why ChatGPT Shows Shopping Cards
+
+OpenAI's shopping integration pulls product data from two primary sources:
+1. **Bing Shopping** (via Microsoft's shopping index)
+2. **Directly scraped product pages** with structured data
+
+For your products to appear, ChatGPT needs to find, understand, and trust your product listings.
+
+## The Four Optimisation Pillars
+
+### 1. Product Schema Markup
+
+The most direct lever. Implement `Product` schema on every product page:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Product Name",
+  "description": "Clear, specific description",
+  "brand": { "@type": "Brand", "name": "Your Brand" },
+  "offers": {
+    "@type": "Offer",
+    "price": "199.00",
+    "priceCurrency": "GBP",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "47"
+  }
+}
+```
+
+Validate everything in Google's Rich Results Test.
+
+### 2. Conversational Product Descriptions
+
+ChatGPT matches products to queries expressed in natural language. Product descriptions written in keyword-stuffed SEO style ("Buy Premium Widget Aberdeen UK Scotland") perform poorly.
+
+Write descriptions that answer the question a buyer would actually ask:
+- "What problem does this solve?"
+- "Who is it for?"
+- "What makes it better than the alternative?"
+
+### 3. Bing Merchant Center
+
+OpenAI's shopping integration is built on Bing's shopping index. If you're not in Bing Merchant Center with an up-to-date product feed, you're not in ChatGPT's shopping results.
+
+Setup steps:
+1. Create a Bing Merchant Center account
+2. Create a product feed (XML or Google Shopping Feed format)
+3. Submit and verify your store
+4. Keep the feed updated at minimum weekly
+
+### 4. Supporting Content
+
+Products with surrounding contextual content perform better. A product page alone is insufficient — AI models look for topical authority signals.
+
+Create:
+- Buying guides that compare your category
+- FAQ pages that answer the questions buyers ask
+- Use case content that shows the product in real contexts
+
+## What Not to Do
+
+- **Don't optimise only for Google.** Bing, ChatGPT, and Perplexity use different signals.
+- **Don't let product data go stale.** Out-of-stock items appearing in AI results damage trust.
+- **Don't skip reviews.** Aggregate rating schema with real review counts is a significant trust signal for AI-powered shopping features.
+
+## The Opportunity for B2B Product Companies
+
+Most B2B product companies haven't optimised for AI shopping visibility. The bar is low. Getting your product schema, Bing Merchant Center feed, and conversational content in place now positions you ahead of competitors who are still focused exclusively on traditional Google SEO.

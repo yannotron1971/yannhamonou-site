@@ -1,0 +1,228 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  ogImage?: string;
+  canonical?: string;
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  breadcrumbs?: { name: string; item: string }[];
+}
+
+const {
+  title: rawTitle,
+  description = 'B2B marketing consultant based in Stonehaven, Scotland. Strategy, SEO, paid media, positioning, and automation for Scottish SMEs.',
+  ogType = 'website',
+  ogImage,
+  canonical: canonicalOverride,
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+  author = 'Yann Hamonou',
+  tags = [],
+  breadcrumbs,
+} = Astro.props;
+
+const brand = 'Yann Hamonou';
+const title = rawTitle
+  ? rawTitle.includes(brand) ? rawTitle : `${rawTitle} — ${brand}`
+  : `${brand} — B2B Marketing Consultant, Aberdeen`;
+
+const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = ogImage
+  ? new URL(ogImage, Astro.site).href
+  : new URL('/og-default.png', Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={brand} />
+    <meta property="og:locale" content="en_GB" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {author && ogType === 'article' && <meta property="article:author" content={author} />}
+    {tags.map(t => <meta property="article:tag" content={t} />)}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Anti-flash theme script — runs synchronously before first paint -->
+    <script is:inline>
+      (function () {
+        var theme = localStorage.getItem('v4-theme');
+        var paper = localStorage.getItem('v4-paper');
+        var body = document.documentElement;
+        if (theme === 'light') {
+          body.classList.add('v4-preload-light');
+          if (paper) body.classList.add('v4-preload-' + paper);
+        }
+      })();
+    </script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://yannhamonou.pages.dev/#website",
+          "url": "https://yannhamonou.pages.dev",
+          "name": brand,
+        },
+        {
+          "@type": "Person",
+          "@id": "https://yannhamonou.pages.dev/#person",
+          "name": brand,
+          "jobTitle": "B2B Marketing Consultant",
+          "url": "https://yannhamonou.pages.dev",
+          "sameAs": [
+            "https://www.linkedin.com/in/yannhamonou",
+            "https://yannhamonou.com",
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "34 Bernham Avenue",
+            "addressLocality": "Stonehaven",
+            "addressRegion": "Aberdeenshire",
+            "postalCode": "AB39 2WD",
+            "addressCountry": "GB",
+          },
+        },
+        {
+          "@type": ["ProfessionalService", "LocalBusiness"],
+          "@id": "https://yannhamonou.pages.dev/#business",
+          "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen",
+          "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and marketing automation for SMEs.",
+          "url": "https://yannhamonou.pages.dev",
+          "telephone": "+447853455816",
+          "email": "yanndaman@googlemail.com",
+          "founder": { "@id": "https://yannhamonou.pages.dev/#person" },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "34 Bernham Avenue",
+            "addressLocality": "Stonehaven",
+            "addressRegion": "Aberdeenshire",
+            "postalCode": "AB39 2WD",
+            "addressCountry": "GB",
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 56.9643,
+            "longitude": -2.2122,
+          },
+          "areaServed": [
+            { "@type": "City", "name": "Aberdeen" },
+            { "@type": "AdministrativeArea", "name": "Aberdeenshire" },
+            { "@type": "AdministrativeArea", "name": "Scotland" },
+          ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "opens": "09:00",
+            "closes": "18:00",
+          },
+          "sameAs": ["https://www.linkedin.com/in/yannhamonou"],
+          "priceRange": "££",
+        },
+        ...(ogType === 'article' ? [{
+          "@type": "Article",
+          "headline": title,
+          "description": description,
+          "url": canonical,
+          "author": { "@id": "https://yannhamonou.pages.dev/#person" },
+          ...(publishedTime ? { "datePublished": publishedTime } : {}),
+          ...((modifiedTime ?? publishedTime) ? { "dateModified": modifiedTime ?? publishedTime } : {}),
+        }] : []),
+        ...(breadcrumbs && breadcrumbs.length > 0 ? [{
+          "@type": "BreadcrumbList",
+          "itemListElement": breadcrumbs.map((crumb, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": crumb.name,
+            "item": crumb.item,
+          })),
+        }] : []),
+      ],
+    })} />
+  </head>
+
+  <body class="v4">
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Apply persisted theme after body renders -->
+    <script is:inline>
+      (function () {
+        var theme = localStorage.getItem('v4-theme');
+        var paper = localStorage.getItem('v4-paper');
+        var body = document.body;
+        body.classList.add('v4');
+        if (theme === 'light') {
+          body.classList.add('is-light');
+          if (paper) body.classList.add('tone-' + paper);
+        }
+      })();
+    </script>
+
+    <!-- Responsive tables: wrap for desktop overflow + stamp data-label for mobile column collapse -->
+    <script is:inline>
+      (function () {
+        document.querySelectorAll('.v4-prose table').forEach(function (table) {
+          var wrap = document.createElement('div');
+          wrap.className = 'v4-table-wrap';
+          table.parentNode.insertBefore(wrap, table);
+          wrap.appendChild(table);
+
+          var headers = Array.from(table.querySelectorAll('thead th')).map(function (th) {
+            return th.textContent ? th.textContent.trim() : '';
+          });
+          table.querySelectorAll('tbody tr').forEach(function (row) {
+            Array.from(row.querySelectorAll('td')).forEach(function (td, i) {
+              if (headers[i]) td.setAttribute('data-label', headers[i]);
+            });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

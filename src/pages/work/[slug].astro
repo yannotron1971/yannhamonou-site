@@ -1,0 +1,143 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { cases } from '../../data/index';
+
+export function getStaticPaths() {
+  return cases.map(c => ({
+    params: { slug: c.slug },
+    props: { case: c },
+  }));
+}
+
+const { case: c } = Astro.props;
+
+const details: Record<string, { challenge: string; approach: string[]; results: string[] }> = {
+  arnlea: {
+    challenge: 'Arnlea Systems, a specialist supplier of safety-critical industrial equipment, had almost no organic search presence despite 30+ years of trading. They were losing leads to newer competitors who had invested in digital and needed to establish authority in a competitive technical niche.',
+    approach: [
+      'Technical SEO audit — fixed crawl errors, consolidated duplicate pages, improved site speed to pass Core Web Vitals',
+      'Keyword and intent mapping — identified 40+ target terms across product categories and buyer intent stages',
+      'Content strategy — created authoritative product pages, technical guides, and local landing pages for Aberdeen and North Sea market',
+      'Local SEO — fully optimised Google Business Profile, Bing Places, and built consistent NAP citations',
+      'GEO setup — structured data and FAQ schema to capture AI-powered search visibility',
+    ],
+    results: [
+      '#3 Google ranking for primary commercial terms within 4 weeks of launch',
+      '500% increase in organic traffic within 6 months',
+      '100+ qualified organic visits per month, up from near-zero',
+      'First-page visibility for 25+ target keywords',
+    ],
+  },
+  viewport3: {
+    challenge: 'Viewport3, a specialist digital twin and immersive technology company, was struggling to differentiate in a crowded market where every agency claimed to do "immersive experiences." Their positioning was generic and their sales cycle was long because prospects didn\'t immediately understand what made them different.',
+    approach: [
+      'Positioning sprint — structured workshops to identify the real differentiators and the customers who valued them most',
+      'Category design — repositioned from "immersive technology agency" to "digital twin partner for asset-intensive industries"',
+      'Messaging framework — core value propositions, proof points, and objection handling for sales and marketing use',
+      'Website messaging refresh — rewrote key landing pages to lead with the repositioned narrative',
+      'Demand generation strategy — defined the content and outreach channels most likely to reach their ideal buyer profile',
+    ],
+    results: [
+      '+38% increase in qualified demo requests within 90 days',
+      'Shortened average sales cycle from discovery to proposal stage',
+      'Consistent positioning language adopted across sales, marketing, and leadership',
+      'Clear differentiation from generic competitors in prospect conversations',
+    ],
+  },
+};
+
+const detail = details[c.slug];
+---
+
+<Layout
+  title={`${c.client} — ${c.descriptor} · Yann Hamonou`}
+  description={c.summary}
+>
+  <!-- Hero -->
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap">
+      <a href="/work" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+        ← All work
+      </a>
+      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>
+      <h1
+        style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(56px,10vw,140px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:32px"
+      >
+        {c.client}
+      </h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:640px;line-height:1.6;font-weight:300">
+        {c.summary}
+      </p>
+
+      <div style="display:flex;gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid var(--v4-line-soft);flex-wrap:wrap">
+        <div class="v4-stat" style="border-top:none;padding-top:0">
+          <div class="v4-stat__num">{c.stat}</div>
+          <div class="v4-stat__label">{c.statSub}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenge + Approach + Results -->
+  {detail && (
+  <section class="v4-block">
+    <div class="v4-wrap">
+      <div style="display:flex;flex-direction:column;gap:64px">
+        <!-- Challenge -->
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
+          <div class="v4-eyebrow" style="padding-top:4px">The challenge</div>
+          <p style="font-size:17px;color:var(--v4-ink-mute);line-height:1.7">{detail.challenge}</p>
+        </div>
+
+        <!-- Approach -->
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
+          <div class="v4-eyebrow" style="padding-top:4px">The approach</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
+            {detail.approach.map(item => (
+              <li style="display:flex;gap:16px;align-items:start">
+                <span style="color:var(--v4-ink-dim);font-family:var(--v4-mono);font-size:11px;flex-shrink:0;padding-top:2px">→</span>
+                <span style="font-size:16px;color:var(--v4-ink-mute);line-height:1.6">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Results -->
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
+          <div class="v4-eyebrow" style="padding-top:4px">The results</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
+            {detail.results.map(item => (
+              <li style="display:flex;gap:16px;align-items:start">
+                <span style="color:var(--v4-accent-warm);font-family:var(--v4-mono);font-size:11px;flex-shrink:0;padding-top:2px">✓</span>
+                <span style="font-size:16px;color:var(--v4-ink);line-height:1.6;font-weight:500">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- CTA -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:640px;text-align:center">
+      <h2 class="v4-section-h" style="margin-bottom:16px">Want Results<br/>Like These?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+        Book a free 30-minute review. I'll tell you where the biggest opportunity is for your business.
+      </p>
+      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 760px) {
+    div[style*="grid-template-columns:200px"] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+  }
+</style>

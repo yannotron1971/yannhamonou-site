@@ -1,0 +1,199 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { services } from '../../data/index';
+
+export function getStaticPaths() {
+  return services.map(s => ({
+    params: { slug: s.slug },
+    props: { service: s },
+  }));
+}
+
+const { service } = Astro.props;
+const otherServices = services.filter(s => s.slug !== service.slug);
+
+// Redirect the SEO slug to its dedicated page
+if (service.slug === 'seo-aberdeen') {
+  return Astro.redirect('/services/seo-aberdeen', 301);
+}
+
+const s = service as any;
+---
+
+<Layout
+  title={`${service.title} Aberdeen — Yann Hamonou`}
+  description={service.long}
+  breadcrumbs={[
+    { name: 'Home', item: `${Astro.site}` },
+    { name: 'Services', item: `${Astro.site}services` },
+    { name: service.title, item: `${Astro.site}services/${service.slug}` },
+  ]}
+>
+  <!-- Hero -->
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap">
+      <a href="/services" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+        ← All services
+      </a>
+      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:20px">{service.num} · Service</div>
+      <h1
+        style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(48px,8vw,120px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:24px"
+      >
+        {service.title}
+      </h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
+        {s.headline ?? service.desc}
+      </p>
+    </div>
+  </section>
+
+  <!-- Intro + deliverables -->
+  {s.intro && (
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
+        <div>
+          <div class="v4-eyebrow" style="margin-bottom:20px">The challenge</div>
+          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
+            <p>{s.intro}</p>
+            {s.why && <p>{s.why}</p>}
+          </div>
+          <a href="/contact" class="v4-btn v4-btn--primary" style="margin-top:32px;display:inline-flex">
+            Discuss your situation →
+          </a>
+        </div>
+
+        {s.deliverables?.length > 0 && (
+        <div style="background:var(--v4-panel);border-radius:16px;padding:32px;border:1px solid var(--v4-line-soft)">
+          <div class="v4-eyebrow" style="margin-bottom:16px">What's included</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
+            {s.deliverables.map((item: string) => (
+              <li style="font-size:14px;color:var(--v4-ink-mute);padding-left:16px;position:relative">
+                <span style="position:absolute;left:0;color:var(--v4-ink-dim)">→</span>{item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        )}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- Process -->
+  {s.process?.length > 0 && (
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">How it works</div>
+      <h2 class="v4-section-h" style="margin-bottom:48px">The Process</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+        {s.process.map((step: { num: string; title: string; body: string }) => (
+          <div style="border-top:2px solid var(--v4-line);padding-top:24px">
+            <div class="v4-eyebrow" style="margin-bottom:16px">{step.num}</div>
+            <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(20px,2vw,26px);text-transform:uppercase;letter-spacing:-0.01em;color:var(--v4-accent-warm);margin-bottom:12px">
+              {step.title}
+            </h3>
+            <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- Proof / testimonial -->
+  {s.proof && (
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">Results</div>
+      <div style="background:var(--v4-panel);border-radius:16px;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
+          <div>
+            <blockquote style="margin:0 0 24px">
+              <p style="font-size:clamp(16px,2vw,20px);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:16px">
+                "{s.proof.quote}"
+              </p>
+              <footer style="font-size:13px;color:var(--v4-ink-dim)">
+                {s.proof.name} · {s.proof.role}, {s.proof.company}
+              </footer>
+            </blockquote>
+            {s.caseNote && (
+              <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.65;border-top:1px solid var(--v4-line-soft);padding-top:20px;margin-top:4px">
+                {s.caseNote}
+              </p>
+            )}
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(40px,6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">{s.proof.stat}</div>
+            <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;max-width:120px;margin-left:auto">{s.proof.statLabel}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- FAQ -->
+  {s.faq?.length > 0 && (
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:800px">
+      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
+      <h2 class="v4-section-h" style="margin-bottom:40px">{service.title} — FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
+        {s.faq.map((item: { q: string; a: string }) => (
+          <details class="v4-faq-item" style="background:var(--v4-panel)">
+            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
+              {item.q}
+              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
+            </summary>
+            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- Other services -->
+  <section class="v4-block tight">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:16px">Also available</div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        {otherServices.map(os => (
+          <a href={`/services/${os.slug}`} class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+            {os.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:640px;text-align:center">
+      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Talk?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+        Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
+      </p>
+      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  details.v4-faq-item summary::-webkit-details-marker { display: none; }
+  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
+  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
+  @media (max-width: 760px) {
+    div[style*="grid-template-columns:2fr 1fr"],
+    div[style*="grid-template-columns:1fr auto"],
+    div[style*="grid-template-columns:repeat(3"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="text-align:right"] {
+      text-align: left !important;
+    }
+  }
+</style>

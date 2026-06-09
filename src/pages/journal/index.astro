@@ -1,0 +1,159 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { reader } from '../../lib/keystatic';
+
+const allPosts = await reader.collections.posts.all();
+const posts = allPosts.sort((a, b) => {
+  const da = a.entry.publishedDate ?? '';
+  const db = b.entry.publishedDate ?? '';
+  return db > da ? 1 : -1;
+});
+
+const categories = ['all', ...Array.from(new Set(posts.map(p => p.entry.category))).sort()];
+
+const labelMap: Record<string, string> = {
+  all: 'All',
+  strategy: 'Strategy',
+  seo: 'SEO & GEO',
+  industry: 'Industry',
+  automation: 'Automation',
+};
+
+function fmtDate(d: string | null) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<Layout
+  title="Journal — B2B Marketing Insights · Yann Hamonou"
+  description="Practical B2B marketing insights: SEO, strategy, paid media, positioning, and AI search. For Scottish and UK SMEs."
+>
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">Writing</div>
+      <h1 class="v4-section-h" style="margin-bottom:24px">Journal</h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
+        Practical thinking on B2B marketing — what works, what's overhyped, and what Scottish SMEs should actually focus on.
+      </p>
+
+      <!-- Filter pills -->
+      <div class="v4-journal-filters" role="group" aria-label="Filter by topic" style="margin-top:32px;display:flex;flex-wrap:wrap;gap:8px">
+        {categories.map(cat => (
+          <button
+            class="v4-filter-btn"
+            data-filter={cat}
+            aria-pressed={cat === 'all' ? 'true' : 'false'}
+          >
+            {labelMap[cat] ?? cat}
+            {cat !== 'all' && (
+              <span class="v4-filter-btn__count">
+                {posts.filter(p => p.entry.category === cat).length}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="v4-block">
+    <div class="v4-wrap">
+      {posts.length === 0 ? (
+        <p style="color:var(--v4-ink-mute)">Posts coming soon.</p>
+      ) : (
+        <>
+          <div class="v4-posts" id="posts-grid">
+            {posts.map(post => (
+              <a
+                href={`/journal/${post.slug}`}
+                class="v4-post-card"
+                data-category={post.entry.category}
+              >
+                <div class="v4-post-card__body">
+                  <div class="v4-post-card__cat">{post.entry.category}</div>
+                  <div class="v4-post-card__title">{post.entry.title}</div>
+                  <div class="v4-post-card__desc">{post.entry.description}</div>
+                  <div class="v4-post-card__date">{fmtDate(post.entry.publishedDate)}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p id="no-results" style="display:none;color:var(--v4-ink-mute);padding:40px 0">
+            No posts in this category yet.
+          </p>
+        </>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .v4-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--v4-line-soft);
+    background: transparent;
+    color: var(--v4-ink-mute);
+    font-size: 13px;
+    font-family: var(--v4-body);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .v4-filter-btn:hover {
+    color: var(--v4-ink);
+    border-color: var(--v4-line);
+  }
+  .v4-filter-btn[aria-pressed="true"] {
+    background: var(--v4-ink);
+    color: var(--v4-bg);
+    border-color: var(--v4-ink);
+  }
+  .v4-filter-btn__count {
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    opacity: 0.6;
+  }
+
+  .v4-post-card[data-hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.v4-filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.v4-post-card');
+  const noResults = document.getElementById('no-results');
+
+  function filter(cat: string) {
+    buttons.forEach(btn => {
+      btn.setAttribute('aria-pressed', btn.dataset.filter === cat ? 'true' : 'false');
+    });
+
+    let visible = 0;
+    cards.forEach(card => {
+      const show = cat === 'all' || card.dataset.category === cat;
+      card.toggleAttribute('data-hidden', !show);
+      if (show) visible++;
+    });
+
+    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+
+    // Persist selection in URL hash without scrolling
+    history.replaceState(null, '', cat === 'all' ? location.pathname : `#${cat}`);
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => filter(btn.dataset.filter ?? 'all'));
+  });
+
+  // Restore from URL hash on load
+  const hash = location.hash.slice(1);
+  if (hash && [...buttons].some(b => b.dataset.filter === hash)) {
+    filter(hash);
+  }
+</script>

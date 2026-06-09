@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { services } from '../../data/index';
+---
+
+<Layout
+  title="Marketing Services — Yann Hamonou"
+  description="B2B marketing services: strategy, positioning, SEO & GEO, paid media, web, and marketing automation. Based in Aberdeen, serving Scotland and the UK."
+>
+  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
+    <div class="v4-wrap">
+      <div class="v4-eyebrow" style="margin-bottom:20px">What I do</div>
+      <h1 class="v4-section-h" style="margin-bottom:24px">Services</h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
+        Integrated B2B marketing — from strategy to execution. Every service is built around a single outcome: qualified leads and sustainable growth.
+      </p>
+    </div>
+  </section>
+
+  <section class="v4-block">
+    <div class="v4-wrap">
+      <div class="v4-services">
+        {services.map(s => (
+          <a href={`/services/${s.slug}`} class="v4-service-card">
+            <div class="v4-service-card__num">{s.num}</div>
+            <div class="v4-service-card__title">{s.title}</div>
+            <div class="v4-service-card__desc">{s.desc}</div>
+            <div class="v4-service-card__arrow">Explore <span aria-hidden="true">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="v4-block tight" style="background:var(--v4-bg-2)">
+    <div class="v4-wrap" style="max-width:640px;text-align:center">
+      <h2 class="v4-section-h" style="margin-bottom:16px">Not Sure Where<br/>To Start?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+        Book the free 30-minute review. I'll listen, diagnose, and tell you where the highest-leverage opportunity is for your business.
+      </p>
+      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</Layout>
