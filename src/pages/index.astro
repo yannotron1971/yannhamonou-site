@@ -93,13 +93,18 @@ const etchQuote = testimonials[0];
           <p class="oak-hero__foot">20+ years B2B · #1 Google rank in 4 weeks · 500% organic growth</p>
         </div>
 
-        <!-- The Sapling — hand-inked branch that blooms on scroll -->
+        <!-- The Bough — a great oak branch reaching in from the right edge,
+             blooming across the hero on scroll -->
         <div class="oak-hero__art" aria-hidden="true">
-          <svg viewBox="0 0 900 640" fill="none" xmlns="http://www.w3.org/2000/svg" class="oak-sapling">
+          <svg viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="oak-sapling" preserveAspectRatio="xMaxYMid slice">
             <defs>
               <filter id="oak-rough" x="-5%" y="-5%" width="110%" height="110%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.022 0.045" numOctaves="2" seed="7" result="n" />
                 <feDisplacementMap in="SourceGraphic" in2="n" scale="4" />
+              </filter>
+              <filter id="oak-wash-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="3" seed="5" result="wn" />
+                <feDisplacementMap in="SourceGraphic" in2="wn" scale="60" />
               </filter>
               <path
                 id="oak-leaf-shape"
@@ -116,73 +121,81 @@ const etchQuote = testimonials[0];
             </defs>
 
             <g filter="url(#oak-rough)">
-              <!-- Young oak skeleton — inks in bottom-up on load (growth) -->
-              <g class="oak-branch" stroke="#2b2f2a" stroke-linecap="round" fill="none">
-                <!-- ground -->
-                <path stroke-width="3" d="M498 606 C534 598 594 598 628 604" />
-                <path stroke-width="2" d="M470 612 C500 606 520 606 540 609" />
-                <path stroke-width="2" d="M640 610 C660 606 676 607 690 610" />
-                <!-- trunk -->
-                <path stroke-width="11" d="M560 602 C554 566 562 534 553 498 C547 470 553 444 549 418" />
-                <!-- main limbs -->
-                <path stroke-width="7" d="M549 418 C520 392 498 372 468 356 C444 342 428 326 412 306" />
-                <path stroke-width="7" d="M551 420 C580 388 608 372 638 352 C666 334 684 318 700 296" />
-                <path stroke-width="5.5" d="M550 417 C546 382 555 356 549 326 C545 300 551 278 546 254" />
-                <!-- twigs -->
-                <path stroke-width="3.5" d="M412 306 C398 292 384 286 366 280" />
-                <path stroke-width="3" d="M468 356 C464 330 456 312 450 294" />
-                <path stroke-width="3.5" d="M700 296 C712 278 728 268 746 262" />
-                <path stroke-width="3" d="M638 352 C650 328 648 310 660 294" />
-                <path stroke-width="3" d="M546 254 C538 234 544 218 536 202" />
-                <path stroke-width="3" d="M549 326 C568 306 574 290 588 272" />
+              <!-- Canopy washes — invisible until the bloom paints them in (JS-gated
+                   decoration; no-JS and reduced-motion visitors keep ink on parchment) -->
+              <g class="oak-washes" filter="url(#oak-wash-f)">
+                <ellipse class="oak-wash" cx="1150" cy="300" rx="400" ry="260" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="1000" cy="480" rx="420" ry="210" fill="#3d5c42" opacity="0" />
+                <ellipse class="oak-wash" cx="820" cy="250" rx="380" ry="230" fill="#35513b" opacity="0" />
+                <ellipse class="oak-wash" cx="700" cy="620" rx="520" ry="170" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="520" cy="270" rx="340" ry="220" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="380" cy="480" rx="340" ry="200" fill="#35513b" opacity="0" />
+                <ellipse class="oak-wash" cx="180" cy="300" rx="280" ry="200" fill="#3d5c42" opacity="0" />
               </g>
 
-              <!-- Leaves — bloom on scroll, inner canopy first, crown last -->
+              <!-- The great bough — inks in from the right edge on load -->
+              <g class="oak-branch" stroke="#2b2f2a" stroke-linecap="round" fill="none">
+                <path stroke-width="16" d="M1405 445 C1300 430 1215 408 1115 375 C1010 340 905 322 800 312 C710 300 625 275 560 245" />
+                <path stroke-width="10" d="M800 312 C740 272 688 252 628 242 C580 234 545 228 510 214" />
+                <path stroke-width="9" d="M1115 375 C1058 322 998 282 928 252 C868 227 818 212 758 207" />
+                <path stroke-width="9" d="M1250 410 C1228 344 1202 300 1160 252 C1130 216 1118 184 1092 152" />
+                <path stroke-width="8" d="M905 322 C845 362 782 384 700 398" />
+                <path stroke-width="6" d="M758 207 C712 200 672 188 640 172" />
+                <path stroke-width="6" d="M928 252 C898 216 878 196 850 182" />
+                <path stroke-width="5" d="M1160 252 C1132 240 1106 238 1076 244" />
+                <path stroke-width="5" d="M628 242 C600 226 574 214 544 210" />
+                <path stroke-width="5" d="M700 398 C650 412 610 424 566 428" />
+                <path stroke-width="5" d="M1115 375 C1092 396 1064 410 1030 416" />
+                <path stroke-width="4" d="M560 245 C520 236 486 226 458 212" />
+              </g>
+
+              <!-- Leaves — bloom right-to-left on scroll -->
               <g class="oak-leaves">
-                <g class="oak-leaf" transform="translate(505 372) rotate(-30) scale(0.75)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(612 354) rotate(36) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(470 340) rotate(-15) scale(0.7)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(560 300) rotate(8) scale(0.7)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(688 310) rotate(20) scale(0.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(444 286) rotate(-25) scale(0.95)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(460 284) rotate(12) scale(0.85)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(434 298) rotate(-55) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(654 284) rotate(-18) scale(0.95)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(670 286) rotate(24) scale(0.85)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(644 298) rotate(-48) scale(0.75)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(582 262) rotate(-10) scale(0.95)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(598 266) rotate(32) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(360 272) rotate(-40)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(376 268) rotate(-8) scale(0.95)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(350 286) rotate(-70) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(388 282) rotate(22) scale(0.85)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(740 252) rotate(-12) scale(1.05)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(756 256) rotate(28) scale(0.9)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(728 264) rotate(-42) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(762 272) rotate(58) scale(0.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(530 194) rotate(-22) scale(1.1)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(546 192) rotate(14)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(520 206) rotate(-52) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(554 206) rotate(46) scale(0.75)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <!-- crown fill — rounds out the canopy at full bloom -->
-                <g class="oak-leaf" transform="translate(415 250) rotate(-30) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(490 240) rotate(-5) scale(0.9)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(620 240) rotate(15) scale(0.9)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(505 218) rotate(-35) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(585 225) rotate(25) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(640 265) rotate(40) scale(0.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(700 270) rotate(-20) scale(0.85)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(525 255) rotate(10) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(568 240) rotate(-18) scale(0.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(475 265) rotate(30) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1240 380) rotate(-20) scale(1.6)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(1180 330) rotate(15) scale(1.4)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1120 300) rotate(-40) scale(1.5)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1090 160) rotate(-15) scale(1.7)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1105 175) rotate(30) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(1150 250) rotate(-60) scale(1.3)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(1076 248) rotate(20) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1210 420) rotate(45) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(1000 340) rotate(-25) scale(1.5)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(950 255) rotate(10) scale(1.6)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(928 258) rotate(-45) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(860 185) rotate(-10) scale(1.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(845 190) rotate(35) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(905 205) rotate(-30) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1030 420) rotate(25) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1005 428) rotate(-15) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(800 315) rotate(-20) scale(1.5)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(760 210) rotate(-5) scale(1.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(740 215) rotate(-40) scale(1.3)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(775 225) rotate(28) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(700 400) rotate(15) scale(1.5)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(665 408) rotate(-25) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(820 235) rotate(60) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(870 300) rotate(5) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(640 175) rotate(-20) scale(1.7)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(615 185) rotate(20) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(628 245) rotate(-50) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(560 428) rotate(10) scale(1.4)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(600 240) rotate(40) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(585 300) rotate(-10) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(660 300) rotate(25) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(540 212) rotate(-25) scale(1.5)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(510 218) rotate(15) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(444 262) rotate(-35) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(475 255) rotate(30) scale(1.1)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(540 295) rotate(-8) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
               </g>
 
               <!-- Acorns -->
               <g class="oak-acorns">
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(378 294) rotate(8)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(543 214) rotate(-6)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(666 302) rotate(10)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(750 276) rotate(-4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(1135 270) rotate(10) scale(1.4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(985 440) rotate(8) scale(1.3)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(890 215) rotate(-6) scale(1.4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(700 225) rotate(8) scale(1.3)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(610 315) rotate(-5) scale(1.2)" />
               </g>
             </g>
           </svg>
@@ -576,14 +589,15 @@ const etchQuote = testimonials[0];
   }
 
   .oak-hero__grid {
-    position: relative;
     width: 100%;
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(24px, 4vw, 64px);
-    padding-top: 96px;
-    padding-bottom: 64px;
+    padding-top: 110px;
+    padding-bottom: 80px;
+  }
+
+  .oak-hero__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
   }
 
   .oak-hero__eyebrow {
@@ -625,8 +639,14 @@ const etchQuote = testimonials[0];
     color: var(--oak-dim);
   }
 
-  .oak-hero__art { min-width: 0; }
-  .oak-sapling { width: 100%; height: auto; display: block; }
+  .oak-hero__art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .oak-sapling { width: 100%; height: 100%; display: block; }
 
   .oak-hero__hint {
     position: absolute;
@@ -928,13 +948,11 @@ const etchQuote = testimonials[0];
   }
 
   @media (max-width: 760px) {
-    .oak-hero { min-height: 0; }
+    .oak-hero { min-height: 88vh; }
     .oak-hero__grid {
-      grid-template-columns: 1fr;
-      padding-top: 64px;
-      padding-bottom: 24px;
+      padding-top: 72px;
+      padding-bottom: 48px;
     }
-    .oak-hero__art { order: 2; margin: -12px -8px 0; }
     .oak-hero__hint { display: none; }
 
     .oak-bedrock { padding-bottom: clamp(200px, 30vh, 300px); }

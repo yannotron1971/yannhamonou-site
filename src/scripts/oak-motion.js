@@ -30,7 +30,7 @@ mm.add(
   }
 );
 
-/* ── Hero — the sapling blooms as you scroll ────────────────────── */
+/* ── Hero — the great bough blooms across the hero as you scroll ── */
 function heroBloom(pin) {
   const hero = document.querySelector('.oak-hero');
   if (!hero) return;
@@ -38,6 +38,14 @@ function heroBloom(pin) {
   const strokes = hero.querySelectorAll('.oak-branch path');
   const leaves = hero.querySelectorAll('.oak-leaf');
   const acorns = hero.querySelectorAll('.oak-acorn-i');
+  const washes = hero.querySelectorAll('.oak-wash');
+
+  // Text that must stay readable as the canopy fills in behind it.
+  const flipTitle = hero.querySelectorAll('.oak-hero__title .oak-line:not(.oak-line--accent)');
+  const flipAccent = hero.querySelectorAll('.oak-line--accent');
+  const flipCopy = hero.querySelectorAll('.oak-hero__eyebrow, .oak-hero__sub, .oak-hero__foot');
+  const ghostBtns = hero.querySelectorAll('.oak-btn--ghost');
+  const primaryBtns = hero.querySelectorAll('.oak-btn--primary');
 
   // Prepare ink-draw: each stroke starts fully "undrawn".
   strokes.forEach((p) => {
@@ -46,15 +54,16 @@ function heroBloom(pin) {
     p.style.strokeDashoffset = len;
   });
 
-  // Entrance — the bare branch is inked in while the copy settles.
+  // Entrance — the bare bough reaches in from the right edge while the copy settles.
   const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
   intro
-    .to(strokes, { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut', stagger: 0.1 }, 0.15)
+    .to(strokes, { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut', stagger: 0.09 }, 0.15)
     .from('.oak-hero__eyebrow', { y: -12, opacity: 0, duration: 0.7 }, 0.1)
     .from('.oak-hero__title .oak-line', { y: 54, opacity: 0, duration: 1, stagger: 0.12, ease: 'expo.out' }, 0.25)
     .from(['.oak-hero__sub', '.oak-hero__ctas', '.oak-hero__foot'], { y: 20, opacity: 0, duration: 0.8, stagger: 0.09 }, 0.7);
 
-  // Scroll-to-bloom — leaves and acorns sprout, scrubbed to the scrollbar.
+  // Scroll-to-bloom — canopy washes paint the hero green, leaves and acorns
+  // sprout right-to-left, and the copy flips to parchment so it stays legible.
   const bloom = gsap.timeline({
     scrollTrigger: {
       trigger: hero,
@@ -72,18 +81,36 @@ function heroBloom(pin) {
       rotation: '-=26',
       opacity: 0,
       transformOrigin: '50% 100%',
-      stagger: { each: 0.06, from: 'start' },
+      stagger: { each: 0.025, from: 'start' },
       ease: 'back.out(2)',
-      duration: 0.5,
-    })
+      duration: 0.4,
+    }, 0)
+    .to(washes, {
+      opacity: 0.92,
+      stagger: 0.07,
+      ease: 'power2.out',
+      duration: 0.55,
+    }, 0.12)
+    .from(washes, {
+      scale: 0.82,
+      transformOrigin: '50% 50%',
+      stagger: 0.07,
+      ease: 'power2.out',
+      duration: 0.55,
+    }, 0.12)
+    .to(flipTitle, { color: '#f6f3ea', duration: 0.45, ease: 'power1.inOut' }, 0.4)
+    .to(flipAccent, { color: '#dbe6cf', duration: 0.45, ease: 'power1.inOut' }, 0.4)
+    .to(flipCopy, { color: '#e9ebde', duration: 0.45, ease: 'power1.inOut' }, 0.4)
+    .to(ghostBtns, { color: '#f6f3ea', borderColor: 'rgba(246, 243, 234, 0.55)', duration: 0.45 }, 0.4)
+    .to(primaryBtns, { backgroundColor: '#f2eee4', color: '#26302c', duration: 0.45 }, 0.4)
     .from(acorns, {
       scale: 0,
       opacity: 0,
       transformOrigin: '50% 0%',
-      stagger: 0.1,
+      stagger: 0.06,
       ease: 'back.out(2.5)',
-      duration: 0.4,
-    }, '-=0.35')
+      duration: 0.35,
+    }, 0.55)
     .to('.oak-hero__hint', { opacity: 0, duration: 0.15 }, 0.05);
 }
 
