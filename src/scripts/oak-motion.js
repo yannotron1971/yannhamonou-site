@@ -54,10 +54,31 @@ function heroBloom(pin) {
     p.style.strokeDashoffset = len;
   });
 
-  // Entrance — the bare bough reaches in from the right edge while the copy settles.
+  // Growth schedule — each bough starts drawing only once its parent stroke
+  // has reached the junction, so the branch grows from nothing at the right
+  // edge and propagates outward to the tips. Indexes follow DOM order.
+  const growth = [
+    { start: 0.0, dur: 1.5 }, // main bough, from the screen edge
+    { start: 0.7, dur: 0.9 }, // up-left limb
+    { start: 0.38, dur: 1.0 }, // upper limb
+    { start: 0.18, dur: 0.9 }, // upper-right limb
+    { start: 0.55, dur: 0.8 }, // lower limb
+    { start: 1.0, dur: 0.5 }, // twig off upper limb
+    { start: 0.8, dur: 0.5 }, // twig off upper limb
+    { start: 0.55, dur: 0.5 }, // twig off upper-right limb
+    { start: 1.15, dur: 0.45 }, // twig near the tip
+    { start: 1.0, dur: 0.5 }, // twig off lower limb
+    { start: 0.75, dur: 0.5 }, // drooping twig
+    { start: 1.3, dur: 0.45 }, // the very tip
+  ];
+
+  // Entrance — the bough grows in from the right edge while the copy settles.
   const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  strokes.forEach((p, i) => {
+    const g = growth[i] || { start: 1.2, dur: 0.5 };
+    intro.to(p, { strokeDashoffset: 0, duration: g.dur, ease: 'power1.inOut' }, 0.15 + g.start);
+  });
   intro
-    .to(strokes, { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut', stagger: 0.09 }, 0.15)
     .from('.oak-hero__eyebrow', { y: -12, opacity: 0, duration: 0.7 }, 0.1)
     .from('.oak-hero__title .oak-line', { y: 54, opacity: 0, duration: 1, stagger: 0.12, ease: 'expo.out' }, 0.25)
     .from(['.oak-hero__sub', '.oak-hero__ctas', '.oak-hero__foot'], { y: 20, opacity: 0, duration: 0.8, stagger: 0.09 }, 0.7);
@@ -68,8 +89,8 @@ function heroBloom(pin) {
     scrollTrigger: {
       trigger: hero,
       start: 'top top',
-      end: pin ? '+=130%' : 'bottom 35%',
-      scrub: 1,
+      end: pin ? '+=160%' : 'bottom 35%',
+      scrub: 1.5,
       pin,
       anticipatePin: 1,
     },
@@ -78,39 +99,39 @@ function heroBloom(pin) {
   bloom
     .from(leaves, {
       scale: 0,
-      rotation: '-=26',
+      rotation: '-=22',
       opacity: 0,
       transformOrigin: '50% 100%',
-      stagger: { each: 0.025, from: 'start' },
-      ease: 'back.out(2)',
-      duration: 0.4,
+      stagger: { each: 0.02, from: 'start' },
+      ease: 'back.out(1.4)',
+      duration: 0.6,
     }, 0)
     .to(washes, {
       opacity: 0.92,
-      stagger: 0.07,
-      ease: 'power2.out',
-      duration: 0.55,
+      stagger: 0.08,
+      ease: 'sine.out',
+      duration: 0.7,
     }, 0.12)
     .from(washes, {
-      scale: 0.82,
+      scale: 0.84,
       transformOrigin: '50% 50%',
-      stagger: 0.07,
-      ease: 'power2.out',
-      duration: 0.55,
+      stagger: 0.08,
+      ease: 'sine.out',
+      duration: 0.7,
     }, 0.12)
-    .to(flipTitle, { color: '#f6f3ea', duration: 0.45, ease: 'power1.inOut' }, 0.4)
-    .to(flipAccent, { color: '#dbe6cf', duration: 0.45, ease: 'power1.inOut' }, 0.4)
-    .to(flipCopy, { color: '#e9ebde', duration: 0.45, ease: 'power1.inOut' }, 0.4)
-    .to(ghostBtns, { color: '#f6f3ea', borderColor: 'rgba(246, 243, 234, 0.55)', duration: 0.45 }, 0.4)
-    .to(primaryBtns, { backgroundColor: '#f2eee4', color: '#26302c', duration: 0.45 }, 0.4)
+    .to(flipTitle, { color: '#f6f3ea', duration: 0.5, ease: 'sine.inOut' }, 0.42)
+    .to(flipAccent, { color: '#dbe6cf', duration: 0.5, ease: 'sine.inOut' }, 0.42)
+    .to(flipCopy, { color: '#e9ebde', duration: 0.5, ease: 'sine.inOut' }, 0.42)
+    .to(ghostBtns, { color: '#f6f3ea', borderColor: 'rgba(246, 243, 234, 0.55)', duration: 0.5, ease: 'sine.inOut' }, 0.42)
+    .to(primaryBtns, { backgroundColor: '#f2eee4', color: '#26302c', duration: 0.5, ease: 'sine.inOut' }, 0.42)
     .from(acorns, {
       scale: 0,
       opacity: 0,
       transformOrigin: '50% 0%',
       stagger: 0.06,
-      ease: 'back.out(2.5)',
-      duration: 0.35,
-    }, 0.55)
+      ease: 'back.out(1.7)',
+      duration: 0.4,
+    }, 0.6)
     .to('.oak-hero__hint', { opacity: 0, duration: 0.15 }, 0.05);
 }
 
@@ -157,7 +178,7 @@ function bedrockParallax() {
         trigger: section,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: true,
+        scrub: 0.8,
       },
     });
   });
@@ -178,7 +199,7 @@ function highlandLedger(desktop) {
       trigger: section,
       start: 'top top',
       end: () => '+=' + dist(),
-      scrub: 1,
+      scrub: 1.4,
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
