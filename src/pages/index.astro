@@ -116,46 +116,73 @@ const etchQuote = testimonials[0];
             </defs>
 
             <g filter="url(#oak-rough)">
-              <!-- Bare branch — inked in on load -->
+              <!-- Young oak skeleton — inks in bottom-up on load (growth) -->
               <g class="oak-branch" stroke="#2b2f2a" stroke-linecap="round" fill="none">
-                <path stroke-width="9" d="M-10 600 C90 560 150 555 235 505 C320 455 355 400 445 360 C520 327 585 322 650 285" />
-                <path stroke-width="5.5" d="M650 285 C700 258 730 245 790 232 C830 223 855 210 880 190" />
-                <path stroke-width="4" d="M235 505 C255 470 250 440 275 415 C292 391 315 380 330 372" />
-                <path stroke-width="3" d="M330 372 C345 355 365 350 380 338" />
-                <path stroke-width="4" d="M445 360 C455 320 480 300 470 265 C464 240 470 220 485 205" />
-                <path stroke-width="2.5" d="M485 205 C495 190 512 182 528 180" />
-                <path stroke-width="3.5" d="M592 318 C620 340 660 350 700 345 C730 342 748 350 765 365" />
-                <path stroke-width="2.5" d="M790 232 C800 210 818 198 838 195" />
+                <!-- ground -->
+                <path stroke-width="3" d="M498 606 C534 598 594 598 628 604" />
+                <path stroke-width="2" d="M470 612 C500 606 520 606 540 609" />
+                <path stroke-width="2" d="M640 610 C660 606 676 607 690 610" />
+                <!-- trunk -->
+                <path stroke-width="11" d="M560 602 C554 566 562 534 553 498 C547 470 553 444 549 418" />
+                <!-- main limbs -->
+                <path stroke-width="7" d="M549 418 C520 392 498 372 468 356 C444 342 428 326 412 306" />
+                <path stroke-width="7" d="M551 420 C580 388 608 372 638 352 C666 334 684 318 700 296" />
+                <path stroke-width="5.5" d="M550 417 C546 382 555 356 549 326 C545 300 551 278 546 254" />
+                <!-- twigs -->
+                <path stroke-width="3.5" d="M412 306 C398 292 384 286 366 280" />
+                <path stroke-width="3" d="M468 356 C464 330 456 312 450 294" />
+                <path stroke-width="3.5" d="M700 296 C712 278 728 268 746 262" />
+                <path stroke-width="3" d="M638 352 C650 328 648 310 660 294" />
+                <path stroke-width="3" d="M546 254 C538 234 544 218 536 202" />
+                <path stroke-width="3" d="M549 326 C568 306 574 290 588 272" />
               </g>
 
-              <!-- Leaves — sprout on scroll -->
+              <!-- Leaves — bloom on scroll, inner canopy first, crown last -->
               <g class="oak-leaves">
-                <g class="oak-leaf" transform="translate(326 368) rotate(-15) scale(1.1)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(338 378) rotate(40) scale(0.9)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(378 334) rotate(-30)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(390 344) rotate(25) scale(0.85)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(282 410) rotate(-60) scale(0.8)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(468 260) rotate(-20) scale(1.05)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(482 200) rotate(-45) scale(1.1)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(494 212) rotate(15) scale(0.9)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(525 176) rotate(-10)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(536 186) rotate(45) scale(0.8)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(556 314) rotate(20) scale(0.75)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(648 280) rotate(-35) scale(0.9)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(698 340) rotate(150) scale(0.95)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(762 362) rotate(140) scale(1.05)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
-                <g class="oak-leaf" transform="translate(776 370) rotate(185) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
-                <g class="oak-leaf" transform="translate(836 190) rotate(-25)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
-                <g class="oak-leaf" transform="translate(876 186) rotate(-5) scale(1.15)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
-                <g class="oak-leaf" transform="translate(886 198) rotate(35) scale(0.85)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(505 372) rotate(-30) scale(0.75)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(612 354) rotate(36) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(470 340) rotate(-15) scale(0.7)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(560 300) rotate(8) scale(0.7)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(688 310) rotate(20) scale(0.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(444 286) rotate(-25) scale(0.95)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(460 284) rotate(12) scale(0.85)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(434 298) rotate(-55) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(654 284) rotate(-18) scale(0.95)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(670 286) rotate(24) scale(0.85)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(644 298) rotate(-48) scale(0.75)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(582 262) rotate(-10) scale(0.95)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(598 266) rotate(32) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(360 272) rotate(-40)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(376 268) rotate(-8) scale(0.95)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(350 286) rotate(-70) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(388 282) rotate(22) scale(0.85)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(740 252) rotate(-12) scale(1.05)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(756 256) rotate(28) scale(0.9)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(728 264) rotate(-42) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(762 272) rotate(58) scale(0.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(530 194) rotate(-22) scale(1.1)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(546 192) rotate(14)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(520 206) rotate(-52) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(554 206) rotate(46) scale(0.75)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <!-- crown fill — rounds out the canopy at full bloom -->
+                <g class="oak-leaf" transform="translate(415 250) rotate(-30) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(490 240) rotate(-5) scale(0.9)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(620 240) rotate(15) scale(0.9)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(505 218) rotate(-35) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(585 225) rotate(25) scale(0.85)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(640 265) rotate(40) scale(0.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(700 270) rotate(-20) scale(0.85)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(525 255) rotate(10) scale(0.8)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(568 240) rotate(-18) scale(0.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(475 265) rotate(30) scale(0.75)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
               </g>
 
               <!-- Acorns -->
               <g class="oak-acorns">
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(352 380) rotate(8)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(505 213) rotate(-6)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(740 358) rotate(10)" />
-                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(858 200) rotate(-4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(378 294) rotate(8)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(543 214) rotate(-6)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(666 302) rotate(10)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(750 276) rotate(-4)" />
               </g>
             </g>
           </svg>
@@ -166,16 +193,63 @@ const etchQuote = testimonials[0];
 
     <!-- ═══ THE BEDROCK — PHILOSOPHY ═══ -->
     <section class="oak-bedrock">
-      <!-- Parallax cliff strata (Dunnottar silhouette in the near layer) -->
+      <!-- Parallax Dunnottar scene: sea + headland (far), sea stacks + mist (mid), castle rock (near) -->
       <div class="oak-bedrock__cliffs" aria-hidden="true">
         <svg class="oak-cliff" data-speed="-6" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
-          <path d="M0 340 L120 300 L260 330 L400 270 L560 310 L720 250 L880 300 L1040 260 L1200 310 L1320 280 L1440 320 V600 H0 Z" fill="#93a0a8" opacity="0.32" />
+          <!-- North Sea -->
+          <rect x="0" y="400" width="1440" height="200" fill="#6f8189" opacity="0.28" />
+          <line x1="0" y1="400" x2="1440" y2="400" stroke="#5c6d75" stroke-width="1.5" opacity="0.4" />
+          <!-- far headland -->
+          <path d="M0 400 L0 356 L130 344 L270 368 L380 400 Z" fill="#8b979c" opacity="0.4" />
+          <!-- wave strokes -->
+          <g stroke="#5c6d75" stroke-width="1.5" fill="none" opacity="0.3" stroke-linecap="round">
+            <path d="M120 468 q 24 -7 48 0" />
+            <path d="M300 510 q 20 -6 40 0" />
+            <path d="M520 460 q 24 -7 48 0" />
+            <path d="M240 445 q 16 -5 32 0" />
+          </g>
+          <!-- birds -->
+          <path d="M430 250 q 7 -7 14 0 q 7 -7 14 0" stroke="#3a444b" stroke-width="1.6" fill="none" opacity="0.4" />
+          <path d="M505 288 q 5 -5 10 0 q 5 -5 10 0" stroke="#3a444b" stroke-width="1.4" fill="none" opacity="0.3" />
         </svg>
         <svg class="oak-cliff" data-speed="-12" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
-          <path d="M0 420 L160 370 L300 400 L470 330 L620 380 L800 320 L940 370 L1100 330 L1250 380 L1440 340 V600 H0 Z" fill="#667380" opacity="0.45" />
+          <!-- sea stacks off the point -->
+          <path d="M560 600 L572 468 L594 452 L612 480 L620 600 Z" fill="#667380" opacity="0.5" />
+          <path d="M652 600 L660 512 L676 500 L688 524 L692 600 Z" fill="#667380" opacity="0.42" />
+          <!-- rolling mist over the water -->
+          <ellipse cx="380" cy="430" rx="320" ry="46" fill="#f2eee4" opacity="0.4" />
+          <ellipse cx="900" cy="470" rx="380" ry="54" fill="#f2eee4" opacity="0.32" />
         </svg>
         <svg class="oak-cliff" data-speed="-20" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
-          <path d="M0 520 L180 470 L340 500 L520 430 L560 430 L560 405 L590 405 L590 430 L640 430 L760 470 L920 420 L960 420 L960 395 L985 395 L985 420 L1030 420 L1180 470 L1440 430 V600 H0 Z" fill="#39434b" opacity="0.75" />
+          <!-- Dunnottar rock: sheer-sided promontory joined to the mainland by a low saddle -->
+          <path d="M760 600 L768 430 L782 300 L790 252 L1118 250 L1132 322 L1152 372 L1182 384 L1236 372 L1310 334 L1380 314 L1440 306 L1440 600 Z" fill="#3a444b" opacity="0.92" />
+          <!-- rock strata -->
+          <g stroke="#26302c" stroke-width="2" fill="none" opacity="0.22">
+            <path d="M790 340 C860 332 940 336 1010 330" />
+            <path d="M780 430 C870 418 980 424 1090 414" />
+            <path d="M775 520 C880 506 1000 512 1115 500" />
+          </g>
+          <!-- the castle ruins on the plateau -->
+          <g fill="#2c353c">
+            <!-- ruined gable -->
+            <path d="M812 252 L812 216 L826 200 L832 252 Z" />
+            <!-- low curtain wall -->
+            <path d="M842 252 L842 228 L930 220 L930 252 Z" />
+            <!-- broken wall blocks -->
+            <path d="M940 252 L940 210 L962 202 L982 212 L982 252 Z" />
+            <path d="M992 252 L992 192 L1022 184 L1032 196 L1032 252 Z" />
+            <!-- the keep, gabled -->
+            <path d="M1042 252 L1042 172 L1049 164 L1049 150 L1065 136 L1081 150 L1081 164 L1088 172 L1088 252 Z" />
+          </g>
+          <!-- window slits on the keep -->
+          <g stroke="#8b979c" stroke-width="2" opacity="0.5" stroke-linecap="round">
+            <path d="M1058 190 V202" />
+            <path d="M1072 190 V202" />
+            <path d="M1065 218 V232" />
+            <path d="M1006 210 V224" />
+          </g>
+          <!-- grass lip on the plateau edge -->
+          <path d="M786 254 C880 246 1010 246 1122 252" stroke="#47714b" stroke-width="4" fill="none" opacity="0.55" stroke-linecap="round" />
         </svg>
       </div>
 
