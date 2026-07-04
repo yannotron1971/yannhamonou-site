@@ -1,6 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { cases, numbers, testimonials } from '../data/index';
+import { cases, numbers, testimonials, faq } from '../data/index';
+
+// Homepage FAQ — the shared site FAQs plus two keyword-bearing questions
+// buyers actually search for ("marketing consultant aberdeen" intent).
+const homeFaq = [
+  faq[0],
+  {
+    q: 'What does a marketing consultant in Aberdeen cost?',
+    a: 'Most engagements are scoped individually. A standalone strategy engagement typically starts from £1,500; monthly retainers covering strategy and execution run £900–£2,000/month depending on scope. The free 30-minute review is the right starting point — no pitch, just a useful conversation.',
+  },
+  faq[1],
+  {
+    q: 'Why hire a marketing consultant instead of an agency?',
+    a: 'You work directly with one senior marketer — 20+ years of B2B experience — rather than a junior account team. Strategy and execution come from the same person, so nothing is lost in handover, and you get accountability for results rather than activity reports.',
+  },
+  faq[2],
+];
+
+const siteUrl = String(Astro.site);
 
 const seasons = [
   {
@@ -67,6 +85,28 @@ const etchQuote = testimonials[0];
   title="Marketing Consultant Aberdeen — Yann Hamonou"
   description="B2B marketing consultant and digital marketing specialist based in Stonehaven, Scotland. Strategy, SEO, paid media, and automation that generate qualified leads for Scottish SMEs. Free 30-min review."
 >
+  <!-- Page-level structured data: WebPage + FAQPage -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${siteUrl}#webpage`,
+    "url": siteUrl,
+    "name": "Marketing Consultant Aberdeen — Yann Hamonou",
+    "isPartOf": { "@id": `${siteUrl}#website` },
+    "about": { "@id": `${siteUrl}#business` },
+    "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Strategy, SEO, paid media, and automation that generate qualified leads.",
+    "inLanguage": "en-GB",
+  })} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": homeFaq.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": { "@type": "Answer", "text": item.a },
+    })),
+  })} />
+
   <div class="oak">
     <!-- ═══ HERO — THE SPARK ═══ -->
     <section class="oak-hero">
@@ -76,10 +116,12 @@ const etchQuote = testimonials[0];
           <h1 class="oak-hero__title">
             <span class="oak-line">Deep Roots.</span>
             <span class="oak-line oak-line--accent">Bold Growth.</span>
+            <span class="oak-line oak-hero__kicker">Marketing Consultant · Aberdeen &amp; Aberdeenshire</span>
           </h1>
           <p class="oak-hero__sub">
             Marketing from the edge of the North Sea. Strategy, SEO, and paid media
-            that turn Scottish B2B businesses into enduring brands — not vanity metrics.
+            that turn B2B businesses across Aberdeen, Aberdeenshire, and Scotland
+            into enduring brands — not vanity metrics.
           </p>
           <div class="oak-hero__ctas">
             <a href="/contact" class="oak-btn oak-btn--primary">Start the Season →</a>
@@ -376,6 +418,27 @@ const etchQuote = testimonials[0];
           “{etchQuote.quote}”
         </blockquote>
         <p class="oak-quote__attr">— {etchQuote.name}, {etchQuote.role}, {etchQuote.company}</p>
+      </div>
+    </section>
+
+    <!-- ═══ THE ALMANAC — FAQ ═══ -->
+    <section class="oak-faq">
+      <div class="oak-wrap oak-faq__wrap">
+        <div data-mist>
+          <p class="oak-eyebrow">The Almanac</p>
+          <h2 class="oak-h2" data-etch>Working with a marketing<br />consultant in Aberdeen</h2>
+        </div>
+        <div class="oak-faq__list" data-mist>
+          {homeFaq.map((item) => (
+            <details class="oak-faq__item">
+              <summary>
+                {item.q}
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -821,6 +884,17 @@ const etchQuote = testimonials[0];
   .oak-hero__title .oak-line { display: block; }
   .oak-line--accent { color: var(--oak-green); font-style: italic; font-weight: 480; }
 
+  /* Keyword line inside the H1 — small, quiet, but real heading text */
+  .oak-hero__kicker {
+    font-family: var(--oak-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--oak-mute);
+    margin-top: 18px;
+  }
+
   .oak-hero__sub {
     font-size: clamp(16px, 1.8vw, 20px);
     line-height: 1.65;
@@ -1143,6 +1217,50 @@ const etchQuote = testimonials[0];
     color: var(--oak-dim);
   }
 
+  /* ─── The Almanac (FAQ) ──────────────────────────────────────── */
+  .oak-faq { padding: 0 0 clamp(90px, 12vh, 150px); }
+  .oak-faq__wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+  .oak-faq__list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--oak-line);
+  }
+  .oak-faq__item { border-bottom: 1px solid var(--oak-line); }
+  .oak-faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 4px;
+    font-family: var(--oak-serif);
+    font-weight: 520;
+    font-size: 18px;
+    color: var(--oak-ink);
+  }
+  .oak-faq__item summary::-webkit-details-marker { display: none; }
+  .oak-faq__item summary span {
+    flex-shrink: 0;
+    color: var(--oak-dim);
+    font-family: var(--oak-mono);
+    transition: transform 0.2s ease;
+  }
+  .oak-faq__item[open] summary span { transform: rotate(45deg); }
+  .oak-faq__item p {
+    padding: 0 4px 22px;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--oak-mute);
+    max-width: 60ch;
+  }
+
   /* ─── The Shelter ────────────────────────────────────────────── */
   .oak-shelter {
     position: relative;
@@ -1201,6 +1319,8 @@ const etchQuote = testimonials[0];
     .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)),
     .oak-entry--cta { width: 85vw; }
     .oak-entry__numeral { font-size: 72px; }
+
+    .oak-faq__wrap { grid-template-columns: 1fr; }
 
     .oak-shelter { min-height: 0; }
     .oak-shelter__art { position: static; height: 320px; }
