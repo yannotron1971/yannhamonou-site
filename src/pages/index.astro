@@ -67,11 +67,6 @@ const etchQuote = testimonials[0];
   title="Marketing Consultant Aberdeen — Yann Hamonou"
   description="B2B marketing consultant and digital marketing specialist based in Stonehaven, Scotland. Strategy, SEO, paid media, and automation that generate qualified leads for Scottish SMEs. Free 30-min review."
 >
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&display=swap"
-  />
-
   <div class="oak">
     <!-- ═══ HERO — THE SPARK ═══ -->
     <section class="oak-hero">
@@ -466,39 +461,60 @@ const etchQuote = testimonials[0];
   import '../scripts/oak-motion.js';
 </script>
 
-<!-- Re-tune the shared nav + footer to the Oak & Coast palette (this page only) -->
+<!-- Seasonal Oak & Coast scene palettes, keyed to the nav's season toggle:
+     ◐ Winter (default dark) · ☀ Summer · ◑ Autumn · ○ Spring -->
 <style is:global>
-  body.v4,
-  body.v4.is-light,
-  body.v4.is-light.tone-warm,
-  body.v4.is-light.tone-cool,
-  body.v4.is-light.tone-bright {
-    --v4-bg: #f2eee4;
-    --v4-bg-2: #eae4d6;
-    --v4-panel: #faf7ee;
-    --v4-panel-2: #efe9db;
-    --v4-panel-3: #e8e1d0;
-    --v4-line: rgba(38, 48, 44, 0.16);
-    --v4-line-soft: rgba(38, 48, 44, 0.1);
-    --v4-ink: #26302c;
-    --v4-ink-mute: #4c5852;
-    --v4-ink-dim: #6b7570;
-    --v4-accent: #2e4a36;
-    --v4-accent-warm: #b85c2e;
-    background: #f2eee4;
+  /* Winter — slate night, frosted foliage */
+  body.v4 {
+    --oak-parchment: #131917;
+    --oak-parchment-2: #161d1b;
+    --oak-card: #1a2220;
+    --oak-ink: #e9e7da;
+    --oak-slate: #b9c0b4;
+    --oak-mute: #a3a99c;
+    --oak-dim: #78807a;
+    --oak-green: #8fae90;
+    --oak-green-2: #7d9884;
+    --oak-orange: #c98a4b;
+    --oak-heather: #9c85a3;
+    --oak-line: rgba(233, 231, 218, 0.14);
+    --oak-panel-glass: rgba(26, 34, 32, 0.86);
+    --oak-etch-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+    --oak-ledger-bg: #0d1211;
+    --oak-fol-1: #3d5747;
+    --oak-fol-2: #55705c;
+    --oak-fol-3: #718a76;
+    --oak-fol-4: #47624f;
+    --oak-fol-5: #42604d;
+    --oak-fol-6: #4c6a55;
+    --oak-fol-7: #5e7a64;
+    --oak-fol-8: #6c8871;
+    --oak-branch-ink: #d8d5c5;
+    --oak-leaf-line: #0f1713;
+    --oak-acorn-nut: #a97f4a;
+    --oak-acorn-cap: #6e5430;
+    --oak-wood: #0c100f;
+    --oak-rock: #1e2725;
+    --oak-castle: #141c1a;
+    --oak-sea: #223231;
+    --oak-sea-line: #46565e;
+    --oak-far: #1c2725;
+    --oak-mid-lyr: #192322;
+    --oak-mist-fill: #3e5251;
+    --oak-scene-ink: #0a0f0e;
+    --oak-sky-top: #202b30;
+    --oak-sky-mid: #182220;
+    --oak-bloom-title: #f4f2e6;
+    --oak-bloom-accent: #cfe0c8;
+    --oak-bloom-copy: #dde0d0;
+    --oak-btn-flip-bg: #e9e7da;
+    --oak-hero-glow-1: rgba(159, 179, 176, 0.12);
+    --oak-hero-glow-2: rgba(159, 179, 176, 0.07);
+    --oak-btn-flip-ink: #131917;
   }
 
-  /* The nav's dark glass background is hardcoded in global.css — re-skin it
-     to parchment on this page. */
-  .v4-nav {
-    background: rgba(242, 238, 228, 0.85) !important;
-    border-bottom: 1px solid rgba(38, 48, 44, 0.12) !important;
-  }
-</style>
-
-<style>
-  /* ─── Oak & Coast tokens + parchment ground ─────────────────── */
-  .oak {
+  /* Summer — the canonical parchment and deep oak greens */
+  body.v4.is-light.tone-warm {
     --oak-parchment: #f2eee4;
     --oak-parchment-2: #eae4d6;
     --oak-card: #faf7ee;
@@ -511,6 +527,144 @@ const etchQuote = testimonials[0];
     --oak-orange: #b85c2e;
     --oak-heather: #7d6584;
     --oak-line: rgba(38, 48, 44, 0.14);
+    --oak-panel-glass: rgba(250, 247, 238, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    --oak-ledger-bg: #26302c;
+    --oak-fol-1: #2e4a36;
+    --oak-fol-2: #47714b;
+    --oak-fol-3: #63875c;
+    --oak-fol-4: #3a5c40;
+    --oak-fol-5: #35513b;
+    --oak-fol-6: #3d5c42;
+    --oak-fol-7: #547a52;
+    --oak-fol-8: #5d8358;
+    --oak-branch-ink: #2b2f2a;
+    --oak-leaf-line: #26302c;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #5d431f;
+    --oak-wood: #2f2a25;
+    --oak-rock: #3a444b;
+    --oak-castle: #2c353c;
+    --oak-sea: #6f8189;
+    --oak-sea-line: #5c6d75;
+    --oak-far: #8b979c;
+    --oak-mid-lyr: #667380;
+    --oak-mist-fill: #f2eee4;
+    --oak-scene-ink: #26302c;
+    --oak-sky-top: #c6d0d2;
+    --oak-sky-mid: #e6e4d8;
+    --oak-bloom-title: #f6f3ea;
+    --oak-bloom-accent: #dbe6cf;
+    --oak-bloom-copy: #e9ebde;
+    --oak-btn-flip-bg: #f2eee4;
+    --oak-hero-glow-1: rgba(198, 208, 210, 0.5);
+    --oak-hero-glow-2: rgba(139, 151, 156, 0.28);
+    --oak-btn-flip-ink: #26302c;
+  }
+
+  /* Autumn — cool October light, foliage turned amber and rust */
+  body.v4.is-light.tone-cool {
+    --oak-parchment: #edeae2;
+    --oak-parchment-2: #e4e0d5;
+    --oak-card: #f6f4ec;
+    --oak-ink: #2b2a24;
+    --oak-slate: #4d4a42;
+    --oak-mute: #56534a;
+    --oak-dim: #767268;
+    --oak-green: #8a4a26;
+    --oak-green-2: #a05e2c;
+    --oak-orange: #b85c2e;
+    --oak-heather: #7d6584;
+    --oak-line: rgba(43, 41, 34, 0.15);
+    --oak-panel-glass: rgba(246, 244, 236, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    --oak-ledger-bg: #2b241d;
+    --oak-fol-1: #8a4a26;
+    --oak-fol-2: #b06a32;
+    --oak-fol-3: #c98a4b;
+    --oak-fol-4: #96562a;
+    --oak-fol-5: #7c451f;
+    --oak-fol-6: #a05e2c;
+    --oak-fol-7: #b87840;
+    --oak-fol-8: #c99a55;
+    --oak-branch-ink: #2f2a22;
+    --oak-leaf-line: #52351f;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #55401f;
+    --oak-wood: #2a251e;
+    --oak-rock: #454b4e;
+    --oak-castle: #34393c;
+    --oak-sea: #7b878c;
+    --oak-sea-line: #66727a;
+    --oak-far: #979e9e;
+    --oak-mid-lyr: #6f7a7d;
+    --oak-mist-fill: #edeae2;
+    --oak-scene-ink: #2b2a24;
+    --oak-sky-top: #c3c9c9;
+    --oak-sky-mid: #e2ded2;
+    --oak-bloom-title: #faf4e8;
+    --oak-bloom-accent: #f4dcc0;
+    --oak-bloom-copy: #f0e6d4;
+    --oak-btn-flip-bg: #edeae2;
+    --oak-hero-glow-1: rgba(195, 201, 201, 0.5);
+    --oak-hero-glow-2: rgba(151, 158, 158, 0.26);
+    --oak-btn-flip-ink: #2b2a24;
+  }
+
+  /* Spring — palest paper, fresh young greens */
+  body.v4.is-light.tone-bright {
+    --oak-parchment: #f7f6ef;
+    --oak-parchment-2: #eff0e5;
+    --oak-card: #fdfcf7;
+    --oak-ink: #24312a;
+    --oak-slate: #45564b;
+    --oak-mute: #4c5c50;
+    --oak-dim: #6e7f71;
+    --oak-green: #3d6b46;
+    --oak-green-2: #56824a;
+    --oak-orange: #b85c2e;
+    --oak-heather: #8b6f8e;
+    --oak-line: rgba(38, 48, 40, 0.13);
+    --oak-panel-glass: rgba(253, 252, 247, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    --oak-ledger-bg: #243026;
+    --oak-fol-1: #4e7a4a;
+    --oak-fol-2: #6e9a5e;
+    --oak-fol-3: #8ab873;
+    --oak-fol-4: #5c8a54;
+    --oak-fol-5: #47714b;
+    --oak-fol-6: #63875c;
+    --oak-fol-7: #79a468;
+    --oak-fol-8: #97c281;
+    --oak-branch-ink: #2c352c;
+    --oak-leaf-line: #2e4a36;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #5d431f;
+    --oak-wood: #33302a;
+    --oak-rock: #4a545a;
+    --oak-castle: #39434b;
+    --oak-sea: #7f939b;
+    --oak-sea-line: #6a7e88;
+    --oak-far: #9aa8ad;
+    --oak-mid-lyr: #74838a;
+    --oak-mist-fill: #f7f6ef;
+    --oak-scene-ink: #24312a;
+    --oak-sky-top: #cddbd8;
+    --oak-sky-mid: #ecefe0;
+    --oak-bloom-title: #f8f7ec;
+    --oak-bloom-accent: #eaf2dc;
+    --oak-bloom-copy: #eef0e0;
+    --oak-btn-flip-bg: #f7f6ef;
+    --oak-hero-glow-1: rgba(205, 219, 216, 0.5);
+    --oak-hero-glow-2: rgba(154, 168, 173, 0.25);
+    --oak-btn-flip-ink: #24312a;
+  }
+</style>
+
+<style>
+  /* ─── Oak & Coast ground (colour tokens are seasonal — see the
+         global style block above) ─────────────────────────────── */
+  .oak {
     --oak-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
     --oak-mono: var(--v4-mono, 'Geist Mono', monospace);
 
@@ -526,6 +680,40 @@ const etchQuote = testimonials[0];
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 48px);
   }
+
+  /* ─── Seasonal recolouring of the inline SVG scenes ──────────
+         CSS wins over SVG presentation attributes, so these rules
+         retint every illustration when the season toggle changes. */
+  .oak [fill='#2e4a36'] { fill: var(--oak-fol-1); }
+  .oak [fill='#47714b'] { fill: var(--oak-fol-2); }
+  .oak [fill='#63875c'] { fill: var(--oak-fol-3); }
+  .oak [fill='#3a5c40'] { fill: var(--oak-fol-4); }
+  .oak [fill='#35513b'] { fill: var(--oak-fol-5); }
+  .oak [fill='#3d5c42'] { fill: var(--oak-fol-6); }
+  .oak [fill='#547a52'] { fill: var(--oak-fol-7); }
+  .oak [fill='#5d8358'] { fill: var(--oak-fol-8); }
+  .oak .oak-branch { stroke: var(--oak-branch-ink); }
+  .oak #oak-leaf-shape path { stroke: var(--oak-leaf-line); }
+  .oak #oak-acorn-shape ellipse { fill: var(--oak-acorn-nut); }
+  .oak #oak-acorn-shape path { fill: var(--oak-acorn-cap); }
+  .oak #oak-acorn-shape line { stroke: var(--oak-acorn-cap); }
+  .oak [fill='#2f2a25'] { fill: var(--oak-wood); }
+  .oak [stroke='#2f2a25'] { stroke: var(--oak-wood); }
+  .oak [fill='#3a444b'] { fill: var(--oak-rock); }
+  .oak [fill='#2c353c'] { fill: var(--oak-castle); }
+  .oak [fill='#6f8189'] { fill: var(--oak-sea); }
+  .oak [stroke='#5c6d75'] { stroke: var(--oak-sea-line); }
+  .oak [fill='#8b979c'] { fill: var(--oak-far); }
+  .oak [stroke='#8b979c'] { stroke: var(--oak-far); }
+  .oak [fill='#667380'] { fill: var(--oak-mid-lyr); }
+  .oak [fill='#f2eee4'] { fill: var(--oak-mist-fill); }
+  .oak [stroke='#26302c'] { stroke: var(--oak-scene-ink); }
+  .oak [stroke='#3a444b'] { stroke: var(--oak-scene-ink); }
+  .oak [stroke='#47714b'] { stroke: var(--oak-fol-2); }
+  .oak #oak-sky stop:nth-of-type(1) { stop-color: var(--oak-sky-top); }
+  .oak #oak-sky stop:nth-of-type(2) { stop-color: var(--oak-sky-mid); }
+  .oak #oak-sky stop:nth-of-type(3) { stop-color: var(--oak-parchment); }
+  .oak #oak-mist-g stop { stop-color: var(--oak-mist-fill); }
 
   .oak-eyebrow {
     font-family: var(--oak-mono);
@@ -569,7 +757,8 @@ const etchQuote = testimonials[0];
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease,
+      transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .oak-btn--primary {
     background: var(--oak-ink);
@@ -593,10 +782,10 @@ const etchQuote = testimonials[0];
     min-height: 100vh;
     display: flex;
     align-items: center;
-    /* Highland mist rolling off the top corner */
+    /* Highland mist rolling off the top corner (seasonal strength) */
     background-image:
-      radial-gradient(900px 500px at 85% -5%, rgba(198, 208, 210, 0.5), transparent 65%),
-      radial-gradient(700px 420px at -10% 110%, rgba(139, 151, 156, 0.28), transparent 60%);
+      radial-gradient(900px 500px at 85% -5%, var(--oak-hero-glow-1), transparent 65%),
+      radial-gradient(700px 420px at -10% 110%, var(--oak-hero-glow-2), transparent 60%);
   }
 
   .oak-hero__grid {
@@ -671,6 +860,30 @@ const etchQuote = testimonials[0];
     color: var(--oak-dim);
   }
 
+  /* ─── Bloom text flip — keeps the copy readable over the canopy.
+         The motion script toggles .is-bloomed at ~40% of the scrub;
+         colours come from the active season so the flip is always
+         theme-correct. Without JS the class never appears. ──────── */
+  .oak-hero__title .oak-line,
+  .oak-hero__eyebrow,
+  .oak-hero__sub,
+  .oak-hero__foot {
+    transition: color 0.7s ease;
+  }
+  .oak-hero.is-bloomed .oak-hero__title .oak-line { color: var(--oak-bloom-title); }
+  .oak-hero.is-bloomed .oak-hero__title .oak-line--accent { color: var(--oak-bloom-accent); }
+  .oak-hero.is-bloomed .oak-hero__eyebrow,
+  .oak-hero.is-bloomed .oak-hero__sub,
+  .oak-hero.is-bloomed .oak-hero__foot { color: var(--oak-bloom-copy); }
+  .oak-hero.is-bloomed .oak-btn--ghost {
+    color: var(--oak-bloom-title);
+    border-color: color-mix(in srgb, var(--oak-bloom-title) 55%, transparent);
+  }
+  .oak-hero.is-bloomed .oak-btn--primary {
+    background: var(--oak-btn-flip-bg);
+    color: var(--oak-btn-flip-ink);
+  }
+
   /* ─── Bedrock ────────────────────────────────────────────────── */
   .oak-bedrock {
     position: relative;
@@ -682,7 +895,7 @@ const etchQuote = testimonials[0];
   .oak-bedrock__inner { position: relative; z-index: 1; }
 
   .oak-panel {
-    background: rgba(250, 247, 238, 0.88);
+    background: var(--oak-panel-glass);
     backdrop-filter: blur(4px);
     border: 1px solid var(--oak-line);
     border-radius: 4px;
@@ -797,14 +1010,16 @@ const etchQuote = testimonials[0];
   .oak-season__services li a:hover { color: var(--season-accent); padding-left: 8px; }
 
   /* ─── Highland Ledger ────────────────────────────────────────── */
+  /* The ledger stays a dark carved slab in every season, so its
+     interior colours are fixed rather than seasonal. */
   .oak-ledger {
-    background: var(--oak-ink);
-    color: var(--oak-parchment);
+    background: var(--oak-ledger-bg);
+    color: #efece0;
     padding: clamp(80px, 10vh, 120px) 0 clamp(60px, 8vh, 90px);
     overflow: hidden;
   }
   .oak-ledger .oak-eyebrow { color: rgba(242, 238, 228, 0.5); }
-  .oak-ledger .oak-h2 { color: var(--oak-parchment); }
+  .oak-ledger .oak-h2 { color: #f4f1e6; }
   .oak-ledger__head { margin-bottom: clamp(40px, 6vh, 72px); }
 
   .oak-ledger__track {
@@ -901,7 +1116,7 @@ const etchQuote = testimonials[0];
   }
 
   .oak-entry--cta { grid-template-columns: 1fr; width: min(50vw, 560px); text-align: left; }
-  .oak-entry--cta .oak-btn--primary { background: var(--oak-parchment); color: var(--oak-ink); margin-top: 6px; }
+  .oak-entry--cta .oak-btn--primary { background: #efece0; color: #1c2422; margin-top: 6px; }
   .oak-entry--cta .oak-btn--primary:hover { background: #fff; }
 
   /* Entries without an image collapse to a single column */
@@ -918,7 +1133,7 @@ const etchQuote = testimonials[0];
     color: var(--oak-slate);
     max-width: 880px;
     margin: 0 auto 28px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    text-shadow: var(--oak-etch-shadow);
   }
   .oak-quote__attr {
     font-family: var(--oak-mono);

@@ -40,13 +40,6 @@ function heroBloom(pin) {
   const acorns = hero.querySelectorAll('.oak-acorn-i');
   const washes = hero.querySelectorAll('.oak-wash');
 
-  // Text that must stay readable as the canopy fills in behind it.
-  const flipTitle = hero.querySelectorAll('.oak-hero__title .oak-line:not(.oak-line--accent)');
-  const flipAccent = hero.querySelectorAll('.oak-line--accent');
-  const flipCopy = hero.querySelectorAll('.oak-hero__eyebrow, .oak-hero__sub, .oak-hero__foot');
-  const ghostBtns = hero.querySelectorAll('.oak-btn--ghost');
-  const primaryBtns = hero.querySelectorAll('.oak-btn--primary');
-
   // Prepare ink-draw: each stroke starts fully "undrawn".
   strokes.forEach((p) => {
     const len = p.getTotalLength();
@@ -93,6 +86,11 @@ function heroBloom(pin) {
       scrub: 1.5,
       pin,
       anticipatePin: 1,
+      // The copy's colour flip is CSS-driven (.is-bloomed) so it always
+      // matches the active season's palette.
+      onUpdate(self) {
+        hero.classList.toggle('is-bloomed', self.progress > 0.4);
+      },
     },
   });
 
@@ -119,11 +117,6 @@ function heroBloom(pin) {
       ease: 'sine.out',
       duration: 0.7,
     }, 0.12)
-    .to(flipTitle, { color: '#f6f3ea', duration: 0.5, ease: 'sine.inOut' }, 0.42)
-    .to(flipAccent, { color: '#dbe6cf', duration: 0.5, ease: 'sine.inOut' }, 0.42)
-    .to(flipCopy, { color: '#e9ebde', duration: 0.5, ease: 'sine.inOut' }, 0.42)
-    .to(ghostBtns, { color: '#f6f3ea', borderColor: 'rgba(246, 243, 234, 0.55)', duration: 0.5, ease: 'sine.inOut' }, 0.42)
-    .to(primaryBtns, { backgroundColor: '#f2eee4', color: '#26302c', duration: 0.5, ease: 'sine.inOut' }, 0.42)
     .from(acorns, {
       scale: 0,
       opacity: 0,
