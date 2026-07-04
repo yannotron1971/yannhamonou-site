@@ -472,9 +472,11 @@ const etchQuote = testimonials[0];
         <!-- Far headland -->
         <path d="M0 600 L0 556 L140 540 L300 566 L430 552 L520 600 Z" fill="#8b979c" opacity="0.45" />
 
-        <!-- Birds -->
-        <path d="M680 250 q 7 -7 14 0 q 7 -7 14 0" stroke="#3a444b" stroke-width="1.6" fill="none" opacity="0.45" />
-        <path d="M755 292 q 5 -5 10 0 q 5 -5 10 0" stroke="#3a444b" stroke-width="1.4" fill="none" opacity="0.35" />
+        <!-- Seagulls — wings morph between d and data-flap while they glide
+             out over the sea (see shelterOak in oak-motion.js) -->
+        <path class="oak-gull" d="M680 250 q 7 -7 14 0 q 7 -7 14 0" data-flap="M680 250 q 7 4 14 0 q 7 4 14 0" stroke="#3a444b" stroke-width="1.6" fill="none" opacity="0.45" />
+        <path class="oak-gull" d="M755 292 q 5 -5 10 0 q 5 -5 10 0" data-flap="M755 292 q 5 3 10 0 q 5 3 10 0" stroke="#3a444b" stroke-width="1.4" fill="none" opacity="0.35" />
+        <path class="oak-gull" d="M600 212 q 4 -4 8 0 q 4 -4 8 0" data-flap="M600 212 q 4 2.5 8 0 q 4 2.5 8 0" stroke="#3a444b" stroke-width="1.2" fill="none" opacity="0.3" />
 
         <!-- The cliff — a headland shelf, not a wall -->
         <path d="M790 780 L800 640 L830 545 L900 505 L1000 490 L1150 495 L1300 480 L1440 490 L1440 780 Z" fill="#3a444b" />

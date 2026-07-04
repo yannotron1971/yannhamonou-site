@@ -232,4 +232,29 @@ function shelterOak() {
       yoyo: true,
     });
   }
+
+  // Seagulls — wings beat (path morph) while each bird glides out over
+  // the North Sea, fades at the horizon, and loops back around.
+  shelter.querySelectorAll('.oak-gull').forEach((gull, i) => {
+    const flap = gull.dataset.flap;
+    const rest = gull.getAttribute('d');
+    if (flap && rest) {
+      gsap.to(gull, {
+        attr: { d: flap },
+        duration: 0.38 + i * 0.07,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+    }
+
+    const baseOpacity = parseFloat(gull.getAttribute('opacity') || '0.4');
+    const flight = 24 + i * 5; // seconds to cross the sky
+    const glide = gsap.timeline({ repeat: -1, repeatDelay: 3 + i * 2, delay: i * 5 });
+    glide
+      .fromTo(gull, { x: 80, y: 10, opacity: 0 }, { opacity: baseOpacity, duration: 2.5, ease: 'none' }, 0)
+      .to(gull, { x: -640 - i * 60, duration: flight, ease: 'none' }, 0)
+      .to(gull, { y: -14 - i * 6, duration: 3.2 + i, repeat: Math.ceil(flight / (3.2 + i)), yoyo: true, ease: 'sine.inOut' }, 0)
+      .to(gull, { opacity: 0, duration: 2.5, ease: 'none' }, flight - 2.5);
+  });
 }
