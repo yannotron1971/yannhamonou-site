@@ -946,18 +946,22 @@ const etchQuote = testimonials[0];
   .oak-hero__foot {
     transition: color 0.7s ease;
   }
-  .oak-hero.is-bloomed .oak-hero__title .oak-line { color: var(--oak-bloom-title); }
-  .oak-hero.is-bloomed .oak-hero__title .oak-line--accent { color: var(--oak-bloom-accent); }
-  .oak-hero.is-bloomed .oak-hero__eyebrow,
-  .oak-hero.is-bloomed .oak-hero__sub,
-  .oak-hero.is-bloomed .oak-hero__foot { color: var(--oak-bloom-copy); }
-  .oak-hero.is-bloomed .oak-btn--ghost {
-    color: var(--oak-bloom-title);
-    border-color: color-mix(in srgb, var(--oak-bloom-title) 55%, transparent);
-  }
-  .oak-hero.is-bloomed .oak-btn--primary {
-    background: var(--oak-btn-flip-bg);
-    color: var(--oak-btn-flip-ink);
+  /* The flip only applies on desktop, where the canopy actually grows
+     behind the copy. On tablet/phone the art is a band above the text. */
+  @media (min-width: 1025px) {
+    .oak-hero.is-bloomed .oak-hero__title .oak-line { color: var(--oak-bloom-title); }
+    .oak-hero.is-bloomed .oak-hero__title .oak-line--accent { color: var(--oak-bloom-accent); }
+    .oak-hero.is-bloomed .oak-hero__eyebrow,
+    .oak-hero.is-bloomed .oak-hero__sub,
+    .oak-hero.is-bloomed .oak-hero__foot { color: var(--oak-bloom-copy); }
+    .oak-hero.is-bloomed .oak-btn--ghost {
+      color: var(--oak-bloom-title);
+      border-color: color-mix(in srgb, var(--oak-bloom-title) 55%, transparent);
+    }
+    .oak-hero.is-bloomed .oak-btn--primary {
+      background: var(--oak-btn-flip-bg);
+      color: var(--oak-btn-flip-ink);
+    }
   }
 
   /* ─── Bedrock ────────────────────────────────────────────────── */
@@ -1289,23 +1293,30 @@ const etchQuote = testimonials[0];
   .oak-shelter__lead { max-width: 480px; margin-bottom: 36px; }
 
   /* ─── Responsive ─────────────────────────────────────────────── */
+  /* Tablet and below: the bough becomes a full-width band ABOVE the
+     copy instead of a full-bleed backdrop, so it never eats the words.
+     The hero pin and text flip are desktop-only (see oak-motion.js). */
   @media (max-width: 1024px) {
-    .oak-seasons__grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 760px) {
-    .oak-hero { min-height: 88vh; }
+    .oak-hero { min-height: 0; }
     .oak-hero__grid {
-      padding-top: 72px;
-      padding-bottom: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 16px;
+      padding-bottom: 56px;
+    }
+    .oak-hero__art {
+      position: relative;
+      inset: auto;
+      order: -1;
+      height: clamp(220px, 34vh, 380px);
+      margin-inline: calc(-1 * clamp(20px, 4vw, 48px));
     }
     .oak-hero__hint { display: none; }
 
-    .oak-bedrock { padding-bottom: clamp(200px, 30vh, 300px); }
+    .oak-seasons__grid { grid-template-columns: repeat(2, 1fr); }
 
-    .oak-seasons__grid { grid-template-columns: 1fr; }
-
-    /* Ledger: native horizontal scroll instead of pin */
+    /* Ledger: native swipe scroll instead of pin */
     .oak-ledger__track {
       overflow-x: auto;
       width: auto;
@@ -1314,15 +1325,28 @@ const etchQuote = testimonials[0];
       padding-bottom: 16px;
     }
     .oak-entry {
-      width: 85vw;
+      width: min(78vw, 620px);
       grid-template-columns: 1fr;
       scroll-snap-align: center;
     }
     .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)),
+    .oak-entry--cta { width: min(78vw, 620px); }
+
+    .oak-faq__wrap { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  @media (max-width: 760px) {
+    .oak-hero__grid { padding-bottom: 44px; }
+    .oak-hero__title { font-size: clamp(40px, 11vw, 54px); }
+
+    .oak-bedrock { padding-bottom: clamp(200px, 30vh, 300px); }
+
+    .oak-seasons__grid { grid-template-columns: 1fr; }
+
+    .oak-entry,
+    .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)),
     .oak-entry--cta { width: 85vw; }
     .oak-entry__numeral { font-size: 72px; }
-
-    .oak-faq__wrap { grid-template-columns: 1fr; }
 
     .oak-shelter { min-height: 0; }
     .oak-shelter__art { position: static; height: 320px; }

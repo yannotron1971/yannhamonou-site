@@ -15,7 +15,9 @@ const mm = gsap.matchMedia();
 mm.add(
   {
     motionOK: '(prefers-reduced-motion: no-preference)',
-    desktop: '(min-width: 761px)',
+    // Pinned hero/ledger only on true desktop; tablets and phones get the
+    // banded hero layout and native horizontal scroll (see index.astro CSS).
+    desktop: '(min-width: 1025px)',
   },
   (ctx) => {
     if (!ctx.conditions.motionOK) return;
