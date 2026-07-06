@@ -42,6 +42,30 @@ const faq = [
     { name: 'SEO Aberdeen', item: `${Astro.site}services/seo-aberdeen` },
   ]}
 >
+  <!-- WebPage schema -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${Astro.site}services/seo-aberdeen#webpage`,
+    "url": `${Astro.site}services/seo-aberdeen`,
+    "name": "SEO Aberdeen — Search & AI Visibility for Scottish Businesses",
+    "isPartOf": { "@id": `${Astro.site}#website` },
+    "about": { "@id": `${Astro.site}#business` },
+    "description": "SEO consultant based in Aberdeen and Stonehaven. Technical SEO, local SEO, content strategy, and GEO for Aberdeen and Scottish B2B businesses.",
+    "inLanguage": "en-GB",
+  })} />
+
+  <!-- FAQPage schema (mirrors the on-page FAQ below) -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faq.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": { "@type": "Answer", "text": item.a },
+    })),
+  })} />
+
   <!-- Service schema -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -49,9 +73,9 @@ const faq = [
     "name": "SEO Aberdeen — Search & AI Visibility",
     "description": "Technical SEO, local SEO, content strategy, and Generative Engine Optimisation (GEO) for Aberdeen and Scottish B2B businesses.",
     "provider": {
-      "@type": "Person",
-      "@id": "https://yannhamonou.pages.dev/#person",
-      "name": "Yann Hamonou"
+      "@type": ["ProfessionalService", "LocalBusiness"],
+      "@id": "https://yannhamonou.pages.dev/#business",
+      "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen"
     },
     "areaServed": [
       { "@type": "City", "name": "Aberdeen" },

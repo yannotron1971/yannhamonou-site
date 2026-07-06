@@ -12,23 +12,24 @@ a { color: inherit; text-decoration: none; }
 /* ─────────────────────────────────────────────────────────────
    DARK THEME TOKENS (default — body.v4, no extra class)
 ───────────────────────────────────────────────────────────── */
+/* Oak & Coast seasons: ◐ Winter (default) · ☀ Summer · ◑ Autumn · ○ Spring */
 body.v4 {
-  --v4-bg:          oklch(0.100 0.000 0);
-  --v4-bg-2:        oklch(0.121 0.000 0);
-  --v4-panel:       oklch(0.146 0.000 0);
-  --v4-panel-2:     oklch(0.170 0.000 0);
-  --v4-panel-3:     oklch(0.193 0.000 0);
-  --v4-line:        rgba(255 255 255 / 0.10);
-  --v4-line-soft:   rgba(255 255 255 / 0.06);
-  --v4-ink:         oklch(0.954 0.003 75);
-  --v4-ink-mute:    oklch(0.591 0.004 75);
-  --v4-ink-dim:     oklch(0.52 0.003 75);
-  --v4-accent:      oklch(0.954 0.003 75);
-  --v4-accent-warm: oklch(0.910 0.025 75);
-  --v4-smoke-rgb:   255 255 255;
-  --v4-nav-bg:      rgba(10 10 10 / 0.78);
+  --v4-bg:          #131917;
+  --v4-bg-2:        #161d1b;
+  --v4-panel:       #1a2220;
+  --v4-panel-2:     #1f2725;
+  --v4-panel-3:     #242d2a;
+  --v4-line:        rgba(233 231 218 / 0.13);
+  --v4-line-soft:   rgba(233 231 218 / 0.07);
+  --v4-ink:         #e9e7da;
+  --v4-ink-mute:    #a3a99c;
+  --v4-ink-dim:     #78807a;
+  --v4-accent:      #e9e7da;
+  --v4-accent-warm: #e6e2d0;
+  --v4-smoke-rgb:   200 210 200;
+  --v4-nav-bg:      rgba(19 25 23 / 0.8);
 
-  --v4-display: 'Archivo', system-ui, sans-serif;
+  --v4-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --v4-sans:    'Inter', system-ui, sans-serif;
   --v4-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
@@ -46,19 +47,20 @@ body.v4 {
 /* ─────────────────────────────────────────────────────────────
    LIGHT WARM
 ───────────────────────────────────────────────────────────── */
+/* Summer — the canonical Oak & Coast parchment */
 body.v4.is-light.tone-warm {
-  --v4-bg:          oklch(0.955 0.015 75);
-  --v4-bg-2:        oklch(0.920 0.018 75);
-  --v4-panel:       oklch(0.985 0.008 75);
-  --v4-panel-2:     oklch(0.963 0.014 75);
-  --v4-panel-3:     oklch(0.940 0.016 75);
-  --v4-line:        rgba(20 18 12 / 0.14);
-  --v4-line-soft:   rgba(20 18 12 / 0.08);
-  --v4-ink:         oklch(0.161 0.008 75);
-  --v4-ink-mute:    oklch(0.463 0.012 75);
-  --v4-ink-dim:     oklch(0.672 0.010 75);
-  --v4-accent:      oklch(0.161 0.008 75);
-  --v4-accent-warm: oklch(0.207 0.010 75);
+  --v4-bg:          #f2eee4;
+  --v4-bg-2:        #eae4d6;
+  --v4-panel:       #faf7ee;
+  --v4-panel-2:     #efe9db;
+  --v4-panel-3:     #e8e1d0;
+  --v4-line:        rgba(38 48 44 / 0.16);
+  --v4-line-soft:   rgba(38 48 44 / 0.1);
+  --v4-ink:         #26302c;
+  --v4-ink-mute:    #4c5852;
+  --v4-ink-dim:     #6b7570;
+  --v4-accent:      #2e4a36;
+  --v4-accent-warm: #3a4a38;
   --v4-smoke-rgb:   80 60 20;
   --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
 }
@@ -66,40 +68,42 @@ body.v4.is-light.tone-warm {
 /* ─────────────────────────────────────────────────────────────
    LIGHT COOL
 ───────────────────────────────────────────────────────────── */
+/* Autumn — cool coastal grey light, amber accents */
 body.v4.is-light.tone-cool {
-  --v4-bg:          oklch(0.940 0.008 240);
-  --v4-bg-2:        oklch(0.905 0.010 240);
-  --v4-panel:       oklch(0.981 0.004 240);
-  --v4-panel-2:     oklch(0.950 0.008 240);
-  --v4-panel-3:     oklch(0.925 0.010 240);
-  --v4-line:        rgba(15 20 30 / 0.14);
-  --v4-line-soft:   rgba(15 20 30 / 0.08);
-  --v4-ink:         oklch(0.148 0.008 240);
-  --v4-ink-mute:    oklch(0.429 0.010 240);
-  --v4-ink-dim:     oklch(0.650 0.008 240);
-  --v4-accent:      oklch(0.148 0.008 240);
-  --v4-accent-warm: oklch(0.191 0.010 240);
-  --v4-smoke-rgb:   20 30 60;
+  --v4-bg:          #edeae2;
+  --v4-bg-2:        #e4e0d5;
+  --v4-panel:       #f6f4ec;
+  --v4-panel-2:     #eae6da;
+  --v4-panel-3:     #e2ddcf;
+  --v4-line:        rgba(43 41 34 / 0.16);
+  --v4-line-soft:   rgba(43 41 34 / 0.09);
+  --v4-ink:         #2b2a24;
+  --v4-ink-mute:    #56534a;
+  --v4-ink-dim:     #767268;
+  --v4-accent:      #8a4a26;
+  --v4-accent-warm: #55402a;
+  --v4-smoke-rgb:   90 70 40;
   --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
 }
 
 /* ─────────────────────────────────────────────────────────────
    LIGHT BRIGHT
 ───────────────────────────────────────────────────────────── */
+/* Spring — palest paper, fresh green accents */
 body.v4.is-light.tone-bright {
-  --v4-bg:          oklch(1.000 0.000 0);
-  --v4-bg-2:        oklch(0.960 0.000 0);
-  --v4-panel:       oklch(0.980 0.000 0);
-  --v4-panel-2:     oklch(0.965 0.000 0);
-  --v4-panel-3:     oklch(0.945 0.000 0);
-  --v4-line:        rgba(0 0 0 / 0.13);
-  --v4-line-soft:   rgba(0 0 0 / 0.07);
-  --v4-ink:         oklch(0.130 0.000 0);
-  --v4-ink-mute:    oklch(0.440 0.003 75);
-  --v4-ink-dim:     oklch(0.680 0.003 75);
-  --v4-accent:      oklch(0.130 0.000 0);
-  --v4-accent-warm: oklch(0.161 0.000 0);
-  --v4-smoke-rgb:   0 0 0;
+  --v4-bg:          #f7f6ef;
+  --v4-bg-2:        #eff0e5;
+  --v4-panel:       #fdfcf7;
+  --v4-panel-2:     #f2f2e8;
+  --v4-panel-3:     #e9ebdd;
+  --v4-line:        rgba(38 48 40 / 0.14);
+  --v4-line-soft:   rgba(38 48 40 / 0.08);
+  --v4-ink:         #24312a;
+  --v4-ink-mute:    #4c5c50;
+  --v4-ink-dim:     #6e7f71;
+  --v4-accent:      #3d6b46;
+  --v4-accent-warm: #35573c;
+  --v4-smoke-rgb:   60 90 60;
   --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
 }
 
@@ -125,10 +129,8 @@ body.v4.is-light.tone-bright {
 ───────────────────────────────────────────────────────────── */
 .v4-display {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  text-transform: uppercase;
-  letter-spacing: -0.025em;
+  font-weight: 600;
+  letter-spacing: 0.005em;
 }
 
 .v4-eyebrow {
@@ -142,12 +144,10 @@ body.v4.is-light.tone-bright {
 
 .v4-hero-h {
   font-family: var(--v4-display);
-  font-weight: 900;
-  font-stretch: 75%;
-  font-size: clamp(48px, min(10vw, 13vh), 140px);
-  line-height: 0.88;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
+  font-weight: 560;
+  font-size: clamp(40px, min(7.2vw, 10vh), 96px);
+  line-height: 1.02;
+  letter-spacing: 0.005em;
   color: var(--v4-accent-warm);
 }
 
@@ -157,12 +157,10 @@ body.v4.is-light.tone-bright {
 
 .v4-section-h {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: clamp(36px, 5vw, 72px);
-  line-height: 0.92;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
+  font-weight: 540;
+  font-size: clamp(32px, 4.5vw, 58px);
+  line-height: 1.05;
+  letter-spacing: 0.005em;
   color: var(--v4-accent-warm);
 }
 
@@ -554,7 +552,7 @@ body.v4.is-light.tone-bright {
 .v4-work-card {
   flex: 0 0 clamp(260px, 36vw, 420px);
   scroll-snap-align: start;
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--v4-panel);
   position: relative;
@@ -619,7 +617,7 @@ body.v4.is-light.tone-bright {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1px;
   border: 1px solid var(--v4-line);
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -734,7 +732,7 @@ img.v4-marquee__item {
 
 .v4-testimonial {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: clamp(24px, 3vw, 40px);
   border: 1px solid var(--v4-line-soft);
 }
@@ -783,7 +781,7 @@ img.v4-marquee__item {
 
 .v4-post-card {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--v4-line-soft);
   transition: background 0.2s ease, transform 0.2s ease;
@@ -839,7 +837,7 @@ img.v4-marquee__item {
 ───────────────────────────────────────────────────────────── */
 .v4-closer {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: clamp(40px, 5vw, 80px);
   border: 1px solid var(--v4-line-soft);
   text-align: center;
@@ -847,7 +845,7 @@ img.v4-marquee__item {
 
 .v4-contact-form {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: clamp(32px, 4vw, 56px);
   border: 1px solid var(--v4-line-soft);
   max-width: 640px;
@@ -900,10 +898,12 @@ img.v4-marquee__item {
   gap: 8px;
   height: 44px;
   padding: 0 24px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  border-radius: 3px;
+  font-family: var(--v4-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
   white-space: nowrap;

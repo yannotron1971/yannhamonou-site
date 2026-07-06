@@ -1,303 +1,1356 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { reader } from '../lib/keystatic';
-import { services, cases, clients, numbers, testimonials, faq } from '../data/index';
+import { cases, numbers, testimonials, faq } from '../data/index';
 
-const allPosts = await reader.collections.posts.all();
-const recentPosts = allPosts
-  .sort((a, b) => {
-    const da = a.entry.publishedDate ?? '';
-    const db = b.entry.publishedDate ?? '';
-    return db > da ? 1 : -1;
-  })
-  .slice(0, 3);
+// Homepage FAQ — the shared site FAQs plus two keyword-bearing questions
+// buyers actually search for ("marketing consultant aberdeen" intent).
+const homeFaq = [
+  faq[0],
+  {
+    q: 'What does a marketing consultant in Aberdeen cost?',
+    a: 'Most engagements are scoped individually. A standalone strategy engagement typically starts from £1,500; monthly retainers covering strategy and execution run £900–£2,000/month depending on scope. The free 30-minute review is the right starting point — no pitch, just a useful conversation.',
+  },
+  faq[1],
+  {
+    q: 'Why hire a marketing consultant instead of an agency?',
+    a: 'You work directly with one senior marketer — 20+ years of B2B experience — rather than a junior account team. Strategy and execution come from the same person, so nothing is lost in handover, and you get accountability for results rather than activity reports.',
+  },
+  faq[2],
+];
+
+const siteUrl = String(Astro.site);
+
+const seasons = [
+  {
+    idx: '01',
+    season: 'Spring',
+    name: 'Planting',
+    line: 'Set the roots.',
+    desc: 'Every enduring brand starts below ground. Strategy and positioning give every pound you spend a direction — before a single ad runs.',
+    services: [
+      { label: 'Marketing Strategy', href: '/services/strategy' },
+      { label: 'Positioning', href: '/services/positioning' },
+    ],
+    accent: '#4a6b4c',
+    tint: 'rgba(74, 107, 76, 0.09)',
+    glyph: 'sprout',
+  },
+  {
+    idx: '02',
+    season: 'Summer',
+    name: 'Cultivating',
+    line: 'Grow what compounds.',
+    desc: 'Organic visibility and a site that converts — the patient work that compounds season after season, in search and in AI answers.',
+    services: [
+      { label: 'SEO & GEO', href: '/services/seo-aberdeen' },
+      { label: 'Web & CRO', href: '/services/web' },
+    ],
+    accent: '#2e4a36',
+    tint: 'rgba(46, 74, 54, 0.09)',
+    glyph: 'leaf',
+  },
+  {
+    idx: '03',
+    season: 'Autumn',
+    name: 'Harvesting',
+    line: 'Take the yield.',
+    desc: 'When the field is ready, paid media brings the harvest in: qualified leads from Google, LinkedIn, and Meta — tracked to revenue, not clicks.',
+    services: [
+      { label: 'Paid Media', href: '/services/paid' },
+    ],
+    accent: '#b85c2e',
+    tint: 'rgba(184, 92, 46, 0.09)',
+    glyph: 'acorn',
+  },
+  {
+    idx: '04',
+    season: 'Winter',
+    name: 'Weathering',
+    line: 'Endure the storms.',
+    desc: 'Automation keeps the pipeline warm through the quiet months — nurture sequences and lead scoring so no enquiry falls through the cracks.',
+    services: [
+      { label: 'Marketing Automation', href: '/services/automation' },
+    ],
+    accent: '#7d6584',
+    tint: 'rgba(125, 101, 132, 0.10)',
+    glyph: 'wind',
+  },
+];
+
+const numerals = ['I', 'II', 'III', 'IV'];
+const etchQuote = testimonials[0];
 ---
 
 <Layout
   title="Marketing Consultant Aberdeen — Yann Hamonou"
-  description="B2B marketing consultant and digital marketing specialist based in Aberdeen, Scotland. Strategy, SEO, paid media, and automation that generate qualified leads for Scottish SMEs. Free 30-min review."
+  description="B2B marketing consultant and digital marketing specialist based in Stonehaven, Scotland. Strategy, SEO, paid media, and automation that generate qualified leads for Scottish SMEs. Free 30-min review."
 >
-  <!-- HERO -->
-  <section class="v4-hero v4-block" style="padding-top:clamp(32px,4vw,56px)">
-    <div class="v4-wrap v4-hero__content">
-      <!-- Smoke wisps -->
-      <div class="v4-smoke" style="width:600px;height:600px;top:-200px;right:-200px;opacity:0.35" aria-hidden="true"></div>
-      <div class="v4-smoke" style="width:400px;height:400px;bottom:-100px;left:10%;opacity:0.2" aria-hidden="true"></div>
+  <!-- Page-level structured data: WebPage + FAQPage -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${siteUrl}#webpage`,
+    "url": siteUrl,
+    "name": "Marketing Consultant Aberdeen — Yann Hamonou",
+    "isPartOf": { "@id": `${siteUrl}#website` },
+    "about": { "@id": `${siteUrl}#business` },
+    "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Strategy, SEO, paid media, and automation that generate qualified leads.",
+    "inLanguage": "en-GB",
+  })} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": homeFaq.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": { "@type": "Answer", "text": item.a },
+    })),
+  })} />
 
-      <div class="v4-eyebrow" style="margin-bottom:32px">B2B Marketing Consultant — Aberdeen, Scotland</div>
-
-      <h1 class="v4-hero__headline">
-        <div class="v4-hero-h v4-hero__line">
-          <span class="v4-hero__dash" aria-hidden="true"></span>
-          Marketing
-        </div>
-        <div class="v4-hero-h v4-hero__line">
-          Consultant
-        </div>
-        <div class="v4-hero-h v4-hero__line" style="color:var(--v4-ink-dim)">
-          Aberdeen
-        </div>
-      </h1>
-
-      <p style="font-size:clamp(16px,1.8vw,20px);color:var(--v4-ink-mute);max-width:540px;line-height:1.6;font-weight:300;margin-top:24px;margin-bottom:32px">
-        Strategy, SEO, and paid media that generate qualified leads for Scottish B2B businesses — not vanity metrics.
-      </p>
-
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:40px">
-        <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 28px">
-          Book free 30-min review →
-        </a>
-        <a href="/work" class="v4-btn v4-btn--outline" style="height:48px;font-size:15px;padding:0 28px">
-          See results
-        </a>
-      </div>
-
-      <div style="display:flex;flex-wrap:wrap;gap:24px">
-        {[
-          { num: '20+', label: 'Years B2B experience' },
-          { num: '#1', label: 'Google rank in 4 weeks' },
-          { num: '500%', label: 'Organic traffic growth' },
-        ].map(s => (
-          <div style="display:flex;align-items:center;gap:10px">
-            <span data-count style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(22px,3vw,30px);letter-spacing:-0.02em;color:var(--v4-accent-warm)">{s.num}</span>
-            <span style="font-size:12px;color:var(--v4-ink-dim);line-height:1.3;max-width:80px">{s.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div class="v4-hero__bar" style="margin-top:48px;padding-bottom:clamp(24px,4vh,48px)">
-        <span class="v4-hero__location">Stonehaven · Aberdeenshire · Scotland</span>
-        <a href="#intro" class="v4-hero__scroll">
-          Scroll to explore
-          <span aria-hidden="true">↓</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARTNERS MARQUEE -->
-  <div class="v4-marquee-wrap" aria-hidden="true">
-    <div class="v4-marquee">
-      {[...clients, ...clients].map(c => (
-        <img src={c.logo} alt={c.name} width={c.w} height={c.h} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
-      ))}
-    </div>
-  </div>
-
-  <!-- INTRO -->
-  <section class="v4-block tight" id="intro">
-    <div class="v4-wrap">
-      <div class="v4-intro">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:20px">The proposition</div>
-          <p class="v4-intro__lead">
-            Wasting money on digital marketing that doesn't connect to revenue?
-            <strong>I fix that.</strong> Strategy first, then execution — SEO, paid media, positioning, and automation — all pointed at the same goal: <strong>qualified leads and sustainable growth.</strong>
+  <div class="oak">
+    <!-- ═══ HERO — THE SPARK ═══ -->
+    <section class="oak-hero">
+      <div class="oak-wrap oak-hero__grid">
+        <div class="oak-hero__copy">
+          <p class="oak-hero__eyebrow">Yann Hamonou · B2B Marketing · Stonehaven, Scotland</p>
+          <h1 class="oak-hero__title">
+            <span class="oak-line">Deep Roots.</span>
+            <span class="oak-line oak-line--accent">Bold Growth.</span>
+            <span class="oak-line oak-hero__kicker">Marketing Consultant · Aberdeen &amp; Aberdeenshire</span>
+          </h1>
+          <p class="oak-hero__sub">
+            Marketing from the edge of the North Sea. Strategy, SEO, and paid media
+            that turn B2B businesses across Aberdeen, Aberdeenshire, and Scotland
+            into enduring brands — not vanity metrics.
           </p>
-          <div style="margin-top:32px">
-            <a href="/contact" class="v4-btn v4-btn--primary">
-              Book a free 30-min review
-            </a>
+          <div class="oak-hero__ctas">
+            <a href="/contact" class="oak-btn oak-btn--primary">Start the Season →</a>
+            <a href="#ledger" class="oak-btn oak-btn--ghost">Read the Ledger</a>
           </div>
+          <p class="oak-hero__foot">20+ years B2B · #1 Google rank in 4 weeks · 500% organic growth</p>
         </div>
-        <div class="v4-intro__stats">
-          {numbers.map(n => (
-            <div class="v4-stat">
-              <div class="v4-stat__num">{n.num}</div>
-              <div class="v4-stat__label">{n.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- WORKS -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-section-head">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:12px">Selected work</div>
-          <h2 class="v4-section-h">Results</h2>
-        </div>
-        <a href="/work" class="v4-btn v4-btn--outline" style="align-self:flex-end">All work →</a>
-      </div>
-      <div class="v4-works-rail">
-        {cases.map(c => (
-          <a href={`/work/${c.slug}`} class="v4-work-card" aria-label={`${c.client} — ${c.descriptor}`}>
-            {c.image && typeof c.image === 'string' && <img src={c.image} alt={c.client} class="v4-work-card__img" loading="lazy" />}
-            <div class="v4-work-card__foot">
-              <div class="v4-work-card__client">{c.client}</div>
-              <div class="v4-work-card__meta">{c.year} · {c.descriptor}</div>
-              <div class="v4-work-card__stat">{c.stat}</div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+        <!-- The Bough — a great oak branch reaching in from the right edge,
+             blooming across the hero on scroll -->
+        <div class="oak-hero__art" aria-hidden="true">
+          <svg viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="oak-sapling" preserveAspectRatio="xMaxYMid slice">
+            <defs>
+              <filter id="oak-rough" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.022 0.045" numOctaves="2" seed="7" result="n" />
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="4" />
+              </filter>
+              <filter id="oak-wash-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="3" seed="5" result="wn" />
+                <feDisplacementMap in="SourceGraphic" in2="wn" scale="60" />
+              </filter>
+              <!-- Pedunculate oak leaf: obovate outline, four rounded lobes a
+                   side with deep sinuses, midrib, pinnate veins, short stalk -->
+              <g id="oak-leaf-shape">
+                <path
+                  d="M0 -6 Q -8 -6 -7.5 -10 Q -7 -13 -3.5 -13.5 Q -11 -13.5 -10.5 -17 Q -10 -20.5 -4.5 -20.5 Q -12.5 -20.5 -12 -24 Q -11.5 -27.5 -5 -27.5 Q -11 -27.5 -10 -31 Q -9 -34 -4 -34 Q -8.5 -34.5 -6.5 -38 Q -4.5 -42 0 -44 Q 4.5 -42 6.5 -38 Q 8.5 -34.5 4 -34 Q 9 -34 10 -31 Q 11 -27.5 5 -27.5 Q 11.5 -27.5 12 -24 Q 12.5 -20.5 4.5 -20.5 Q 10 -20.5 10.5 -17 Q 11 -13.5 3.5 -13.5 Q 7 -13 7.5 -10 Q 8 -6 0 -6 Z"
+                  stroke="#26302c"
+                  stroke-opacity="0.4"
+                  stroke-width="1"
+                />
+                <path
+                  d="M0 0 L0 -42 M0 -10.5 L-5.5 -9 M0 -10.5 L5.5 -9 M0 -17.5 L-7.5 -15.5 M0 -17.5 L7.5 -15.5 M0 -24.5 L-8.5 -22.5 M0 -24.5 L8.5 -22.5 M0 -31.5 L-7 -29.5 M0 -31.5 L7 -29.5 M0 -37.5 L-4.5 -36 M0 -37.5 L4.5 -36"
+                  stroke="#26302c"
+                  stroke-opacity="0.3"
+                  stroke-width="0.9"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+              </g>
+              <g id="oak-acorn-shape">
+                <line x1="0" y1="0" x2="0" y2="5" stroke="#54401f" stroke-width="1.6" />
+                <ellipse cx="0" cy="13" rx="5.2" ry="8" fill="#9a6b30" />
+                <path d="M-6.5 8.5 Q0 3.5 6.5 8.5 L6 11.5 Q0 8.5 -6 11.5 Z" fill="#5d431f" />
+              </g>
+            </defs>
 
-  <!-- SERVICES -->
-  <section class="v4-block">
-    <div class="v4-wrap">
-      <div class="v4-section-head">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:12px">What I do</div>
-          <h2 class="v4-section-h">Services</h2>
+            <g filter="url(#oak-rough)">
+              <!-- Canopy washes — invisible until the bloom paints them in (JS-gated
+                   decoration; no-JS and reduced-motion visitors keep ink on parchment) -->
+              <g class="oak-washes" filter="url(#oak-wash-f)">
+                <ellipse class="oak-wash" cx="1150" cy="300" rx="400" ry="260" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="1000" cy="480" rx="420" ry="210" fill="#3d5c42" opacity="0" />
+                <ellipse class="oak-wash" cx="820" cy="250" rx="380" ry="230" fill="#35513b" opacity="0" />
+                <ellipse class="oak-wash" cx="700" cy="620" rx="520" ry="170" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="520" cy="270" rx="340" ry="220" fill="#2e4a36" opacity="0" />
+                <ellipse class="oak-wash" cx="380" cy="480" rx="340" ry="200" fill="#35513b" opacity="0" />
+                <ellipse class="oak-wash" cx="180" cy="300" rx="280" ry="200" fill="#3d5c42" opacity="0" />
+              </g>
+
+              <!-- The great bough — inks in from the right edge on load -->
+              <g class="oak-branch" stroke="#2b2f2a" stroke-linecap="round" fill="none">
+                <path stroke-width="16" d="M1405 445 C1300 430 1215 408 1115 375 C1010 340 905 322 800 312 C710 300 625 275 560 245" />
+                <path stroke-width="10" d="M800 312 C740 272 688 252 628 242 C580 234 545 228 510 214" />
+                <path stroke-width="9" d="M1115 375 C1058 322 998 282 928 252 C868 227 818 212 758 207" />
+                <path stroke-width="9" d="M1250 410 C1228 344 1202 300 1160 252 C1130 216 1118 184 1092 152" />
+                <path stroke-width="8" d="M905 322 C845 362 782 384 700 398" />
+                <path stroke-width="6" d="M758 207 C712 200 672 188 640 172" />
+                <path stroke-width="6" d="M928 252 C898 216 878 196 850 182" />
+                <path stroke-width="5" d="M1160 252 C1132 240 1106 238 1076 244" />
+                <path stroke-width="5" d="M628 242 C600 226 574 214 544 210" />
+                <path stroke-width="5" d="M700 398 C650 412 610 424 566 428" />
+                <path stroke-width="5" d="M1115 375 C1092 396 1064 410 1030 416" />
+                <path stroke-width="4" d="M560 245 C520 236 486 226 458 212" />
+              </g>
+
+              <!-- Leaves — bloom right-to-left on scroll -->
+              <g class="oak-leaves">
+                <g class="oak-leaf" transform="translate(1240 380) rotate(-20) scale(1.6)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(1180 330) rotate(15) scale(1.4)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1120 300) rotate(-40) scale(1.5)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1090 160) rotate(-15) scale(1.7)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1105 175) rotate(30) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(1150 250) rotate(-60) scale(1.3)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(1076 248) rotate(20) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1210 420) rotate(45) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(1000 340) rotate(-25) scale(1.5)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(950 255) rotate(10) scale(1.6)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(928 258) rotate(-45) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(860 185) rotate(-10) scale(1.7)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(845 190) rotate(35) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(905 205) rotate(-30) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(1030 420) rotate(25) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(1005 428) rotate(-15) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(800 315) rotate(-20) scale(1.5)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(760 210) rotate(-5) scale(1.8)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(740 215) rotate(-40) scale(1.3)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(775 225) rotate(28) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(700 400) rotate(15) scale(1.5)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(665 408) rotate(-25) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(820 235) rotate(60) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(870 300) rotate(5) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(640 175) rotate(-20) scale(1.7)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(615 185) rotate(20) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(628 245) rotate(-50) scale(1.4)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(560 428) rotate(10) scale(1.4)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(600 240) rotate(40) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(585 300) rotate(-10) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(660 300) rotate(25) scale(1.2)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(540 212) rotate(-25) scale(1.5)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+                <g class="oak-leaf" transform="translate(510 218) rotate(15) scale(1.2)"><use href="#oak-leaf-shape" fill="#63875c" /></g>
+                <g class="oak-leaf" transform="translate(444 262) rotate(-35) scale(1.3)"><use href="#oak-leaf-shape" fill="#2e4a36" /></g>
+                <g class="oak-leaf" transform="translate(475 255) rotate(30) scale(1.1)"><use href="#oak-leaf-shape" fill="#3a5c40" /></g>
+                <g class="oak-leaf" transform="translate(540 295) rotate(-8) scale(1.2)"><use href="#oak-leaf-shape" fill="#47714b" /></g>
+              </g>
+
+              <!-- Acorns -->
+              <g class="oak-acorns">
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(1135 270) rotate(10) scale(1.4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(985 440) rotate(8) scale(1.3)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(890 215) rotate(-6) scale(1.4)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(700 225) rotate(8) scale(1.3)" />
+                <use href="#oak-acorn-shape" class="oak-acorn-i" transform="translate(610 315) rotate(-5) scale(1.2)" />
+              </g>
+            </g>
+          </svg>
         </div>
       </div>
-      <div class="v4-services">
-        {services.map(s => (
-          <a href={`/services/${s.slug}`} class="v4-service-card">
-            <div class="v4-service-card__num">{s.num}</div>
-            <div class="v4-service-card__title">{s.title}</div>
-            <div class="v4-service-card__desc">{s.desc}</div>
-            <div class="v4-service-card__arrow">Explore <span aria-hidden="true">→</span></div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+      <p class="oak-hero__hint" aria-hidden="true">Scroll — watch it grow ↓</p>
+    </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-section-head">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:12px">What clients say</div>
-          <h2 class="v4-section-h">Proof</h2>
-        </div>
+    <!-- ═══ THE BEDROCK — PHILOSOPHY ═══ -->
+    <section class="oak-bedrock">
+      <!-- Parallax Dunnottar scene: sea + headland (far), sea stacks + mist (mid), castle rock (near) -->
+      <div class="oak-bedrock__cliffs" aria-hidden="true">
+        <svg class="oak-cliff" data-speed="-6" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+          <!-- North Sea -->
+          <rect x="0" y="400" width="1440" height="200" fill="#6f8189" opacity="0.28" />
+          <line x1="0" y1="400" x2="1440" y2="400" stroke="#5c6d75" stroke-width="1.5" opacity="0.4" />
+          <!-- far headland -->
+          <path d="M0 400 L0 356 L130 344 L270 368 L380 400 Z" fill="#8b979c" opacity="0.4" />
+          <!-- wave strokes -->
+          <g stroke="#5c6d75" stroke-width="1.5" fill="none" opacity="0.3" stroke-linecap="round">
+            <path d="M120 468 q 24 -7 48 0" />
+            <path d="M300 510 q 20 -6 40 0" />
+            <path d="M520 460 q 24 -7 48 0" />
+            <path d="M240 445 q 16 -5 32 0" />
+          </g>
+          <!-- birds -->
+          <path d="M430 250 q 7 -7 14 0 q 7 -7 14 0" stroke="#3a444b" stroke-width="1.6" fill="none" opacity="0.4" />
+          <path d="M505 288 q 5 -5 10 0 q 5 -5 10 0" stroke="#3a444b" stroke-width="1.4" fill="none" opacity="0.3" />
+        </svg>
+        <svg class="oak-cliff" data-speed="-12" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+          <!-- sea stacks off the point -->
+          <path d="M560 600 L572 468 L594 452 L612 480 L620 600 Z" fill="#667380" opacity="0.5" />
+          <path d="M652 600 L660 512 L676 500 L688 524 L692 600 Z" fill="#667380" opacity="0.42" />
+          <!-- rolling mist over the water -->
+          <ellipse cx="380" cy="430" rx="320" ry="46" fill="#f2eee4" opacity="0.4" />
+          <ellipse cx="900" cy="470" rx="380" ry="54" fill="#f2eee4" opacity="0.32" />
+        </svg>
+        <svg class="oak-cliff" data-speed="-20" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+          <!-- Dunnottar rock: sheer-sided promontory joined to the mainland by a low saddle -->
+          <path d="M760 600 L768 430 L782 300 L790 252 L1118 250 L1132 322 L1152 372 L1182 384 L1236 372 L1310 334 L1380 314 L1440 306 L1440 600 Z" fill="#3a444b" opacity="0.92" />
+          <!-- rock strata -->
+          <g stroke="#26302c" stroke-width="2" fill="none" opacity="0.22">
+            <path d="M790 340 C860 332 940 336 1010 330" />
+            <path d="M780 430 C870 418 980 424 1090 414" />
+            <path d="M775 520 C880 506 1000 512 1115 500" />
+          </g>
+          <!-- the castle ruins on the plateau -->
+          <g fill="#2c353c">
+            <!-- ruined gable -->
+            <path d="M812 252 L812 216 L826 200 L832 252 Z" />
+            <!-- low curtain wall -->
+            <path d="M842 252 L842 228 L930 220 L930 252 Z" />
+            <!-- broken wall blocks -->
+            <path d="M940 252 L940 210 L962 202 L982 212 L982 252 Z" />
+            <path d="M992 252 L992 192 L1022 184 L1032 196 L1032 252 Z" />
+            <!-- the keep, gabled -->
+            <path d="M1042 252 L1042 172 L1049 164 L1049 150 L1065 136 L1081 150 L1081 164 L1088 172 L1088 252 Z" />
+          </g>
+          <!-- window slits on the keep -->
+          <g stroke="#8b979c" stroke-width="2" opacity="0.5" stroke-linecap="round">
+            <path d="M1058 190 V202" />
+            <path d="M1072 190 V202" />
+            <path d="M1065 218 V232" />
+            <path d="M1006 210 V224" />
+          </g>
+          <!-- grass lip on the plateau edge -->
+          <path d="M786 254 C880 246 1010 246 1122 252" stroke="#47714b" stroke-width="4" fill="none" opacity="0.55" stroke-linecap="round" />
+        </svg>
       </div>
-      <div class="v4-testimonials" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
-        {testimonials.map(t => (
-          <div class="v4-testimonial">
-            <p class="v4-testimonial__quote">"{t.quote}"</p>
-            <div class="v4-testimonial__attr">
-              <div>
-                <div class="v4-testimonial__name">{t.name}</div>
-                <div class="v4-testimonial__role">{t.role} · {t.company}{t.location ? ` · ${t.location}` : ''}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
-  <!-- FAQ -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:800px">
-      <div class="v4-section-head">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:12px">Common questions</div>
-          <h2 class="v4-section-h">FAQ</h2>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
-        {faq.map(item => (
-          <details class="v4-faq-item" style="background:var(--v4-panel)">
-            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
-              {item.q}
-              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
-            </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- EMAIL CAPTURE -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:720px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center">
-        <div>
-          <div class="v4-eyebrow" style="margin-bottom:12px">Free B2B marketing insights</div>
-          <h2 class="v4-section-h" style="margin-bottom:16px">Get the<br/>Playbook</h2>
-          <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.6">
-            Practical strategy, SEO and lead gen insights for Scottish B2B businesses — sent to your inbox. No fluff. Unsubscribe any time.
+      <div class="oak-wrap oak-bedrock__inner">
+        <div class="oak-panel" data-mist>
+          <p class="oak-eyebrow">The Bedrock</p>
+          <h2 class="oak-h2" data-etch>Built on stone,<br />not sand.</h2>
+          <p class="oak-lead">
+            Stonehaven has weathered every storm the North Sea could send for a
+            thousand years. That's how I build marketing: <strong>strategy first,
+            then execution</strong> — positioning, SEO, paid media, and automation,
+            all bearing on the same foundation. Most marketing problems aren't
+            channel problems; they're strategy problems. Fix the upstream problem
+            and everything downstream stands firm.
           </p>
-        </div>
-        <form
-          action="https://formspree.io/f/xkoabzbd"
-          method="POST"
-          style="display:flex;flex-direction:column;gap:10px"
-        >
-          <input type="hidden" name="_subject" value="Newsletter signup" />
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="your@company.com"
-            autocomplete="email"
-            style="width:100%;height:48px;padding:0 16px;border-radius:10px;border:1px solid var(--v4-line-soft);background:var(--v4-panel);color:var(--v4-ink);font-size:15px;font-family:var(--v4-body)"
-          />
-          <button type="submit" class="v4-btn v4-btn--primary" style="height:48px;justify-content:center">
-            Subscribe →
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- RECENT POSTS -->
-  {recentPosts.length > 0 && (
-    <section class="v4-block tight" style="background:var(--v4-bg-2)">
-      <div class="v4-wrap">
-        <div class="v4-section-head">
-          <div>
-            <div class="v4-eyebrow" style="margin-bottom:12px">From the journal</div>
-            <h2 class="v4-section-h">Insights</h2>
-          </div>
-          <a href="/journal" class="v4-btn v4-btn--outline" style="align-self:flex-end">All posts →</a>
-        </div>
-        <div class="v4-posts">
-          {recentPosts.map(post => (
-            <a href={`/journal/${post.slug}`} class="v4-post-card">
-              <div class="v4-post-card__body">
-                <div class="v4-post-card__cat">{post.entry.category}</div>
-                <div class="v4-post-card__title">{post.entry.title}</div>
-                <div class="v4-post-card__desc">{post.entry.description}</div>
-                <div class="v4-post-card__date">
-                  {post.entry.publishedDate
-                    ? new Date(post.entry.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-                    : ''}
-                </div>
+          <div class="oak-stats">
+            {numbers.map((n) => (
+              <div class="oak-stat">
+                <span class="oak-stat__num">{n.num}</span>
+                <span class="oak-stat__label">{n.label}</span>
               </div>
-            </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ THE FOUR SEASONS — SERVICES ═══ -->
+    <section class="oak-seasons">
+      <div class="oak-wrap">
+        <div data-mist>
+          <p class="oak-eyebrow">The Four Seasons</p>
+          <h2 class="oak-h2" data-etch>A season for every<br />stage of growth.</h2>
+        </div>
+        <div class="oak-seasons__grid">
+          {seasons.map((s) => (
+            <article class="oak-season" style={`--season-accent:${s.accent};--season-tint:${s.tint}`} data-mist>
+              <div class="oak-season__top">
+                <span class="oak-season__idx">{s.idx} · {s.season}</span>
+                <span class="oak-season__glyph" aria-hidden="true">
+                  {s.glyph === 'sprout' && (
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 25 V14" /><path d="M14 14 C14 8 8 5.5 4.5 7.5 C5.5 12 10 14 14 14 Z" /><path d="M14 14 C14 9 19.5 5.5 23.5 7.5 C22.5 12 18 14 14 14 Z" /></svg>
+                  )}
+                  {s.glyph === 'leaf' && (
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14 25 C13 18 13 12 14 4" /><path d="M14 4 C9 6 6 9 6.5 14 C7 18.5 10 21.5 14 22 C18 21.5 21 18.5 21.5 14 C22 9 19 6 14 4 Z" /></svg>
+                  )}
+                  {s.glyph === 'acorn' && (
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M14 3 V6" /><path d="M7 11 Q14 5.5 21 11 L20.5 13.5 Q14 10.5 7.5 13.5 Z" /><path d="M9 13 C9 19 11 23 14 25 C17 23 19 19 19 13" /></svg>
+                  )}
+                  {s.glyph === 'wind' && (
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 23 C10 19 15 19 24 12" /><path d="M13 17.5 C14 14 17 12.5 21 12.5" /><path d="M4 8 H13" /><path d="M6 12 H11" /></svg>
+                  )}
+                </span>
+              </div>
+              <h3 class="oak-season__name">{s.name}</h3>
+              <p class="oak-season__line">{s.line}</p>
+              <p class="oak-season__desc">{s.desc}</p>
+              <ul class="oak-season__services" role="list">
+                {s.services.map((sv) => (
+                  <li><a href={sv.href}>{sv.label} <span aria-hidden="true">→</span></a></li>
+                ))}
+              </ul>
+            </article>
           ))}
         </div>
       </div>
     </section>
-  )}
 
-  <!-- CLOSER -->
-  <section class="v4-block">
-    <div class="v4-wrap">
-      <div class="v4-closer">
-        <div class="v4-eyebrow" style="margin-bottom:16px">Ready to talk?</div>
-        <h2 class="v4-section-h" style="margin-bottom:16px">Let's Make Your<br/>Marketing Work</h2>
-        <p style="font-size:17px;color:var(--v4-ink-mute);max-width:560px;margin:0 auto 32px;line-height:1.6">
-          Book a free 30-minute strategy review. I'll look at what you're doing, what's working, and what's holding you back — then tell you exactly what I'd prioritise.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
-          <a href="/contact" class="v4-btn v4-btn--primary" style="font-size:15px;height:48px;padding:0 32px">
-            Book the free review →
+    <!-- ═══ THE HIGHLAND LEDGER — CASE STUDIES ═══ -->
+    <section class="oak-ledger" id="ledger">
+      <div class="oak-ledger__head oak-wrap" data-mist>
+        <p class="oak-eyebrow">The Highland Ledger</p>
+        <h2 class="oak-h2" data-etch>Local successes,<br />carved in results.</h2>
+      </div>
+      <div class="oak-ledger__track">
+        {cases.map((c, i) => (
+          <a href={`/work/${c.slug}`} class="oak-entry">
+            <span class="oak-entry__numeral" aria-hidden="true">{numerals[i]}</span>
+            {c.image && <img src={c.image} alt="" class="oak-entry__img" loading="lazy" />}
+            <div class="oak-entry__body">
+              <p class="oak-entry__meta">{c.year} · {c.descriptor}</p>
+              <h3 class="oak-entry__client">{c.client}</h3>
+              <p class="oak-entry__stat">{c.stat}</p>
+              <p class="oak-entry__sub">{c.statSub}</p>
+              <p class="oak-entry__summary">{c.summary}</p>
+              <span class="oak-entry__link">Read the entry →</span>
+            </div>
           </a>
-          <a href="/digital-marketing-aberdeen" class="v4-btn v4-btn--outline" style="font-size:15px;height:48px;padding:0 32px">
-            Digital marketing Aberdeen
-          </a>
+        ))}
+        <div class="oak-entry oak-entry--cta">
+          <div class="oak-entry__body">
+            <p class="oak-entry__meta">Your chapter</p>
+            <h3 class="oak-entry__client">Unwritten.</h3>
+            <p class="oak-entry__summary">The next entry in the ledger could carry your company's name.</p>
+            <a href="/contact" class="oak-btn oak-btn--primary">Start the Season →</a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ═══ ETCHED QUOTE ═══ -->
+    <section class="oak-etchquote">
+      <div class="oak-wrap" data-mist>
+        <blockquote class="oak-quote" data-etch>
+          “{etchQuote.quote}”
+        </blockquote>
+        <p class="oak-quote__attr">— {etchQuote.name}, {etchQuote.role}, {etchQuote.company}</p>
+      </div>
+    </section>
+
+    <!-- ═══ THE ALMANAC — FAQ ═══ -->
+    <section class="oak-faq">
+      <div class="oak-wrap oak-faq__wrap">
+        <div data-mist>
+          <p class="oak-eyebrow">The Almanac</p>
+          <h2 class="oak-h2" data-etch>Working with a marketing<br />consultant in Aberdeen</h2>
+        </div>
+        <div class="oak-faq__list" data-mist>
+          {homeFaq.map((item) => (
+            <details class="oak-faq__item">
+              <summary>
+                {item.q}
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ THE SHELTER — FOOTER MOMENT ═══ -->
+    <section class="oak-shelter">
+      <!-- The Ancient Oak on the cliffside -->
+      <svg class="oak-shelter__art" viewBox="0 0 1440 780" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="oak-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#c6d0d2" />
+            <stop offset="0.7" stop-color="#e6e4d8" />
+            <stop offset="1" stop-color="#f2eee4" />
+          </linearGradient>
+          <linearGradient id="oak-mist-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f2eee4" stop-opacity="0" />
+            <stop offset="0.5" stop-color="#f2eee4" stop-opacity="0.9" />
+            <stop offset="1" stop-color="#f2eee4" stop-opacity="0" />
+          </linearGradient>
+          <filter id="oak-water" x="-15%" y="-15%" width="130%" height="130%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="11" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="26" />
+          </filter>
+        </defs>
+
+        <rect width="1440" height="780" fill="url(#oak-sky)" />
+
+        <!-- North Sea -->
+        <rect x="0" y="600" width="1440" height="90" fill="#6f8189" opacity="0.4" />
+        <line x1="0" y1="600" x2="1440" y2="600" stroke="#5c6d75" stroke-width="1.5" opacity="0.45" />
+
+        <!-- Far headland -->
+        <path d="M0 600 L0 556 L140 540 L300 566 L430 552 L520 600 Z" fill="#8b979c" opacity="0.45" />
+
+        <!-- Seagulls — wings morph between d and data-flap while they glide
+             out over the sea (see shelterOak in oak-motion.js) -->
+        <path class="oak-gull" d="M680 250 q 7 -7 14 0 q 7 -7 14 0" data-flap="M680 250 q 7 4 14 0 q 7 4 14 0" stroke="#3a444b" stroke-width="1.6" fill="none" opacity="0.45" />
+        <path class="oak-gull" d="M755 292 q 5 -5 10 0 q 5 -5 10 0" data-flap="M755 292 q 5 3 10 0 q 5 3 10 0" stroke="#3a444b" stroke-width="1.4" fill="none" opacity="0.35" />
+        <path class="oak-gull" d="M600 212 q 4 -4 8 0 q 4 -4 8 0" data-flap="M600 212 q 4 2.5 8 0 q 4 2.5 8 0" stroke="#3a444b" stroke-width="1.2" fill="none" opacity="0.3" />
+
+        <!-- The cliff — a headland shelf, not a wall -->
+        <path d="M790 780 L800 640 L830 545 L900 505 L1000 490 L1150 495 L1300 480 L1440 490 L1440 780 Z" fill="#3a444b" />
+        <path d="M850 600 C910 588 970 592 1030 584 M900 668 C980 650 1070 658 1160 644" stroke="#26302c" stroke-width="2" fill="none" opacity="0.22" />
+
+        <!-- Trunk and limbs (limbs end inside the canopy) -->
+        <path d="M1025 494 C1032 486 1036 476 1038 460 C1040 438 1036 414 1044 392 C1050 374 1046 356 1054 340 L1064 340 C1072 358 1068 376 1074 394 C1082 418 1078 442 1080 462 C1082 478 1086 486 1094 494 Z" fill="#2f2a25" />
+        <g stroke="#2f2a25" fill="none" stroke-linecap="round">
+          <path stroke-width="9" d="M1056 348 C1032 324 1004 314 976 310" />
+          <path stroke-width="9" d="M1062 344 C1074 314 1094 300 1122 292" />
+          <path stroke-width="7" d="M1058 346 C1044 314 1048 296 1040 278" />
+          <path stroke-width="6" d="M1060 342 C1068 318 1064 298 1074 278" />
+        </g>
+
+        <!-- The canopy — watercolor mass, emerges from the mist -->
+        <g class="oak-tree__canopy" filter="url(#oak-water)">
+          <ellipse cx="1058" cy="268" rx="185" ry="92" fill="#2e4a36" opacity="0.96" />
+          <ellipse cx="940" cy="290" rx="118" ry="72" fill="#3d5c42" opacity="0.95" />
+          <ellipse cx="1170" cy="286" rx="124" ry="76" fill="#35513b" opacity="0.95" />
+          <ellipse cx="1052" cy="230" rx="148" ry="82" fill="#47714b" opacity="0.94" />
+          <ellipse cx="968" cy="222" rx="94" ry="62" fill="#547a52" opacity="0.92" />
+          <ellipse cx="1140" cy="220" rx="98" ry="64" fill="#3d5c42" opacity="0.92" />
+          <ellipse cx="1054" cy="186" rx="104" ry="56" fill="#5d8358" opacity="0.9" />
+          <ellipse cx="898" cy="264" rx="72" ry="50" fill="#35513b" opacity="0.93" />
+          <ellipse cx="1216" cy="258" rx="78" ry="52" fill="#47714b" opacity="0.93" />
+        </g>
+
+        <!-- Mist that clears on scroll -->
+        <rect class="oak-tree__mist" x="0" y="240" width="1440" height="330" fill="url(#oak-mist-g)" opacity="0.55" />
+      </svg>
+
+      <div class="oak-wrap oak-shelter__content">
+        <p class="oak-eyebrow">The Shelter</p>
+        <h2 class="oak-h2 oak-shelter__h" data-etch>Build your legacy.</h2>
+        <p class="oak-lead oak-shelter__lead">
+          Come sit in the shade of success. Book a free 30-minute strategy review —
+          I'll look at what you're doing, what's working, and what's holding you
+          back. No pitch, no agenda. Just a useful conversation.
+        </p>
+        <a href="/contact" class="oak-btn oak-btn--primary oak-btn--big">Start the Season →</a>
+      </div>
+    </section>
+  </div>
 </Layout>
 
+<script>
+  import '../scripts/oak-motion.js';
+</script>
+
+<!-- Seasonal Oak & Coast scene palettes, keyed to the nav's season toggle:
+     ◐ Winter (default dark) · ☀ Summer · ◑ Autumn · ○ Spring -->
+<style is:global>
+  /* Winter — slate night, frosted foliage */
+  body.v4 {
+    --oak-parchment: #131917;
+    --oak-parchment-2: #161d1b;
+    --oak-card: #1a2220;
+    --oak-ink: #e9e7da;
+    --oak-slate: #b9c0b4;
+    --oak-mute: #a3a99c;
+    --oak-dim: #78807a;
+    --oak-green: #8fae90;
+    --oak-green-2: #7d9884;
+    --oak-orange: #c98a4b;
+    --oak-heather: #9c85a3;
+    --oak-line: rgba(233, 231, 218, 0.14);
+    --oak-panel-glass: rgba(26, 34, 32, 0.86);
+    --oak-etch-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+    --oak-ledger-bg: #0d1211;
+    --oak-fol-1: #3d5747;
+    --oak-fol-2: #55705c;
+    --oak-fol-3: #718a76;
+    --oak-fol-4: #47624f;
+    --oak-fol-5: #42604d;
+    --oak-fol-6: #4c6a55;
+    --oak-fol-7: #5e7a64;
+    --oak-fol-8: #6c8871;
+    --oak-branch-ink: #d8d5c5;
+    --oak-leaf-line: #0f1713;
+    --oak-acorn-nut: #a97f4a;
+    --oak-acorn-cap: #6e5430;
+    --oak-wood: #0c100f;
+    --oak-rock: #1e2725;
+    --oak-castle: #141c1a;
+    --oak-sea: #223231;
+    --oak-sea-line: #46565e;
+    --oak-far: #1c2725;
+    --oak-mid-lyr: #192322;
+    --oak-mist-fill: #3e5251;
+    --oak-scene-ink: #0a0f0e;
+    --oak-sky-top: #202b30;
+    --oak-sky-mid: #182220;
+    --oak-bloom-title: #f4f2e6;
+    --oak-bloom-accent: #cfe0c8;
+    --oak-bloom-copy: #dde0d0;
+    --oak-btn-flip-bg: #e9e7da;
+    --oak-hero-glow-1: rgba(159, 179, 176, 0.12);
+    --oak-hero-glow-2: rgba(159, 179, 176, 0.07);
+    --oak-btn-flip-ink: #131917;
+  }
+
+  /* Summer — the canonical parchment and deep oak greens */
+  body.v4.is-light.tone-warm {
+    --oak-parchment: #f2eee4;
+    --oak-parchment-2: #eae4d6;
+    --oak-card: #faf7ee;
+    --oak-ink: #26302c;
+    --oak-slate: #46525a;
+    --oak-mute: #4c5852;
+    --oak-dim: #6b7570;
+    --oak-green: #2e4a36;
+    --oak-green-2: #47714b;
+    --oak-orange: #b85c2e;
+    --oak-heather: #7d6584;
+    --oak-line: rgba(38, 48, 44, 0.14);
+    --oak-panel-glass: rgba(250, 247, 238, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    --oak-ledger-bg: #26302c;
+    --oak-fol-1: #2e4a36;
+    --oak-fol-2: #47714b;
+    --oak-fol-3: #63875c;
+    --oak-fol-4: #3a5c40;
+    --oak-fol-5: #35513b;
+    --oak-fol-6: #3d5c42;
+    --oak-fol-7: #547a52;
+    --oak-fol-8: #5d8358;
+    --oak-branch-ink: #2b2f2a;
+    --oak-leaf-line: #26302c;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #5d431f;
+    --oak-wood: #2f2a25;
+    --oak-rock: #3a444b;
+    --oak-castle: #2c353c;
+    --oak-sea: #6f8189;
+    --oak-sea-line: #5c6d75;
+    --oak-far: #8b979c;
+    --oak-mid-lyr: #667380;
+    --oak-mist-fill: #f2eee4;
+    --oak-scene-ink: #26302c;
+    --oak-sky-top: #c6d0d2;
+    --oak-sky-mid: #e6e4d8;
+    --oak-bloom-title: #f6f3ea;
+    --oak-bloom-accent: #dbe6cf;
+    --oak-bloom-copy: #e9ebde;
+    --oak-btn-flip-bg: #f2eee4;
+    --oak-hero-glow-1: rgba(198, 208, 210, 0.5);
+    --oak-hero-glow-2: rgba(139, 151, 156, 0.28);
+    --oak-btn-flip-ink: #26302c;
+  }
+
+  /* Autumn — cool October light, foliage turned amber and rust */
+  body.v4.is-light.tone-cool {
+    --oak-parchment: #edeae2;
+    --oak-parchment-2: #e4e0d5;
+    --oak-card: #f6f4ec;
+    --oak-ink: #2b2a24;
+    --oak-slate: #4d4a42;
+    --oak-mute: #56534a;
+    --oak-dim: #767268;
+    --oak-green: #8a4a26;
+    --oak-green-2: #a05e2c;
+    --oak-orange: #b85c2e;
+    --oak-heather: #7d6584;
+    --oak-line: rgba(43, 41, 34, 0.15);
+    --oak-panel-glass: rgba(246, 244, 236, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    --oak-ledger-bg: #2b241d;
+    --oak-fol-1: #8a4a26;
+    --oak-fol-2: #b06a32;
+    --oak-fol-3: #c98a4b;
+    --oak-fol-4: #96562a;
+    --oak-fol-5: #7c451f;
+    --oak-fol-6: #a05e2c;
+    --oak-fol-7: #b87840;
+    --oak-fol-8: #c99a55;
+    --oak-branch-ink: #2f2a22;
+    --oak-leaf-line: #52351f;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #55401f;
+    --oak-wood: #2a251e;
+    --oak-rock: #454b4e;
+    --oak-castle: #34393c;
+    --oak-sea: #7b878c;
+    --oak-sea-line: #66727a;
+    --oak-far: #979e9e;
+    --oak-mid-lyr: #6f7a7d;
+    --oak-mist-fill: #edeae2;
+    --oak-scene-ink: #2b2a24;
+    --oak-sky-top: #c3c9c9;
+    --oak-sky-mid: #e2ded2;
+    --oak-bloom-title: #faf4e8;
+    --oak-bloom-accent: #f4dcc0;
+    --oak-bloom-copy: #f0e6d4;
+    --oak-btn-flip-bg: #edeae2;
+    --oak-hero-glow-1: rgba(195, 201, 201, 0.5);
+    --oak-hero-glow-2: rgba(151, 158, 158, 0.26);
+    --oak-btn-flip-ink: #2b2a24;
+  }
+
+  /* Spring — palest paper, fresh young greens */
+  body.v4.is-light.tone-bright {
+    --oak-parchment: #f7f6ef;
+    --oak-parchment-2: #eff0e5;
+    --oak-card: #fdfcf7;
+    --oak-ink: #24312a;
+    --oak-slate: #45564b;
+    --oak-mute: #4c5c50;
+    --oak-dim: #6e7f71;
+    --oak-green: #3d6b46;
+    --oak-green-2: #56824a;
+    --oak-orange: #b85c2e;
+    --oak-heather: #8b6f8e;
+    --oak-line: rgba(38, 48, 40, 0.13);
+    --oak-panel-glass: rgba(253, 252, 247, 0.88);
+    --oak-etch-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    --oak-ledger-bg: #243026;
+    --oak-fol-1: #4e7a4a;
+    --oak-fol-2: #6e9a5e;
+    --oak-fol-3: #8ab873;
+    --oak-fol-4: #5c8a54;
+    --oak-fol-5: #47714b;
+    --oak-fol-6: #63875c;
+    --oak-fol-7: #79a468;
+    --oak-fol-8: #97c281;
+    --oak-branch-ink: #2c352c;
+    --oak-leaf-line: #2e4a36;
+    --oak-acorn-nut: #9a6b30;
+    --oak-acorn-cap: #5d431f;
+    --oak-wood: #33302a;
+    --oak-rock: #4a545a;
+    --oak-castle: #39434b;
+    --oak-sea: #7f939b;
+    --oak-sea-line: #6a7e88;
+    --oak-far: #9aa8ad;
+    --oak-mid-lyr: #74838a;
+    --oak-mist-fill: #f7f6ef;
+    --oak-scene-ink: #24312a;
+    --oak-sky-top: #cddbd8;
+    --oak-sky-mid: #ecefe0;
+    --oak-bloom-title: #f8f7ec;
+    --oak-bloom-accent: #eaf2dc;
+    --oak-bloom-copy: #eef0e0;
+    --oak-btn-flip-bg: #f7f6ef;
+    --oak-hero-glow-1: rgba(205, 219, 216, 0.5);
+    --oak-hero-glow-2: rgba(154, 168, 173, 0.25);
+    --oak-btn-flip-ink: #24312a;
+  }
+</style>
+
 <style>
-  details.v4-faq-item summary::-webkit-details-marker { display: none; }
-  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
-  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
-  @media (max-width: 640px) {
-    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  /* ─── Oak & Coast ground (colour tokens are seasonal — see the
+         global style block above) ─────────────────────────────── */
+  .oak {
+    --oak-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --oak-mono: var(--v4-mono, 'Geist Mono', monospace);
+
+    background-color: var(--oak-parchment);
+    /* Weathered-parchment grain */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0.15 0 0 0 0 0.18 0 0 0 0 0.16 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23p)'/%3E%3C/svg%3E");
+    color: var(--oak-ink);
+    overflow-x: clip;
+  }
+
+  .oak-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+
+  /* ─── Seasonal recolouring of the inline SVG scenes ──────────
+         CSS wins over SVG presentation attributes, so these rules
+         retint every illustration when the season toggle changes. */
+  .oak [fill='#2e4a36'] { fill: var(--oak-fol-1); }
+  .oak [fill='#47714b'] { fill: var(--oak-fol-2); }
+  .oak [fill='#63875c'] { fill: var(--oak-fol-3); }
+  .oak [fill='#3a5c40'] { fill: var(--oak-fol-4); }
+  .oak [fill='#35513b'] { fill: var(--oak-fol-5); }
+  .oak [fill='#3d5c42'] { fill: var(--oak-fol-6); }
+  .oak [fill='#547a52'] { fill: var(--oak-fol-7); }
+  .oak [fill='#5d8358'] { fill: var(--oak-fol-8); }
+  .oak .oak-branch { stroke: var(--oak-branch-ink); }
+  .oak #oak-leaf-shape path { stroke: var(--oak-leaf-line); }
+  .oak #oak-acorn-shape ellipse { fill: var(--oak-acorn-nut); }
+  .oak #oak-acorn-shape path { fill: var(--oak-acorn-cap); }
+  .oak #oak-acorn-shape line { stroke: var(--oak-acorn-cap); }
+  .oak [fill='#2f2a25'] { fill: var(--oak-wood); }
+  .oak [stroke='#2f2a25'] { stroke: var(--oak-wood); }
+  .oak [fill='#3a444b'] { fill: var(--oak-rock); }
+  .oak [fill='#2c353c'] { fill: var(--oak-castle); }
+  .oak [fill='#6f8189'] { fill: var(--oak-sea); }
+  .oak [stroke='#5c6d75'] { stroke: var(--oak-sea-line); }
+  .oak [fill='#8b979c'] { fill: var(--oak-far); }
+  .oak [stroke='#8b979c'] { stroke: var(--oak-far); }
+  .oak [fill='#667380'] { fill: var(--oak-mid-lyr); }
+  .oak [fill='#f2eee4'] { fill: var(--oak-mist-fill); }
+  .oak [stroke='#26302c'] { stroke: var(--oak-scene-ink); }
+  .oak [stroke='#3a444b'] { stroke: var(--oak-scene-ink); }
+  .oak [stroke='#47714b'] { stroke: var(--oak-fol-2); }
+  .oak #oak-sky stop:nth-of-type(1) { stop-color: var(--oak-sky-top); }
+  .oak #oak-sky stop:nth-of-type(2) { stop-color: var(--oak-sky-mid); }
+  .oak #oak-sky stop:nth-of-type(3) { stop-color: var(--oak-parchment); }
+  .oak #oak-mist-g stop { stop-color: var(--oak-mist-fill); }
+
+  .oak-eyebrow {
+    font-family: var(--oak-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+    margin-bottom: 18px;
+  }
+
+  .oak-h2 {
+    font-family: var(--oak-serif);
+    font-weight: 500;
+    font-size: clamp(34px, 5vw, 60px);
+    line-height: 1.06;
+    letter-spacing: 0.005em;
+    color: var(--oak-ink);
+    margin: 0 0 24px;
+  }
+
+  .oak-lead {
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.7;
+    color: var(--oak-mute);
+    max-width: 640px;
+    font-weight: 300;
+  }
+  .oak-lead strong { color: var(--oak-ink); font-weight: 600; }
+
+  /* Buttons */
+  .oak-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 26px;
+    border-radius: 3px;
+    font-family: var(--oak-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease,
+      transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .oak-btn--primary {
+    background: var(--oak-ink);
+    color: var(--oak-parchment);
+  }
+  .oak-btn--primary:hover { background: var(--oak-green); }
+  .oak-btn--ghost {
+    border: 1px solid var(--oak-line);
+    color: var(--oak-ink);
+  }
+  .oak-btn--ghost:hover { border-color: var(--oak-ink); }
+  .oak-btn--big { height: 54px; padding: 0 34px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .oak-btn:hover { transform: translateY(-1px); }
+    .oak-btn:active { transform: translateY(0) scale(0.98); }
+  }
+
+  /* ─── Hero ───────────────────────────────────────────────────── */
+  .oak-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    /* Highland mist rolling off the top corner (seasonal strength) */
+    background-image:
+      radial-gradient(900px 500px at 85% -5%, var(--oak-hero-glow-1), transparent 65%),
+      radial-gradient(700px 420px at -10% 110%, var(--oak-hero-glow-2), transparent 60%);
+  }
+
+  .oak-hero__grid {
+    width: 100%;
+    padding-top: 110px;
+    padding-bottom: 80px;
+  }
+
+  .oak-hero__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+
+  .oak-hero__eyebrow {
+    font-family: var(--oak-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+    margin-bottom: 30px;
+  }
+
+  .oak-hero__title {
+    font-family: var(--oak-serif);
+    font-weight: 560;
+    font-size: clamp(46px, 7.2vw, 96px);
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    margin: 0 0 26px;
+    color: var(--oak-ink);
+  }
+  .oak-hero__title .oak-line { display: block; }
+  .oak-line--accent { color: var(--oak-green); font-style: italic; font-weight: 480; }
+
+  /* Keyword line inside the H1 — small, quiet, but real heading text */
+  .oak-hero__kicker {
+    font-family: var(--oak-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--oak-mute);
+    margin-top: 18px;
+  }
+
+  .oak-hero__sub {
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.65;
+    color: var(--oak-mute);
+    max-width: 520px;
+    font-weight: 300;
+    margin-bottom: 34px;
+  }
+
+  .oak-hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; }
+
+  .oak-hero__foot {
+    font-family: var(--oak-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--oak-dim);
+  }
+
+  .oak-hero__art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .oak-sapling { width: 100%; height: 100%; display: block; }
+
+  .oak-hero__hint {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--oak-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+  }
+
+  /* ─── Bloom text flip — keeps the copy readable over the canopy.
+         The motion script toggles .is-bloomed at ~40% of the scrub;
+         colours come from the active season so the flip is always
+         theme-correct. Without JS the class never appears. ──────── */
+  .oak-hero__title .oak-line,
+  .oak-hero__eyebrow,
+  .oak-hero__sub,
+  .oak-hero__foot {
+    transition: color 0.7s ease;
+  }
+  /* The flip only applies on desktop, where the canopy actually grows
+     behind the copy. On tablet/phone the art is a band above the text. */
+  @media (min-width: 1025px) {
+    .oak-hero.is-bloomed .oak-hero__title .oak-line { color: var(--oak-bloom-title); }
+    .oak-hero.is-bloomed .oak-hero__title .oak-line--accent { color: var(--oak-bloom-accent); }
+    .oak-hero.is-bloomed .oak-hero__eyebrow,
+    .oak-hero.is-bloomed .oak-hero__sub,
+    .oak-hero.is-bloomed .oak-hero__foot { color: var(--oak-bloom-copy); }
+    .oak-hero.is-bloomed .oak-btn--ghost {
+      color: var(--oak-bloom-title);
+      border-color: color-mix(in srgb, var(--oak-bloom-title) 55%, transparent);
+    }
+    .oak-hero.is-bloomed .oak-btn--primary {
+      background: var(--oak-btn-flip-bg);
+      color: var(--oak-btn-flip-ink);
+    }
+  }
+
+  /* ─── Bedrock ────────────────────────────────────────────────── */
+  .oak-bedrock {
+    position: relative;
+    padding: clamp(120px, 16vh, 200px) 0 clamp(160px, 22vh, 260px);
+    overflow: hidden;
+  }
+  .oak-bedrock__cliffs { position: absolute; inset: 0; }
+  .oak-cliff { position: absolute; inset: 0; width: 100%; height: 110%; }
+  .oak-bedrock__inner { position: relative; z-index: 1; }
+
+  .oak-panel {
+    background: var(--oak-panel-glass);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--oak-line);
+    border-radius: 4px;
+    padding: clamp(32px, 5vw, 64px);
+    max-width: 780px;
+    box-shadow: 0 24px 60px rgba(38, 48, 44, 0.12);
+  }
+
+  .oak-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--oak-line);
+  }
+  .oak-stat__num {
+    display: block;
+    font-family: var(--oak-serif);
+    font-weight: 560;
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--oak-green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .oak-stat__label {
+    font-family: var(--oak-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+    line-height: 1.5;
+  }
+
+  /* ─── Four Seasons ───────────────────────────────────────────── */
+  .oak-seasons { padding: clamp(90px, 12vh, 150px) 0; }
+
+  .oak-seasons__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: clamp(40px, 6vh, 72px);
+  }
+
+  .oak-season {
+    position: relative;
+    background: var(--oak-card);
+    border: 1px solid var(--oak-line);
+    border-radius: 4px;
+    padding: 28px 26px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.35s ease, border-color 0.35s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease;
+  }
+  .oak-season:hover,
+  .oak-season:focus-within {
+    background: var(--season-tint);
+    border-color: var(--season-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(38, 48, 44, 0.1);
+  }
+
+  .oak-season__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 26px; }
+  .oak-season__idx {
+    font-family: var(--oak-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+  }
+  .oak-season__glyph { width: 28px; height: 28px; color: var(--oak-dim); transition: color 0.3s ease, transform 0.4s ease; }
+  .oak-season__glyph svg { width: 100%; height: 100%; }
+  .oak-season:hover .oak-season__glyph,
+  .oak-season:focus-within .oak-season__glyph { color: var(--season-accent); transform: rotate(-8deg) scale(1.12); }
+
+  .oak-season__name {
+    font-family: var(--oak-serif);
+    font-weight: 540;
+    font-size: 28px;
+    margin: 0 0 4px;
+    color: var(--oak-ink);
+  }
+  .oak-season__line {
+    font-family: var(--oak-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--season-accent);
+    margin-bottom: 14px;
+  }
+  .oak-season__desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--oak-mute);
+    font-weight: 300;
+    flex-grow: 1;
+    margin-bottom: 22px;
+  }
+  .oak-season__services { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--oak-line); }
+  .oak-season__services li a {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 2px;
+    font-family: var(--oak-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--oak-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--oak-line);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .oak-season__services li a:hover { color: var(--season-accent); padding-left: 8px; }
+
+  /* ─── Highland Ledger ────────────────────────────────────────── */
+  /* The ledger stays a dark carved slab in every season, so its
+     interior colours are fixed rather than seasonal. */
+  .oak-ledger {
+    background: var(--oak-ledger-bg);
+    color: #efece0;
+    padding: clamp(80px, 10vh, 120px) 0 clamp(60px, 8vh, 90px);
+    overflow: hidden;
+  }
+  .oak-ledger .oak-eyebrow { color: rgba(242, 238, 228, 0.5); }
+  .oak-ledger .oak-h2 { color: #f4f1e6; }
+  .oak-ledger__head { margin-bottom: clamp(40px, 6vh, 72px); }
+
+  .oak-ledger__track {
+    display: flex;
+    gap: clamp(20px, 3vw, 48px);
+    padding: 0 clamp(20px, 4vw, 48px);
+    width: max-content;
+  }
+
+  .oak-entry {
+    position: relative;
+    width: min(66vw, 860px);
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 3vw, 44px);
+    align-items: center;
+    padding: clamp(24px, 3vw, 44px);
+    border: 1px solid rgba(242, 238, 228, 0.14);
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .oak-entry:hover { border-color: rgba(242, 238, 228, 0.4); background: rgba(242, 238, 228, 0.03); }
+
+  .oak-entry__numeral {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    font-family: var(--oak-serif);
+    font-size: clamp(80px, 9vw, 150px);
+    font-weight: 300;
+    color: rgba(242, 238, 228, 0.07);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .oak-entry__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 3px;
+    filter: grayscale(1) contrast(1.08);
+    transition: filter 0.5s ease;
+  }
+  .oak-entry:hover .oak-entry__img { filter: grayscale(0.3) contrast(1.02); }
+
+  .oak-entry__body { min-width: 0; }
+  .oak-entry__meta {
+    font-family: var(--oak-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(242, 238, 228, 0.5);
+    margin-bottom: 10px;
+  }
+  .oak-entry__client {
+    font-family: var(--oak-serif);
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 0 0 14px;
+  }
+  .oak-entry__stat {
+    font-family: var(--oak-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1;
+    color: #d9a06b;
+    margin-bottom: 6px;
+  }
+  .oak-entry__sub {
+    font-family: var(--oak-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(242, 238, 228, 0.55);
+    margin-bottom: 18px;
+  }
+  .oak-entry__summary {
+    font-size: 14.5px;
+    line-height: 1.65;
+    font-weight: 300;
+    color: rgba(242, 238, 228, 0.75);
+    margin-bottom: 20px;
+  }
+  .oak-entry__link {
+    font-family: var(--oak-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--oak-parchment);
+  }
+
+  .oak-entry--cta { grid-template-columns: 1fr; width: min(50vw, 560px); text-align: left; }
+  .oak-entry--cta .oak-btn--primary { background: #efece0; color: #1c2422; margin-top: 6px; }
+  .oak-entry--cta .oak-btn--primary:hover { background: #fff; }
+
+  /* Entries without an image collapse to a single column */
+  .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)) { grid-template-columns: 1fr; width: min(46vw, 560px); }
+
+  /* ─── Etched quote ───────────────────────────────────────────── */
+  .oak-etchquote { padding: clamp(100px, 14vh, 170px) 0; text-align: center; }
+  .oak-quote {
+    font-family: var(--oak-serif);
+    font-style: italic;
+    font-weight: 420;
+    font-size: clamp(21px, 2.8vw, 32px);
+    line-height: 1.5;
+    color: var(--oak-slate);
+    max-width: 880px;
+    margin: 0 auto 28px;
+    text-shadow: var(--oak-etch-shadow);
+  }
+  .oak-quote__attr {
+    font-family: var(--oak-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--oak-dim);
+  }
+
+  /* ─── The Almanac (FAQ) ──────────────────────────────────────── */
+  .oak-faq { padding: 0 0 clamp(90px, 12vh, 150px); }
+  .oak-faq__wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+  .oak-faq__list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--oak-line);
+  }
+  .oak-faq__item { border-bottom: 1px solid var(--oak-line); }
+  .oak-faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 4px;
+    font-family: var(--oak-serif);
+    font-weight: 520;
+    font-size: 18px;
+    color: var(--oak-ink);
+  }
+  .oak-faq__item summary::-webkit-details-marker { display: none; }
+  .oak-faq__item summary span {
+    flex-shrink: 0;
+    color: var(--oak-dim);
+    font-family: var(--oak-mono);
+    transition: transform 0.2s ease;
+  }
+  .oak-faq__item[open] summary span { transform: rotate(45deg); }
+  .oak-faq__item p {
+    padding: 0 4px 22px;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--oak-mute);
+    max-width: 60ch;
+  }
+
+  /* ─── The Shelter ────────────────────────────────────────────── */
+  .oak-shelter {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .oak-shelter__art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .oak-shelter__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 100px;
+    max-width: 1200px;
+  }
+  .oak-shelter__h { font-size: clamp(40px, 6vw, 76px); }
+  .oak-shelter__lead { max-width: 480px; margin-bottom: 36px; }
+
+  /* ─── Responsive ─────────────────────────────────────────────── */
+  /* Tablet and below: the bough becomes a full-width band ABOVE the
+     copy instead of a full-bleed backdrop, so it never eats the words.
+     The hero pin and text flip are desktop-only (see oak-motion.js). */
+  @media (max-width: 1024px) {
+    .oak-hero { min-height: 0; }
+    .oak-hero__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 16px;
+      padding-bottom: 56px;
+    }
+    .oak-hero__art {
+      position: relative;
+      inset: auto;
+      order: -1;
+      height: clamp(220px, 34vh, 380px);
+      margin-inline: calc(-1 * clamp(20px, 4vw, 48px));
+    }
+    .oak-hero__hint { display: none; }
+
+    .oak-seasons__grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Ledger: native swipe scroll instead of pin */
+    .oak-ledger__track {
+      overflow-x: auto;
+      width: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 16px;
+    }
+    .oak-entry {
+      width: min(78vw, 620px);
+      grid-template-columns: 1fr;
+      scroll-snap-align: center;
+    }
+    .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)),
+    .oak-entry--cta { width: min(78vw, 620px); }
+
+    .oak-faq__wrap { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  @media (max-width: 760px) {
+    .oak-hero__grid { padding-bottom: 44px; }
+    .oak-hero__title { font-size: clamp(40px, 11vw, 54px); }
+
+    .oak-bedrock { padding-bottom: clamp(200px, 30vh, 300px); }
+
+    .oak-seasons__grid { grid-template-columns: 1fr; }
+
+    .oak-entry,
+    .oak-entry:not(.oak-entry--cta):not(:has(.oak-entry__img)),
+    .oak-entry--cta { width: 85vw; }
+    .oak-entry__numeral { font-size: 72px; }
+
+    .oak-shelter { min-height: 0; }
+    .oak-shelter__art { position: static; height: 320px; }
+    .oak-shelter { flex-direction: column; align-items: stretch; }
+    .oak-shelter__content { padding-top: 8px; padding-bottom: 64px; }
   }
 </style>
