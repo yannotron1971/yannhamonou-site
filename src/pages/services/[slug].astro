@@ -3,19 +3,17 @@ import Layout from '../../layouts/Layout.astro';
 import { services } from '../../data/index';
 
 export function getStaticPaths() {
-  return services.map(s => ({
-    params: { slug: s.slug },
-    props: { service: s },
-  }));
+  // seo-aberdeen has a dedicated page at services/seo-aberdeen.astro
+  return services
+    .filter(s => s.slug !== 'seo-aberdeen')
+    .map(s => ({
+      params: { slug: s.slug },
+      props: { service: s },
+    }));
 }
 
 const { service } = Astro.props;
 const otherServices = services.filter(s => s.slug !== service.slug);
-
-// Redirect the SEO slug to its dedicated page
-if (service.slug === 'seo-aberdeen') {
-  return Astro.redirect('/services/seo-aberdeen', 301);
-}
 
 const s = service as any;
 ---
