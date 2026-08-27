@@ -169,9 +169,40 @@ Absolutely-positioned `div`s. `filter: blur(40px)`. `opacity: 0.5`. Dark: `mix-b
 
 ## Motion
 
-- Page entrance: subtle fade + translate-up on first load. Gate behind `prefers-reduced-motion`.
+All scripted motion lives in `src/scripts/motion.js` (GSAP + ScrollTrigger, loaded once from
+`Layout.astro`). Everything sits inside a `prefers-reduced-motion: no-preference` matchMedia
+context, so reduced-motion visitors and no-JS visitors get the static page.
+
+### Layers
+
+| Layer | What it covers | Treatment |
+|---|---|---|
+| Hero | `.v4-hero` on the homepage | Timeline: smoke fade, eyebrow drop, headline lines stagger, rule wipe, supporting content rise |
+| Lead block | First `.v4-block` on any page without a hero | Page-load rise, `y: 26` · `0.9s` · `expo.out`, layers offset 90ms |
+| Section heads | `.v4-section-head` | `y: 22` · `0.8s` · `expo.out`, children stagger 100ms |
+| Item groups | `.v4-works-rail` (slides `x: 56`), `.v4-services`, `.v4-testimonials`, `.v4-posts`, `.v4-intro__stats`, plus any grid or ≥3-child flex container found structurally | Sibling stagger, `y: 24` · `0.75s` · `power3.out`, total stagger capped at 450ms |
+| Copy runs | Consecutive headings/paragraphs/buttons in a section wrap | `y: 18` · `0.75s` · `expo.out`, stagger 70ms |
+| Stats | `.v4-stat__num`, `[data-count]` | Count-up to value, `1.4s` · `power2.out`, exact source text restored on completion |
+| Ambient | `.v4-smoke`, hero scroll arrow | Slow looping drift, `sine.inOut` |
+
+Item groups go through `ScrollTrigger.batch`, not one shared trigger. At desktop widths a grid's
+items sit side by side and enter as a single batch that staggers; the same grid collapsed to one
+column at ≤760px would otherwise run its whole stagger the moment item 1 crossed the line, leaving
+items 2 and 3 already settled before they scrolled into view. Batching gives each stacked item its
+own entrance.
+
+Scroll reveals fire once at `top 88%` (`top 85%` for the hand-tuned groups). Inner pages carry
+no reusable class hooks, so the generic pass reads each `.v4-block`'s wrap structurally and picks
+the copy-run or item-group treatment per layer. `.v4-prose` article bodies are deliberately
+untouched — no per-paragraph reveals in long-form reading.
+
+### Rules
+
+- Entrance animations end fully visible. Never gate content visibility on a class-triggered transition.
+- Hand-tuned moments mark their targets with `data-motion`; the generic pass steps around them so nothing animates twice.
+- A watchdog force-completes every pending reveal if the GSAP ticker never advances (throttled tab, headless render) and on `beforeprint`, so no section can ship blank.
+- `ScrollTrigger.refresh()` runs on `document.fonts.ready` — the Archivo swap at `font-stretch: 75%` shifts layout enough to leave triggers at stale offsets.
 - Hover: links fade `0.15s ease`. Buttons invert `0.2s ease`. Cards lift to `--v4-panel-3` `0.2s ease`.
-- Entrance animations end state = fully visible. Never gate content visibility on a class-triggered transition.
 - Reduced motion: crossfade or instant transition only.
 
 ## Accessibility
