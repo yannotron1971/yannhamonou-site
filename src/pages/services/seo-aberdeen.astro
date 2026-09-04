@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { services } from '../../data/index';
+import { services, logos } from '../../data/index';
 
 const service = services.find(s => s.slug === 'seo-aberdeen')!;
 const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
@@ -224,6 +224,15 @@ const faq = [
       <div style="background:var(--v4-panel);border-radius:16px;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
+            <img
+              src={logos.arnlea.src}
+              alt=""
+              width={logos.arnlea.w}
+              height={logos.arnlea.h}
+              class="v4-client-logo logo-dark-invert"
+              style="margin-bottom:18px"
+              loading="lazy"
+            />
             <div class="v4-eyebrow" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
             <h3 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(28px,4vw,52px);text-transform:uppercase;letter-spacing:-0.02em;color:var(--v4-accent-warm);margin-bottom:20px">
               #3 Rank in 4 Weeks

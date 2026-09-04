@@ -107,6 +107,17 @@ const s = service as any;
       <div style="background:var(--v4-panel);border-radius:16px;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
+            {s.proof.logo && (
+              <img
+                src={s.proof.logo.src}
+                alt=""
+                width={s.proof.logo.w}
+                height={s.proof.logo.h}
+                class={`v4-client-logo${s.proof.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                style="margin-bottom:20px"
+                loading="lazy"
+              />
+            )}
             <blockquote style="margin:0 0 24px">
               <p style="font-size:clamp(16px,2vw,20px);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:16px">
                 "{s.proof.quote}"

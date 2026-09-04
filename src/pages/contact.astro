@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { logos } from '../data/index';
 ---
 
 <Layout
@@ -92,6 +93,15 @@ import Layout from '../layouts/Layout.astro';
 
           <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
             <div class="v4-eyebrow" style="margin-bottom:16px">What clients say</div>
+            <img
+              src={logos.viewport3.src}
+              alt=""
+              width={logos.viewport3.w}
+              height={logos.viewport3.h}
+              class="v4-client-logo logo-dark-invert"
+              style="margin-bottom:14px"
+              loading="lazy"
+            />
             <blockquote style="margin:0">
               <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:12px">
                 "Within three months we saw measurable results in both organic traffic and lead quality."

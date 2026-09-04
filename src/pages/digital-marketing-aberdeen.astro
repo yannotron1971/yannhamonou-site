@@ -173,6 +173,16 @@ const faq = [
             onmouseout="this.style.background='var(--v4-panel)'"
           >
             <div>
+              {c.logo && (
+                <img
+                  src={c.logo.src}
+                  alt=""
+                  width={c.logo.w}
+                  height={c.logo.h}
+                  class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                  loading="lazy"
+                />
+              )}
               <div class="v4-eyebrow" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
               <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(22px,3vw,36px);text-transform:uppercase;letter-spacing:-0.015em;color:var(--v4-accent-warm);margin-bottom:8px">
                 {c.client}
@@ -200,6 +210,18 @@ const faq = [
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
         {testimonials.map(t => (
           <div class="v4-testimonial">
+            <div class="v4-testimonial__logo">
+              {t.logo && (
+                <img
+                  src={t.logo.src}
+                  alt=""
+                  width={t.logo.w}
+                  height={t.logo.h}
+                  class={`v4-client-logo${t.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                  loading="lazy"
+                />
+              )}
+            </div>
             <p class="v4-testimonial__quote">"{t.quote}"</p>
             <div class="v4-testimonial__attr">
               <div>

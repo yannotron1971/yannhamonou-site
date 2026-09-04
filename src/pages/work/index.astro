@@ -28,6 +28,16 @@ import { cases } from '../../data/index';
             onmouseout="this.style.background='var(--v4-panel)'"
           >
             <div>
+              {c.logo && (
+                <img
+                  src={c.logo.src}
+                  alt=""
+                  width={c.logo.w}
+                  height={c.logo.h}
+                  class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                  loading="lazy"
+                />
+              )}
               <div class="v4-eyebrow" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
               <h2 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(24px,3vw,40px);text-transform:uppercase;letter-spacing:-0.015em;color:var(--v4-accent-warm);margin-bottom:8px">
                 {c.client}

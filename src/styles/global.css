@@ -721,8 +721,63 @@ img.v4-marquee__item {
   display: block;
 }
 
-.logo-dark-invert { filter: invert(1); }
+/* Dark-ink marks render as a clean white silhouette on the dark theme.
+   brightness(0) first so a coloured dark mark doesn't invert to a random hue. */
+.logo-dark-invert { filter: brightness(0) invert(1); }
 .is-light .logo-dark-invert { filter: none; }
+
+/* ─────────────────────────────────────────────────────────────
+   CLIENT LOGOS (outside the marquee)
+───────────────────────────────────────────────────────────── */
+
+/* Shared sizing for client logos surfaced on case cards, testimonials and
+   case-study heroes. Constrain height, never width — the marks range from
+   2.2:1 to 5:1, so a fixed width squashes the wide ones. */
+.v4-client-logo {
+  height: 26px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
+
+.v4-client-logo--lg { height: 40px; max-width: 240px; }
+
+/* Fixed-height slot so testimonial cards stay aligned even when a client
+   has no logo on file. */
+.v4-testimonial__logo {
+  height: 26px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+}
+
+/* Case-list rows put the logo above the client name. */
+.v4-case-row__logo { margin-bottom: 14px; }
+
+/* Work cards sit over imagery, so the logo gets its own light chip and keeps
+   its real brand colour rather than being inverted. */
+.v4-work-card__badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: oklch(1 0 0 / 0.92);
+  box-shadow: 0 2px 10px oklch(0 0 0 / 0.18);
+}
+
+.v4-work-card__badge img {
+  height: 20px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  display: block;
+}
 
 /* ─────────────────────────────────────────────────────────────
    TESTIMONIALS

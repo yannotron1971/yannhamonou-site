@@ -79,7 +79,7 @@ const recentPosts = allPosts
   <div class="v4-marquee-wrap" aria-hidden="true">
     <div class="v4-marquee">
       {[...clients, ...clients].map(c => (
-        <img src={c.logo} alt={c.name} width={c.w} height={c.h} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
+        <img src={c.src} alt={c.name} width={c.w} height={c.h} class={`v4-marquee__item${c.darkInvert ? ' logo-dark-invert' : ''}`} loading="lazy" />
       ))}
     </div>
   </div>
@@ -126,6 +126,11 @@ const recentPosts = allPosts
         {cases.map(c => (
           <a href={`/work/${c.slug}`} class="v4-work-card" aria-label={`${c.client} — ${c.descriptor}`}>
             {c.image && typeof c.image === 'string' && <img src={c.image} alt={c.client} class="v4-work-card__img" loading="lazy" />}
+            {c.logo && (
+              <div class="v4-work-card__badge">
+                <img src={c.logo.src} alt="" width={c.logo.w} height={c.logo.h} loading="lazy" />
+              </div>
+            )}
             <div class="v4-work-card__foot">
               <div class="v4-work-card__client">{c.client}</div>
               <div class="v4-work-card__meta">{c.year} · {c.descriptor}</div>
@@ -171,6 +176,18 @@ const recentPosts = allPosts
       <div class="v4-testimonials" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
         {testimonials.map(t => (
           <div class="v4-testimonial">
+            <div class="v4-testimonial__logo">
+              {t.logo && (
+                <img
+                  src={t.logo.src}
+                  alt=""
+                  width={t.logo.w}
+                  height={t.logo.h}
+                  class={`v4-client-logo${t.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                  loading="lazy"
+                />
+              )}
+            </div>
             <p class="v4-testimonial__quote">"{t.quote}"</p>
             <div class="v4-testimonial__attr">
               <div>
