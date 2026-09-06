@@ -58,9 +58,9 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ CLIENTS ═══ -->
-  <section class="edge-block edge-block--paper edge-block--full">
+  <section class="edge-block edge-block--paper">
     <div class="edge-wrap">
-      <p class="edge-label">Trusted by</p>
+      <p class="edge-label">Current projects</p>
       <ul class="edge-clients" role="list">
         {clients.map(c => (
           <li>
@@ -79,7 +79,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ WORK ═══ -->
-  <section class="edge-block edge-block--ink" id="work">
+  <section class="edge-block edge-block--dark edge-block--ink" id="work">
     <div class="edge-wrap">
       <div class="edge-head">
         <p class="edge-label">02 — Selected work</p>
@@ -111,7 +111,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ SERVICES ═══ -->
-  <section class="edge-block" id="services">
+  <section class="edge-block edge-block--mist" id="services">
     <div class="edge-wrap">
       <div class="edge-head">
         <p class="edge-label">03 — What I do</p>
@@ -132,7 +132,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ PROOF ═══ -->
-  <section class="edge-block" id="proof">
+  <section class="edge-block edge-block--dark edge-block--slate" id="proof">
     <div class="edge-wrap">
       <div class="edge-head">
         <p class="edge-label">04 — What clients say</p>
@@ -162,7 +162,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ FAQ — kept in full: this is the FAQ-schema and AI-answer surface ═══ -->
-  <section class="edge-block" id="faq">
+  <section class="edge-block edge-block--sand" id="faq">
     <div class="edge-wrap edge-wrap--narrow">
       <div class="edge-head">
         <p class="edge-label">05 — Common questions</p>
@@ -184,7 +184,7 @@ const recentPosts = allPosts
 
   <!-- ═══ JOURNAL ═══ -->
   {recentPosts.length > 0 && (
-    <section class="edge-block" id="journal">
+    <section class="edge-block edge-block--bone" id="journal">
       <div class="edge-wrap">
         <div class="edge-head">
           <p class="edge-label">06 — From the journal</p>
@@ -206,7 +206,7 @@ const recentPosts = allPosts
   )}
 
   <!-- ═══ CTA ═══ -->
-  <section class="edge-block edge-cta">
+  <section class="edge-block edge-block--dark edge-block--pitch edge-cta">
     <div class="edge-wrap edge-wrap--narrow">
       <h2 class="edge-h2 edge-cta__h">Let's make your<br />marketing work.</h2>
       <p class="edge-cta__p">
@@ -232,19 +232,16 @@ const recentPosts = allPosts
   }
   .edge-wrap--narrow { max-width: 780px; }
 
-  .edge-block { padding-block: clamp(90px, 14vh, 200px); }
-
-  /* A block that takes the whole screen. Four marks on a thin band read as a
-     footnote between two chapters; given the viewport and a paper ground they
-     become the pause between them. min-height, not height, so a short screen
-     can still grow past it, and svh so mobile browser chrome cannot push the
-     last logo under the fold. */
-  .edge-block--full {
+  /* Every block owns a screen. min-height, not height: a phone, a short
+     laptop or a long FAQ grows past it rather than clipping, which is the
+     honest limit of this idea on small viewports. svh, so mobile browser
+     chrome cannot push the last line under the fold. */
+  .edge-block {
     min-height: 100vh;
     min-height: 100svh;
     display: grid;
     align-content: center;
-    padding-block: clamp(60px, 10vh, 120px);
+    padding-block: clamp(72px, 12vh, 160px);
   }
 
   /* ── Micro-labels: the Space Mono voice ── */
@@ -348,12 +345,23 @@ const recentPosts = allPosts
   }
 
   /* ── Per-section grounds ──
-     white (default) · paper · ink · clear. Swap the modifier on any section. */
-  .edge-sheet > .edge-block { background: #ffffff; }
-  .edge-sheet > .edge-block--paper { background: #f3f2ee; }
+     One ladder, no hues: warm off-whites, cool off-whites, and three depths of
+     near-black. A monochrome page can give every section its own ground and
+     still read as one material — colour would not. Swap the modifier on any
+     section; --clear lets the hero field show through instead. */
+  .edge-sheet > .edge-block { background: #ffffff; }        /* 01 proposition */
+  .edge-sheet > .edge-block--paper { background: #f3f2ee; } /* current projects */
+  .edge-sheet > .edge-block--ink   { background: #151515; } /* 02 work */
+  .edge-sheet > .edge-block--mist  { background: #eceeee; } /* 03 services */
+  .edge-sheet > .edge-block--slate { background: #22262a; } /* 04 proof */
+  .edge-sheet > .edge-block--sand  { background: #e8e4dc; } /* 05 faq */
+  .edge-sheet > .edge-block--bone  { background: #f7f6f3; } /* 06 journal */
+  .edge-sheet > .edge-block--pitch { background: #0b0c0c; } /* the close */
   .edge-sheet > .edge-block--clear { background: transparent; }
-  .edge-sheet > .edge-block--ink {
-    background: #151515;
+
+  /* Any dark ground rebinds the ink tokens, so every rule written for the
+     light sheet works on it unchanged — no duplicate styles per section. */
+  .edge-sheet > .edge-block--dark {
     --v4-ink: #f2f1ec;
     --v4-ink-mute: #a2a5a3;
     --v4-ink-dim: #7c7f7d;
@@ -374,15 +382,17 @@ const recentPosts = allPosts
   /* Dark marks are inverted for the near-black hero. On white they must not be
      inverted, but they still get desaturated. */
   .edge-sheet :global(.logo-dark-invert) { filter: grayscale(1); }
-  /* On an ink band, pale marks are lifted and dark marks are silhouetted.
+  /* On any dark band, pale marks are lifted and dark marks are silhouetted.
      The invert must be anchored on the same element as the scoped class:
      Astro drops its scope attribute inside :global(), so a bare
-     `.edge-block--ink :global(.logo-dark-invert)` scores lower than
-     `.edge-block--ink .edge-row__logo` and loses however it is ordered. */
-  .edge-block--ink .edge-row__logo,
-  .edge-block--ink .edge-client-logo { filter: grayscale(1) brightness(1.9); }
-  .edge-block--ink .edge-row__logo:global(.logo-dark-invert),
-  .edge-block--ink .edge-client-logo:global(.logo-dark-invert) {
+     `.edge-block--dark :global(.logo-dark-invert)` scores lower than
+     `.edge-block--dark .edge-row__logo` and loses however it is ordered. */
+  .edge-block--dark .edge-row__logo,
+  .edge-block--dark .edge-quote__logo,
+  .edge-block--dark .edge-client-logo { filter: grayscale(1) brightness(1.9); }
+  .edge-block--dark .edge-row__logo:global(.logo-dark-invert),
+  .edge-block--dark .edge-quote__logo:global(.logo-dark-invert),
+  .edge-block--dark .edge-client-logo:global(.logo-dark-invert) {
     filter: brightness(0) invert(1);
   }
 
@@ -390,6 +400,12 @@ const recentPosts = allPosts
     background: #151515;
     border-color: #151515;
     color: #fff;
+  }
+  /* Ink on ink is invisible: on a dark ground the fill inverts. */
+  .edge-block--dark .edge-btn:hover {
+    background: #f2f1ec;
+    border-color: #f2f1ec;
+    color: #151515;
   }
 
   /* ── Section heads ── */
