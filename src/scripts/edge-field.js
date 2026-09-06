@@ -285,7 +285,13 @@ export function initEdgeField() {
   /* ── Sizing. DPR is capped: this layer is nearly invisible, so shading it at
      3x on a phone is pure heat for no visible gain. ── */
   let w = 1, h = 1;
-  const PIXEL_BUDGET = 3.2e6; // ~1440p worth of fragments, whatever the display
+  /* Measured on Intel UHD Graphics — the integrated chip a lot of this site's
+     visitors are on: 3.2e6 fragments cost 31ms a frame, so the field alone
+     could not hold 60fps and the compositor had nothing left for scrolling.
+     Cost is linear in fragment count (~9.7ms per megapixel), and this layer is
+     a soft blur under content, so resolution is the cheapest thing to spend.
+     1.2e6 lands near 12ms. Raise it for a finer grain if you have the GPU. */
+  const PIXEL_BUDGET = 1.2e6;
   function resize() {
     const cap = window.innerWidth < 1025 ? 1.5 : 2;
     let dpr = Math.min(window.devicePixelRatio || 1, cap);
@@ -314,11 +320,23 @@ export function initEdgeField() {
     wake = Math.min(1, wake + 0.14);
   }, { passive: true });
 
+  /* ── Motion contract: matches oak-motion.js. Reduced motion gets a single
+     static frame — the paper tooth, none of the weather. ── */
+  const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+  let running = false;
+  let raf = 0;
+  let t0 = performance.now();
+
   /* ── The hero hands over to the white sheet. The canvas fades out across the
      first viewport, and the nav flips to its light state at the same point, so
      a dark bar never sits on white content. ── */
   const body = document.body;
   let fadeTick = 0;
+  let visible = true;
+  /* Declared up here, not beside the loop: updateHandover() runs during setup
+     and can call start(), which would hit the temporal dead zone otherwise. */
+  let lastFrame = -1e9;
   function updateHandover() {
     fadeTick = 0;
     const vh = Math.max(1, window.innerHeight);
@@ -328,6 +346,11 @@ export function initEdgeField() {
     const o = 1 - Math.pow(Math.min(1, p / 0.92), 2.2);
     canvas.style.opacity = String(Math.max(0, o));
     body.classList.toggle('sheet-active', p > 0.62);
+    /* Faded out is still fully shaded: every fragment gets computed and thrown
+       at an invisible layer. Past the hero there is nothing to draw, so stop,
+       and pick it up on the way back. */
+    visible = o > 0.01;
+    if (visible) start(); else stop();
   }
   function onScroll() {
     if (!fadeTick) fadeTick = requestAnimationFrame(updateHandover);
@@ -335,14 +358,6 @@ export function initEdgeField() {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   updateHandover();
-
-  /* ── Motion contract: matches oak-motion.js. Reduced motion gets a single
-     static frame — the paper tooth, none of the weather. ── */
-  const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)');
-
-  let running = false;
-  let raf = 0;
-  let t0 = performance.now();
 
   function draw(nowMs) {
     const time = (nowMs - t0) / 1000;
@@ -370,15 +385,25 @@ export function initEdgeField() {
 
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
 
-    if (running) raf = requestAnimationFrame(draw);
+  /* The weather drifts slowly enough that consecutive frames at 60fps are
+     nearly identical, and each one costs a full screen of noise. Halving the
+     rate halves the load with nothing visible lost at this speed. */
+  const FRAME_MS = 1000 / 30;
+  function loop(now) {
+    if (running) raf = requestAnimationFrame(loop);
+    if (now - lastFrame < FRAME_MS) return;
+    lastFrame = now;
+    draw(now);
   }
 
   function start() {
-    if (running || !motionOK.matches) return;
+    if (running || !motionOK.matches || !visible || document.hidden) return;
     running = true;
     t0 = performance.now() - 1000; // skip the dead-flat first second
-    raf = requestAnimationFrame(draw);
+    lastFrame = -1e9;
+    raf = requestAnimationFrame(loop);
   }
 
   function stop() {
