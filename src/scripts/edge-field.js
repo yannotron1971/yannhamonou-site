@@ -221,8 +221,15 @@ export function initEdgeField() {
     powerPreference: 'low-power',
     premultipliedAlpha: true,
   });
-  // No WebGL2, or a blocked context, leaves the flat ground — which is fine.
-  if (!gl) { canvas.remove(); return; }
+  /* No WebGL2, or a blocked context, leaves the flat ground — which is fine,
+     but say so. Chrome disables GPU access process-wide after repeated crashes
+     and every canvas on the page then fails here; silence made that look
+     identical to a shader that simply never drew. */
+  if (!gl) {
+    console.warn('[edge-field] no WebGL2 context — falling back to the flat ground.');
+    canvas.remove();
+    return;
+  }
 
   const U = {};
 
@@ -262,7 +269,11 @@ export function initEdgeField() {
     return true;
   }
 
-  if (!build()) { canvas.remove(); return; }
+  if (!build()) {
+    console.warn('[edge-field] setup failed — falling back to the flat ground.');
+    canvas.remove();
+    return;
+  }
 
   // Opaque output — nothing to blend against.
 
@@ -389,7 +400,11 @@ export function initEdgeField() {
   canvas.addEventListener('webglcontextrestored', () => {
     /* One attempt. Losing it again straight after a rebuild means something
        the rebuild cannot fix, and the flat ground is a fine outcome. */
-    if (rebuilt || !build()) { canvas.remove(); return; }
+    if (rebuilt || !build()) {
+      console.warn('[edge-field] context lost again after a rebuild — giving up on the field.');
+      canvas.remove();
+      return;
+    }
     rebuilt = true;
     /* canvas.width/height are DOM attributes and survive the loss, so resize()
        would see no change and skip the viewport the new context needs. */
