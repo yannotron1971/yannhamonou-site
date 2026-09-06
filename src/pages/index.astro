@@ -58,7 +58,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ CLIENTS ═══ -->
-  <section class="edge-block edge-block--paper edge-block--tight">
+  <section class="edge-block edge-block--paper edge-block--full">
     <div class="edge-wrap">
       <p class="edge-label">Trusted by</p>
       <ul class="edge-clients" role="list">
@@ -233,7 +233,19 @@ const recentPosts = allPosts
   .edge-wrap--narrow { max-width: 780px; }
 
   .edge-block { padding-block: clamp(90px, 14vh, 200px); }
-  .edge-block--tight { padding-block: clamp(40px, 6vh, 72px); }
+
+  /* A block that takes the whole screen. Four marks on a thin band read as a
+     footnote between two chapters; given the viewport and a paper ground they
+     become the pause between them. min-height, not height, so a short screen
+     can still grow past it, and svh so mobile browser chrome cannot push the
+     last logo under the fold. */
+  .edge-block--full {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding-block: clamp(60px, 10vh, 120px);
+  }
 
   /* ── Micro-labels: the Space Mono voice ── */
   .edge-label,
@@ -427,20 +439,23 @@ const recentPosts = allPosts
   }
 
   /* ── Clients ── */
+  /* Auto-fit rather than flex-wrap: at full height the four marks should sit
+     on one even row and break to a tidy grid, not trail a widow. */
   .edge-clients {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     align-items: center;
-    gap: clamp(40px, 7vw, 110px);
-    margin-top: clamp(28px, 4vh, 44px);
+    justify-items: center;
+    gap: clamp(48px, 7vw, 96px);
+    margin-top: clamp(48px, 8vh, 96px);
     list-style: none;
   }
   /* Height alone makes a 5:1 wordmark tower over a 2:1 one. Capping width too
      lets the four marks read at roughly equal optical weight. */
   .edge-client-logo {
-    height: clamp(22px, 2.4vw, 30px);
+    height: clamp(30px, 4.2vw, 56px);
     width: auto;
-    max-width: 150px;
+    max-width: min(100%, 260px);
     object-fit: contain;
     opacity: 0.62;
   }
