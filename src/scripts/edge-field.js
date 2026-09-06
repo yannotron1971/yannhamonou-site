@@ -224,36 +224,45 @@ export function initEdgeField() {
   // No WebGL2, or a blocked context, leaves the flat ground — which is fine.
   if (!gl) { canvas.remove(); return; }
 
-  const vs = compile(gl, gl.VERTEX_SHADER, VERT);
-  const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-  if (!vs || !fs) { canvas.remove(); return; }
-
-  const prog = gl.createProgram();
-  gl.attachShader(prog, vs);
-  gl.attachShader(prog, fs);
-  gl.bindAttribLocation(prog, 0, 'a_pos');
-  gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-    console.error('[oak-weather] link failed:', gl.getProgramInfoLog(prog));
-    canvas.remove();
-    return;
-  }
-  gl.useProgram(prog);
-
-  // One oversized triangle beats a quad: no diagonal seam, one less vertex.
-  const vao = gl.createVertexArray();
-  gl.bindVertexArray(vao);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-
   const U = {};
-  for (const n of ['u_res', 'u_time', 'u_mouse', 'u_wake', 'u_scroll',
-                   'u_ground', 'u_mist', 'u_deep', 'u_amp', 'u_intensity']) {
-    U[n] = gl.getUniformLocation(prog, n);
+
+  /* Everything the context owns, in one place. A lost context takes the
+     program, the VAO, the buffer and every uniform location with it, so
+     coming back means running all of this again. */
+  function build() {
+    const vs = compile(gl, gl.VERTEX_SHADER, VERT);
+    const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return false;
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.bindAttribLocation(prog, 0, 'a_pos');
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error('[oak-weather] link failed:', gl.getProgramInfoLog(prog));
+      return false;
+    }
+    gl.useProgram(prog);
+
+    // One oversized triangle beats a quad: no diagonal seam, one less vertex.
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+    /* Uniform locations belong to the program, so they go stale with it. */
+    for (const n of ['u_res', 'u_time', 'u_mouse', 'u_wake', 'u_scroll',
+                     'u_ground', 'u_mist', 'u_deep', 'u_amp', 'u_intensity']) {
+      U[n] = gl.getUniformLocation(prog, n);
+    }
+    return true;
   }
+
+  if (!build()) { canvas.remove(); return; }
 
   // Opaque output — nothing to blend against.
 
@@ -365,6 +374,31 @@ export function initEdgeField() {
     running = false;
     cancelAnimationFrame(raf);
   }
+
+  /* ── Context loss. The browser can take the context back at any time — a GPU
+     reset, a laptop switching between its two GPUs, the compositor reclaiming
+     memory. Two things matter here: preventDefault, without which the browser
+     never offers the context back, and stopping the loop, which would
+     otherwise keep issuing calls into a dead context for the life of the
+     page, silently. ── */
+  let rebuilt = false;
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    stop();
+  });
+  canvas.addEventListener('webglcontextrestored', () => {
+    /* One attempt. Losing it again straight after a rebuild means something
+       the rebuild cannot fix, and the flat ground is a fine outcome. */
+    if (rebuilt || !build()) { canvas.remove(); return; }
+    rebuilt = true;
+    /* canvas.width/height are DOM attributes and survive the loss, so resize()
+       would see no change and skip the viewport the new context needs. */
+    w = h = 1;
+    resize();
+    t0 = performance.now() - 1000; // otherwise the first frame jumps by the outage
+    if (motionOK.matches && !document.hidden) start();
+    else draw(performance.now());
+  });
 
   // Static frame first, so there is texture even if motion never starts.
   draw(performance.now());
