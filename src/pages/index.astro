@@ -58,7 +58,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ CLIENTS ═══ -->
-  <section class="edge-block edge-block--tight">
+  <section class="edge-block edge-block--paper edge-block--tight">
     <div class="edge-wrap">
       <p class="edge-label">Trusted by</p>
       <ul class="edge-clients" role="list">
@@ -79,7 +79,7 @@ const recentPosts = allPosts
   </section>
 
   <!-- ═══ WORK ═══ -->
-  <section class="edge-block" id="work">
+  <section class="edge-block edge-block--ink" id="work">
     <div class="edge-wrap">
       <div class="edge-head">
         <p class="edge-label">02 — Selected work</p>
@@ -319,12 +319,14 @@ const recentPosts = allPosts
   }
 
   /* ── The sheet ──
-     Everything below the hero lives on white. Rather than restyle each block,
-     rebind the same tokens the rest of this stylesheet already reads. */
+     Carries the light token set; the background belongs to each block so
+     sections can differ. The sheet itself is transparent, which is what lets
+     an --clear block show the field through. Every direct child must therefore
+     declare a ground, or the hero shows through it. */
   .edge-sheet {
     position: relative;
     z-index: 1;
-    background: #fff;
+    background: transparent;
     --v4-ink: #151515;
     --v4-ink-mute: #55585a;
     --v4-ink-dim: #86898b;
@@ -333,8 +335,44 @@ const recentPosts = allPosts
     color: var(--v4-ink);
   }
 
-  /* Dark marks are inverted for the near-black hero; on white they must not be. */
-  .edge-sheet :global(.logo-dark-invert) { filter: none; }
+  /* ── Per-section grounds ──
+     white (default) · paper · ink · clear. Swap the modifier on any section. */
+  .edge-sheet > .edge-block { background: #ffffff; }
+  .edge-sheet > .edge-block--paper { background: #f3f2ee; }
+  .edge-sheet > .edge-block--clear { background: transparent; }
+  .edge-sheet > .edge-block--ink {
+    background: #151515;
+    --v4-ink: #f2f1ec;
+    --v4-ink-mute: #a2a5a3;
+    --v4-ink-dim: #7c7f7d;
+    --v4-line: rgba(255, 255, 255, 0.16);
+    --v4-line-soft: rgba(255, 255, 255, 0.09);
+    color: var(--v4-ink);
+  }
+
+  /* ── Logos: black and white throughout ──
+     The marks are four different brand palettes — coral, teal, brown, black —
+     and side by side on white they read as a jumble. Desaturating lets the
+     wordmarks line up as one set. */
+  .edge-client-logo,
+  .edge-row__logo,
+  .edge-quote__logo {
+    filter: grayscale(1);
+  }
+  /* Dark marks are inverted for the near-black hero. On white they must not be
+     inverted, but they still get desaturated. */
+  .edge-sheet :global(.logo-dark-invert) { filter: grayscale(1); }
+  /* On an ink band, pale marks are lifted and dark marks are silhouetted.
+     The invert must be anchored on the same element as the scoped class:
+     Astro drops its scope attribute inside :global(), so a bare
+     `.edge-block--ink :global(.logo-dark-invert)` scores lower than
+     `.edge-block--ink .edge-row__logo` and loses however it is ordered. */
+  .edge-block--ink .edge-row__logo,
+  .edge-block--ink .edge-client-logo { filter: grayscale(1) brightness(1.9); }
+  .edge-block--ink .edge-row__logo:global(.logo-dark-invert),
+  .edge-block--ink .edge-client-logo:global(.logo-dark-invert) {
+    filter: brightness(0) invert(1);
+  }
 
   .edge-sheet .edge-btn:hover {
     background: #151515;
@@ -393,19 +431,19 @@ const recentPosts = allPosts
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: clamp(32px, 6vw, 88px);
-    margin-top: 24px;
+    gap: clamp(40px, 7vw, 110px);
+    margin-top: clamp(28px, 4vh, 44px);
     list-style: none;
   }
+  /* Height alone makes a 5:1 wordmark tower over a 2:1 one. Capping width too
+     lets the four marks read at roughly equal optical weight. */
   .edge-client-logo {
-    height: 24px;
+    height: clamp(22px, 2.4vw, 30px);
     width: auto;
     max-width: 150px;
     object-fit: contain;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
+    opacity: 0.62;
   }
-  .edge-clients li:hover .edge-client-logo { opacity: 1; }
 
   /* ── Rows: work, services, journal all share one rhythm ── */
   .edge-rows { list-style: none; border-top: 1px solid var(--v4-line-soft); }
@@ -416,7 +454,7 @@ const recentPosts = allPosts
     grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.1fr) auto;
     align-items: center;
     gap: clamp(20px, 4vw, 60px);
-    padding-block: clamp(24px, 3.5vh, 44px);
+    padding-block: clamp(28px, 4.5vh, 56px);
     transition: opacity 0.25s ease;
   }
   .edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
@@ -450,7 +488,7 @@ const recentPosts = allPosts
   .edge-row__stat {
     font-family: var(--v4-display);
     font-weight: 300;
-    font-size: clamp(20px, 2.4vw, 34px);
+    font-size: clamp(24px, 3vw, 46px);
     letter-spacing: -0.02em;
     white-space: nowrap;
   }
