@@ -126,8 +126,8 @@ const services = [
     }
   }
 
-  // Initialise from localStorage
-  const savedTheme = localStorage.getItem('v4-theme') ?? 'dark';
+  // Initialise from localStorage — Summer (light warm) is the default season
+  const savedTheme = localStorage.getItem('v4-theme') ?? 'light';
   const savedPaper = localStorage.getItem('v4-paper') ?? 'warm';
   applyTheme(savedTheme, savedPaper);
 

@@ -23,7 +23,7 @@ mm.add(
     if (!ctx.conditions.motionOK) return;
     const desktop = ctx.conditions.desktop;
 
-    heroBloom(desktop);
+    heroBloom();
     mistReveals();
     etchHeadings();
     bedrockParallax();
@@ -32,8 +32,8 @@ mm.add(
   }
 );
 
-/* ── Hero — the great bough blooms across the hero as you scroll ── */
-function heroBloom(pin) {
+/* ── Hero — the great bough grows in and blooms on its own clock ── */
+function heroBloom() {
   const hero = document.querySelector('.oak-hero');
   if (!hero) return;
 
@@ -67,7 +67,9 @@ function heroBloom(pin) {
     { start: 1.3, dur: 0.45 }, // the very tip
   ];
 
-  // Entrance — the bough grows in from the right edge while the copy settles.
+  // One continuous entrance — the bough grows in from the right edge while
+  // the copy settles, and the bloom follows as the ink reaches the outer
+  // limbs. All on the timeline's own clock; no scrolling required.
   const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
   strokes.forEach((p, i) => {
     const g = growth[i] || { start: 1.2, dur: 0.5 };
@@ -78,10 +80,11 @@ function heroBloom(pin) {
     .from('.oak-hero__title .oak-line', { y: 54, opacity: 0, duration: 1, stagger: 0.12, ease: 'expo.out' }, 0.25)
     .from(['.oak-hero__sub', '.oak-hero__ctas', '.oak-hero__foot'], { y: 20, opacity: 0, duration: 0.8, stagger: 0.09 }, 0.7);
 
-  // The bloom itself — canopy washes paint the hero green while leaves and
-  // acorns sprout right-to-left. Shared by both playback modes below.
-  const populateBloom = (tl) => {
-    tl.from(leaves, {
+  // The bloom — canopy washes paint the hero green while leaves and acorns
+  // sprout right-to-left, overlapping the last of the ink growth.
+  intro
+    .addLabel('bloom', 1.45)
+    .from(leaves, {
       scale: 0,
       rotation: '-=22',
       opacity: 0,
@@ -89,60 +92,40 @@ function heroBloom(pin) {
       stagger: { each: 0.02, from: 'start' },
       ease: 'back.out(1.4)',
       duration: 0.6,
-    }, 0)
-      .to(washes, {
-        opacity: 0.92,
-        stagger: 0.08,
-        ease: 'sine.out',
-        duration: 0.7,
-      }, 0.12)
-      .from(washes, {
-        scale: 0.84,
-        transformOrigin: '50% 50%',
-        stagger: 0.08,
-        ease: 'sine.out',
-        duration: 0.7,
-      }, 0.12)
-      .from(acorns, {
-        scale: 0,
-        opacity: 0,
-        transformOrigin: '50% 0%',
-        stagger: 0.06,
-        ease: 'back.out(1.7)',
-        duration: 0.4,
-      }, 0.6);
-  };
+    }, 'bloom')
+    .to(washes, {
+      opacity: 0.92,
+      stagger: 0.08,
+      ease: 'sine.out',
+      duration: 0.7,
+    }, 'bloom+=0.12')
+    .from(washes, {
+      scale: 0.84,
+      transformOrigin: '50% 50%',
+      stagger: 0.08,
+      ease: 'sine.out',
+      duration: 0.7,
+    }, 'bloom+=0.12')
+    .from(acorns, {
+      scale: 0,
+      opacity: 0,
+      transformOrigin: '50% 0%',
+      stagger: 0.06,
+      ease: 'back.out(1.7)',
+      duration: 0.4,
+    }, 'bloom+=0.6')
+    // Copy colour flip as the canopy paints behind it. CSS keeps the flip
+    // desktop-only, where the canopy actually grows behind the text.
+    .call(() => hero.classList.add('is-bloomed'), null, 'bloom+=0.35');
 
-  if (pin) {
-    // Desktop: scroll-to-bloom. The hero pins and the bloom is scrubbed to
-    // the scrollbar, with the CSS colour flip keeping the copy legible.
-    const bloom = gsap.timeline({
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: '+=160%',
-        scrub: 1.5,
-        pin: true,
-        anticipatePin: 1,
-        // The copy's colour flip is CSS-driven (.is-bloomed) so it always
-        // matches the active season's palette.
-        onUpdate(self) {
-          hero.classList.toggle('is-bloomed', self.progress > 0.4);
-        },
-      },
+  // The hint is now purely a scroll cue — retire it on first scroll.
+  const hint = hero.querySelector('.oak-hero__hint');
+  if (hint) {
+    ScrollTrigger.create({
+      start: 1,
+      once: true,
+      onEnter: () => gsap.to(hint, { opacity: 0, duration: 0.3 }),
     });
-    populateBloom(bloom);
-    bloom.to('.oak-hero__hint', { opacity: 0, duration: 0.15 }, 0.05);
-  } else {
-    // Tablet/phone: the art is a band above the copy, so a scrubbed bloom
-    // would happen off-screen while the user reads below it. Instead the
-    // bloom plays on its own clock, starting as the ink growth finishes —
-    // one continuous grow-then-bloom entrance, no scrolling required.
-    const bloom = gsap.timeline({
-      delay: 1.4,
-      scrollTrigger: { trigger: hero, start: 'top 90%', once: true },
-    });
-    populateBloom(bloom);
   }
 }
 

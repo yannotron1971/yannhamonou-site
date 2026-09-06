@@ -249,7 +249,7 @@ const etchQuote = testimonials[0];
           </svg>
         </div>
       </div>
-      <p class="oak-hero__hint" aria-hidden="true">Scroll — watch it grow ↓</p>
+      <p class="oak-hero__hint" aria-hidden="true">Scroll ↓</p>
     </section>
 
     <!-- ═══ THE BEDROCK — PHILOSOPHY ═══ -->
@@ -537,7 +537,7 @@ const etchQuote = testimonials[0];
     --oak-ink: #e9e7da;
     --oak-slate: #b9c0b4;
     --oak-mute: #a3a99c;
-    --oak-dim: #78807a;
+    --oak-dim: #8a938c;
     --oak-green: #8fae90;
     --oak-green-2: #7d9884;
     --oak-orange: #c98a4b;
@@ -730,7 +730,7 @@ const etchQuote = testimonials[0];
   /* ─── Oak & Coast ground (colour tokens are seasonal — see the
          global style block above) ─────────────────────────────── */
   .oak {
-    --oak-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --oak-serif: 'Vollkorn', Georgia, 'Times New Roman', serif;
     --oak-mono: var(--v4-mono, 'Geist Mono', monospace);
 
     background-color: var(--oak-parchment);
@@ -876,7 +876,7 @@ const etchQuote = testimonials[0];
 
   .oak-hero__title {
     font-family: var(--oak-serif);
-    font-weight: 560;
+    font-weight: 500;
     font-size: clamp(46px, 7.2vw, 96px);
     line-height: 1.02;
     letter-spacing: 0.005em;
@@ -884,7 +884,7 @@ const etchQuote = testimonials[0];
     color: var(--oak-ink);
   }
   .oak-hero__title .oak-line { display: block; }
-  .oak-line--accent { color: var(--oak-green); font-style: italic; font-weight: 480; }
+  .oak-line--accent { color: var(--oak-green); font-style: italic; font-weight: 450; }
 
   /* Keyword line inside the H1 — small, quiet, but real heading text */
   .oak-hero__kicker {
@@ -937,7 +937,7 @@ const etchQuote = testimonials[0];
   }
 
   /* ─── Bloom text flip — keeps the copy readable over the canopy.
-         The motion script toggles .is-bloomed at ~40% of the scrub;
+         The motion script adds .is-bloomed as the canopy washes paint;
          colours come from the active season so the flip is always
          theme-correct. Without JS the class never appears. ──────── */
   .oak-hero__title .oak-line,
@@ -1085,9 +1085,11 @@ const etchQuote = testimonials[0];
     color: var(--oak-ink);
     text-decoration: none;
     border-bottom: 1px solid var(--oak-line);
-    transition: color 0.2s ease, padding-left 0.2s ease;
+    transition: color 0.2s ease;
   }
-  .oak-season__services li a:hover { color: var(--season-accent); padding-left: 8px; }
+  .oak-season__services li a span { transition: transform 0.2s ease; }
+  .oak-season__services li a:hover { color: var(--season-accent); }
+  .oak-season__services li a:hover span { transform: translateX(4px); }
 
   /* ─── Highland Ledger ────────────────────────────────────────── */
   /* The ledger stays a dark carved slab in every season, so its
@@ -1098,7 +1100,7 @@ const etchQuote = testimonials[0];
     padding: clamp(80px, 10vh, 120px) 0 clamp(60px, 8vh, 90px);
     overflow: hidden;
   }
-  .oak-ledger .oak-eyebrow { color: rgba(242, 238, 228, 0.5); }
+  .oak-ledger .oak-eyebrow { color: rgba(242, 238, 228, 0.62); }
   .oak-ledger .oak-h2 { color: #f4f1e6; }
   .oak-ledger__head { margin-bottom: clamp(40px, 6vh, 72px); }
 
@@ -1117,14 +1119,18 @@ const etchQuote = testimonials[0];
     grid-template-columns: 1fr 1fr;
     gap: clamp(20px, 3vw, 44px);
     align-items: center;
-    padding: clamp(24px, 3vw, 44px);
+    padding: clamp(24px, 3vw, 44px) clamp(24px, 3vw, 44px) clamp(24px, 3vw, 44px) clamp(40px, 4vw, 64px);
     border: 1px solid rgba(242, 238, 228, 0.14);
     border-radius: 4px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.3s ease, background 0.3s ease;
+    /* Ruled ledger paper: faint horizontal rules + the bookkeeper's red margin line */
+    background-image:
+      linear-gradient(to right, transparent calc(clamp(40px, 4vw, 64px) - 18px), rgba(201, 106, 82, 0.3) calc(clamp(40px, 4vw, 64px) - 18px), rgba(201, 106, 82, 0.3) calc(clamp(40px, 4vw, 64px) - 17px), transparent calc(clamp(40px, 4vw, 64px) - 17px)),
+      repeating-linear-gradient(to bottom, transparent 0 31px, rgba(242, 238, 228, 0.05) 31px 32px);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
   }
-  .oak-entry:hover { border-color: rgba(242, 238, 228, 0.4); background: rgba(242, 238, 228, 0.03); }
+  .oak-entry:hover { border-color: rgba(242, 238, 228, 0.4); background-color: rgba(242, 238, 228, 0.03); }
 
   .oak-entry__numeral {
     position: absolute;
@@ -1133,7 +1139,7 @@ const etchQuote = testimonials[0];
     font-family: var(--oak-serif);
     font-size: clamp(80px, 9vw, 150px);
     font-weight: 300;
-    color: rgba(242, 238, 228, 0.07);
+    color: rgba(242, 238, 228, 0.1);
     line-height: 1;
     pointer-events: none;
   }
@@ -1143,10 +1149,11 @@ const etchQuote = testimonials[0];
     aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 3px;
-    filter: grayscale(1) contrast(1.08);
+    /* Warm plate-print at rest; full colour when the reader leans in */
+    filter: sepia(0.4) saturate(0.65) contrast(1.05);
     transition: filter 0.5s ease;
   }
-  .oak-entry:hover .oak-entry__img { filter: grayscale(0.3) contrast(1.02); }
+  .oak-entry:hover .oak-entry__img { filter: none; }
 
   .oak-entry__body { min-width: 0; }
   .oak-entry__meta {
@@ -1154,7 +1161,7 @@ const etchQuote = testimonials[0];
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(242, 238, 228, 0.5);
+    color: rgba(242, 238, 228, 0.62);
     margin-bottom: 10px;
   }
   .oak-entry__client {
@@ -1177,7 +1184,7 @@ const etchQuote = testimonials[0];
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(242, 238, 228, 0.55);
+    color: rgba(242, 238, 228, 0.66);
     margin-bottom: 18px;
   }
   .oak-entry__summary {
@@ -1192,8 +1199,11 @@ const etchQuote = testimonials[0];
     font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--oak-parchment);
+    /* Fixed cream: the ledger slab is dark in every season, and the
+       seasonal parchment var goes dark in Winter */
+    color: #efece0;
   }
+  .oak-entry:hover .oak-entry__link { text-decoration: underline; text-underline-offset: 4px; }
 
   .oak-entry--cta { grid-template-columns: 1fr; width: min(50vw, 560px); text-align: left; }
   .oak-entry--cta .oak-btn--primary { background: #efece0; color: #1c2422; margin-top: 6px; }

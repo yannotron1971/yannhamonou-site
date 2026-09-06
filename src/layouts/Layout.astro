@@ -47,7 +47,7 @@ const ogImageUrl = ogImage
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="theme-color" content="#F2EEE4" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -81,22 +81,24 @@ const ogImageUrl = ogImage
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Anti-flash theme script — runs synchronously before first paint -->
+    <!-- Anti-flash theme script — runs synchronously before first paint.
+         Default season is Summer (light warm parchment); Winter only when
+         the visitor has explicitly chosen it. -->
     <script is:inline>
       (function () {
-        var theme = localStorage.getItem('v4-theme');
-        var paper = localStorage.getItem('v4-paper');
+        var theme = localStorage.getItem('v4-theme') || 'light';
+        var paper = localStorage.getItem('v4-paper') || 'warm';
         var body = document.documentElement;
         if (theme === 'light') {
           body.classList.add('v4-preload-light');
-          if (paper) body.classList.add('v4-preload-' + paper);
+          body.classList.add('v4-preload-' + paper);
         }
       })();
     </script>
@@ -200,16 +202,16 @@ const ogImageUrl = ogImage
       import '../scripts/motion.js';
     </script>
 
-    <!-- Apply persisted theme after body renders -->
+    <!-- Apply persisted theme after body renders (default: Summer light warm) -->
     <script is:inline>
       (function () {
-        var theme = localStorage.getItem('v4-theme');
-        var paper = localStorage.getItem('v4-paper');
+        var theme = localStorage.getItem('v4-theme') || 'light';
+        var paper = localStorage.getItem('v4-paper') || 'warm';
         var body = document.body;
         body.classList.add('v4');
         if (theme === 'light') {
           body.classList.add('is-light');
-          if (paper) body.classList.add('tone-' + paper);
+          body.classList.add('tone-' + paper);
         }
       })();
     </script>
