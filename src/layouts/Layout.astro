@@ -195,6 +195,10 @@ const ogImageUrl = ogImage
     <!-- GSAP motion (hero entrance, scroll reveals, stat count-ups) -->
     <script>
       import '../scripts/motion.js';
+      /* The Edge homepage speaks a different markup vocabulary; this pass is a
+         no-op on the v4 inner pages, and motion.js is a no-op on the Edge. */
+      import '../scripts/edge-motion.js';
+      import '../scripts/smooth-anchors.js';
     </script>
 
     <!-- Single ground: tag the body for the stylesheet, no theme branch. -->

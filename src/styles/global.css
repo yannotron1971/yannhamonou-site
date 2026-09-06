@@ -5,7 +5,9 @@
 ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior lives in the reduced-motion query near the foot of this
+     file. Setting it here as well took it away from anyone who asked their
+     system for less motion, since nothing turned it back off. */
   -webkit-text-size-adjust: 100%;
   /* The ground lives here, not on body: a fixed canvas at z-index:-1 paints
      above the root background and beneath all content. If body kept a
@@ -1285,6 +1287,10 @@ img.v4-marquee__item {
    MICRO-MOTION (gated behind reduced-motion preference)
 ───────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
+  /* Kept for pages that load no motion, but note that it does nothing where
+     ScrollTrigger runs: it writes `scroll-behavior: auto` inline on <html> on
+     init, because native smooth scrolling desynchronises its measurements, and
+     inline style wins. Anchor glide is done in scripts/smooth-anchors.js. */
   html { scroll-behavior: smooth; }
 
   details.v4-faq-item[open] > p {
