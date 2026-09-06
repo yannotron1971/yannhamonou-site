@@ -34,7 +34,6 @@ export default config({
             { label: 'SEO & GEO', value: 'seo' },
             { label: 'Paid Media', value: 'paid' },
             { label: 'Content', value: 'content' },
-            { label: 'Automation', value: 'automation' },
             { label: 'Industry', value: 'industry' },
           ],
           defaultValue: 'strategy',

@@ -177,44 +177,6 @@ export const services = [
       { q: 'What does a website project cost?', a: 'A focused marketing site (home, services, about, contact) typically runs £3,000–£6,000. Larger sites with complex CMS structures, multiple landing pages, or e-commerce elements are scoped individually. The free 30-minute review is the right starting point.' },
     ],
   },
-  {
-    slug: 'automation',
-    num: '06',
-    title: 'Marketing Automation',
-    desc: 'Nurture leads and retain clients without manual follow-up.',
-    long: 'Marketing automation for B2B SMEs isn\'t about replacing people — it\'s about making sure no lead falls through the cracks. I set up email sequences, CRM workflows, and lead scoring that keep your pipeline moving while you focus on closing.',
-    headline: 'Stop losing leads to slow follow-up and manual processes',
-    intro: 'Marketing automation for B2B SMEs isn\'t about replacing people — it\'s about making sure no lead falls through the cracks. When a prospect downloads your guide, requests a demo, or visits your pricing page three times, the right message should reach them automatically, at the right moment, without someone manually checking a spreadsheet.',
-    why: 'Most B2B SMEs lose leads not because they\'re bad at sales, but because follow-up is inconsistent. A lead comes in on a Friday, gets a reply Monday, goes cold by Wednesday. Or a prospect visits the site five times over three weeks but never gets a nudge. Automation fixes this — not by blasting everyone with emails, but by triggering the right action at the right time based on actual behaviour.',
-    process: [
-      { num: '01', title: 'Audit and platform selection', body: 'I review what you\'re currently using — CRM, email platform, website forms — and identify the gaps. For most Aberdeen SMEs the right stack is HubSpot (Free or Starter), Mailerlite, or Microsoft Dynamics depending on what\'s already in place. I also introduce N8N for more complex workflow automation that doesn\'t require an enterprise budget.' },
-      { num: '02', title: 'Build the sequences', body: 'Lead nurture sequences mapped to your buying stages: awareness, consideration, decision. Each email is triggered by behaviour — what they downloaded, which pages they visited, how recently they engaged. Lead scoring configured so sales only gets notified when a prospect has shown enough intent to be worth a conversation.' },
-      { num: '03', title: 'Reporting and refinement', body: 'A reporting dashboard showing open rates, click rates, sequence completion, and — most importantly — how many automated leads convert to sales conversations. Reviewed and refined quarterly based on what the data shows.' },
-    ],
-    deliverables: [
-      'CRM review and setup (HubSpot, Dynamics, or Mailerlite)',
-      'Lead nurture sequence design and build',
-      'Lead scoring configuration',
-      'Behavioural trigger setup',
-      'N8N workflow automation where relevant',
-      'Reporting dashboard setup',
-    ],
-    proof: {
-      stat: '100%',
-      statLabel: 'lead gen growth in 12 months',
-      quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
-      name: 'Debbie Mackenzie',
-      role: 'Managing Director',
-      company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
-    },
-    faq: [
-      { q: 'Which automation platform do you recommend?', a: 'It depends on what you\'re already using. HubSpot Free or Starter is the right answer for most SMEs starting from scratch — it connects CRM, email, and forms in one place. Mailerlite is excellent for pure email automation at lower cost. Microsoft Dynamics suits businesses already in the Microsoft ecosystem. I don\'t have a platform preference — I recommend what fits your situation.' },
-      { q: 'Do I need a big contact list for automation to work?', a: 'No. Automation works from day one — even with a small list — because it\'s triggered by behaviour, not list size. A 200-person list with well-timed nurture sequences will outperform a 10,000-person list blasted with the same email every month.' },
-      { q: 'How long does setup take?', a: 'A basic lead nurture setup — CRM, forms, 3–4 email sequence — typically takes 2–3 weeks. More complex setups with lead scoring, multiple sequences, and CRM integration take 4–6 weeks. Ongoing refinement is part of the engagement.' },
-      { q: 'What about GDPR?', a: 'Compliance is built into every setup: double opt-in where appropriate, consent recorded in the CRM, suppression lists maintained, unsubscribe links in every email. I\'ll flag any compliance gaps in your current setup as part of the audit.' },
-    ],
-  },
 ];
 
 export const cases = [
