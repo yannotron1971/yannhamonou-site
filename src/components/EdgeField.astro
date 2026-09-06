@@ -1,0 +1,29 @@
+---
+/**
+ * The Edge field — full-bleed ambient background.
+ *
+ * Sits at z-index -1 under every page. That works because global.css puts the
+ * ground colour on <html> and leaves <body> transparent; if body kept a
+ * background it would propagate to the root and bury the canvas.
+ */
+---
+
+<canvas class="edge-field" aria-hidden="true"></canvas>
+
+<style>
+  .edge-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    display: block;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { initEdgeField } from '../scripts/edge-field.js';
+  initEdgeField();
+</script>

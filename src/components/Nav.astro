@@ -51,22 +51,6 @@ const services = [
 
     <!-- Right cluster -->
     <div class="v4-nav__right">
-      <!-- Theme toggle -->
-      <div class="v4-theme-toggle" role="group" aria-label="Theme selector" id="theme-toggle">
-        <button class="v4-theme-toggle__btn" id="btn-dark" aria-label="Dark theme" title="Dark">
-          ◐
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-warm" aria-label="Light warm theme" title="Light — Warm">
-          ☀
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-cool" aria-label="Light cool theme" title="Light — Cool">
-          ◑
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-bright" aria-label="Light bright theme" title="Light — Bright">
-          ○
-        </button>
-      </div>
-
       <!-- Contact CTA (desktop) -->
       <a href="/contact" class="v4-nav__cta" style="display:none" id="nav-cta-desktop">
         Free Consultation
@@ -102,39 +86,8 @@ const services = [
 </div>
 
 <script>
-  // Theme toggle
-  const body = document.body;
-  const btns: Record<string, HTMLButtonElement | null> = {
-    dark:   document.getElementById('btn-dark') as HTMLButtonElement,
-    warm:   document.getElementById('btn-warm') as HTMLButtonElement,
-    cool:   document.getElementById('btn-cool') as HTMLButtonElement,
-    bright: document.getElementById('btn-bright') as HTMLButtonElement,
-  };
-
-  function applyTheme(theme: string, paper: string) {
-    body.classList.remove('is-light', 'tone-warm', 'tone-cool', 'tone-bright');
-    Object.values(btns).forEach(b => b?.classList.remove('is-active'));
-    if (theme === 'light') {
-      body.classList.add('is-light', `tone-${paper}`);
-      btns[paper]?.classList.add('is-active');
-      localStorage.setItem('v4-theme', 'light');
-      localStorage.setItem('v4-paper', paper);
-    } else {
-      btns.dark?.classList.add('is-active');
-      localStorage.setItem('v4-theme', 'dark');
-      localStorage.removeItem('v4-paper');
-    }
-  }
-
-  // Initialise from localStorage
-  const savedTheme = localStorage.getItem('v4-theme') ?? 'dark';
-  const savedPaper = localStorage.getItem('v4-paper') ?? 'warm';
-  applyTheme(savedTheme, savedPaper);
-
-  btns.dark?.addEventListener('click', () => applyTheme('dark', ''));
-  btns.warm?.addEventListener('click', () => applyTheme('light', 'warm'));
-  btns.cool?.addEventListener('click', () => applyTheme('light', 'cool'));
-  btns.bright?.addEventListener('click', () => applyTheme('light', 'bright'));
+  // Season/theme toggle removed on this concept — the Edge language has one
+  // ground, so there is nothing to switch between.
 
   // Show CTA on desktop
   const cta = document.getElementById('nav-cta-desktop');

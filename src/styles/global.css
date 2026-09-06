@@ -4,7 +4,14 @@
    BASE RESET
 ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* The ground lives here, not on body: a fixed canvas at z-index:-1 paints
+     above the root background and beneath all content. If body kept a
+     background it would propagate to the root and bury the canvas. */
+  background-color: #151515;
+}
 img, video { display: block; max-width: 100%; }
 button { cursor: pointer; background: none; border: none; font: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -13,8 +20,8 @@ a { color: inherit; text-decoration: none; }
    DARK THEME TOKENS (default — body.v4, no extra class)
 ───────────────────────────────────────────────────────────── */
 body.v4 {
-  --v4-bg:          oklch(0.100 0.000 0);
-  --v4-bg-2:        oklch(0.121 0.000 0);
+  --v4-bg:          #151515;
+  --v4-bg-2:        #191919;
   --v4-panel:       oklch(0.146 0.000 0);
   --v4-panel-2:     oklch(0.170 0.000 0);
   --v4-panel-3:     oklch(0.193 0.000 0);
@@ -26,16 +33,16 @@ body.v4 {
   --v4-accent:      oklch(0.954 0.003 75);
   --v4-accent-warm: oklch(0.910 0.025 75);
   --v4-smoke-rgb:   255 255 255;
-  --v4-nav-bg:      rgba(10 10 10 / 0.78);
+  --v4-nav-bg:      rgba(21 21 21 / 0.72);
 
-  --v4-display: 'Archivo', system-ui, sans-serif;
+  --v4-display: 'Space Grotesk', system-ui, sans-serif;
   --v4-sans:    'Inter', system-ui, sans-serif;
-  --v4-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --v4-mono:    'Space Mono', ui-monospace, monospace;
 
   --v4-maxw:    1320px;
   --v4-gutter:  clamp(20px, 4vw, 56px);
 
-  background-color: var(--v4-bg);
+  background-color: transparent;
   color: var(--v4-ink);
   font-family: var(--v4-sans);
   font-size: 15px;
