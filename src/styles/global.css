@@ -123,43 +123,52 @@ body.v4.is-light.tone-bright {
   padding-inline: var(--v4-gutter);
 }
 
+/* Section rhythm, opened up to the homepage's. The Edge gives a section room
+   to be one idea; 64px of air did not read as the same page. Full viewports
+   are a homepage device and stay there — a services page, a case study or a
+   post is a document, and one screen per section would fight the reading. */
 .v4-block {
-  padding-block: clamp(64px, 9vw, 140px);
+  padding-block: clamp(80px, 12vh, 180px);
 }
 
 .v4-block.tight {
-  padding-block: clamp(48px, 6vw, 88px);
+  padding-block: clamp(56px, 8vh, 110px);
 }
 
 /* ─────────────────────────────────────────────────────────────
    TYPOGRAPHY
 ───────────────────────────────────────────────────────────── */
+/* ── The display voice ──
+   Every rule below used to ask for weight 700-900 at font-stretch 75%. That
+   was written for Archivo; Space Grotesk has neither an 800 nor a width axis,
+   so browsers were synthesising both — a smeared, faux-bold, faux-condensed
+   version of a face whose whole point on this concept is that it is light and
+   wide open. Uppercase went with it for the same reason: at 300 the face wants
+   sentence case, which is what the homepage sets. */
 .v4-display {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  text-transform: uppercase;
+  font-weight: 300;
   letter-spacing: -0.025em;
 }
 
+/* Matches .edge-label on the homepage — same size, same tracking, same
+   colour. A near-miss would read worse than an obvious difference. */
 .v4-eyebrow {
   font-family: var(--v4-mono);
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--v4-ink-mute);
+  color: var(--v4-ink-dim);
 }
 
 .v4-hero-h {
   font-family: var(--v4-display);
-  font-weight: 900;
-  font-stretch: 75%;
-  font-size: clamp(48px, min(10vw, 13vh), 140px);
-  line-height: 0.88;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
-  color: var(--v4-accent-warm);
+  font-weight: 300;
+  font-size: clamp(44px, min(9vw, 12vh), 132px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: var(--v4-ink);
 }
 
 @media (max-width: 760px) {
@@ -168,13 +177,11 @@ body.v4.is-light.tone-bright {
 
 .v4-section-h {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(36px, 5vw, 72px);
-  line-height: 0.92;
+  line-height: 1.02;
   letter-spacing: -0.025em;
-  text-transform: uppercase;
-  color: var(--v4-accent-warm);
+  color: var(--v4-ink);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -566,11 +573,10 @@ body.sheet-active .v4-nav {
 
 .v4-stat__num {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1;
-  color: var(--v4-accent-warm);
+  color: var(--v4-ink);
   letter-spacing: -0.02em;
 }
 
@@ -598,7 +604,7 @@ body.sheet-active .v4-nav {
 .v4-work-card {
   flex: 0 0 clamp(260px, 36vw, 420px);
   scroll-snap-align: start;
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   background: var(--v4-panel);
   position: relative;
@@ -629,11 +635,9 @@ body.sheet-active .v4-nav {
 
 .v4-work-card__client {
   font-family: var(--v4-display);
-  font-weight: 700;
-  font-stretch: 75%;
-  font-size: 22px;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: -0.015em;
 }
 
 .v4-work-card__meta {
@@ -647,9 +651,8 @@ body.sheet-active .v4-nav {
 
 .v4-work-card__stat {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: 36px;
+  font-weight: 300;
+  font-size: 38px;
   line-height: 1;
   letter-spacing: -0.02em;
   margin-top: 8px;
@@ -663,7 +666,7 @@ body.sheet-active .v4-nav {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1px;
   border: 1px solid var(--v4-line);
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -686,13 +689,11 @@ body.sheet-active .v4-nav {
 
 .v4-service-card__title {
   font-family: var(--v4-display);
-  font-weight: 700;
-  font-stretch: 75%;
+  font-weight: 400;
   font-size: clamp(20px, 2.2vw, 28px);
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: var(--v4-accent-warm);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  color: var(--v4-ink);
   margin-bottom: 12px;
 }
 
@@ -810,7 +811,7 @@ img.v4-marquee__item {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 0;
   background: oklch(1 0 0 / 0.92);
   box-shadow: 0 2px 10px oklch(0 0 0 / 0.18);
 }
@@ -833,7 +834,7 @@ img.v4-marquee__item {
 
 .v4-testimonial {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(24px, 3vw, 40px);
   border: 1px solid var(--v4-line-soft);
 }
@@ -882,7 +883,7 @@ img.v4-marquee__item {
 
 .v4-post-card {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   border: 1px solid var(--v4-line-soft);
   transition: background 0.2s ease, transform 0.2s ease;
@@ -938,7 +939,7 @@ img.v4-marquee__item {
 ───────────────────────────────────────────────────────────── */
 .v4-closer {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(40px, 5vw, 80px);
   border: 1px solid var(--v4-line-soft);
   text-align: center;
@@ -946,7 +947,7 @@ img.v4-marquee__item {
 
 .v4-contact-form {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(32px, 4vw, 56px);
   border: 1px solid var(--v4-line-soft);
   max-width: 640px;
@@ -973,7 +974,7 @@ img.v4-marquee__item {
 .v4-field select {
   background: var(--v4-panel-2);
   border: 1px solid var(--v4-line);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 12px 14px;
   font-family: var(--v4-sans);
   font-size: 15px;
@@ -997,12 +998,14 @@ img.v4-marquee__item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 44px;
-  padding: 0 24px;
+  height: 46px;
+  padding: 0 26px;
   border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-family: var(--v4-mono);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
   white-space: nowrap;
@@ -1118,13 +1121,11 @@ img.v4-marquee__item {
 
 .v4-prose h2 {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: clamp(24px, 3vw, 36px);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--v4-accent-warm);
+  font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--v4-ink);
   margin-top: 56px;
   margin-bottom: 20px;
 }
@@ -1181,7 +1182,7 @@ img.v4-marquee__item {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 28px;
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid var(--v4-line-soft);
 }
 
