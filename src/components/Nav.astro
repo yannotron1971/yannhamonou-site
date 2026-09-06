@@ -161,19 +161,22 @@ const services = [
     position: relative;
   }
 
+  /* Matches .v4-nav__links a — the trigger is one of the links. */
   .v4-nav__dropdown-trigger {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    font: inherit;
-    font-size: 14px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--v4-ink-mute);
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     transition: color 0.15s ease;
-    letter-spacing: 0.01em;
   }
   .v4-nav__dropdown-trigger:hover,
   .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown-trigger {
@@ -201,7 +204,7 @@ const services = [
     border: 1px solid var(--v4-line-soft);
     border-radius: 14px;
     padding: 8px;
-    min-width: 220px;
+    min-width: 248px;
     list-style: none;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     z-index: 100;
@@ -213,7 +216,10 @@ const services = [
   .v4-nav__dropdown li a {
     display: block;
     padding: 9px 14px;
-    font-size: 13px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--v4-ink-mute);
     border-radius: 8px;
     transition: background 0.12s ease, color 0.12s ease;
@@ -250,7 +256,10 @@ const services = [
     gap: 2px;
   }
   .v4-drawer__sub li a {
-    font-size: 14px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--v4-ink-dim);
     padding: 6px 0;
     display: block;

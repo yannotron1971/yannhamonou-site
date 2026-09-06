@@ -89,17 +89,19 @@ const recentPosts = allPosts
         {cases.map(c => (
           <li>
             <a href={`/work/${c.slug}`} class="edge-row">
-              {c.logo && (
-                <img
-                  src={c.logo.src}
-                  alt=""
-                  width={c.logo.w}
-                  height={c.logo.h}
-                  class={`edge-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                  loading="lazy"
-                />
-              )}
-              <span class="edge-row__client">{c.client}</span>
+              {c.logo
+                ? (
+                  <img
+                    src={c.logo.src}
+                    alt={c.client}
+                    width={c.logo.w}
+                    height={c.logo.h}
+                    class={`edge-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                    loading="lazy"
+                  />
+                )
+                : <span class="edge-row__client edge-row__client--fallback">{c.client}</span>
+              }
               <span class="edge-row__desc">{c.descriptor}</span>
               <span class="edge-row__stat">{c.stat}</span>
             </a>
@@ -480,9 +482,12 @@ const recentPosts = allPosts
   .edge-rows { list-style: none; border-top: 1px solid var(--v4-line-soft); }
   .edge-rows li { border-bottom: 1px solid var(--v4-line-soft); }
 
+  /* Work rows: mark, descriptor, number. The client name is gone — the logo
+     says it, and printing both made the row say everything twice. That puts
+     the alt text to work: it is the only place the name is now written. */
   .edge-row {
     display: grid;
-    grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.1fr) auto;
+    grid-template-columns: 150px minmax(0, 1fr) auto;
     align-items: center;
     gap: clamp(20px, 4vw, 60px);
     padding-block: clamp(28px, 4.5vh, 56px);
@@ -490,6 +495,13 @@ const recentPosts = allPosts
   }
   .edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
   .edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+
+  /* The descriptor is the middle column now, and it reads from the left edge
+     of its track rather than floating in the middle of the row. */
+  .edge-row__desc { text-align: left; justify-self: start; }
+
+  /* A case with no logo on file still needs a name. */
+  .edge-row__client--fallback { align-self: center; }
   .edge-rows li:hover .edge-row { opacity: 0.62; }
 
   .edge-row__logo {
@@ -522,6 +534,14 @@ const recentPosts = allPosts
     font-size: clamp(24px, 3vw, 46px);
     letter-spacing: -0.02em;
     white-space: nowrap;
+  }
+
+  /* Insights: the description sits alongside a much larger title, so the two
+     are aligned on their first baseline rather than centred against each
+     other. Below 860px the row is a single column and there is nothing to
+     align to. */
+  @media (min-width: 861px) {
+    .edge-row--post { align-items: baseline; }
   }
 
   .edge-more {

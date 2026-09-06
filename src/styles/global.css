@@ -224,9 +224,9 @@ body.sheet-active .v4-nav {
   align-items: center;
   gap: 8px;
   font-family: var(--v4-mono);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   color: var(--v4-ink);
   flex-shrink: 0;
 }
@@ -246,9 +246,20 @@ body.sheet-active .v4-nav {
   margin-left: auto;
 }
 
+/* ── One voice in the bar ──
+   The nav was running three: Space Mono on the brand, Inter on the links,
+   Inter semibold on the pill. A navigation bar is not prose — it is a row of
+   small labels doing wayfinding, which is exactly the register Space Mono
+   already holds in this design (section labels, buttons, the hero kicker
+   directly beneath it). Inter at 13px medium was the generic-SaaS default and
+   the odd one out. Uppercase and tracked, because mono at this size needs the
+   air to stay legible. */
 .v4-nav__links a {
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--v4-ink-mute);
   transition: color 0.15s ease;
 }
@@ -266,12 +277,14 @@ body.sheet-active .v4-nav {
   display: inline-flex;
   align-items: center;
   height: 34px;
-  padding: 0 16px;
+  padding: 0 18px;
   background: var(--v4-ink);
   color: var(--v4-bg);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   border-radius: 999px;
   transition: opacity 0.15s ease;
   white-space: nowrap;
@@ -372,12 +385,13 @@ body.sheet-active .v4-nav {
   gap: 4px;
 }
 
+/* Space Grotesk has neither an 800 weight nor a width axis — the 800/75%
+   pair was written for Archivo and browsers were synthesising both. This is
+   the display face as it actually exists on this concept: light and large. */
 .v4-drawer__links a {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(36px, 8vw, 56px);
-  text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--v4-ink-mute);
   transition: color 0.15s ease;
