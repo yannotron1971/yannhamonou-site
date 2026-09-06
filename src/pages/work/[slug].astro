@@ -59,6 +59,16 @@ const detail = details[c.slug];
       <a href="/work" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All work
       </a>
+      {c.logo && (
+        <img
+          src={c.logo.src}
+          alt=""
+          width={c.logo.w}
+          height={c.logo.h}
+          class={`v4-client-logo v4-client-logo--lg${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+          style="margin-top:32px"
+        />
+      )}
       <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>
       <h1
         style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(56px,10vw,140px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:32px"

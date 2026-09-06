@@ -391,6 +391,9 @@ const etchQuote = testimonials[0];
             <span class="oak-entry__numeral" aria-hidden="true">{numerals[i]}</span>
             {c.image && <img src={c.image} alt="" class="oak-entry__img" loading="lazy" />}
             <div class="oak-entry__body">
+              {c.logo && (
+                <img src={c.logo.src} alt="" width={c.logo.w} height={c.logo.h} class="oak-entry__logo" loading="lazy" />
+              )}
               <p class="oak-entry__meta">{c.year} · {c.descriptor}</p>
               <h3 class="oak-entry__client">{c.client}</h3>
               <p class="oak-entry__stat">{c.stat}</p>
@@ -414,6 +417,9 @@ const etchQuote = testimonials[0];
     <!-- ═══ ETCHED QUOTE ═══ -->
     <section class="oak-etchquote">
       <div class="oak-wrap" data-mist>
+        {etchQuote.logo && (
+          <img src={etchQuote.logo.src} alt="" width={etchQuote.logo.w} height={etchQuote.logo.h} class="oak-quote__logo" loading="lazy" />
+        )}
         <blockquote class="oak-quote" data-etch>
           “{etchQuote.quote}”
         </blockquote>
@@ -1156,6 +1162,40 @@ const etchQuote = testimonials[0];
   .oak-entry:hover .oak-entry__img { filter: none; }
 
   .oak-entry__body { min-width: 0; }
+
+  /* Client marks are silhouetted to the ledger's cream ink rather than kept in
+     brand colour — a coral or teal logo fights the carved-paper palette. */
+  .oak-entry__logo {
+    height: 22px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
+    margin-bottom: 14px;
+    filter: brightness(0) invert(1);
+    opacity: 0.68;
+    transition: opacity 0.3s ease;
+  }
+  .oak-entry:hover .oak-entry__logo { opacity: 1; }
+
+  /* Unlike the ledger band, the etched quote sits on the season background —
+     parchment in Summer — so the mark silhouettes to ink and only flips to
+     cream on the dark seasons. */
+  .oak-quote__logo {
+    height: 26px;
+    width: auto;
+    max-width: 170px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 28px;
+    filter: brightness(0);
+    opacity: 0.5;
+  }
+  body.v4:not(.is-light) .oak-quote__logo {
+    filter: brightness(0) invert(1);
+    opacity: 0.6;
+  }
   .oak-entry__meta {
     font-family: var(--oak-mono);
     font-size: 11px;

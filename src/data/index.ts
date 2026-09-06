@@ -1,3 +1,14 @@
+/* Client logo artwork. `darkInvert` marks logos drawn in dark ink — they need
+   inverting on the dark theme, and always on top of a photo/gradient. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean };
+
+export const logos = {
+  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true },
+  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
+  bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false },
+  incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false },
+} satisfies Record<string, Logo>;
+
 export const services = [
   {
     slug: 'strategy',
@@ -28,6 +39,7 @@ export const services = [
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
+      logo: null, // no logo artwork on file for Proactis
     },
     faq: [
       { q: 'Why work with a consultant rather than hire in-house?', a: 'You get senior-level marketing expertise and execution capability at a fraction of the cost of a full-time hire. You also benefit from experience across multiple industries and proven frameworks — without the overhead of employment costs, management time, or the risk of a bad hire.' },
@@ -65,6 +77,7 @@ export const services = [
       name: 'Claire Murray',
       role: 'Head of Business Development',
       company: 'Arnlea Systems',
+      logo: logos.arnlea,
     },
     caseNote: 'Viewport3 was being compared to generic 3D scanning vendors, even though their subsea photogrammetry work is fundamentally different. Through a structured positioning sprint, we reframed them from "photogrammetry vendor" to "dimensional assurance partner" — identified seven provable differentiators and built a messaging framework drawn from how their best customers describe the service. The category shift moved them out of price competition entirely.',
     faq: [
@@ -116,6 +129,7 @@ export const services = [
       name: 'Chris',
       role: 'CEO',
       company: 'Viewport3',
+      logo: logos.viewport3,
     },
     faq: [
       { q: 'Which platform should I advertise on?', a: 'It depends on where your buyers are and what stage they\'re at. Google Search captures active demand — people already searching for what you sell. LinkedIn reaches specific job titles and company types even before they\'re searching. Meta is effective for retargeting visitors who didn\'t convert. Most B2B businesses benefit from Google first, LinkedIn second, Meta third.' },
@@ -154,6 +168,7 @@ export const services = [
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
+      logo: null, // no logo artwork on file for Proactis
     },
     faq: [
       { q: 'Why Webflow and not WordPress?', a: 'Webflow gives you a visual CMS that\'s fast to build, easy for non-developers to update, and produces clean, performant code without a plugin ecosystem to maintain. It\'s also significantly faster than a typical WordPress install out of the box. For clients who have a specific reason to stay on WordPress, I can work with that too.' },
@@ -191,6 +206,7 @@ export const services = [
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
+      logo: null, // no logo artwork on file for Proactis
     },
     faq: [
       { q: 'Which automation platform do you recommend?', a: 'It depends on what you\'re already using. HubSpot Free or Starter is the right answer for most SMEs starting from scratch — it connects CRM, email, and forms in one place. Mailerlite is excellent for pure email automation at lower cost. Microsoft Dynamics suits businesses already in the Microsoft ecosystem. I don\'t have a platform preference — I recommend what fits your situation.' },
@@ -210,6 +226,7 @@ export const cases = [
     stat: '#1 Rank',
     statSub: '500% organic traffic growth',
     image: '/work/Arnlea-H.avif',
+    logo: logos.arnlea,
     summary: 'Took Arnlea from invisible in search to top-3 rankings, generating 100+ qualified visits per month.',
   },
   {
@@ -220,6 +237,7 @@ export const cases = [
     stat: '+38%',
     statSub: 'demo request uplift',
     image: '/work/clamp.avif',
+    logo: logos.viewport3,
     summary: 'Repositioned Viewport3 from a generic tech agency to a specialist digital twin partner, driving demo request uplift.',
   },
   {
@@ -230,6 +248,7 @@ export const cases = [
     stat: 'x7 leads/month',
     statSub: 'demo request uplift',
     image: '',
+    logo: logos.bowtiemaster,
     summary: 'Audited BowtieMaster website and Google Ads campaigns for lead generation, driving demo request uplift.',
   },
 ] as const;
@@ -253,13 +272,22 @@ export const numbers = [
 ];
 
 export const clients = [
-  { name: 'Arnlea',          logo: '/logos/arnlea.webp',          w: 1130, h: 225 },
-  { name: 'Viewport3',       logo: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
-  { name: 'BowtieMaster',    logo: '/logos/Bowtie.webp',          w: 3023, h: 693 },
-  { name: 'Incident Insight',logo: '/logos/IncidentInsight.avif', w: 1102, h: 276 },
+  { name: 'Arnlea',           ...logos.arnlea },
+  { name: 'Viewport3',        ...logos.viewport3 },
+  { name: 'BowtieMaster',     ...logos.bowtiemaster },
+  { name: 'Incident Insight', ...logos.incidentInsight },
 ];
 
-export const testimonials = [
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+  location?: string;
+  logo?: Logo;
+};
+
+export const testimonials: Testimonial[] = [
   {
     quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
     name: 'Debbie Mackenzie',
@@ -273,6 +301,7 @@ export const testimonials = [
     role: 'CEO',
     company: 'Viewport3',
     location: 'Aberdeen',
+    logo: logos.viewport3,
   },
   {
     quote: 'Yann doesn\'t do fluff. He came in, understood our business quickly, and delivered a positioning and SEO strategy that\'s already showing results. I\'d recommend him to any SME serious about growth.',
@@ -280,6 +309,7 @@ export const testimonials = [
     role: 'Head of Business Development',
     company: 'Arnlea Systems',
     location: 'Aberdeen',
+    logo: logos.arnlea,
   },
 ];
 

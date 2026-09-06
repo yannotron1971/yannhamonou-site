@@ -719,8 +719,40 @@ img.v4-marquee__item {
   display: block;
 }
 
-.logo-dark-invert { filter: invert(1); }
+/* Dark-ink marks render as a clean white silhouette on the dark theme.
+   brightness(0) first so a coloured dark mark doesn't invert to a random hue. */
+.logo-dark-invert { filter: brightness(0) invert(1); }
 .is-light .logo-dark-invert { filter: none; }
+
+/* ─────────────────────────────────────────────────────────────
+   CLIENT LOGOS (outside the marquee)
+───────────────────────────────────────────────────────────── */
+
+/* Shared sizing for client logos on case rows, testimonials and case-study
+   heroes. Constrain height, never width — the marks range from 2.2:1 to 5:1,
+   so a fixed width squashes the wide ones. */
+.v4-client-logo {
+  height: 26px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
+
+.v4-client-logo--lg { height: 40px; max-width: 240px; }
+
+/* Fixed-height slot so testimonial cards stay aligned even when a client
+   has no logo on file. */
+.v4-testimonial__logo {
+  height: 26px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+}
+
+/* Case-list rows put the logo above the client name. */
+.v4-case-row__logo { margin-bottom: 14px; }
 
 /* ─────────────────────────────────────────────────────────────
    TESTIMONIALS
