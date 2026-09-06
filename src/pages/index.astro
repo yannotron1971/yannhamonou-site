@@ -35,6 +35,8 @@ const recentPosts = allPosts
     </div>
   </section>
 
+  <!-- The sheet: rises over the sticky hero and takes the page to white -->
+  <div class="edge-sheet">
   <!-- ═══ PROPOSITION ═══ -->
   <section class="edge-block">
     <div class="edge-wrap edge-lede">
@@ -214,6 +216,7 @@ const recentPosts = allPosts
       <a href="/contact" class="edge-btn">Book the free review →</a>
     </div>
   </section>
+  </div>
 </Layout>
 
 <style>
@@ -244,6 +247,11 @@ const recentPosts = allPosts
 
   /* ── Hero ── */
   .edge-hero {
+    /* Sticky, not fixed: it holds while .edge-sheet scrolls up over it, then
+       releases with the document. z-index 0 keeps it under the sheet. */
+    position: sticky;
+    top: 0;
+    z-index: 0;
     min-height: 100svh;
     display: flex;
     align-items: center;
@@ -308,6 +316,30 @@ const recentPosts = allPosts
     background: var(--v4-ink);
     border-color: var(--v4-ink);
     color: #151515;
+  }
+
+  /* ── The sheet ──
+     Everything below the hero lives on white. Rather than restyle each block,
+     rebind the same tokens the rest of this stylesheet already reads. */
+  .edge-sheet {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    --v4-ink: #151515;
+    --v4-ink-mute: #55585a;
+    --v4-ink-dim: #86898b;
+    --v4-line: rgba(0, 0, 0, 0.14);
+    --v4-line-soft: rgba(0, 0, 0, 0.08);
+    color: var(--v4-ink);
+  }
+
+  /* Dark marks are inverted for the near-black hero; on white they must not be. */
+  .edge-sheet :global(.logo-dark-invert) { filter: none; }
+
+  .edge-sheet .edge-btn:hover {
+    background: #151515;
+    border-color: #151515;
+    color: #fff;
   }
 
   /* ── Section heads ── */

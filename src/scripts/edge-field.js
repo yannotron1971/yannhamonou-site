@@ -26,6 +26,7 @@ uniform float u_time;
 uniform vec2  u_mouse;   // pixels, y up
 uniform float u_wake;    // 0..1, decaying pointer energy
 uniform float u_scroll;  // 0..1 down the document
+uniform vec3  u_ground;  // the near-black ground the field paints onto
 uniform vec3  u_mist;    // pale swell colour
 uniform vec3  u_deep;    // cold trough colour
 uniform float u_amp;     // master amplitude — 0 disables all motion
@@ -167,7 +168,9 @@ void main() {
   a += (grain(frag) - 0.5) * 0.030;
   a = clamp(a, 0.0, 0.42) * u_intensity;
 
-  outColor = vec4(tint * a, a);   // premultiplied
+  /* Opaque: this canvas paints the ground itself rather than compositing over
+     it, so fading the element out reveals the white page beneath. */
+  outColor = vec4(u_ground + (tint - u_ground) * a, 1.0);
 }
 `;
 
@@ -248,16 +251,16 @@ export function initEdgeField() {
 
   const U = {};
   for (const n of ['u_res', 'u_time', 'u_mouse', 'u_wake', 'u_scroll',
-                   'u_mist', 'u_deep', 'u_amp', 'u_intensity']) {
+                   'u_ground', 'u_mist', 'u_deep', 'u_amp', 'u_intensity']) {
     U[n] = gl.getUniformLocation(prog, n);
   }
 
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); // premultiplied
+  // Opaque output — nothing to blend against.
 
   /* Fixed palette — one ground, so nothing to sample or cross-fade. */
-  const MIST = [0.62, 0.68, 0.71]; // cold pale grey-blue, the swell
-  const DEEP = [0.10, 0.13, 0.15]; // barely above the ground, the trough
+  const GROUND = [0.082, 0.082, 0.082]; // #151515
+  const MIST = [0.62, 0.68, 0.71];      // cold pale grey-blue, the swell
+  const DEEP = [0.10, 0.13, 0.15];      // barely above the ground, the trough
 
   /* ── Sizing. DPR is capped: this layer is nearly invisible, so shading it at
      3x on a phone is pure heat for no visible gain. ── */
@@ -291,6 +294,28 @@ export function initEdgeField() {
     wake = Math.min(1, wake + 0.14);
   }, { passive: true });
 
+  /* ── The hero hands over to the white sheet. The canvas fades out across the
+     first viewport, and the nav flips to its light state at the same point, so
+     a dark bar never sits on white content. ── */
+  const body = document.body;
+  let fadeTick = 0;
+  function updateHandover() {
+    fadeTick = 0;
+    const vh = Math.max(1, window.innerHeight);
+    const p = Math.min(1, window.scrollY / vh);
+    // Hold, then fall away — the sheet is most of the way up before the ground
+    // starts going, so you never catch pale hero text on white.
+    const o = 1 - Math.pow(Math.min(1, p / 0.92), 2.2);
+    canvas.style.opacity = String(Math.max(0, o));
+    body.classList.toggle('sheet-active', p > 0.62);
+  }
+  function onScroll() {
+    if (!fadeTick) fadeTick = requestAnimationFrame(updateHandover);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  updateHandover();
+
   /* ── Motion contract: matches oak-motion.js. Reduced motion gets a single
      static frame — the paper tooth, none of the weather. ── */
   const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)');
@@ -317,6 +342,7 @@ export function initEdgeField() {
     gl.uniform2f(U.u_mouse, mx, my);
     gl.uniform1f(U.u_wake, wake);
     gl.uniform1f(U.u_scroll, scroll);
+    gl.uniform3f(U.u_ground, GROUND[0], GROUND[1], GROUND[2]);
     gl.uniform3f(U.u_mist, MIST[0], MIST[1], MIST[2]);
     gl.uniform3f(U.u_deep, DEEP[0], DEEP[1], DEEP[2]);
     gl.uniform1f(U.u_amp, motionOK.matches ? 1 : 0);

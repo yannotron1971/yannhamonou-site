@@ -10,7 +10,9 @@ html {
   /* The ground lives here, not on body: a fixed canvas at z-index:-1 paints
      above the root background and beneath all content. If body kept a
      background it would propagate to the root and bury the canvas. */
-  background-color: #151515;
+  /* White: the field canvas paints the near-black ground for the hero and
+     fades out, revealing this as the sheet takes over. */
+  background-color: #ffffff;
 }
 img, video { display: block; max-width: 100%; }
 button { cursor: pointer; background: none; border: none; font: inherit; }
@@ -187,6 +189,25 @@ body.v4.is-light.tone-bright {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--v4-line-soft);
+}
+
+/* Once the white sheet is under it, the nav flips to light. Rebinding tokens
+   rather than restyling children keeps every nav rule working unchanged. */
+body.sheet-active .v4-nav {
+  --v4-ink: #151515;
+  /* .v4-nav__cta is ink-on-bg, so --v4-bg has to flip too or the pill goes
+     black-on-black. */
+  --v4-bg: #ffffff;
+  --v4-ink-mute: #55585a;
+  --v4-ink-dim: #7a7d7f;
+  --v4-line-soft: rgba(0, 0, 0, 0.09);
+  background: rgba(255 255 255 / 0.78);
+  color: #151515;
+}
+
+.v4-nav,
+.v4-nav * {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
 }
 
 .v4-nav__inner {
