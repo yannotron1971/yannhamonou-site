@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { services } from '../../data/index';
+import ClientLogo from '../../components/ClientLogo.astro';
 
 export function getStaticPaths() {
   // seo-aberdeen has a dedicated page at services/seo-aberdeen.astro
@@ -108,14 +109,12 @@ const s = service as any;
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
             {s.proof.logo && (
-              <img
-                src={s.proof.logo.src}
-                alt=""
-                width={s.proof.logo.w}
-                height={s.proof.logo.h}
-                class={`v4-client-logo${s.proof.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+              <ClientLogo
+                logo={s.proof.logo}
+                name={s.proof.company}
+                class="v4-client-logo"
                 style="margin-bottom:20px"
-                loading="lazy"
+                decorative
               />
             )}
             <blockquote style="margin:0 0 24px">

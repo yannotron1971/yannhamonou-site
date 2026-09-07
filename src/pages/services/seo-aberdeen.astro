@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { services, logos } from '../../data/index';
+import ClientLogo from '../../components/ClientLogo.astro';
 
 const service = services.find(s => s.slug === 'seo-aberdeen')!;
 const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
@@ -224,14 +225,12 @@ const faq = [
       <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
-            <img
-              src={logos.arnlea.src}
-              alt=""
-              width={logos.arnlea.w}
-              height={logos.arnlea.h}
-              class="v4-client-logo logo-dark-invert"
+            <ClientLogo
+              logo={logos.arnlea}
+              name="Arnlea Systems"
+              class="v4-client-logo"
               style="margin-bottom:18px"
-              loading="lazy"
+              decorative
             />
             <div class="v4-eyebrow" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
             <h3 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:20px">
