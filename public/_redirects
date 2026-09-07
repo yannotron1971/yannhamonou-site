@@ -1,0 +1,44 @@
+# Webflow → Astro. Every URL the live site publishes, pointed at its new home.
+#
+# Cloudflare takes the FIRST match, so specific rules sit above the wildcards
+# that back them up. Drafted from the live sitemap (28 URLs) plus three pages
+# that are indexed but absent from it — which is the reason this file is not
+# finished: a sitemap is what a site says it publishes, not what Google knows
+# about. Before cutover, export Search Console's page list and diff it against
+# the left-hand column here.
+
+# ── Pages that changed name ──
+/about-me                    /about                        301
+/blogs-page                  /journal                      301
+/privacy-policy              /privacy                      301
+/b2b-marketing-services      /services                     301
+/aberdeen-marketing-agency   /digital-marketing-aberdeen   301
+
+# ── Services left /marketing-services/ ──
+# Two live URLs carry the strategy page: its own, and the one the homepage
+# labels "Marketing Leadership". Both land on strategy — the new Leadership
+# service is a different offer, and sending traffic there would be a guess.
+/marketing-services/marketing-strategy                    /services/strategy       301
+/marketing-services/digital-marketing-strategy-aberdeen   /services/strategy       301
+/marketing-services/marketing-positioning                 /services/positioning    301
+/marketing-services/seo-aberdeen                          /services/seo-aberdeen   301
+/marketing-services/seo-agency-aberdeen                   /services/seo-aberdeen   301
+/marketing-services/digital-marketing                     /digital-marketing-aberdeen 301
+/marketing-services/*                                     /services                301
+
+# ── Case studies ──
+/proof/case-study-arnlea      /work/arnlea      301
+/proof/case-study-viewport3   /work/viewport3   301
+/proof/*                      /work             301
+
+# ── Journal ──
+# Twelve of the fourteen slugs survive the move unchanged, so the wildcard at
+# the foot carries them. These three do not:
+#   · the live slug lost its year
+#   · a post whose title changed between platforms
+#   · the automation post, deleted with the service — no equivalent page, so
+#     it goes to the index rather than to something it isn't
+/post/seo-aberdeen-the-basics-that-still-win   /journal/seo-aberdeen-the-basics-that-still-win-in-2025   301
+/post/why-every-sme-need-a-marketing-plan      /journal/free-b2b-marketing-plan-template-for-smes        301
+/post/b2b-sme-growth-marketing-automation      /journal                                                  301
+/post/*                                        /journal/:splat                                           301
