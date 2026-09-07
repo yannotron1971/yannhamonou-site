@@ -1,12 +1,18 @@
 /* Client logo artwork. `darkInvert` marks logos drawn in dark ink — they need
-   inverting on the dark theme, and always on top of a photo/gradient. */
-export type Logo = { src: string; w: number; h: number; darkInvert?: boolean };
+   inverting on the dark theme, and always on top of a photo/gradient.
+   `lightInk` is the mirror case: artwork drawn in white, which needs flipping
+   on a light ground or it disappears into it. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean };
 
 export const logos = {
   arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true },
   viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
   bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false },
   incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false },
+  /* The supplied artwork is the inverted cut: white wordmark, orange mark. It
+     sits on the dark grounds every testimonial currently uses; `lightInk`
+     covers it if one of those ever turns light. */
+  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true },
 } satisfies Record<string, Logo>;
 
 export const services = [
@@ -39,7 +45,7 @@ export const services = [
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
+      logo: logos.proactis,
     },
     faq: [
       { q: 'Why work with a consultant rather than hire in-house?', a: 'You get senior-level marketing expertise and execution capability at a fraction of the cost of a full-time hire. You also benefit from experience across multiple industries and proven frameworks — without the overhead of employment costs, management time, or the risk of a bad hire.' },
@@ -168,7 +174,7 @@ export const services = [
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
+      logo: logos.proactis,
     },
     faq: [
       { q: 'Why Webflow and not WordPress?', a: 'Webflow gives you a visual CMS that\'s fast to build, easy for non-developers to update, and produces clean, performant code without a plugin ecosystem to maintain. It\'s also significantly faster than a typical WordPress install out of the box. For clients who have a specific reason to stay on WordPress, I can work with that too.' },
@@ -256,6 +262,7 @@ export const testimonials: Testimonial[] = [
     role: 'Managing Director',
     company: 'Proactis Tenders',
     location: 'Scotland',
+    logo: logos.proactis,
   },
   {
     quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
