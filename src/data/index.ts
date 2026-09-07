@@ -186,6 +186,44 @@ export const services = [
       { q: 'What does a website project cost?', a: 'A focused marketing site (home, services, about, contact) typically runs £3,000–£6,000. Larger sites with complex CMS structures, multiple landing pages, or e-commerce elements are scoped individually. The free 30-minute review is the right starting point.' },
     ],
   },
+  {
+    slug: 'leadership',
+    num: '06',
+    title: 'Marketing Leadership',
+    desc: 'Senior marketing direction, without the cost of a senior hire.',
+    long: 'A marketing function needs someone senior deciding what it does and holding it to account. I take that seat on a fractional basis — setting direction, running the plan, managing whoever executes it, and reporting in plain English to you or your board.',
+    headline: 'Senior marketing direction, without a senior hire',
+    intro: 'Plenty of SMEs have marketing activity and no marketing leadership. A junior marketer doing their best without direction, an agency reporting on impressions, a founder approving spend between customer calls. The work happens; nobody owns whether it is the right work. A fractional marketing lead is that owner — a day or two a week rather than a full-time salary.',
+    why: 'A marketing director in Aberdeen costs £60,000 to £80,000 plus employer costs, and most SMEs at this stage cannot justify one — so the role goes unfilled and the decisions fall to whoever is nearest. That is why budget drifts toward whatever is easiest to measure, why agencies are briefed loosely and judged vaguely, and why campaigns stop and start with whoever has time. Direction is the thing missing, and direction is not a full-time job at this size.',
+    process: [
+      { num: '01', title: 'Take stock', body: 'I start where a new marketing director would: what has been spent, what it produced, who does what, and which commitments are already made. That means the numbers — pipeline, sources, cost per lead where it is known — and the people, including agencies and freelancers already engaged. You get an honest read on what is working, what is not, and what nobody is currently responsible for.' },
+      { num: '02', title: 'Set the direction and own it', body: 'A plan with priorities, a budget mapped to them, and one metric per activity that decides whether it continues. Then I run it: briefing and managing whoever executes, holding agencies to their numbers, and making the trade-offs as they come up rather than deferring them to the next quarter. You are involved in the decisions that matter and free of the ones that do not.' },
+      { num: '03', title: 'Report, adjust, and hand over', body: 'A monthly review in plain English — what we spent, what it produced, what changes next and why — in a form you can take to a board or a bank. As the function matures the role should shrink: part of the job is knowing when you are ready to hire in-house, and briefing that hire properly when you are.' },
+    ],
+    deliverables: [
+      'Fractional marketing director, typically one to two days a week',
+      'Marketing plan, budget allocation and quarterly priorities',
+      'Agency and freelancer selection, briefing and management',
+      'Reporting pack for you, your board or your investors',
+      'Team mentoring for an in-house marketer',
+      'Recruitment support when the role becomes full-time',
+    ],
+    proof: {
+      stat: '+38%',
+      statLabel: 'demo request uplift at Viewport3',
+      quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
+      name: 'Chris',
+      role: 'CEO',
+      company: 'Viewport3',
+      logo: logos.viewport3,
+    },
+    faq: [
+      { q: 'How is this different from the strategy service?', a: 'Strategy is a project with an end: research, decisions, a plan you own. Leadership is the ongoing seat — someone accountable for the plan actually happening, month after month, and for changing it when the evidence says to. Plenty of engagements start as a strategy project and become a leadership one because the plan needs someone to run it.' },
+      { q: 'How much of your week do we get?', a: 'Usually one or two days, split across the week rather than taken in a block, so decisions do not wait and agencies are not managed in arrears. Some engagements start heavier for the first month while I get across the numbers and the people, then settle.' },
+      { q: 'Do you replace our agency or our marketer?', a: 'Neither, usually. Most of the time the execution is fine and the direction is missing, so I manage what you already have rather than replacing it. If an agency is not delivering I will tell you that plainly, with the numbers, and help you replace them — but that is a finding, not the starting assumption.' },
+      { q: 'What happens when we are ready to hire in-house?', a: 'That is the intended ending. I help write the role, sit in on interviews, and hand over a function that already has a plan, a budget and reporting in place — which is a far easier first six months for whoever takes it on than inheriting a blank page.' },
+    ],
+  },
 ];
 
 export const cases = [
