@@ -328,36 +328,19 @@ export function initEdgeField() {
   let raf = 0;
   let t0 = performance.now();
 
-  /* ── The hero hands over to the white sheet. The canvas fades out across the
-     first viewport, and the nav flips to its light state at the same point, so
-     a dark bar never sits on white content. ── */
-  const body = document.body;
-  let fadeTick = 0;
+  /* ── The hand-over to the sheet belongs to edge-handover.js, which runs with
+     or without a WebGL context. All the field needs from it is whether it is
+     still visible: faded out is still fully shaded, every fragment computed
+     and thrown at an invisible layer, so past the hero there is nothing to
+     draw. ── */
   let visible = true;
-  /* Declared up here, not beside the loop: updateHandover() runs during setup
-     and can call start(), which would hit the temporal dead zone otherwise. */
+  /* Declared up here, not beside the loop: the handover event can arrive
+     before that declaration is reached, and start() reads it. */
   let lastFrame = -1e9;
-  function updateHandover() {
-    fadeTick = 0;
-    const vh = Math.max(1, window.innerHeight);
-    const p = Math.min(1, window.scrollY / vh);
-    // Hold, then fall away — the sheet is most of the way up before the ground
-    // starts going, so you never catch pale hero text on white.
-    const o = 1 - Math.pow(Math.min(1, p / 0.92), 2.2);
-    canvas.style.opacity = String(Math.max(0, o));
-    body.classList.toggle('sheet-active', p > 0.62);
-    /* Faded out is still fully shaded: every fragment gets computed and thrown
-       at an invisible layer. Past the hero there is nothing to draw, so stop,
-       and pick it up on the way back. */
-    visible = o > 0.01;
+  window.addEventListener('edge:handover', (e) => {
+    visible = e.detail.opacity > 0.01;
     if (visible) start(); else stop();
-  }
-  function onScroll() {
-    if (!fadeTick) fadeTick = requestAnimationFrame(updateHandover);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  updateHandover();
+  });
 
   function draw(nowMs) {
     const time = (nowMs - t0) / 1000;

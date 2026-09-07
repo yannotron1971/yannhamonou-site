@@ -339,8 +339,12 @@ const recentPosts = allPosts
     z-index: 1;
     background: transparent;
     --v4-ink: #151515;
-    --v4-ink-mute: #55585a;
-    --v4-ink-dim: #86898b;
+    /* Both carry 11-12px text — section labels, row descriptors, captions —
+       so both need 4.5:1 against the palest and the deepest light ground.
+       Measured on sand (#e8e4dc), the worst case: mute 7.27, dim 4.70. The
+       old pair read 5.65 and 2.78, so every label on the page failed AA. */
+    --v4-ink-mute: #45484a;
+    --v4-ink-dim: #616467;
     --v4-line: rgba(0, 0, 0, 0.14);
     --v4-line-soft: rgba(0, 0, 0, 0.08);
     color: var(--v4-ink);
@@ -365,8 +369,10 @@ const recentPosts = allPosts
      light sheet works on it unchanged — no duplicate styles per section. */
   .edge-sheet > .edge-block--dark {
     --v4-ink: #f2f1ec;
+    /* Slate is the palest of the three dark grounds and so the hard case:
+       mute 6.13, dim 4.91. Dim was 3.76 there. */
     --v4-ink-mute: #a2a5a3;
-    --v4-ink-dim: #7c7f7d;
+    --v4-ink-dim: #909391;
     --v4-line: rgba(255, 255, 255, 0.16);
     --v4-line-soft: rgba(255, 255, 255, 0.09);
     color: var(--v4-ink);

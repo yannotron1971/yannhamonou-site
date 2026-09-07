@@ -26,10 +26,14 @@ const services = [
     <ul class="v4-nav__links" role="list">
       <!-- Services dropdown -->
       <li class="v4-nav__dropdown-wrap" id="services-dropdown-wrap">
+        <!-- A disclosure, not a menu widget: the panel holds links, and there
+             is no arrow-key roving focus, so aria-haspopup would promise
+             behaviour that is not implemented. aria-controls ties the button
+             to what it opens. -->
         <button
           class="v4-nav__dropdown-trigger"
-          aria-haspopup="true"
           aria-expanded="false"
+          aria-controls="services-menu"
           id="services-trigger"
         >
           Services <span class="v4-nav__chevron" aria-hidden="true">›</span>
@@ -51,7 +55,7 @@ const services = [
     <!-- Right cluster -->
     <div class="v4-nav__right">
       <!-- Contact CTA (desktop) -->
-      <a href="/contact" class="v4-nav__cta" style="display:none" id="nav-cta-desktop">
+      <a href="/contact" class="v4-nav__cta" id="nav-cta-desktop">
         Free Consultation
       </a>
 
@@ -87,10 +91,6 @@ const services = [
 <script>
   // Season/theme toggle removed on this concept — the Edge language has one
   // ground, so there is nothing to switch between.
-
-  // Show CTA on desktop
-  const cta = document.getElementById('nav-cta-desktop');
-  if (window.innerWidth > 760 && cta) cta.style.display = '';
 
   // Mobile drawer
   const hamburger = document.getElementById('hamburger');

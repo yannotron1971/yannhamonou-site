@@ -32,8 +32,11 @@ body.v4 {
   --v4-line:        rgba(255 255 255 / 0.10);
   --v4-line-soft:   rgba(255 255 255 / 0.06);
   --v4-ink:         oklch(0.954 0.003 75);
-  --v4-ink-mute:    oklch(0.591 0.004 75);
-  --v4-ink-dim:     oklch(0.52 0.003 75);
+  /* Measured, not eyeballed. Against the #151515 ground these carry 11-15px
+     text, so they need 4.5:1, and the old pair missed: mute at 0.591 came to
+     4.45 and dim at 0.52 to 3.33. */
+  --v4-ink-mute:    oklch(0.70 0.004 75);  /* 6.84:1 on the ground */
+  --v4-ink-dim:     oklch(0.60 0.003 75);  /* 4.63:1 */
   --v4-accent:      oklch(0.954 0.003 75);
   --v4-accent-warm: oklch(0.910 0.025 75);
   --v4-smoke-rgb:   255 255 255;
@@ -299,8 +302,14 @@ body.sheet-active .v4-nav {
 
 .v4-nav__cta:hover { opacity: 0.85; }
 
+/* Below 760px the links move into the drawer, and the CTA with them — the
+   drawer carries Contact in its list. This was an inline display:none plus a one-shot
+   width check in script, which meant no JS, no call to action on desktop, and
+   none at all for anyone who widened the window after load. It is the page's
+   single next step; it does not get to depend on JavaScript. */
 @media (max-width: 760px) {
-  .v4-nav__links { display: none; }
+  .v4-nav__links,
+  .v4-nav__cta { display: none; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -1305,6 +1314,28 @@ img.v4-marquee__item {
   outline: 2px solid var(--v4-ink-mute);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+/* Skip link — the nav carries a dropdown of six services before the content
+   starts, which is a long way to tab past on every page. Off-screen until it
+   takes focus, rather than display:none, which would take it out of the tab
+   order and defeat the point. */
+.v4-skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  transform: translateY(-200%);
+  padding: 12px 18px;
+  background: var(--v4-ink);
+  color: var(--v4-bg);
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.v4-skip:focus-visible {
+  transform: translateY(0);
 }
 
 /* ─────────────────────────────────────────────────────────────

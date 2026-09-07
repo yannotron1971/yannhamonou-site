@@ -186,8 +186,9 @@ const ogImageUrl = ogImage
 
   <body class="v4 edge">
     {field && <EdgeField />}
+    <a class="v4-skip" href="#main">Skip to content</a>
     <Nav />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <Footer />
@@ -199,6 +200,8 @@ const ogImageUrl = ogImage
          no-op on the v4 inner pages, and motion.js is a no-op on the Edge. */
       import '../scripts/edge-motion.js';
       import '../scripts/smooth-anchors.js';
+      import { initEdgeHandover } from '../scripts/edge-handover.js';
+      initEdgeHandover();
     </script>
 
     <!-- Single ground: tag the body for the stylesheet, no theme branch. -->
