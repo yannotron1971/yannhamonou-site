@@ -126,6 +126,59 @@ function cta() {
   }));
 }
 
+/* ── Everything else ──
+   The inner pages are inline-styled with no reusable hooks beyond the block and
+   the wrap, so each .edge-block is read structurally instead: whatever the wrap
+   holds rises together, in order. Elements a hand-tuned moment already owns are
+   marked and skipped, so nothing is animated twice — a section that has a head,
+   a row list and a tail link is fully claimed and this pass leaves it alone. */
+function claimed(el) {
+  return el.matches('.edge-head, .edge-rows, .edge-clients, .edge-quotes, .edge-faq, .edge-lede')
+    || !!el.querySelector('.edge-head, .edge-rows, .edge-clients, .edge-quotes, .edge-faq, .edge-lede');
+}
+
+function sectionPass() {
+  document.querySelectorAll('.edge-block').forEach((block) => {
+    if (block.classList.contains('edge-page-hero') || block.classList.contains('edge-cta')) return;
+
+    const wrap = block.querySelector('.edge-wrap');
+    if (!wrap) return;
+
+    const items = Array.from(wrap.children).filter((el) => {
+      if (claimed(el)) return false;
+      const cs = getComputedStyle(el);
+      return cs.display !== 'none' && el.getBoundingClientRect().height > 0;
+    });
+    if (!items.length) return;
+
+    track(gsap.from(items, {
+      y: 18,
+      opacity: 0,
+      duration: 0.75,
+      ease: 'expo.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: block, start: 'top 82%', once: true },
+    }));
+  });
+}
+
+/* ── The page hero, on every page but the homepage ──
+   The homepage hero is left alone: it is sticky, it holds the field, and an
+   entrance there fights the handover. An inner page's is an ordinary block of
+   type and can arrive like one. */
+function pageHero() {
+  const wrap = document.querySelector('.edge-page-hero .edge-wrap');
+  if (!wrap) return;
+
+  track(gsap.from(wrap.children, {
+    y: 20,
+    opacity: 0,
+    duration: 0.9,
+    ease: 'expo.out',
+    stagger: 0.1,
+  }));
+}
+
 /* ── The "all work →" style links, which sit outside every group ── */
 function tails() {
   document.querySelectorAll('.edge-block .edge-more').forEach((el) => {
@@ -172,11 +225,13 @@ if (document.querySelector('.edge-block')) {
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
+    pageHero();
     heads();
     lede();
     groups();
     cta();
     tails();
+    sectionPass();
 
     guardAgainstStalledTicker();
 

@@ -68,13 +68,16 @@ descriptors, captions), so they need 4.5:1.
 | mute | `#45484a` | 7.27 on sand | `#a2a5a3` | 6.13 on slate |
 | dim | `#616467` | 4.70 on sand | `#909391` | 4.91 on slate |
 
-Inner pages use the `body.v4` OKLCH tokens on `#151515`: mute
-`oklch(0.70 0.004 75)` at 6.84:1, dim `oklch(0.60 0.003 75)` at 4.63:1.
+The `body.v4` OKLCH tokens are what the heroes and any block outside a sheet
+use: mute `oklch(0.70 0.004 75)` at 6.84:1 on `#151515`, dim
+`oklch(0.60 0.003 75)` at 4.63:1.
 
-Client logos are monochrome throughout on the homepage. Four brand palettes side
-by side read as a jumble; desaturated, the marks line up as one set. `darkInvert`
-flips dark-ink artwork on dark grounds, `lightInk` is the mirror for white-ink
-artwork on light ones.
+Client logos are monochrome site-wide and take their colour back under the
+pointer, on any link that holds one. Four brand palettes side by side read as a
+jumble; desaturated, the marks line up as one set. `darkInvert` flips dark-ink
+artwork on dark grounds, `lightInk` is the mirror for white-ink artwork on light
+ones — and both say through `--logo-hover` that they cannot return to colour,
+because a silhouette has none, so they lift their opacity instead.
 
 ## Typography
 
@@ -162,11 +165,16 @@ baseline above 860px.
 
 ## Motion
 
-- `motion.js` — the `.v4-*` pages. Shared with the other branches.
-- `edge-motion.js` — the `.edge-*` homepage. One entrance vocabulary, a short
-  rise on the way in. `once: true`, opacity and transform only, nothing scrubbed.
-  Item groups use `ScrollTrigger.batch` so a list stacked into one column on a
-  phone does not run its whole stagger off the first item.
+- `edge-motion.js` — every page. One entrance vocabulary, a short rise on the
+  way in: section heads, item groups, the page hero, the close, and a structural
+  pass over any `.edge-block` whose contents no hand-tuned moment already owns —
+  which is what the converted inner pages rely on, since their markup is
+  inline-styled with no hooks beyond the block and the wrap. `once: true`,
+  opacity and transform only, nothing scrubbed. Item groups use
+  `ScrollTrigger.batch` so a list stacked into one column on a phone does not run
+  its whole stagger off the first item.
+- `motion.js` — reads `.v4-*` markup, which no page on this branch writes any
+  more. It stays because it is shared with the other branches; here it no-ops.
 - `smooth-anchors.js` — same-page anchors glide via GSAP's ScrollToPlugin. It
   has to be JS: ScrollTrigger writes `scroll-behavior: auto` inline on `<html>`
   at init, so the stylesheet's `scroll-behavior: smooth` never applies on a page
