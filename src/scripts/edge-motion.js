@@ -23,6 +23,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/**
+ * Only animate what the reader cannot already see.
+ *
+ * This is the whole fix for the jump on navigation. These scripts are modules,
+ * so they run after the document has painted — and `gsap.from()` writes
+ * opacity:0 the moment it is called. Anything already on screen was therefore
+ * drawn, blanked a frame later, and slid back in: no layout shift, nothing a
+ * CLS number would catch, but a visible blink on every page load.
+ *
+ * An entrance is for arrival. Something the reader is already looking at has
+ * arrived, so it stays put, and only what is still below the fold animates in.
+ */
+const settled = (el) => el.getBoundingClientRect().top < window.innerHeight * 0.9;
+const arriving = (els) => Array.from(els).filter((el) => !settled(el));
+
 /* Reveals that start hidden, so the watchdog below can force-finish them. */
 const pending = [];
 const track = (tween) => {
@@ -43,7 +58,8 @@ const preset = [];
  * whole stagger the moment the first one crossed the line, leaving the rest
  * settled before they were ever seen.
  */
-function staggerIn(items, { y = 20, duration = 0.7, stagger = 0.08, start = 'top 88%' } = {}) {
+function staggerIn(list, { y = 20, duration = 0.7, stagger = 0.08, start = 'top 88%' } = {}) {
+  const items = arriving(list);
   if (!items.length) return;
 
   gsap.set(items, { opacity: 0, y });
@@ -66,7 +82,9 @@ function staggerIn(items, { y = 20, duration = 0.7, stagger = 0.08, start = 'top
 /* ── Section heads — the label and the big word rise together ─── */
 function heads() {
   document.querySelectorAll('.edge-block .edge-head').forEach((head) => {
-    track(gsap.from(head.children, {
+    const items = arriving(head.children);
+    if (!items.length) return;
+    track(gsap.from(items, {
       y: 18,
       opacity: 0,
       duration: 0.75,
@@ -82,7 +100,8 @@ function lede() {
   const wrap = document.querySelector('.edge-lede');
   if (!wrap) return;
 
-  track(gsap.from(wrap.children, {
+  const items = arriving(wrap.children);
+  if (items.length) track(gsap.from(items, {
     y: 18,
     opacity: 0,
     duration: 0.8,
@@ -116,7 +135,10 @@ function cta() {
   const wrap = document.querySelector('.edge-cta .edge-wrap');
   if (!wrap) return;
 
-  track(gsap.from(wrap.children, {
+  const items = arriving(wrap.children);
+  if (!items.length) return;
+
+  track(gsap.from(items, {
     y: 20,
     opacity: 0,
     duration: 0.85,
@@ -145,7 +167,7 @@ function sectionPass() {
     if (!wrap) return;
 
     const items = Array.from(wrap.children).filter((el) => {
-      if (claimed(el)) return false;
+      if (claimed(el) || settled(el)) return false;
       const cs = getComputedStyle(el);
       return cs.display !== 'none' && el.getBoundingClientRect().height > 0;
     });
@@ -162,26 +184,10 @@ function sectionPass() {
   });
 }
 
-/* ── The page hero, on every page but the homepage ──
-   The homepage hero is left alone: it is sticky, it holds the field, and an
-   entrance there fights the handover. An inner page's is an ordinary block of
-   type and can arrive like one. */
-function pageHero() {
-  const wrap = document.querySelector('.edge-page-hero .edge-wrap');
-  if (!wrap) return;
-
-  track(gsap.from(wrap.children, {
-    y: 20,
-    opacity: 0,
-    duration: 0.9,
-    ease: 'expo.out',
-    stagger: 0.1,
-  }));
-}
-
 /* ── The "all work →" style links, which sit outside every group ── */
 function tails() {
   document.querySelectorAll('.edge-block .edge-more').forEach((el) => {
+    if (settled(el)) return;
     track(gsap.from(el, {
       y: 12,
       opacity: 0,
@@ -225,7 +231,6 @@ if (document.querySelector('.edge-block')) {
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    pageHero();
     heads();
     lede();
     groups();
