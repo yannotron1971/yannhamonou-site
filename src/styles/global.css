@@ -845,7 +845,7 @@ body.v4:not(.is-light) .v4-client-logo.logo-dark-invert {
 
 /* White-ink artwork on a light ground. */
 .is-light .logo-light-ink,
-.edge-sheet > .edge-block:not(.edge-block--dark) .logo-light-ink {
+.edge-block:not(.edge-block--dark) .logo-light-ink {
   --logo-rest: brightness(0) grayscale(1);
   --logo-hover: brightness(0) grayscale(1);
 }
@@ -853,7 +853,7 @@ body.v4:not(.is-light) .v4-client-logo.logo-dark-invert {
 /* Dark-ink artwork on a light ground needs no flip — the sheet is light, and
    the mark is drawn dark. */
 .is-light .logo-dark-invert,
-.edge-sheet > .edge-block:not(.edge-block--dark) .logo-dark-invert {
+.edge-block:not(.edge-block--dark) .logo-dark-invert {
   --logo-rest: grayscale(1);
   --logo-hover: none;
 }
@@ -1471,4 +1471,439 @@ a:focus-visible .v4-client-logo {
   @keyframes v4FaqIn {
     from { opacity: 0; transform: translateY(-4px); }
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   THE EDGE
+   Lifted out of the homepage's scoped styles so every page can speak it.
+   Scoped styles only match the elements the page that wrote them renders,
+   which is also why the client marks broke when they moved into a component.
+───────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   THE EDGE — a near-black ground, one enormous light line, and
+   mono micro-labels as the only second voice. The restraint is
+   the design; the field behind it is ambience, not the subject.
+───────────────────────────────────────────────────────────── */
+
+.edge-wrap {
+  width: min(100% - clamp(24px, 6vw, 96px), 1440px);
+  margin-inline: auto;
+}
+.edge-wrap--narrow { max-width: 780px; }
+
+/* The section rhythm every Edge page shares. */
+.edge-block {
+  padding-block: clamp(80px, 12vh, 180px);
+}
+
+/* One screen per section is a homepage device — a page of eight statements,
+   each given the viewport. A services page, a case study or a journal post is
+   a document, and a screen per section would fight the reading, so they use
+   the rhythm above instead.
+
+   min-height, not height: a phone, a short laptop or a long FAQ grows past it
+   rather than clipping. svh, so mobile browser chrome cannot push the last
+   line under the fold. */
+.edge-block--full {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding-block: clamp(72px, 12vh, 160px);
+}
+
+/* ── Micro-labels: the Space Mono voice ── */
+.edge-label,
+.edge-kicker {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+/* ── Hero ── */
+.edge-hero {
+  /* Sticky, not fixed: it holds while .edge-sheet scrolls up over it, then
+     releases with the document. z-index 0 keeps it under the sheet. */
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(120px, 18vh, 200px) clamp(60px, 10vh, 100px);
+}
+.edge-kicker { margin-bottom: clamp(32px, 6vh, 64px); }
+
+.edge-h1 {
+  font-family: var(--v4-display);
+  /* Light weight at enormous size is the whole trick — at 600 this reads as
+     a poster, at 300 it reads as air. */
+  font-weight: 300;
+  font-size: clamp(52px, 11.5vw, 220px);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--v4-ink);
+  margin: 0;
+}
+.edge-h1__sub {
+  display: block;
+  font-family: var(--v4-mono);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  line-height: 1.5;
+  margin-top: clamp(28px, 4vh, 48px);
+}
+
+.edge-hero__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: clamp(48px, 8vh, 88px);
+}
+.edge-hero__where {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+.edge-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  padding-inline: 26px;
+  border: 1px solid var(--v4-line);
+  border-radius: 999px;
+  font-family: var(--v4-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v4-ink);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.edge-btn:hover {
+  background: var(--v4-ink);
+  border-color: var(--v4-ink);
+  color: #151515;
+}
+
+/* ── The sheet ──
+   Carries the light token set; the background belongs to each block so
+   sections can differ. The sheet itself is transparent, which is what lets
+   an --clear block show the field through. Every direct child must therefore
+   declare a ground, or the hero shows through it. */
+.edge-sheet {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  --v4-ink: #151515;
+  /* Both carry 11-12px text — section labels, row descriptors, captions —
+     so both need 4.5:1 against the palest and the deepest light ground.
+     Measured on sand (#e8e4dc), the worst case: mute 7.27, dim 4.70. The
+     old pair read 5.65 and 2.78, so every label on the page failed AA. */
+  --v4-ink-mute: #45484a;
+  --v4-ink-dim: #616467;
+  --v4-line: rgba(0, 0, 0, 0.14);
+  --v4-line-soft: rgba(0, 0, 0, 0.08);
+  /* The inner pages are inline-styled against these, so rebinding them here is
+     what carries that markup onto a light ground unchanged. */
+  --v4-bg: #ffffff;
+  --v4-panel: rgba(0, 0, 0, 0.025);
+  --v4-panel-2: rgba(0, 0, 0, 0.05);
+  --v4-panel-3: rgba(0, 0, 0, 0.075);
+  color: var(--v4-ink);
+}
+
+/* ── Per-section grounds ──
+   One ladder, no hues: warm off-whites, cool off-whites, and three depths of
+   near-black. A monochrome page can give every section its own ground and
+   still read as one material — colour would not. Swap the modifier on any
+   section; --clear lets the hero field show through instead. */
+.edge-block--white { background: var(--edge-white); }        /* 01 proposition */
+.edge-block--paper { background: var(--edge-paper); } /* current projects */
+.edge-block--ink   { background: var(--edge-ink); }   /* 02 work */
+.edge-block--mist  { background: var(--edge-mist); }  /* 03 services */
+.edge-block--slate { background: var(--edge-slate); } /* 04 proof */
+.edge-block--sand  { background: var(--edge-sand); }  /* 05 faq */
+.edge-block--bone  { background: var(--edge-bone); }  /* 06 journal */
+.edge-block--pitch { background: var(--edge-pitch); } /* the close */
+.edge-block--clear { background: transparent; }
+
+/* Any dark ground rebinds the ink tokens, so every rule written for the
+   light sheet works on it unchanged — no duplicate styles per section. */
+.edge-block--dark {
+  --v4-ink: #f2f1ec;
+  /* Slate is the palest of the three dark grounds and so the hard case:
+     mute 6.13, dim 4.91. Dim was 3.76 there. */
+  --v4-ink-mute: #a2a5a3;
+  --v4-ink-dim: #909391;
+  --v4-line: rgba(255, 255, 255, 0.16);
+  --v4-line-soft: rgba(255, 255, 255, 0.09);
+  color: var(--v4-ink);
+}
+
+.edge-sheet .edge-btn:hover {
+  background: #151515;
+  border-color: #151515;
+  color: #fff;
+}
+/* Ink on ink is invisible: on a dark ground the fill inverts. */
+.edge-block--dark .edge-btn:hover {
+  background: #f2f1ec;
+  border-color: #f2f1ec;
+  color: #151515;
+}
+
+/* ── Section heads ── */
+.edge-head { margin-bottom: clamp(40px, 6vh, 72px); }
+.edge-h2 {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(38px, 6vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-top: 14px;
+}
+
+/* ── Lede ── */
+.edge-lede__text {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(22px, 3.2vw, 46px);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  max-width: 20ch;
+  margin-top: 20px;
+}
+.edge-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 80px);
+  margin-top: clamp(48px, 8vh, 88px);
+  padding-top: 32px;
+  border-top: 1px solid var(--v4-line-soft);
+}
+.edge-figure { display: flex; flex-direction: column; gap: 6px; }
+.edge-figure__num {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.edge-figure__label {
+  font-family: var(--v4-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  max-width: 15ch;
+}
+
+/* ── Clients ── */
+/* Auto-fit rather than flex-wrap: at full height the four marks should sit
+   on one even row and break to a tidy grid, not trail a widow. */
+.edge-clients {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(48px, 7vw, 96px);
+  margin-top: clamp(48px, 8vh, 96px);
+  list-style: none;
+}
+/* ── Rows: work, services, journal all share one rhythm ── */
+.edge-rows { list-style: none; border-top: 1px solid var(--v4-line-soft); }
+.edge-rows li { border-bottom: 1px solid var(--v4-line-soft); }
+
+/* Work rows: mark, descriptor, number. The client name is gone — the logo
+   says it, and printing both made the row say everything twice. That puts
+   the alt text to work: it is the only place the name is now written. */
+.edge-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(20px, 4vw, 60px);
+  padding-block: clamp(28px, 4.5vh, 56px);
+  transition: opacity 0.25s ease;
+}
+.edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
+.edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+
+/* A case with no logo on file still needs a name. */
+.edge-row__client--fallback { align-self: center; }
+.edge-rows li:hover .edge-row { opacity: 0.62; }
+
+.edge-row__num,
+.edge-row__desc {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--v4-ink-dim);
+  text-transform: uppercase;
+}
+/* Overrides the label treatment above: the descriptor is prose, and it is the
+   middle column of the work row, so it reads from the left edge of its own
+   track rather than floating in the middle of the row. */
+.edge-row__desc {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: left;
+  justify-self: start;
+}
+.edge-row__client {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 34px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+.edge-row__stat {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 46px);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* Insights: the description sits alongside a much larger title, so the two
+   are aligned on their first baseline rather than centred against each
+   other. Below 860px the row is a single column and there is nothing to
+   align to. */
+@media (min-width: 861px) {
+  .edge-row--post { align-items: baseline; }
+}
+
+.edge-more {
+  display: inline-block;
+  margin-top: 32px;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  transition: color 0.2s ease;
+}
+.edge-more:hover { color: var(--v4-ink); }
+
+/* ── Quotes ── */
+.edge-quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(32px, 5vw, 72px);
+}
+.edge-quote { display: flex; flex-direction: column; }
+.edge-quote blockquote {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--v4-ink);
+}
+.edge-quote figcaption {
+  font-family: var(--v4-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  margin-top: 20px;
+}
+
+/* ── FAQ ── */
+.edge-faq { border-top: 1px solid var(--v4-line-soft); }
+.edge-faq__item { border-bottom: 1px solid var(--v4-line-soft); }
+.edge-faq__item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-block: 24px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(16px, 1.7vw, 22px);
+  letter-spacing: -0.01em;
+}
+.edge-faq__item summary::-webkit-details-marker { display: none; }
+.edge-faq__item summary span { color: var(--v4-ink-dim); flex-shrink: 0; }
+.edge-faq__item[open] summary span { transform: rotate(45deg); }
+.edge-faq__item p {
+  padding-bottom: 26px;
+  max-width: 62ch;
+  color: var(--v4-ink-mute);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── CTA ── */
+.edge-cta { text-align: center; }
+.edge-cta__h { margin-top: 0; }
+.edge-cta__p {
+  color: var(--v4-ink-mute);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 42ch;
+  margin: 24px auto 40px;
+}
+
+/* ── Narrow ── */
+@media (max-width: 860px) {
+  .edge-row,
+  .edge-row--service,
+  .edge-row--post {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .edge-row__stat { margin-top: 4px; }
+  .edge-hero__foot { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── The inner-page hero ──
+   The homepage handover in miniature: a near-black opening, then the sheet.
+   Not sticky and not a full screen — the homepage hero earns that because it
+   is the argument of the page. This one says what the document is and gets out
+   of the way. align-content: end so the title sits on the fold rather than
+   floating in the middle of an empty band. */
+.edge-page-hero {
+  min-height: 58svh;
+  display: grid;
+  align-content: end;
+  padding-block: clamp(130px, 20vh, 200px) clamp(48px, 7vh, 84px);
+}
+
+.edge-page-hero__h {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  /* Half the homepage's ceiling: 220px is a statement, and a page title that
+     shouts as loudly as the site's one line flattens the hierarchy between
+     them. */
+  font-size: clamp(40px, 6.5vw, 104px);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--v4-ink);
+  margin-top: clamp(20px, 3vh, 32px);
+}
+
+.edge-page-hero__lede {
+  margin-top: clamp(20px, 3vh, 30px);
+  max-width: 62ch;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--v4-ink-mute);
+  text-wrap: pretty;
 }

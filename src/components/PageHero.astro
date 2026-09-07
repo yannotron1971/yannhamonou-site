@@ -1,0 +1,28 @@
+---
+/**
+ * The page hero for everything that is not the homepage.
+ *
+ * Same handover in miniature: a near-black opening, then the sheet. It does not
+ * hold the field and it is not sticky — the homepage earns that because its
+ * hero is the whole first screen and the argument of the page. An inner page is
+ * a document, so its hero states what the document is and gets out of the way
+ * at a little over half a screen.
+ */
+interface Props {
+  label?: string;
+  title: string;
+  lede?: string;
+  class?: string;
+}
+
+const { label, title, lede, class: className = '' } = Astro.props;
+---
+
+<section class={`edge-block edge-block--dark edge-block--ink edge-page-hero ${className}`}>
+  <div class="edge-wrap">
+    {label && <p class="edge-label">{label}</p>}
+    <h1 class="edge-page-hero__h" set:html={title} />
+    {lede && <p class="edge-page-hero__lede">{lede}</p>}
+    <slot />
+  </div>
+</section>
