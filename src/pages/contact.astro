@@ -2,24 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 import { logos } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <Layout
   title="Free 30-Minute Marketing Strategy Review — Aberdeen"
   description="Book a free 30-minute marketing strategy review with Yann Hamonou, B2B marketing consultant in Aberdeen. You'll leave with a clear priority list — no pitch, no agenda."
 >
-  <section class="v4-block tight">
-    <div class="v4-wrap">
+  <PageHero
+    label="Get in touch"
+    title="Free 30-min<br />strategy review"
+    lede="Tell me where you are and what's not working. I'll review your situation and share exactly what I'd prioritise. No pitch, no agenda — just a useful conversation."
+  />
+
+  <div class="edge-sheet">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div class="v4-contact-layout">
 
         <!-- LEFT: form -->
         <div class="v4-contact-form-col">
-          <div class="v4-eyebrow" style="margin-bottom:16px">Get in touch</div>
-          <h1 class="v4-section-h" style="margin-bottom:16px">Free 30-min<br/>Strategy Review</h1>
-          <p style="font-size:17px;color:var(--v4-ink-mute);line-height:1.6;margin-bottom:40px">
-            Tell me where you are and what's not working. I'll review your situation and share exactly what I'd prioritise. No pitch, no agenda — just a useful conversation.
-          </p>
-
           <form
             action="https://formspree.io/f/xkoabzbd"
             method="POST"
@@ -47,14 +49,14 @@ import ClientLogo from '../components/ClientLogo.astro';
             </div>
 
             <div style="margin-top:8px">
-              <button type="submit" class="v4-btn v4-btn--primary" style="width:100%;justify-content:center;height:48px">
+              <button type="submit" class="edge-btn" style="width:100%;justify-content:center;height:48px">
                 Send →
               </button>
             </div>
           </form>
 
           <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--v4-line-soft)">
-            <div class="v4-eyebrow" style="margin-bottom:12px">Prefer to call?</div>
+            <div class="edge-label" style="margin-bottom:12px">Prefer to call?</div>
             <a href="tel:+447853455816" style="font-size:22px;font-weight:600;color:var(--v4-ink)">+44 7853 455 816</a>
             <p style="font-size:13px;color:var(--v4-ink-dim);margin-top:4px">Mon–Fri, 9am–6pm GMT</p>
           </div>
@@ -64,7 +66,7 @@ import ClientLogo from '../components/ClientLogo.astro';
         <div class="v4-contact-trust">
 
           <div class="v4-contact-trust__block">
-            <div class="v4-eyebrow" style="margin-bottom:16px">What to expect</div>
+            <div class="edge-label" style="margin-bottom:16px">What to expect</div>
             <ul style="list-style:none;display:flex;flex-direction:column;gap:14px">
               {[
                 { n: '01', t: 'You send the form', b: 'Takes 2 minutes. Tell me what you\'re working on and where it\'s breaking down.' },
@@ -83,7 +85,7 @@ import ClientLogo from '../components/ClientLogo.astro';
           </div>
 
           <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
-            <div class="v4-eyebrow" style="margin-bottom:16px">Typical response time</div>
+            <div class="edge-label" style="margin-bottom:16px">Typical response time</div>
             <div style="font-family:var(--v4-display);font-weight:300;font-size:48px;line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
               &lt;4h
             </div>
@@ -93,7 +95,7 @@ import ClientLogo from '../components/ClientLogo.astro';
           </div>
 
           <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
-            <div class="v4-eyebrow" style="margin-bottom:16px">What clients say</div>
+            <div class="edge-label" style="margin-bottom:16px">What clients say</div>
             <ClientLogo
               logo={logos.viewport3}
               name="Viewport3"
@@ -115,6 +117,7 @@ import ClientLogo from '../components/ClientLogo.astro';
       </div>
     </div>
   </section>
+  </div>
 </Layout>
 
 <style>

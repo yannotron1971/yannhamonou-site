@@ -29,12 +29,12 @@ const s = service as any;
   ]}
 >
   <!-- Hero -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <a href="/services" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <div class="edge-wrap">
+      <a href="/services" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All services
       </a>
-      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:20px">{service.num} · Service</div>
+      <div class="edge-label" style="margin-top:24px;margin-bottom:20px">{service.num} · Service</div>
       <h1
         style="font-family:var(--v4-display);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
       >
@@ -46,25 +46,27 @@ const s = service as any;
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- Intro + deliverables -->
   {s.intro && (
-  <section class="v4-block tight">
-    <div class="v4-wrap">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
-          <div class="v4-eyebrow" style="margin-bottom:20px">The challenge</div>
+          <div class="edge-label" style="margin-bottom:20px">The challenge</div>
           <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
             <p>{s.intro}</p>
             {s.why && <p>{s.why}</p>}
           </div>
-          <a href="/contact" class="v4-btn v4-btn--primary" style="margin-top:32px;display:inline-flex">
+          <a href="/contact" class="edge-btn" style="margin-top:32px;display:inline-flex">
             Discuss your situation →
           </a>
         </div>
 
         {s.deliverables?.length > 0 && (
         <div style="background:var(--v4-panel);border-radius:0;padding:32px;border:1px solid var(--v4-line-soft)">
-          <div class="v4-eyebrow" style="margin-bottom:16px">What's included</div>
+          <div class="edge-label" style="margin-bottom:16px">What's included</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
             {s.deliverables.map((item: string) => (
               <li style="font-size:14px;color:var(--v4-ink-mute);padding-left:16px;position:relative">
@@ -81,14 +83,14 @@ const s = service as any;
 
   <!-- Process -->
   {s.process?.length > 0 && (
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">How it works</div>
-      <h2 class="v4-section-h" style="margin-bottom:48px">The Process</h2>
+  <section class="edge-block edge-block--mist">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">How it works</div>
+      <h2 class="edge-h2" style="margin-bottom:48px">The Process</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
         {s.process.map((step: { num: string; title: string; body: string }) => (
           <div style="border-top:2px solid var(--v4-line);padding-top:24px">
-            <div class="v4-eyebrow" style="margin-bottom:16px">{step.num}</div>
+            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
             <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {step.title}
             </h3>
@@ -102,9 +104,9 @@ const s = service as any;
 
   <!-- Proof / testimonial -->
   {s.proof && (
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Results</div>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Results</div>
       <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
@@ -143,10 +145,10 @@ const s = service as any;
 
   <!-- FAQ -->
   {s.faq?.length > 0 && (
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:800px">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">{service.title} — FAQ</h2>
+  <section class="edge-block edge-block--sand">
+    <div class="edge-wrap" style="max-width:800px">
+      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">{service.title} — FAQ</h2>
       <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
         {s.faq.map((item: { q: string; a: string }) => (
           <details class="v4-faq-item" style="background:var(--v4-panel)">
@@ -163,12 +165,12 @@ const s = service as any;
   )}
 
   <!-- Other services -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:16px">Also available</div>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:16px">Also available</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
         {otherServices.map(os => (
-          <a href={`/services/${os.slug}`} class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+          <a href={`/services/${os.slug}`} class="edge-btn" style="height:36px;font-size:13px">
             {os.title}
           </a>
         ))}
@@ -177,17 +179,18 @@ const s = service as any;
   </section>
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Talk?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Talk?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

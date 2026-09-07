@@ -18,11 +18,16 @@
  * faded and can stop drawing.
  */
 export function initEdgeHandover() {
-  const hero = document.querySelector('.edge-hero');
+  const hero = document.querySelector('.edge-hero, .edge-page-hero');
   if (!hero) return;
 
+  /* The homepage hero is sticky and held under the sheet; an inner page's hero
+     scrolls away like anything else. That difference decides both where the
+     nav flips and whether the hero has to leave the tab order. */
+  const sticky = hero.classList.contains('edge-hero');
   const body = document.body;
   const canvas = document.querySelector('.edge-field');
+  const nav = document.querySelector('.v4-nav');
   let tick = 0;
 
   function update() {
@@ -35,14 +40,20 @@ export function initEdgeHandover() {
     const opacity = Math.max(0, 1 - Math.pow(Math.min(1, p / 0.92), 2.2));
     if (canvas) canvas.style.opacity = String(opacity);
 
-    const covered = p > 0.62;
+    /* On the homepage the sheet rises over a held hero, so the flip is a
+       fraction of the viewport. On an inner page the hero simply leaves, so the
+       flip happens when its last pixel passes under the nav — otherwise a dark
+       bar sits on white content, or a light one on the hero. */
+    const covered = sticky
+      ? p > 0.62
+      : window.scrollY > hero.offsetHeight - (nav ? nav.offsetHeight : 0);
     body.classList.toggle('sheet-active', covered);
 
-    /* Covered, so out of the tab order. Without this a keyboard user tabbing
-       down the page lands on the hero's link and CTA while looking at the
-       sheet — focus on something they cannot see. `inert` also hides it from
-       assistive tech, which is right: it is not on screen. */
-    if (hero.inert !== covered) hero.inert = covered;
+    /* Covered, so out of the tab order — but only where the hero is held under
+       the sheet. A hero that has scrolled away is off screen like any other
+       content, and marking it inert would hide it from a reader who scrolls
+       back up. */
+    if (sticky && hero.inert !== covered) hero.inert = covered;
 
     window.dispatchEvent(new CustomEvent('edge:handover', {
       detail: { progress: p, opacity, covered },

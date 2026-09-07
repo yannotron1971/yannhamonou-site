@@ -83,12 +83,12 @@ const faq = [
   })} />
 
   <!-- Hero -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <a href="/services" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <div class="edge-wrap">
+      <a href="/services" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All services
       </a>
-      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:20px">03 · Service</div>
+      <div class="edge-label" style="margin-top:24px;margin-bottom:20px">03 · Service</div>
       <h1
         style="font-family:var(--v4-display);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
       >
@@ -100,12 +100,14 @@ const faq = [
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- What SEO in Aberdeen actually requires -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
-          <div class="v4-eyebrow" style="margin-bottom:20px">The Aberdeen context</div>
+          <div class="edge-label" style="margin-bottom:20px">The Aberdeen context</div>
           <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
             <p>
               Aberdeen search results are competitive in a specific way. National firms with large domain authority dominate generic terms. Local businesses win by being clearly the most relevant, most trusted, most geographically specific result for Aberdeen and Aberdeenshire buyers.
@@ -117,13 +119,13 @@ const faq = [
               I have delivered this specifically for Aberdeen and Scottish B2B companies — from industrial equipment suppliers serving the North Sea to professional services firms in the city centre. The work is practical, not theoretical.
             </p>
           </div>
-          <a href="/contact" class="v4-btn v4-btn--primary" style="margin-top:32px;display:inline-flex">
+          <a href="/contact" class="edge-btn" style="margin-top:32px;display:inline-flex">
             Discuss your SEO situation →
           </a>
         </div>
 
         <div style="background:var(--v4-panel);border-radius:0;padding:32px;border:1px solid var(--v4-line-soft)">
-          <div class="v4-eyebrow" style="margin-bottom:16px">What's included</div>
+          <div class="edge-label" style="margin-bottom:16px">What's included</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
             {[
               'Technical SEO audit & fixes',
@@ -145,10 +147,10 @@ const faq = [
   </section>
 
   <!-- Aberdeen industries -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Who I work with in Aberdeen</div>
-      <h2 class="v4-section-h" style="margin-bottom:16px;max-width:680px">Aberdeen's Economy Has<br/>Specific Search Behaviour</h2>
+  <section class="edge-block edge-block--paper">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Who I work with in Aberdeen</div>
+      <h2 class="edge-h2" style="margin-bottom:16px;max-width:680px">Aberdeen's Economy Has<br/>Specific Search Behaviour</h2>
       <p style="font-size:17px;color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:40px">
         Generic SEO strategies built for retail or national brands rarely work here. Aberdeen's B2B buyers search differently — longer queries, industry-specific terminology, and a strong preference for local providers with demonstrable sector experience.
       </p>
@@ -183,10 +185,10 @@ const faq = [
   </section>
 
   <!-- Three pillars of Aberdeen SEO -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">How it works</div>
-      <h2 class="v4-section-h" style="margin-bottom:48px">The Three Pillars</h2>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">How it works</div>
+      <h2 class="edge-h2" style="margin-bottom:48px">The Three Pillars</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
         {[
           {
@@ -206,7 +208,7 @@ const faq = [
           },
         ].map(step => (
           <div style="border-top:2px solid var(--v4-line);padding-top:24px">
-            <div class="v4-eyebrow" style="margin-bottom:16px">{step.num}</div>
+            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
             <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {step.title}
             </h3>
@@ -218,10 +220,10 @@ const faq = [
   </section>
 
   <!-- Aberdeen SEO results (case study) -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Aberdeen SEO results</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">What This Looks Like<br/>In Practice</h2>
+  <section class="edge-block edge-block--mist">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Aberdeen SEO results</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">What This Looks Like<br/>In Practice</h2>
       <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
@@ -232,14 +234,14 @@ const faq = [
               style="margin-bottom:18px"
               decorative
             />
-            <div class="v4-eyebrow" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
+            <div class="edge-label" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
             <h3 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:20px">
               #3 Rank in 4 Weeks
             </h3>
             <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.7;max-width:560px">
               Arnlea Systems is a specialist supplier of safety-critical industrial equipment based in Aberdeen, serving the North Sea energy sector. They had almost no organic search presence despite 30+ years of trading. A focused technical SEO programme — fixing crawl errors, building local authority, and mapping content to buyer intent — took them from invisible to top-3 rankings within 4 weeks, with 500% organic traffic growth over 6 months.
             </p>
-            <a href="/work/arnlea" class="v4-btn v4-btn--outline" style="margin-top:24px;display:inline-flex;height:36px;font-size:13px">
+            <a href="/work/arnlea" class="edge-btn" style="margin-top:24px;display:inline-flex;height:36px;font-size:13px">
               Read the full case study →
             </a>
           </div>
@@ -259,10 +261,10 @@ const faq = [
   </section>
 
   <!-- FAQ -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:800px">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">SEO Aberdeen — FAQ</h2>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap" style="max-width:800px">
+      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">SEO Aberdeen — FAQ</h2>
       <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
         {faq.map(item => (
           <details class="v4-faq-item" style="background:var(--v4-panel)">
@@ -278,17 +280,17 @@ const faq = [
   </section>
 
   <!-- Related reading -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:16px">From the journal</div>
+  <section class="edge-block edge-block--sand">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:16px">From the journal</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:36px;font-size:13px">
           SEO Aberdeen: The Basics That Still Win in 2025 →
         </a>
-        <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails" class="edge-btn" style="height:36px;font-size:13px">
           SEO in 2025: What Works, What's Hype, What Fails →
         </a>
-        <a href="/journal/is-your-content-ready-for-the-ai-search-revolution" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/is-your-content-ready-for-the-ai-search-revolution" class="edge-btn" style="height:36px;font-size:13px">
           Is Your Content Ready for AI Search? →
         </a>
       </div>
@@ -296,12 +298,12 @@ const faq = [
   </section>
 
   <!-- Other services -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:16px">Also available</div>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:16px">Also available</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
         {otherServices.map(s => (
-          <a href={`/services/${s.slug}`} class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+          <a href={`/services/${s.slug}`} class="edge-btn" style="height:36px;font-size:13px">
             {s.title}
           </a>
         ))}
@@ -310,17 +312,18 @@ const faq = [
   </section>
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Rank<br/>in Aberdeen?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Rank<br/>in Aberdeen?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book the free 30-minute review. I'll look at your current search presence, identify the biggest gaps, and tell you exactly what I'd prioritise.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

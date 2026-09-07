@@ -1165,9 +1165,19 @@ a:focus-visible .v4-client-logo {
 /* ─────────────────────────────────────────────────────────────
    FOOTER
 ───────────────────────────────────────────────────────────── */
+/* The footer is the last band of the page and declares its ground like any
+   other: pitch, the same close the CTA sits on, so the page ends on ink rather
+   than trailing off whatever section happened to come last. */
 .v4-footer {
+  background: var(--edge-pitch);
+  --v4-ink: #f2f1ec;
+  --v4-ink-mute: #a2a5a3;
+  --v4-ink-dim: #909391;
+  --v4-line: rgba(255, 255, 255, 0.16);
+  --v4-line-soft: rgba(255, 255, 255, 0.09);
+  color: var(--v4-ink);
   border-top: 1px solid var(--v4-line-soft);
-  padding-block: clamp(48px, 6vw, 80px);
+  padding-block: clamp(56px, 7vw, 96px);
 }
 
 .v4-footer__grid {

@@ -55,9 +55,9 @@ const detail = details[c.slug];
   description={c.summary}
 >
   <!-- Hero -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <a href="/work" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <div class="edge-wrap">
+      <a href="/work" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All work
       </a>
       {c.logo && (
@@ -69,7 +69,7 @@ const detail = details[c.slug];
           loading="eager"
         />
       )}
-      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>
+      <div class="edge-label" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>
       <h1
         style="font-family:var(--v4-display);font-weight:300;font-size:clamp(56px,10vw,140px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:32px"
       >
@@ -88,20 +88,22 @@ const detail = details[c.slug];
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- Challenge + Approach + Results -->
   {detail && (
-  <section class="v4-block">
-    <div class="v4-wrap">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div style="display:flex;flex-direction:column;gap:64px">
         <!-- Challenge -->
         <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
-          <div class="v4-eyebrow" style="padding-top:4px">The challenge</div>
+          <div class="edge-label" style="padding-top:4px">The challenge</div>
           <p style="font-size:17px;color:var(--v4-ink-mute);line-height:1.7">{detail.challenge}</p>
         </div>
 
         <!-- Approach -->
         <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
-          <div class="v4-eyebrow" style="padding-top:4px">The approach</div>
+          <div class="edge-label" style="padding-top:4px">The approach</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
             {detail.approach.map(item => (
               <li style="display:flex;gap:16px;align-items:start">
@@ -114,7 +116,7 @@ const detail = details[c.slug];
 
         <!-- Results -->
         <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
-          <div class="v4-eyebrow" style="padding-top:4px">The results</div>
+          <div class="edge-label" style="padding-top:4px">The results</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
             {detail.results.map(item => (
               <li style="display:flex;gap:16px;align-items:start">
@@ -130,17 +132,18 @@ const detail = details[c.slug];
   )}
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Want Results<br/>Like These?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Want Results<br/>Like These?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book a free 30-minute review. I'll tell you where the biggest opportunity is for your business.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

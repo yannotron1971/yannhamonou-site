@@ -28,10 +28,10 @@ function fmtDate(d: string | null) {
   title="Journal — B2B Marketing Insights · Yann Hamonou"
   description="Practical B2B marketing insights: SEO, strategy, paid media, positioning, and AI search. For Scottish and UK SMEs."
 >
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Writing</div>
-      <h1 class="v4-section-h" style="margin-bottom:24px">Journal</h1>
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Writing</div>
+      <h1 class="edge-h2" style="margin-bottom:24px">Journal</h1>
       <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
         Practical thinking on B2B marketing — what works, what's overhyped, and what Scottish SMEs should actually focus on.
       </p>
@@ -56,8 +56,10 @@ function fmtDate(d: string | null) {
     </div>
   </section>
 
-  <section class="v4-block">
-    <div class="v4-wrap">
+  <div class="edge-sheet">
+
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       {posts.length === 0 ? (
         <p style="color:var(--v4-ink-mute)">Posts coming soon.</p>
       ) : (
@@ -85,6 +87,7 @@ function fmtDate(d: string | null) {
       )}
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

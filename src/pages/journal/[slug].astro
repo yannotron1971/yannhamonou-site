@@ -39,14 +39,14 @@ const renderedContent = Markdoc.renderers.html(transformed);
   ]}
 >
   <!-- Post header -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap" style="max-width:760px">
-      <a href="/journal" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <div class="edge-wrap" style="max-width:760px">
+      <a href="/journal" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All posts
       </a>
       <div style="margin-top:24px;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <span class="v4-eyebrow" style="padding:4px 10px;background:var(--v4-panel-2);border-radius:999px;color:var(--v4-ink-mute)">{post.category}</span>
-        <span class="v4-eyebrow">{fmtDate(post.publishedDate)}</span>
+        <span class="edge-label" style="padding:4px 10px;background:var(--v4-panel-2);border-radius:999px;color:var(--v4-ink-mute)">{post.category}</span>
+        <span class="edge-label">{fmtDate(post.publishedDate)}</span>
       </div>
       <h1 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(32px,5vw,72px);line-height:1.02;letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:24px">
         {post.title}
@@ -62,16 +62,18 @@ const renderedContent = Markdoc.renderers.html(transformed);
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- Body -->
-  <section class="v4-block tight">
+  <section class="edge-block edge-block--white">
     <div class="v4-prose" set:html={renderedContent} />
   </section>
 
   <!-- Email capture -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:640px">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap" style="max-width:640px">
       <div style="background:var(--v4-panel);border:1px solid var(--v4-line-soft);border-radius:0;padding:clamp(32px,5vw,48px)">
-        <div class="v4-eyebrow" style="margin-bottom:12px">Free B2B marketing insights</div>
+        <div class="edge-label" style="margin-bottom:12px">Free B2B marketing insights</div>
         <h2 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(24px,3vw,36px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:12px;line-height:1">
           Get the Playbook
         </h2>
@@ -92,7 +94,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
             autocomplete="email"
             style="flex:1;min-width:200px;height:44px;padding:0 16px;border-radius:0;border:1px solid var(--v4-line-soft);background:var(--v4-bg);color:var(--v4-ink);font-size:14px;font-family:var(--v4-body)"
           />
-          <button type="submit" class="v4-btn v4-btn--primary" style="height:44px;font-size:14px;padding:0 24px;flex-shrink:0">
+          <button type="submit" class="edge-btn" style="height:44px;font-size:14px;padding:0 24px;flex-shrink:0">
             Subscribe →
           </button>
         </form>
@@ -101,15 +103,16 @@ const renderedContent = Markdoc.renderers.html(transformed);
   </section>
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Want This Applied<br/>To Your Business?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Want This Applied<br/>To Your Business?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book a free 30-minute strategy review. We'll look at how these ideas apply specifically to your situation.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
