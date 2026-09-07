@@ -265,6 +265,7 @@ const recentPosts = allPosts
     font-size: clamp(52px, 11.5vw, 220px);
     line-height: 0.88;
     letter-spacing: -0.03em;
+    text-wrap: balance;
     color: var(--v4-ink);
     margin: 0;
   }
@@ -342,14 +343,14 @@ const recentPosts = allPosts
      near-black. A monochrome page can give every section its own ground and
      still read as one material — colour would not. Swap the modifier on any
      section; --clear lets the hero field show through instead. */
-  .edge-sheet > .edge-block { background: #ffffff; }        /* 01 proposition */
-  .edge-sheet > .edge-block--paper { background: #f3f2ee; } /* current projects */
-  .edge-sheet > .edge-block--ink   { background: #151515; } /* 02 work */
-  .edge-sheet > .edge-block--mist  { background: #eceeee; } /* 03 services */
-  .edge-sheet > .edge-block--slate { background: #22262a; } /* 04 proof */
-  .edge-sheet > .edge-block--sand  { background: #e8e4dc; } /* 05 faq */
-  .edge-sheet > .edge-block--bone  { background: #f7f6f3; } /* 06 journal */
-  .edge-sheet > .edge-block--pitch { background: #0b0c0c; } /* the close */
+  .edge-sheet > .edge-block { background: var(--edge-white); }        /* 01 proposition */
+  .edge-sheet > .edge-block--paper { background: var(--edge-paper); } /* current projects */
+  .edge-sheet > .edge-block--ink   { background: var(--edge-ink); }   /* 02 work */
+  .edge-sheet > .edge-block--mist  { background: var(--edge-mist); }  /* 03 services */
+  .edge-sheet > .edge-block--slate { background: var(--edge-slate); } /* 04 proof */
+  .edge-sheet > .edge-block--sand  { background: var(--edge-sand); }  /* 05 faq */
+  .edge-sheet > .edge-block--bone  { background: var(--edge-bone); }  /* 06 journal */
+  .edge-sheet > .edge-block--pitch { background: var(--edge-pitch); } /* the close */
   .edge-sheet > .edge-block--clear { background: transparent; }
 
   /* Any dark ground rebinds the ink tokens, so every rule written for the
@@ -489,10 +490,6 @@ const recentPosts = allPosts
   .edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
   .edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
 
-  /* The descriptor is the middle column now, and it reads from the left edge
-     of its track rather than floating in the middle of the row. */
-  .edge-row__desc { text-align: left; justify-self: start; }
-
   /* A case with no logo on file still needs a name. */
   .edge-row__client--fallback { align-self: center; }
   .edge-rows li:hover .edge-row { opacity: 0.62; }
@@ -513,7 +510,17 @@ const recentPosts = allPosts
     color: var(--v4-ink-dim);
     text-transform: uppercase;
   }
-  .edge-row__desc { text-transform: none; letter-spacing: 0.02em; font-size: 12px; line-height: 1.6; }
+  /* Overrides the label treatment above: the descriptor is prose, and it is the
+     middle column of the work row, so it reads from the left edge of its own
+     track rather than floating in the middle of the row. */
+  .edge-row__desc {
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: left;
+    justify-self: start;
+  }
   .edge-row__client {
     font-family: var(--v4-display);
     font-weight: 300;

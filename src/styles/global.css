@@ -46,6 +46,19 @@ body.v4 {
   --v4-sans:    'Inter', system-ui, sans-serif;
   --v4-mono:    'Space Mono', ui-monospace, monospace;
 
+  /* ── The Edge ground ladder ──
+     One monochrome ladder: warm off-whites, cool off-whites, three depths of
+     near-black. Tokens rather than literals in the page, so a ground can be
+     reused off the homepage and retuned in one place. */
+  --edge-white: #ffffff;
+  --edge-bone:  #f7f6f3;
+  --edge-paper: #f3f2ee;
+  --edge-mist:  #eceeee;
+  --edge-sand:  #e8e4dc;
+  --edge-slate: #22262a;
+  --edge-ink:   #151515;
+  --edge-pitch: #0b0c0c;
+
   --v4-maxw:    1320px;
   --v4-gutter:  clamp(20px, 4vw, 56px);
 
@@ -171,6 +184,7 @@ body.v4.is-light.tone-bright {
   font-size: clamp(44px, min(9vw, 12vh), 132px);
   line-height: 0.98;
   letter-spacing: -0.03em;
+  text-wrap: balance;
   color: var(--v4-ink);
 }
 
@@ -184,6 +198,8 @@ body.v4.is-light.tone-bright {
   font-size: clamp(36px, 5vw, 72px);
   line-height: 1.02;
   letter-spacing: -0.025em;
+  /* Even line lengths, rather than a full first line and one orphan word. */
+  text-wrap: balance;
   color: var(--v4-ink);
 }
 
@@ -204,8 +220,17 @@ body.v4.is-light.tone-bright {
 }
 
 /* Once the white sheet is under it, the nav flips to light. Rebinding tokens
-   rather than restyling children keeps every nav rule working unchanged. */
+   rather than restyling children keeps every nav rule working unchanged.
+
+   The blur also comes off here. Over the hero it is doing real work — there is
+   a live shader behind the bar and the blur softens it under the links. Over
+   the sheet there is a flat ground behind it for most of the page, where a
+   blur repaints a wide translucent strip every frame to produce an image
+   identical to the one it started with. The translucency stays, so the bar
+   still takes its tone from the section beneath it. */
 body.sheet-active .v4-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   --v4-ink: #151515;
   /* .v4-nav__cta is ink-on-bg, so --v4-bg has to flip too or the pill goes
      black-on-black. */
@@ -1143,6 +1168,7 @@ img.v4-marquee__item {
   font-size: clamp(26px, 3.2vw, 40px);
   letter-spacing: -0.025em;
   line-height: 1.1;
+  text-wrap: balance;
   color: var(--v4-ink);
   margin-top: 56px;
   margin-bottom: 20px;
