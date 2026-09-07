@@ -1117,6 +1117,15 @@ a:focus-visible .v4-client-logo {
   outline: none;
 }
 
+/* The browser default is the field's own colour at 50% alpha, which measured
+   3.89:1 on the light sheet. A placeholder is text a user has to read to know
+   what the field wants, so it takes the same 4.5:1 as any other. */
+.v4-field input::placeholder,
+.v4-field textarea::placeholder {
+  color: var(--v4-ink-mute);
+  opacity: 1;
+}
+
 .v4-field input:focus,
 .v4-field textarea:focus {
   border-color: var(--v4-ink-mute);

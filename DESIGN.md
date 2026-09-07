@@ -16,12 +16,13 @@ one ground, so there is nothing to switch between.
 
 ## Theme
 
-Single ground. No toggle, no `localStorage`, no light modes. `body` carries
-`v4 edge`.
+No toggle, no `localStorage`, no light modes. `body` carries `v4 edge`.
 
-The homepage is the exception in structure, not in language: a near-black hero
-hands over to a white sheet that scrolls up over it, and each section of that
-sheet declares its own ground.
+Every page has the same shape: a near-black hero, then a white sheet whose
+sections each declare a ground, then a pitch-black footer. The homepage's hero
+is the full screen, sticky, and holds the field; the sheet rises over it. An
+inner page's hero is a little over half a screen, scrolls away normally, and
+carries no field — it says what the document is and gets out of the way.
 
 ## Colour
 
@@ -41,11 +42,19 @@ still read as one material; colour would break it.
 | `--edge-slate` | `#22262a` | 04 Proof |
 | `--edge-sand` | `#e8e4dc` | 05 FAQ |
 | `--edge-bone` | `#f7f6f3` | 06 Journal |
-| `--edge-pitch` | `#0b0c0c` | The close |
+| `--edge-pitch` | `#0b0c0c` | The close, and the footer |
 
-A block changes ground by swapping one class. `--dark` carries the light token
-rebinding; each ground class carries only a background. `--clear` lets the hero
-field show through.
+A block changes ground by swapping one class, anywhere on the site. `--dark`
+carries the light token rebinding; each ground class carries only a background.
+`--clear` lets the hero field show through.
+
+Grounds are assigned per page rather than by a repeating pattern: Services runs
+white then pitch, a case study white then pitch, the SEO page white, paper,
+white, mist, white, sand, white, pitch.
+
+`.edge-sheet` rebinds `--v4-bg` and the panel tokens as well as the ink ones.
+The inner pages are inline-styled against those, which is what carries their
+markup onto a light ground untouched.
 
 ### Ink
 
@@ -91,9 +100,11 @@ page.
 ## Layout
 
 - `.edge-wrap` — `min(100% - clamp(24px, 6vw, 96px), 1440px)`
-- `.edge-block` — `min-height: 100svh`, contents centred. One screen per section
-  is a homepage device; inner pages are documents and use `.v4-block` rhythm
-  (`clamp(80px, 12vh, 180px)`) instead.
+- `.edge-block` — the shared rhythm, `clamp(80px, 12vh, 180px)`
+- `.edge-block--full` — `min-height: 100svh`, contents centred. One screen per
+  section is a homepage device: a page of eight statements, each given the
+  viewport. A services page, a case study or a post is a document, and it would
+  fight the reading there.
 - `min-height`, never `height`: a phone, a short laptop or a long FAQ grows past
   the viewport rather than clipping.
 - Single breakpoint at 860px on the homepage, 760px for the nav.
@@ -130,6 +141,17 @@ is attempted on restore.
 Owns everything that happens as the sheet rises: the field's opacity, the nav's
 light state, and `inert` on the hero once it is covered. It lives apart from the
 field module so that a browser with no WebGL still gets a working nav.
+
+It handles both heroes. The homepage's is sticky and held under the sheet, so
+the nav flips at 0.62 of the viewport and the hero leaves the tab order; an
+inner page's scrolls away, so the flip waits until its last pixel passes under
+the nav, and nothing goes inert — that hero comes back when you scroll up.
+
+### PageHero (`PageHero.astro`)
+
+The inner-page hero: label, title capped at 104px against the homepage's 220,
+and an optional lede. `align-content: end`, so the title sits on the fold rather
+than floating in an empty band.
 
 ### Rows (`.edge-row`)
 
