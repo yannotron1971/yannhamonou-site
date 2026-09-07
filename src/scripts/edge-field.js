@@ -295,8 +295,12 @@ export function initEdgeField() {
   function resize() {
     const cap = window.innerWidth < 1025 ? 1.5 : 2;
     let dpr = Math.min(window.devicePixelRatio || 1, cap);
-    const cw = Math.max(1, window.innerWidth);
-    const ch = Math.max(1, window.innerHeight);
+    /* The canvas's own box, not the window's: the homepage's is fixed and fills
+       the viewport, but an inner page's sits inside its hero and is a little
+       over half that tall. Shading it at viewport height would waste a third of
+       every frame on fragments nobody sees. */
+    const cw = Math.max(1, canvas.clientWidth || window.innerWidth);
+    const ch = Math.max(1, canvas.clientHeight || window.innerHeight);
     /* A large display would otherwise ask for 7M+ fragments a frame. This
        layer is a texture, not a subject — resolution buys it nothing. */
     const over = (cw * ch * dpr * dpr) / PIXEL_BUDGET;
@@ -315,8 +319,12 @@ export function initEdgeField() {
   /* ── Pointer ── */
   let mx = w * 0.72, my = h * 0.55, tmx = mx, tmy = my, wake = 0;
   window.addEventListener('pointermove', (e) => {
-    tmx = (e.clientX / window.innerWidth) * w;
-    tmy = (1 - e.clientY / window.innerHeight) * h;
+    /* Relative to the canvas, so the wake follows the pointer in a hero that
+       does not start at the top of the viewport. */
+    const box = canvas.getBoundingClientRect();
+    if (!box.width || !box.height) return;
+    tmx = ((e.clientX - box.left) / box.width) * w;
+    tmy = (1 - (e.clientY - box.top) / box.height) * h;
     wake = Math.min(1, wake + 0.14);
   }, { passive: true });
 
@@ -334,13 +342,24 @@ export function initEdgeField() {
      and thrown at an invisible layer, so past the hero there is nothing to
      draw. ── */
   let visible = true;
+  const contained = canvas.classList.contains('edge-field--in-hero');
   /* Declared up here, not beside the loop: the handover event can arrive
      before that declaration is reached, and start() reads it. */
   let lastFrame = -1e9;
-  window.addEventListener('edge:handover', (e) => {
-    visible = e.detail.opacity > 0.01;
-    if (visible) start(); else stop();
-  });
+  if (contained) {
+    /* Nothing to fade against — the hero scrolls away and takes the canvas with
+       it, so the only question is whether any of it is still on screen. */
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) start(); else stop();
+    }, { rootMargin: '64px' });
+    io.observe(canvas);
+  } else {
+    window.addEventListener('edge:handover', (e) => {
+      visible = e.detail.opacity > 0.01;
+      if (visible) start(); else stop();
+    });
+  }
 
   function draw(nowMs) {
     const time = (nowMs - t0) / 1000;

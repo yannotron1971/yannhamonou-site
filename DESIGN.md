@@ -128,9 +128,23 @@ Flips to a light token set past 0.62vh. The services dropdown is a disclosure
 
 ### The field (`.edge-field`)
 
-Full-bleed WebGL2 canvas at `z-index: -1`, homepage only via a Layout prop. Raw
-WebGL, no dependency — a full-screen triangle and one fragment shader; Three.js
-would be ~150KB gzipped to draw one quad.
+Raw WebGL2, no dependency — a full-screen triangle and one fragment shader;
+Three.js would be ~150KB gzipped to draw one quad. Behind every hero on the
+site, in one of two modes:
+
+- **Fixed** (`homepage`, via a Layout prop): full-bleed at `z-index: -1` under
+  the whole page, fading out as the sheet rises over the held hero.
+- **Contained** (`--in-hero`, every other page): inside the hero itself, above
+  that section's ground and beneath its type. An inner hero is not sticky and
+  has opaque sections scrolling past it, so a fixed canvas would have nothing
+  to show through. The hero keeps its own near-black background underneath, so
+  where WebGL is unavailable the canvas removes itself and the ground is simply
+  flat rather than the hero turning transparent over a white page.
+
+The canvas measures its own box rather than the viewport, so a hero at 58svh
+shades 58svh. Visibility follows the handover when fixed, and an
+IntersectionObserver when contained — either way it stops drawing the moment
+there is nothing to see.
 
 Budgeted for the integrated GPU this site's visitors are on:
 `PIXEL_BUDGET` 1.2e6 fragments (~12ms/frame on Intel UHD, against 31ms at the

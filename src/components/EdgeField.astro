@@ -1,14 +1,28 @@
 ---
 /**
- * The Edge field — full-bleed ambient background.
+ * The Edge field — the ambient weather behind a hero.
  *
- * Sits at z-index -1 under every page. That works because global.css puts the
- * ground colour on <html> and leaves <body> transparent; if body kept a
- * background it would propagate to the root and bury the canvas.
+ * Two modes. Fixed is the homepage's: full-bleed at z-index -1 under the whole
+ * page, which works because global.css puts the ground colour on <html> and
+ * leaves <body> transparent — a background on body would propagate to the root
+ * and bury the canvas. It fades out as the sheet rises over the held hero.
+ *
+ * Contained is every other page's: the canvas sits inside the hero itself,
+ * above that section's ground and beneath its type. That is deliberately not
+ * the fixed treatment — an inner hero is not sticky and has opaque sections
+ * scrolling past it, so a fixed canvas would have nothing to show through. It
+ * also means the hero keeps its own near-black background: where WebGL is
+ * unavailable the canvas removes itself and the ground is simply flat, rather
+ * than the hero turning transparent over a white page.
  */
+interface Props {
+  contained?: boolean;
+}
+
+const { contained = false } = Astro.props;
 ---
 
-<canvas class="edge-field" aria-hidden="true"></canvas>
+<canvas class:list={['edge-field', contained && 'edge-field--in-hero']} aria-hidden="true"></canvas>
 
 <style>
   .edge-field {
@@ -20,6 +34,14 @@
     z-index: -1;
     display: block;
     pointer-events: none;
+  }
+
+  .edge-field--in-hero {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
   }
 </style>
 

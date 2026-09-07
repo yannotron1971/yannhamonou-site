@@ -1896,11 +1896,22 @@ a:focus-visible .v4-client-logo {
    is the argument of the page. This one says what the document is and gets out
    of the way. align-content: end so the title sits on the fold rather than
    floating in the middle of an empty band. */
+/* position/overflow so the contained field has something to fill and cannot
+   spill past the hero; the wrap is lifted above it. The near-black background
+   stays underneath, so a browser with no WebGL gets a flat ground rather than
+   a hole. */
 .edge-page-hero {
+  position: relative;
+  overflow: hidden;
   min-height: 58svh;
   display: grid;
   align-content: end;
   padding-block: clamp(130px, 20vh, 200px) clamp(48px, 7vh, 84px);
+}
+
+.edge-page-hero > .edge-wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .edge-page-hero__h {

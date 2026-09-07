@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import EdgeField from '../../components/EdgeField.astro';
 import { reader } from '../../lib/keystatic';
 import Markdoc from '@markdoc/markdoc';
 
@@ -40,6 +41,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
 >
   <!-- Post header -->
   <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
     <div class="edge-wrap" style="max-width:760px">
       <a href="/journal" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All posts

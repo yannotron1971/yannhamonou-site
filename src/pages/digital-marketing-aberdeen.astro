@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import EdgeField from '../components/EdgeField.astro';
 import { testimonials, cases, services } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
 
@@ -33,6 +34,7 @@ const faq = [
 >
   <!-- Hero -->
   <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
     <div class="edge-wrap">
       <div class="edge-label" style="margin-bottom:20px">B2B Digital Marketing · Aberdeen</div>
       <h1
