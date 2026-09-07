@@ -1,18 +1,21 @@
 /* Client logo artwork. `darkInvert` marks logos drawn in dark ink — they need
    inverting on the dark theme, and always on top of a photo/gradient.
    `lightInk` is the mirror case: artwork drawn in white, which needs flipping
-   on a light ground or it disappears into it. */
-export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean };
+   on a light ground or it disappears into it.
+   `site` is the client's own website: where a mark appears outside a link of
+   its own, it becomes one. Verified against each company's live site rather
+   than guessed from the name. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string };
 
 export const logos = {
-  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true },
-  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
-  bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false },
-  incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false },
+  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  site: 'https://www.arnlea.com/' },
+  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true,  site: 'https://viewport3.com/' },
+  bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false, site: 'https://bowtiemaster.com/' },
+  incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false, site: 'https://incident-insight.com/' },
   /* The supplied artwork is the inverted cut: white wordmark, orange mark. It
      sits on the dark grounds every testimonial currently uses; `lightInk`
      covers it if one of those ever turns light. */
-  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true },
+  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true, site: 'https://www.proactis.com/uk/' },
 } satisfies Record<string, Logo>;
 
 export const services = [

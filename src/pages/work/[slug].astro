@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { cases } from '../../data/index';
+import ClientLogo from '../../components/ClientLogo.astro';
 
 export function getStaticPaths() {
   return cases.map(c => ({
@@ -60,13 +61,12 @@ const detail = details[c.slug];
         ← All work
       </a>
       {c.logo && (
-        <img
-          src={c.logo.src}
-          alt=""
-          width={c.logo.w}
-          height={c.logo.h}
-          class={`v4-client-logo v4-client-logo--lg${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+        <ClientLogo
+          logo={c.logo}
+          name={c.client}
+          class="v4-client-logo v4-client-logo--lg"
           style="margin-top:32px"
+          loading="eager"
         />
       )}
       <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>

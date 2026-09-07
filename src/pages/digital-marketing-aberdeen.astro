@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { testimonials, cases, services } from '../data/index';
+import ClientLogo from '../components/ClientLogo.astro';
 
 const faq = [
   {
@@ -212,14 +213,7 @@ const faq = [
           <div class="v4-testimonial">
             <div class="v4-testimonial__logo">
               {t.logo && (
-                <img
-                  src={t.logo.src}
-                  alt=""
-                  width={t.logo.w}
-                  height={t.logo.h}
-                  class={`v4-client-logo${t.logo.darkInvert ? ' logo-dark-invert' : ''}${t.logo.lightInk ? ' logo-light-ink' : ''}`}
-                  loading="lazy"
-                />
+                <ClientLogo logo={t.logo} name={t.company} class="v4-client-logo" decorative />
               )}
             </div>
             <p class="v4-testimonial__quote">"{t.quote}"</p>

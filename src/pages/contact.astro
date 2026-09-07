@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { logos } from '../data/index';
+import ClientLogo from '../components/ClientLogo.astro';
 ---
 
 <Layout
@@ -93,14 +94,12 @@ import { logos } from '../data/index';
 
           <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
             <div class="v4-eyebrow" style="margin-bottom:16px">What clients say</div>
-            <img
-              src={logos.viewport3.src}
-              alt=""
-              width={logos.viewport3.w}
-              height={logos.viewport3.h}
-              class="v4-client-logo logo-dark-invert"
+            <ClientLogo
+              logo={logos.viewport3}
+              name="Viewport3"
+              class="v4-client-logo"
               style="margin-bottom:14px"
-              loading="lazy"
+              decorative
             />
             <blockquote style="margin:0">
               <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:12px">

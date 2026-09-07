@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { reader } from '../lib/keystatic';
 import { services, cases, clients, numbers, testimonials, faq } from '../data/index';
+import ClientLogo from '../components/ClientLogo.astro';
 
 const allPosts = await reader.collections.posts.all();
 const recentPosts = allPosts
@@ -64,14 +65,7 @@ const recentPosts = allPosts
       <ul class="edge-clients" role="list">
         {clients.map(c => (
           <li>
-            <img
-              src={c.src}
-              alt={c.name}
-              width={c.w}
-              height={c.h}
-              class={`edge-client-logo${c.darkInvert ? ' logo-dark-invert' : ''}`}
-              loading="lazy"
-            />
+            <ClientLogo logo={c} name={c.name} class="edge-client-logo" />
           </li>
         ))}
       </ul>
@@ -144,14 +138,7 @@ const recentPosts = allPosts
         {testimonials.map(t => (
           <figure class="edge-quote">
             {t.logo && (
-              <img
-                src={t.logo.src}
-                alt=""
-                width={t.logo.w}
-                height={t.logo.h}
-                class={`edge-quote__logo${t.logo.darkInvert ? ' logo-dark-invert' : ''}${t.logo.lightInk ? ' logo-light-ink' : ''}`}
-                loading="lazy"
-              />
+              <ClientLogo logo={t.logo} name={t.company} class="edge-quote__logo" decorative />
             )}
             <blockquote>{t.quote}</blockquote>
             <figcaption>
