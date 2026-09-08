@@ -97,6 +97,30 @@ const ogImageUrl = ogImage
          ground (#151515). Leaving the old localStorage reader in would flash
          parchment before paint for anyone who last chose a light season. -->
 
+    <!-- ── GA4 ──
+         Same measurement ID the Webflow site uses, so the migration reads as
+         one continuous property rather than a new site starting from zero.
+
+         Production only: `astro dev` and `astro preview` would otherwise post
+         every local page view into the same property you are trying to compare
+         before and after cutover.
+
+         Consent is NOT handled here. The tag sets cookies and there is no
+         banner on this build, which is fine while nothing is deployed and is
+         not fine on the day it is. Either add a consent tool before cutover or
+         move to something cookieless. -->
+    {import.meta.env.PROD && (
+      <Fragment>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-NEGE3F0RZC"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-NEGE3F0RZC');
+        </script>
+      </Fragment>
+    )}
+
     <!-- JSON-LD -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify({
       "@context": "https://schema.org",
