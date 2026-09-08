@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { reader } from '../lib/keystatic';
-import { services, cases, clients, numbers, testimonials, faq } from '../data/index';
+import { services, cases, clients, numbers, testimonials, faq, problems } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
 
 const allPosts = await reader.collections.posts.all();
@@ -55,6 +55,24 @@ const recentPosts = allPosts
           </div>
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE PROBLEM ═══ -->
+  <section class="edge-block edge-block--full edge-block--dark edge-block--slate" id="problem">
+    <div class="edge-wrap">
+      <div class="edge-head">
+        <p class="edge-label">Sound familiar</p>
+        <h2 class="edge-h2">Where it goes wrong</h2>
+      </div>
+      <ul class="edge-problems" role="list">
+        {problems.map(p => (
+          <li>
+            <p class="edge-problem__symptom">{p.symptom}</p>
+            <p class="edge-problem__cost">{p.cost}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 

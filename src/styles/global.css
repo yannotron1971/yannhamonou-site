@@ -1759,6 +1759,43 @@ a:focus-visible .v4-client-logo {
   max-width: 15ch;
 }
 
+/* ── The problem ──
+   Two columns at desktop, which keeps four symptoms on one screen and stops
+   the list reading as a specification. The symptom carries the display face
+   because it is the line a reader recognises themselves in; the cost sits
+   under it in body copy, doing the arguing. */
+.edge-problems {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 5vw, 72px) clamp(40px, 6vw, 96px);
+  list-style: none;
+}
+
+/* Two columns, not auto-fit. There are four symptoms, and auto-fit gave three
+   across on a wide screen — which leaves the fourth sitting alone in a row
+   looking like an afterthought. Two-up fills exactly. */
+@media (min-width: 761px) {
+  .edge-problems { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.edge-problem__symptom {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(21px, 2.2vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin-bottom: 14px;
+}
+
+.edge-problem__cost {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--v4-ink-mute);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
 /* ── Clients ── */
 /* Auto-fit rather than flex-wrap: at full height the four marks should sit
    on one even row and break to a tidy grid, not trail a widow. */

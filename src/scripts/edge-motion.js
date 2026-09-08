@@ -121,6 +121,7 @@ function lede() {
    can least afford it. */
 function groups() {
   const sets = [
+    { sel: '.edge-problems li', vars: { y: 18, stagger: 0.08 } },
     { sel: '.edge-clients li', vars: { y: 16, stagger: 0.07 } },
     { sel: '.edge-rows li', vars: { y: 20, stagger: 0.06 } },
     { sel: '.edge-quote', vars: { y: 22, stagger: 0.09 } },
@@ -155,8 +156,8 @@ function cta() {
    marked and skipped, so nothing is animated twice — a section that has a head,
    a row list and a tail link is fully claimed and this pass leaves it alone. */
 function claimed(el) {
-  return el.matches('.edge-head, .edge-rows, .edge-clients, .edge-quotes, .edge-faq, .edge-lede')
-    || !!el.querySelector('.edge-head, .edge-rows, .edge-clients, .edge-quotes, .edge-faq, .edge-lede');
+  const owned = '.edge-head, .edge-rows, .edge-clients, .edge-quotes, .edge-faq, .edge-lede, .edge-problems';
+  return el.matches(owned) || !!el.querySelector(owned);
 }
 
 function sectionPass() {
