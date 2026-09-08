@@ -284,7 +284,7 @@ export const cases = [
     statSub: 'demo request uplift',
     image: '/work/clamp.avif',
     logo: logos.viewport3,
-    summary: 'Repositioned Viewport3 from a generic tech agency to a specialist digital twin partner, driving demo request uplift.',
+    summary: 'Reframed Viewport3 from photogrammetry vendor to dimensional assurance partner, out of price competition and into a category of their own.',
   },
   {
     slug: 'BowtieMaster',
