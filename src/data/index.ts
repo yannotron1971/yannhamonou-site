@@ -128,7 +128,7 @@ export const services = [
       { q: 'Why work with a consultant rather than hire in-house?', a: 'You get senior-level marketing expertise and execution capability at a fraction of the cost of a full-time hire. You also benefit from experience across multiple industries and proven frameworks — without the overhead of employment costs, management time, or the risk of a bad hire.' },
       { q: 'What makes your approach different?', a: 'I combine strategic thinking with practical execution. Unlike pure consultants who deliver a document and leave, I help implement the strategies we build together — which means I\'m accountable for results, not just recommendations.' },
       { q: 'How do you measure success?', a: 'Every engagement starts with clear, measurable objectives. Whether it\'s lead generation, market positioning, or digital presence, we track concrete metrics aligned with your business goals. No vanity metrics.' },
-      { q: 'What are your fees?', a: 'A standalone strategy engagement typically starts from £1,500. Monthly retainers covering strategy and execution run £900–£2,000/month depending on scope. The free 30-minute review is the right starting point.' },
+      { q: 'What are your fees?', a: 'Engagements are scoped to the work rather than sold as packages, so the honest answer is that it depends on what you need and how much of it you want done for you. The free 30-minute review is the right starting point: you will have a figure before you commit to anything.' },
     ],
   },
   {
@@ -208,8 +208,8 @@ export const services = [
       'Martech integration (GA4, CRM, email)',
     ],
     proof: {
-      stat: '500%',
-      statLabel: 'organic traffic growth',
+      stat: '100%',
+      statLabel: 'lead generation growth',
       quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance.',
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
@@ -220,7 +220,7 @@ export const services = [
       { q: 'Why Webflow and not WordPress?', a: 'Webflow gives you a visual CMS that\'s fast to build, easy for non-developers to update, and produces clean, performant code without a plugin ecosystem to maintain. It\'s also significantly faster than a typical WordPress install out of the box. For clients who have a specific reason to stay on WordPress, I can work with that too.' },
       { q: 'Do you do design or just development?', a: 'Both. I handle the full process from information architecture through visual design to the live Webflow build. If you have an existing brand identity I\'ll work within it; if not, I\'ll develop the visual direction as part of the project.' },
       { q: 'Can you improve our existing site without rebuilding it?', a: 'Often yes. A CRO audit can identify the highest-impact changes — sometimes a headline rewrite and a clearer CTA on the homepage moves the needle more than a full rebuild. I\'ll tell you honestly whether an audit-and-optimise or a rebuild is the right answer for your situation.' },
-      { q: 'What does a website project cost?', a: 'A focused marketing site (home, services, about, contact) typically runs £3,000–£6,000. Larger sites with complex CMS structures, multiple landing pages, or e-commerce elements are scoped individually. The free 30-minute review is the right starting point.' },
+      { q: 'What does a website project cost?', a: 'It depends on the number of pages, whether the CMS needs to be editable by your team, and how much of the content exists already. A four-page marketing site and a fifty-page site with landing-page variants are different projects. I scope it after the free 30-minute review.' },
     ],
   },
   {
@@ -273,7 +273,7 @@ export const cases = [
     statSub: '500% organic traffic growth',
     image: '/work/Arnlea-H.avif',
     logo: logos.arnlea,
-    summary: 'Took Arnlea from invisible in search to top-3 rankings, generating 100+ qualified visits per month.',
+    summary: 'Took Arnlea from invisible in search to #1 for their primary term in four weeks, and 100+ qualified organic visits a month.',
   },
   {
     slug: 'viewport3',
@@ -291,16 +291,16 @@ export const cases = [
     client: 'BowtieMaster',
     year: '2026',
     descriptor: 'SEO & PPC for lead gen',
-    stat: 'x7 leads/month',
-    statSub: 'demo request uplift',
+    stat: '7×',
+    statSub: 'leads per month',
     image: '',
     logo: logos.bowtiemaster,
-    summary: 'Audited BowtieMaster website and Google Ads campaigns for lead generation, driving demo request uplift.',
+    summary: 'Audited the BowtieMaster site and Google Ads account, then rebuilt both around lead generation — seven times the monthly leads.',
   },
 ] as const;
 
 export const ticker = [
-  '100% organic traffic growth',
+  '100% lead generation growth',
   '20+ years B2B experience',
   '#1 Google rank in 4 weeks',
   'Aberdeen · Scotland · Remote',
@@ -312,7 +312,7 @@ export const ticker = [
 
 export const numbers = [
   { num: '20+', label: 'Years B2B experience' },
-  { num: '100%', label: 'Organic traffic growth' },
+  { num: '100%', label: 'Lead generation growth' },
   { num: '#1', label: 'Google rank in 4 weeks' },
   { num: '100+', label: 'Qualified leads/month' },
 ];

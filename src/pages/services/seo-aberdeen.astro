@@ -10,7 +10,7 @@ const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
 const faq = [
   {
     q: 'How long does SEO take to show results in Aberdeen?',
-    a: 'For most Aberdeen SMEs, you can expect meaningful movement in local rankings within 6–12 weeks of fixing technical issues and building on-page signals. Competitive commercial terms typically take 3–6 months to hold. The Arnlea engagement reached top-3 rankings within 4 weeks for primary terms — unusually fast, driven by fixing a technically broken site that already had domain authority.',
+    a: 'For most Aberdeen SMEs, you can expect meaningful movement in local rankings within 6–12 weeks of fixing technical issues and building on-page signals. Competitive commercial terms typically take 3–6 months to hold. The Arnlea engagement reached #1 for their primary term within 4 weeks — unusually fast, driven by fixing a technically broken site that already had domain authority.',
   },
   {
     q: 'What is different about SEO for Aberdeen businesses?',
@@ -26,7 +26,7 @@ const faq = [
   },
   {
     q: 'What does an SEO engagement with you cost?',
-    a: 'Engagements are scoped to your situation — there is no off-the-shelf package. A standalone SEO audit starts from £750. Monthly retainers covering ongoing technical SEO, content, and local signals typically run £900–£2,000/month depending on scope and reporting. The free 30-minute review is the right starting point: I will tell you where the biggest opportunity is before you commit to anything.',
+    a: 'Engagements are scoped to your situation — there is no off-the-shelf package, and what a site needs after an audit varies more than any price list would suggest. The free 30-minute review is the right starting point: I will tell you where the biggest opportunity is, and what it would take, before you commit to anything.',
   },
   {
     q: 'What is GEO and why does it matter for Aberdeen businesses?',
@@ -61,24 +61,12 @@ const faq = [
       { "@type": "AdministrativeArea", "name": "Scotland" }
     ],
     "serviceType": "SEO Consultancy",
-    "offers": {
-      "@type": "Offer",
-      "priceSpecification": [
-        {
-          "@type": "PriceSpecification",
-          "name": "SEO & GEO Audit",
-          "price": "750",
-          "priceCurrency": "GBP",
-          "description": "One-off assessment covering technical SEO, content gaps, schema improvements, and GEO readiness scoring"
-        },
-        {
-          "@type": "PriceSpecification",
-          "name": "Ongoing SEO & GEO Retainer",
-          "minPrice": "900",
-          "maxPrice": "2000",
-          "priceCurrency": "GBP",
-          "unitText": "MONTH"
-        }
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "SEO & GEO services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO & GEO audit" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ongoing SEO & GEO retainer" } }
       ]
     }
   })} />
@@ -238,10 +226,10 @@ const faq = [
             />
             <div class="edge-label" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
             <h3 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:20px">
-              #3 Rank in 4 Weeks
+              #1 Rank in 4 Weeks
             </h3>
             <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.7;max-width:560px">
-              Arnlea Systems is a specialist supplier of safety-critical industrial equipment based in Aberdeen, serving the North Sea energy sector. They had almost no organic search presence despite 30+ years of trading. A focused technical SEO programme — fixing crawl errors, building local authority, and mapping content to buyer intent — took them from invisible to top-3 rankings within 4 weeks, with 500% organic traffic growth over 6 months.
+              Arnlea Systems is a specialist supplier of safety-critical industrial equipment based in Aberdeen, serving the North Sea energy sector. They had almost no organic search presence despite 30+ years of trading. A focused technical SEO programme — fixing crawl errors, building local authority, and mapping content to buyer intent — took them from invisible to #1 for their primary term within 4 weeks, with 500% organic traffic growth over 6 months.
             </p>
             <a href="/work/arnlea" class="edge-btn" style="margin-top:24px;display:inline-flex;height:36px;font-size:13px">
               Read the full case study →
