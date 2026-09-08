@@ -37,7 +37,11 @@ const imgClass = [
   className,
   logo.darkInvert ? 'logo-dark-invert' : '',
   logo.lightInk ? 'logo-light-ink' : '',
+  logo.colourOnDark ? 'logo-colour-on-dark' : '',
 ].filter(Boolean).join(' ');
+
+/* Optical scale rides along with whatever the caller passed. */
+const imgStyle = [style, logo.scale ? `--logo-scale:${logo.scale}` : ''].filter(Boolean).join(';');
 ---
 
 {logo.site ? (
@@ -54,7 +58,7 @@ const imgClass = [
       width={logo.w}
       height={logo.h}
       class={imgClass}
-      style={style}
+      style={imgStyle}
       loading={loading}
     />
   </a>
@@ -65,7 +69,7 @@ const imgClass = [
     width={logo.w}
     height={logo.h}
     class={imgClass}
-    style={style}
+    style={imgStyle}
     loading={loading}
   />
 )}

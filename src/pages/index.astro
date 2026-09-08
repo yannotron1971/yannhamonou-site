@@ -90,7 +90,12 @@ const recentPosts = allPosts
                     alt={c.client}
                     width={c.logo.w}
                     height={c.logo.h}
-                    class={`edge-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                    class={[
+                      'edge-row__logo',
+                      c.logo.darkInvert && 'logo-dark-invert',
+                      c.logo.colourOnDark && 'logo-colour-on-dark',
+                    ].filter(Boolean).join(' ')}
+                    style={c.logo.scale ? `--logo-scale:${c.logo.scale}` : undefined}
                     loading="lazy"
                   />
                 )

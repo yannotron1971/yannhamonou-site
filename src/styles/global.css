@@ -843,6 +843,16 @@ body.v4:not(.is-light) .v4-client-logo.logo-dark-invert {
   --logo-hover: brightness(0) invert(1);
 }
 
+/* Except where the dark ink is a colour rather than black. Arnlea's mark
+   averages a warm brown, so there is a hue under the silhouette — it just sits
+   too close to the ground to read unlifted. Dropping the filter entirely would
+   put a brown mark on a near-black band; the lift brings the hue up to where it
+   reads, which is the same promise the coloured marks make on hover. */
+.edge-block--dark .logo-colour-on-dark,
+body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
+  --logo-hover: brightness(2.1);
+}
+
 /* White-ink artwork on a light ground. */
 .is-light .logo-light-ink,
 .edge-block:not(.edge-block--dark) .logo-light-ink {
@@ -876,9 +886,14 @@ a:focus-visible .v4-client-logo {
 /* ── Sizing ──
    Height, never width: the marks run from 2.2:1 to 5:1, so a fixed width
    squashes the wide ones. The current-projects row caps width as well, or a
-   5:1 wordmark towers over a 2:1 one. */
+   5:1 wordmark towers over a 2:1 one.
+
+   Height alone is not enough on its own, either. A stacked lockup at the same
+   height as a wordmark reads as half the size, because half of its height goes
+   on the mark above the type — hence --logo-scale, set per logo in the data for
+   the ones that need correcting. */
 .edge-client-logo {
-  height: clamp(30px, 4.2vw, 56px);
+  height: calc(clamp(30px, 4.2vw, 56px) * var(--logo-scale, 1));
   width: auto;
   max-width: min(100%, 260px);
   object-fit: contain;
@@ -886,7 +901,7 @@ a:focus-visible .v4-client-logo {
 }
 
 .edge-quote__logo {
-  height: 22px;
+  height: calc(22px * var(--logo-scale, 1));
   width: auto;
   max-width: 130px;
   object-fit: contain;
@@ -896,7 +911,7 @@ a:focus-visible .v4-client-logo {
 }
 
 .edge-row__logo {
-  height: 22px;
+  height: calc(22px * var(--logo-scale, 1));
   width: auto;
   max-width: 130px;
   object-fit: contain;
@@ -912,7 +927,7 @@ a:focus-visible .v4-client-logo {
    case-study heroes. Constrain height, never width — the marks range from
    2.2:1 to 5:1, so a fixed width squashes the wide ones. */
 .v4-client-logo {
-  height: 26px;
+  height: calc(26px * var(--logo-scale, 1));
   width: auto;
   max-width: 160px;
   object-fit: contain;
@@ -920,7 +935,7 @@ a:focus-visible .v4-client-logo {
   display: block;
 }
 
-.v4-client-logo--lg { height: 40px; max-width: 240px; }
+.v4-client-logo--lg { height: calc(40px * var(--logo-scale, 1)); max-width: 240px; }
 
 /* Fixed-height slot so testimonial cards stay aligned even when a client
    has no logo on file. */

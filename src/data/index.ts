@@ -4,12 +4,23 @@
    on a light ground or it disappears into it.
    `site` is the client's own website: where a mark appears outside a link of
    its own, it becomes one. Verified against each company's live site rather
-   than guessed from the name. */
-export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string };
+   than guessed from the name.
+   `colourOnDark` is for dark-ink artwork that is dark *and coloured* rather
+   than black: silhouetted at rest like any other, but it has a hue to come
+   back to on hover, so it lifts into it instead of staying a silhouette.
+   `scale` corrects optical size. Marks are matched on height, which works
+   until one of them is a stacked lockup: at the same height as a 5:1 wordmark
+   it reads as half the size, because it is. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string; colourOnDark?: boolean; scale?: number };
 
 export const logos = {
-  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  site: 'https://www.arnlea.com/' },
-  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true,  site: 'https://viewport3.com/' },
+  /* Ink measured off the artwork: Arnlea averages rgb(87,60,46), a warm brown,
+     so it has something to show. Viewport3 averages rgb(0,0,0) — pure black,
+     with no colour under the silhouette to reveal. */
+  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  colourOnDark: true, site: 'https://www.arnlea.com/' },
+  /* 2.19:1 against Arnlea's 5.02:1 — a stacked lockup, so height alone leaves
+     it looking half the size of the wordmarks beside it. */
+  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true,  scale: 1.3, site: 'https://viewport3.com/' },
   bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false, site: 'https://bowtiemaster.com/' },
   incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false, site: 'https://incident-insight.com/' },
   /* The supplied artwork is the inverted cut: white wordmark, orange mark. It
