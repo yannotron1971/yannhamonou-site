@@ -9,12 +9,14 @@
 # known live URL resolves to a page that exists in this build; /contact is the
 # only one with no rule, because the path did not change.
 #
-# Still outstanding: Google Search Console for this domain. The connected GSC
-# property here is bowtiemaster.com, so the one source that knows about pages
-# nobody links to any more has not been checked. Note that
-# /marketing-services/seo-agency-aberdeen already 404s on the live site and
-# still draws Bing impressions — which is exactly the kind of URL a sitemap
-# and a crawl both miss.
+# Search Console could not be used: the Google account connected here holds
+# arnlea.com, viewport3.com, incident-insight.com and bowtiemaster.com, but not
+# yannhamonou.com. The Wayback Machine stood in for it — the same job of
+# knowing about URLs the current site no longer links to — and found two the
+# other three sources all missed, one of which is still live. If the GSC
+# property is ever connected, run the same diff again; a crawl cannot see an
+# orphan, and /marketing-services/seo-agency-aberdeen proves the point by
+# 404ing on the live site while still drawing Bing impressions.
 
 # ── Pages that changed name ──
 /about-me                    /about                        301
@@ -42,9 +44,21 @@
 /services/paid   /services/media   301
 
 # ── Case studies ──
+# /case-study-arnlea is the pre-/proof/ URL and is STILL LIVE — the sitemap
+# does not list it, nothing on the site links to it, and only the archive knew
+# it existed. Its siblings under that prefix all 404 now, but the wildcard
+# catches any that are still indexed.
+/case-study-arnlea            /work/arnlea      301
+/case-study-*                 /work             301
 /proof/case-study-arnlea      /work/arnlea      301
 /proof/case-study-viewport3   /work/viewport3   301
 /proof/*                      /work             301
+
+# ── Gone before the migration ──
+# /resources 404s on the live site already and predates the current structure.
+# Whatever it held, the people who followed a link to it wanted reading, so it
+# goes to the journal rather than the homepage.
+/resources                    /journal          301
 
 # ── Journal ──
 # Twelve of the fourteen slugs survive the move unchanged, so the wildcard at
