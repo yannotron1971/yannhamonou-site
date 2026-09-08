@@ -9,14 +9,13 @@
 # known live URL resolves to a page that exists in this build; /contact is the
 # only one with no rule, because the path did not change.
 #
-# Search Console could not be used: the Google account connected here holds
-# arnlea.com, viewport3.com, incident-insight.com and bowtiemaster.com, but not
-# yannhamonou.com. The Wayback Machine stood in for it — the same job of
-# knowing about URLs the current site no longer links to — and found two the
-# other three sources all missed, one of which is still live. If the GSC
-# property is ever connected, run the same diff again; a crawl cannot see an
-# orphan, and /marketing-services/seo-agency-aberdeen proves the point by
-# 404ing on the live site while still drawing Bing impressions.
+# Checked against Search Console's own page list (41 URLs, 16 months), which
+# earned its place: it found three URLs the sitemap, the crawl, Bing and the
+# archive had all missed between them. Two were URL shapes nobody links to —
+# a bare /marketing-services and a trailing-slash /b2b-marketing-services/ —
+# and one was a second spelling of a live post's slug, carrying 973
+# impressions and twelve clicks, that the wildcard was quietly sending to a
+# page that does not exist.
 
 # ── Pages that changed name ──
 /about-me                    /about                        301
@@ -36,6 +35,9 @@
 /marketing-services/seo-agency-aberdeen                   /services/seo-aberdeen   301
 /marketing-services/digital-marketing                     /digital-marketing-aberdeen 301
 /marketing-services/*                                     /services                301
+# Indexed without the trailing segment, so the wildcard above never sees them.
+/marketing-services                                       /services                301
+/b2b-marketing-services/                                  /services                301
 
 # ── Renamed inside this build ──
 # Paid Media became Organic & Paid Media, and the slug moved with it. Nothing
@@ -68,6 +70,9 @@
 #   · the automation post, deleted with the service — no equivalent page, so
 #     it goes to the index rather than to something it isn't
 /post/seo-aberdeen-the-basics-that-still-win   /journal/seo-aberdeen-the-basics-that-still-win-in-2025   301
+# Two spellings of the Base44 slug are indexed: 80m and 80-m. Only the first
+# exists here, and the second is the one with the traffic.
+/post/b2b-saas-growth-playbook---lessons-from-base44s-80-m-exit   /journal/b2b-saas-growth-playbook---lessons-from-base44s-80m-exit   301
 /post/why-every-sme-need-a-marketing-plan      /journal/free-b2b-marketing-plan-template-for-smes        301
 /post/b2b-sme-growth-marketing-automation      /journal                                                  301
 /post/*                                        /journal/:splat                                           301
