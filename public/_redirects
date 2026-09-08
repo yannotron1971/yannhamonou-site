@@ -26,6 +26,12 @@
 /marketing-services/digital-marketing                     /digital-marketing-aberdeen 301
 /marketing-services/*                                     /services                301
 
+# ── Renamed inside this build ──
+# Paid Media became Organic & Paid Media, and the slug moved with it. Nothing
+# external points here yet, but the old URL has been in this repo for months
+# and costs one line to keep working.
+/services/paid   /services/media   301
+
 # ── Case studies ──
 /proof/case-study-arnlea      /work/arnlea      301
 /proof/case-study-viewport3   /work/viewport3   301
