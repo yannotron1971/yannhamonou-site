@@ -14,8 +14,9 @@ export const logos = {
   incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false, site: 'https://incident-insight.com/' },
   /* The supplied artwork is the inverted cut: white wordmark, orange mark. It
      sits on the dark grounds every testimonial currently uses; `lightInk`
-     covers it if one of those ever turns light. */
-  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true, site: 'https://www.proactis.com/uk/' },
+     covers it if one of those ever turns light. The mark links to Tenders
+     Direct, which is where the Proactis Tenders business actually lives. */
+  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true, site: 'https://www.tendersdirect.co.uk/' },
 } satisfies Record<string, Logo>;
 
 export const services = [
