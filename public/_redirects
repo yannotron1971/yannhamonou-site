@@ -1,11 +1,20 @@
 # Webflow → Astro. Every URL the live site publishes, pointed at its new home.
 #
 # Cloudflare takes the FIRST match, so specific rules sit above the wildcards
-# that back them up. Drafted from the live sitemap (28 URLs) plus three pages
-# that are indexed but absent from it — which is the reason this file is not
-# finished: a sitemap is what a site says it publishes, not what Google knows
-# about. Before cutover, export Search Console's page list and diff it against
-# the left-hand column here.
+# that back them up.
+#
+# Checked against three sources, which agree: the live sitemap (28 URLs), a
+# crawl of every internal link on the live site (19 URLs, no new ones), and
+# Bing Webmaster's page report (8 URLs with impressions, no new ones). Every
+# known live URL resolves to a page that exists in this build; /contact is the
+# only one with no rule, because the path did not change.
+#
+# Still outstanding: Google Search Console for this domain. The connected GSC
+# property here is bowtiemaster.com, so the one source that knows about pages
+# nobody links to any more has not been checked. Note that
+# /marketing-services/seo-agency-aberdeen already 404s on the live site and
+# still draws Bing impressions — which is exactly the kind of URL a sitemap
+# and a crawl both miss.
 
 # ── Pages that changed name ──
 /about-me                    /about                        301
