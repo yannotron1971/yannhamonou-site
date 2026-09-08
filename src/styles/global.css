@@ -853,6 +853,22 @@ body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
   --logo-hover: brightness(2.1);
 }
 
+/* The work rows stay monochrome, hover included. Yann's call, and it is the
+   right one: those marks sit inside a link to the case study, in a list where
+   the eye is meant to travel down the results column. Four marks lighting up
+   one at a time as the pointer passes turns a quiet list into a fairground.
+   The row still answers — it dims, and the mark holds at full opacity while it
+   does — so the affordance survives without the colour.
+
+   --logo-hover resolves per element, so pointing it at --logo-rest keeps
+   whatever treatment that ground already chose: silhouette on ink, desaturated
+   elsewhere. Placed after the rules above, which it deliberately overrides for
+   this one placement. */
+.edge-block--dark .edge-row__logo,
+.edge-block .edge-row__logo {
+  --logo-hover: var(--logo-rest);
+}
+
 /* White-ink artwork on a light ground. */
 .is-light .logo-light-ink,
 .edge-block:not(.edge-block--dark) .logo-light-ink {
