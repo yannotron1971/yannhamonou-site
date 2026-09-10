@@ -853,6 +853,24 @@ body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
   --logo-hover: brightness(2.1);
 }
 
+/* Arnlea's lockup is two inks: orange bars, near-navy wordmark. One filter
+   across the pair lifts the navy into a blue-grey that is in neither half, so
+   the artwork is drawn twice and clipped. On hover the bars drop their filter
+   and come back as the orange they are; the wordmark holds the white
+   silhouette it already had, which is what the eye expects of a wordmark
+   sitting in a line of white type.
+
+   Both halves carry .logo-colour-on-dark, so these follow the rule above and
+   override only the hover. */
+.edge-block--dark .logo-colour-on-dark.logo-split__mark,
+body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark.logo-split__mark {
+  --logo-hover: none;
+}
+.edge-block--dark .logo-colour-on-dark.logo-split__word,
+body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark.logo-split__word {
+  --logo-hover: brightness(0) invert(1);
+}
+
 /* The work rows stay monochrome, hover included. Yann's call, and it is the
    right one: those marks sit inside a link to the case study, in a list where
    the eye is meant to travel down the results column. Four marks lighting up
