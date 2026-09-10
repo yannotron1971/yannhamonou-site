@@ -62,21 +62,30 @@ const detail = details[c.slug];
       <a href="/work" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All work
       </a>
-      {c.logo && (
-        <ClientLogo
-          logo={c.logo}
-          name={c.client}
-          class="v4-client-logo v4-client-logo--lg"
-          style="margin-top:32px"
-          loading="eager"
-        />
+      {c.logo ? (
+        <>
+          {/* The mark is the title. It keeps its link to the client's own site,
+              so it cannot also be the h1 — nesting it there would make the
+              heading announce "visit website, opens in a new tab". The h1
+              carries the name for screen readers and search instead. */}
+          <div class="edge-case-hero__mark">
+            <ClientLogo
+              logo={c.logo}
+              name={c.client}
+              class="v4-client-logo v4-client-logo--hero"
+              loading="eager"
+            />
+          </div>
+          <h1 class="u-visually-hidden">{c.client}</h1>
+        </>
+      ) : (
+        <h1
+          style="font-family:var(--v4-display);font-weight:300;font-size:clamp(56px,10vw,140px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-top:32px;margin-bottom:32px"
+        >
+          {c.client}
+        </h1>
       )}
-      <div class="edge-label" style="margin-top:24px;margin-bottom:16px">{c.year} · {c.descriptor}</div>
-      <h1
-        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(56px,10vw,140px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:32px"
-      >
-        {c.client}
-      </h1>
+      <div class="edge-label" style="margin-bottom:16px">{c.year} · {c.descriptor}</div>
       <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:640px;line-height:1.6;font-weight:300">
         {c.summary}
       </p>
