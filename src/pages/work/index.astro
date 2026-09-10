@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import EdgeField from '../../components/EdgeField.astro';
 import { cases } from '../../data/index';
 ---
 
@@ -7,19 +8,22 @@ import { cases } from '../../data/index';
   title="Work & Case Studies — Yann Hamonou"
   description="B2B marketing case studies: real results from Aberdeen and Scottish SMEs. SEO growth, positioning, and lead generation."
 >
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Portfolio</div>
-      <h1 class="v4-section-h" style="margin-bottom:24px">Selected Work</h1>
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Portfolio</div>
+      <h1 class="edge-h2" style="margin-bottom:24px">Selected Work</h1>
       <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
         A handful of the projects that best represent the work. Numbers are real; context is everything.
       </p>
     </div>
   </section>
 
-  <section class="v4-block">
-    <div class="v4-wrap">
-      <div style="display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;border:1px solid var(--v4-line-soft)">
+  <div class="edge-sheet">
+
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div style="display:flex;flex-direction:column;gap:2px;border-radius:0;overflow:hidden;border:1px solid var(--v4-line-soft)">
         {cases.map(c => (
           <a
             href={`/work/${c.slug}`}
@@ -38,14 +42,14 @@ import { cases } from '../../data/index';
                   loading="lazy"
                 />
               )}
-              <div class="v4-eyebrow" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
-              <h2 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(24px,3vw,40px);text-transform:uppercase;letter-spacing:-0.015em;color:var(--v4-accent-warm);margin-bottom:8px">
+              <div class="edge-label" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
+              <h2 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
                 {c.client}
               </h2>
               <p style="font-size:15px;color:var(--v4-ink-mute)">{c.summary}</p>
             </div>
             <div style="text-align:right;flex-shrink:0">
-              <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">
+              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
                 {c.stat}
               </div>
               <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
@@ -58,15 +62,16 @@ import { cases } from '../../data/index';
     </div>
   </section>
 
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Your Results<br/>Could Be Here</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Your Results<br/>Could Be Here</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book the free 30-minute review. No commitment — just an honest look at where your biggest marketing opportunity is.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>

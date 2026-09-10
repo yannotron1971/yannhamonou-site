@@ -55,15 +55,17 @@ Write descriptions that answer the question a buyer would actually ask:
 - "Who is it for?"
 - "What makes it better than the alternative?"
 
-### 3. Bing Merchant Center
+### 3. The OpenAI Product Feed
 
-OpenAI's shopping integration is built on Bing's shopping index. If you're not in Bing Merchant Center with an up-to-date product feed, you're not in ChatGPT's shopping results.
+This is the part most guides get wrong, including an earlier version of this one. ChatGPT does not crawl your catalogue and it does not read it out of Bing. Merchants push a structured feed to OpenAI directly, and products that are not in that feed are not in the shopping results.
 
 Setup steps:
-1. Create a Bing Merchant Center account
-2. Create a product feed (XML or Google Shopping Feed format)
-3. Submit and verify your store
-4. Keep the feed updated at minimum weekly
+1. Apply at chatgpt.com/merchants and wait for OpenAI to verify the business
+2. Build the feed — CSV, TSV, XML, JSON, JSONL or Parquet, with the required fields
+3. Push it to the SFTP endpoint they issue you
+4. Keep it current; the feed accepts updates as often as every fifteen minutes
+
+Two shortcuts. If you sell through Shopify or Etsy your catalogue is already integrated and there is nothing to apply for — Shopify enrolled eligible US merchants in the ChatGPT channel by default in March 2026, under Settings → Sales channels → Agentic Storefronts. And placement is not for sale: results are ranked on feed quality, relevance and the buyer's context, with no paid slots.
 
 ### 4. Supporting Content
 
@@ -82,4 +84,4 @@ Create:
 
 ## The Opportunity for B2B Product Companies
 
-Most B2B product companies haven't optimised for AI shopping visibility. The bar is low. Getting your product schema, Bing Merchant Center feed, and conversational content in place now positions you ahead of competitors who are still focused exclusively on traditional Google SEO.
+Most B2B product companies haven't optimised for AI shopping visibility. The bar is low. Getting your product schema, your OpenAI product feed, and conversational content in place now positions you ahead of competitors still working only on traditional Google SEO.

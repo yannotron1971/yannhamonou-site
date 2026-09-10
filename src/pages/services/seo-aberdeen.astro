@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import EdgeField from '../../components/EdgeField.astro';
 import { services, logos } from '../../data/index';
+import ClientLogo from '../../components/ClientLogo.astro';
 
 const service = services.find(s => s.slug === 'seo-aberdeen')!;
 const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
@@ -8,7 +10,7 @@ const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
 const faq = [
   {
     q: 'How long does SEO take to show results in Aberdeen?',
-    a: 'For most Aberdeen SMEs, you can expect meaningful movement in local rankings within 6–12 weeks of fixing technical issues and building on-page signals. Competitive commercial terms typically take 3–6 months to hold. The Arnlea engagement reached top-3 rankings within 4 weeks for primary terms — unusually fast, driven by fixing a technically broken site that already had domain authority.',
+    a: 'For most Aberdeen SMEs, you can expect meaningful movement in local rankings within 6–12 weeks of fixing technical issues and building on-page signals. Competitive commercial terms typically take 3–6 months to hold. The Arnlea engagement reached #1 for their primary term within 4 weeks — unusually fast, driven by fixing a technically broken site that already had domain authority.',
   },
   {
     q: 'What is different about SEO for Aberdeen businesses?',
@@ -24,7 +26,7 @@ const faq = [
   },
   {
     q: 'What does an SEO engagement with you cost?',
-    a: 'Engagements are scoped to your situation — there is no off-the-shelf package. A standalone SEO audit starts from £750. Monthly retainers covering ongoing technical SEO, content, and local signals typically run £900–£2,000/month depending on scope and reporting. The free 30-minute review is the right starting point: I will tell you where the biggest opportunity is before you commit to anything.',
+    a: 'Engagements are scoped to your situation — there is no off-the-shelf package, and what a site needs after an audit varies more than any price list would suggest. The free 30-minute review is the right starting point: I will tell you where the biggest opportunity is, and what it would take, before you commit to anything.',
   },
   {
     q: 'What is GEO and why does it matter for Aberdeen businesses?',
@@ -59,37 +61,26 @@ const faq = [
       { "@type": "AdministrativeArea", "name": "Scotland" }
     ],
     "serviceType": "SEO Consultancy",
-    "offers": {
-      "@type": "Offer",
-      "priceSpecification": [
-        {
-          "@type": "PriceSpecification",
-          "name": "SEO & GEO Audit",
-          "price": "750",
-          "priceCurrency": "GBP",
-          "description": "One-off assessment covering technical SEO, content gaps, schema improvements, and GEO readiness scoring"
-        },
-        {
-          "@type": "PriceSpecification",
-          "name": "Ongoing SEO & GEO Retainer",
-          "minPrice": "900",
-          "maxPrice": "2000",
-          "priceCurrency": "GBP",
-          "unitText": "MONTH"
-        }
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "SEO & GEO services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO & GEO audit" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ongoing SEO & GEO retainer" } }
       ]
     }
   })} />
 
   <!-- Hero -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <a href="/services" class="v4-eyebrow" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
+    <div class="edge-wrap">
+      <a href="/services" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.15s ease">
         ← All services
       </a>
-      <div class="v4-eyebrow" style="margin-top:24px;margin-bottom:20px">03 · Service</div>
+      <div class="edge-label" style="margin-top:24px;margin-bottom:20px">03 · Service</div>
       <h1
-        style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(48px,8vw,120px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:24px"
+        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
       >
         SEO Aberdeen
       </h1>
@@ -99,12 +90,14 @@ const faq = [
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- What SEO in Aberdeen actually requires -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
-          <div class="v4-eyebrow" style="margin-bottom:20px">The Aberdeen context</div>
+          <div class="edge-label" style="margin-bottom:20px">The Aberdeen context</div>
           <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
             <p>
               Aberdeen search results are competitive in a specific way. National firms with large domain authority dominate generic terms. Local businesses win by being clearly the most relevant, most trusted, most geographically specific result for Aberdeen and Aberdeenshire buyers.
@@ -116,13 +109,13 @@ const faq = [
               I have delivered this specifically for Aberdeen and Scottish B2B companies — from industrial equipment suppliers serving the North Sea to professional services firms in the city centre. The work is practical, not theoretical.
             </p>
           </div>
-          <a href="/contact" class="v4-btn v4-btn--primary" style="margin-top:32px;display:inline-flex">
+          <a href="/contact" class="edge-btn" style="margin-top:32px;display:inline-flex">
             Discuss your SEO situation →
           </a>
         </div>
 
-        <div style="background:var(--v4-panel);border-radius:16px;padding:32px;border:1px solid var(--v4-line-soft)">
-          <div class="v4-eyebrow" style="margin-bottom:16px">What's included</div>
+        <div style="background:var(--v4-panel);border-radius:0;padding:32px;border:1px solid var(--v4-line-soft)">
+          <div class="edge-label" style="margin-bottom:16px">What's included</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
             {[
               'Technical SEO audit & fixes',
@@ -144,10 +137,10 @@ const faq = [
   </section>
 
   <!-- Aberdeen industries -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Who I work with in Aberdeen</div>
-      <h2 class="v4-section-h" style="margin-bottom:16px;max-width:680px">Aberdeen's Economy Has<br/>Specific Search Behaviour</h2>
+  <section class="edge-block edge-block--paper">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Who I work with in Aberdeen</div>
+      <h2 class="edge-h2" style="margin-bottom:16px;max-width:680px">Aberdeen's Economy Has<br/>Specific Search Behaviour</h2>
       <p style="font-size:17px;color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:40px">
         Generic SEO strategies built for retail or national brands rarely work here. Aberdeen's B2B buyers search differently — longer queries, industry-specific terminology, and a strong preference for local providers with demonstrable sector experience.
       </p>
@@ -170,8 +163,8 @@ const faq = [
             body: 'Aberdeen\'s growing technology cluster includes software companies, digital agencies, and SaaS businesses targeting national and global markets. SEO and GEO give them visibility beyond word-of-mouth in a tight local network.',
           },
         ].map(item => (
-          <div style="padding:28px;background:var(--v4-panel);border-radius:12px;border:1px solid var(--v4-line-soft)">
-            <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(16px,1.8vw,20px);text-transform:uppercase;letter-spacing:-0.01em;color:var(--v4-accent-warm);margin-bottom:12px">
+          <div style="padding:28px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft)">
+            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(16px,1.8vw,20px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {item.sector}
             </h3>
             <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
@@ -182,10 +175,10 @@ const faq = [
   </section>
 
   <!-- Three pillars of Aberdeen SEO -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">How it works</div>
-      <h2 class="v4-section-h" style="margin-bottom:48px">The Three Pillars</h2>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">How it works</div>
+      <h2 class="edge-h2" style="margin-bottom:48px">The Three Pillars</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
         {[
           {
@@ -205,8 +198,8 @@ const faq = [
           },
         ].map(step => (
           <div style="border-top:2px solid var(--v4-line);padding-top:24px">
-            <div class="v4-eyebrow" style="margin-bottom:16px">{step.num}</div>
-            <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(20px,2vw,26px);text-transform:uppercase;letter-spacing:-0.01em;color:var(--v4-accent-warm);margin-bottom:12px">
+            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
+            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {step.title}
             </h3>
             <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
@@ -217,40 +210,38 @@ const faq = [
   </section>
 
   <!-- Aberdeen SEO results (case study) -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Aberdeen SEO results</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">What This Looks Like<br/>In Practice</h2>
-      <div style="background:var(--v4-panel);border-radius:16px;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
+  <section class="edge-block edge-block--mist">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Aberdeen SEO results</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">What This Looks Like<br/>In Practice</h2>
+      <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
         <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
           <div>
-            <img
-              src={logos.arnlea.src}
-              alt=""
-              width={logos.arnlea.w}
-              height={logos.arnlea.h}
-              class="v4-client-logo logo-dark-invert"
+            <ClientLogo
+              logo={logos.arnlea}
+              name="Arnlea Systems"
+              class="v4-client-logo"
               style="margin-bottom:18px"
-              loading="lazy"
+              decorative
             />
-            <div class="v4-eyebrow" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
-            <h3 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(28px,4vw,52px);text-transform:uppercase;letter-spacing:-0.02em;color:var(--v4-accent-warm);margin-bottom:20px">
-              #3 Rank in 4 Weeks
+            <div class="edge-label" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Industrial Equipment</div>
+            <h3 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:20px">
+              #1 Rank in 4 Weeks
             </h3>
             <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.7;max-width:560px">
-              Arnlea Systems is a specialist supplier of safety-critical industrial equipment based in Aberdeen, serving the North Sea energy sector. They had almost no organic search presence despite 30+ years of trading. A focused technical SEO programme — fixing crawl errors, building local authority, and mapping content to buyer intent — took them from invisible to top-3 rankings within 4 weeks, with 500% organic traffic growth over 6 months.
+              Arnlea Systems is a specialist supplier of safety-critical industrial equipment based in Aberdeen, serving the North Sea energy sector. They had almost no organic search presence despite 30+ years of trading. A focused technical SEO programme — fixing crawl errors, building local authority, and mapping content to buyer intent — took them from invisible to #1 for their primary term within 4 weeks, with 500% organic traffic growth over 6 months.
             </p>
-            <a href="/work/arnlea" class="v4-btn v4-btn--outline" style="margin-top:24px;display:inline-flex;height:36px;font-size:13px">
+            <a href="/work/arnlea" class="edge-btn" style="margin-top:24px;display:inline-flex;height:36px;font-size:13px">
               Read the full case study →
             </a>
           </div>
           <div style="display:flex;flex-direction:column;gap:24px;text-align:right">
             <div>
-              <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">#3</div>
+              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">#3</div>
               <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Google rank</div>
             </div>
             <div>
-              <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">500%</div>
+              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">500%</div>
               <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Organic traffic growth</div>
             </div>
           </div>
@@ -260,11 +251,11 @@ const faq = [
   </section>
 
   <!-- FAQ -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:800px">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">SEO Aberdeen — FAQ</h2>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap" style="max-width:800px">
+      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">SEO Aberdeen — FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
         {faq.map(item => (
           <details class="v4-faq-item" style="background:var(--v4-panel)">
             <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
@@ -279,17 +270,17 @@ const faq = [
   </section>
 
   <!-- Related reading -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:16px">From the journal</div>
+  <section class="edge-block edge-block--sand">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:16px">From the journal</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:36px;font-size:13px">
           SEO Aberdeen: The Basics That Still Win in 2025 →
         </a>
-        <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails" class="edge-btn" style="height:36px;font-size:13px">
           SEO in 2025: What Works, What's Hype, What Fails →
         </a>
-        <a href="/journal/is-your-content-ready-for-the-ai-search-revolution" class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+        <a href="/journal/is-your-content-ready-for-the-ai-search-revolution" class="edge-btn" style="height:36px;font-size:13px">
           Is Your Content Ready for AI Search? →
         </a>
       </div>
@@ -297,12 +288,12 @@ const faq = [
   </section>
 
   <!-- Other services -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:16px">Also available</div>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:16px">Also available</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
         {otherServices.map(s => (
-          <a href={`/services/${s.slug}`} class="v4-btn v4-btn--outline" style="height:36px;font-size:13px">
+          <a href={`/services/${s.slug}`} class="edge-btn" style="height:36px;font-size:13px">
             {s.title}
           </a>
         ))}
@@ -311,17 +302,18 @@ const faq = [
   </section>
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Rank<br/>in Aberdeen?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Rank<br/>in Aberdeen?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book the free 30-minute review. I'll look at your current search presence, identify the biggest gaps, and tell you exactly what I'd prioritise.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

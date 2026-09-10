@@ -1,46 +1,46 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { services } from '../../data/index';
+import PageHero from '../../components/PageHero.astro';
 ---
 
 <Layout
   title="Marketing Services — Yann Hamonou"
-  description="B2B marketing services: strategy, positioning, SEO & GEO, paid media, web, and marketing automation. Based in Aberdeen, serving Scotland and the UK."
+  description="B2B marketing services: strategy, positioning, SEO & GEO, paid media, and web & CRO. Based in Aberdeen, serving Scotland and the UK."
 >
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">What I do</div>
-      <h1 class="v4-section-h" style="margin-bottom:24px">Services</h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
-        Integrated B2B marketing — from strategy to execution. Every service is built around a single outcome: qualified leads and sustainable growth.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label="What I do"
+    title="Services"
+    lede="Integrated B2B marketing — from strategy to execution. Every service is built around a single outcome: qualified leads and sustainable growth."
+  />
 
-  <section class="v4-block">
-    <div class="v4-wrap">
-      <div class="v4-services">
+  <div class="edge-sheet">
+  <!-- The services themselves, as rows rather than a card grid: same rhythm as
+       the homepage, and the descriptions read better on one line each. -->
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <ul class="edge-rows" role="list">
         {services.map(s => (
-          <a href={`/services/${s.slug}`} class="v4-service-card">
-            <div class="v4-service-card__num">{s.num}</div>
-            <div class="v4-service-card__title">{s.title}</div>
-            <div class="v4-service-card__desc">{s.desc}</div>
-            <div class="v4-service-card__arrow">Explore <span aria-hidden="true">→</span></div>
-          </a>
+          <li>
+            <a href={`/services/${s.slug}`} class="edge-row edge-row--service">
+              <span class="edge-row__num">{s.num}</span>
+              <span class="edge-row__client">{s.title}</span>
+              <span class="edge-row__desc">{s.desc}</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Not Sure Where<br/>To Start?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+  <section class="edge-block edge-block--dark edge-block--pitch edge-cta">
+    <div class="edge-wrap edge-wrap--narrow">
+      <h2 class="edge-h2 edge-cta__h">Not sure where<br/>to start?</h2>
+      <p class="edge-cta__p">
         Book the free 30-minute review. I'll listen, diagnose, and tell you where the highest-leverage opportunity is for your business.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
-        Book the free review →
-      </a>
+      <a href="/contact" class="edge-btn">Book the free review →</a>
     </div>
   </section>
+  </div>
 </Layout>

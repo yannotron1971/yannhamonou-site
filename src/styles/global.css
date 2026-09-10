@@ -4,7 +4,18 @@
    BASE RESET
 ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  /* scroll-behavior lives in the reduced-motion query near the foot of this
+     file. Setting it here as well took it away from anyone who asked their
+     system for less motion, since nothing turned it back off. */
+  -webkit-text-size-adjust: 100%;
+  /* The ground lives here, not on body: a fixed canvas at z-index:-1 paints
+     above the root background and beneath all content. If body kept a
+     background it would propagate to the root and bury the canvas. */
+  /* White: the field canvas paints the near-black ground for the hero and
+     fades out, revealing this as the sheet takes over. */
+  background-color: #ffffff;
+}
 img, video { display: block; max-width: 100%; }
 button { cursor: pointer; background: none; border: none; font: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -13,29 +24,45 @@ a { color: inherit; text-decoration: none; }
    DARK THEME TOKENS (default — body.v4, no extra class)
 ───────────────────────────────────────────────────────────── */
 body.v4 {
-  --v4-bg:          oklch(0.100 0.000 0);
-  --v4-bg-2:        oklch(0.121 0.000 0);
+  --v4-bg:          #151515;
+  --v4-bg-2:        #191919;
   --v4-panel:       oklch(0.146 0.000 0);
   --v4-panel-2:     oklch(0.170 0.000 0);
   --v4-panel-3:     oklch(0.193 0.000 0);
   --v4-line:        rgba(255 255 255 / 0.10);
   --v4-line-soft:   rgba(255 255 255 / 0.06);
   --v4-ink:         oklch(0.954 0.003 75);
-  --v4-ink-mute:    oklch(0.591 0.004 75);
-  --v4-ink-dim:     oklch(0.52 0.003 75);
+  /* Measured, not eyeballed. Against the #151515 ground these carry 11-15px
+     text, so they need 4.5:1, and the old pair missed: mute at 0.591 came to
+     4.45 and dim at 0.52 to 3.33. */
+  --v4-ink-mute:    oklch(0.70 0.004 75);  /* 6.84:1 on the ground */
+  --v4-ink-dim:     oklch(0.60 0.003 75);  /* 4.63:1 */
   --v4-accent:      oklch(0.954 0.003 75);
   --v4-accent-warm: oklch(0.910 0.025 75);
   --v4-smoke-rgb:   255 255 255;
-  --v4-nav-bg:      rgba(10 10 10 / 0.78);
+  --v4-nav-bg:      rgba(21 21 21 / 0.72);
 
-  --v4-display: 'Archivo', system-ui, sans-serif;
+  --v4-display: 'Space Grotesk', system-ui, sans-serif;
   --v4-sans:    'Inter', system-ui, sans-serif;
-  --v4-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --v4-mono:    'Space Mono', ui-monospace, monospace;
+
+  /* ── The Edge ground ladder ──
+     One monochrome ladder: warm off-whites, cool off-whites, three depths of
+     near-black. Tokens rather than literals in the page, so a ground can be
+     reused off the homepage and retuned in one place. */
+  --edge-white: #ffffff;
+  --edge-bone:  #f7f6f3;
+  --edge-paper: #f3f2ee;
+  --edge-mist:  #eceeee;
+  --edge-sand:  #e8e4dc;
+  --edge-slate: #22262a;
+  --edge-ink:   #151515;
+  --edge-pitch: #0b0c0c;
 
   --v4-maxw:    1320px;
   --v4-gutter:  clamp(20px, 4vw, 56px);
 
-  background-color: var(--v4-bg);
+  background-color: transparent;
   color: var(--v4-ink);
   font-family: var(--v4-sans);
   font-size: 15px;
@@ -112,43 +139,53 @@ body.v4.is-light.tone-bright {
   padding-inline: var(--v4-gutter);
 }
 
+/* Section rhythm, opened up to the homepage's. The Edge gives a section room
+   to be one idea; 64px of air did not read as the same page. Full viewports
+   are a homepage device and stay there — a services page, a case study or a
+   post is a document, and one screen per section would fight the reading. */
 .v4-block {
-  padding-block: clamp(64px, 9vw, 140px);
+  padding-block: clamp(80px, 12vh, 180px);
 }
 
 .v4-block.tight {
-  padding-block: clamp(48px, 6vw, 88px);
+  padding-block: clamp(56px, 8vh, 110px);
 }
 
 /* ─────────────────────────────────────────────────────────────
    TYPOGRAPHY
 ───────────────────────────────────────────────────────────── */
+/* ── The display voice ──
+   Every rule below used to ask for weight 700-900 at font-stretch 75%. That
+   was written for Archivo; Space Grotesk has neither an 800 nor a width axis,
+   so browsers were synthesising both — a smeared, faux-bold, faux-condensed
+   version of a face whose whole point on this concept is that it is light and
+   wide open. Uppercase went with it for the same reason: at 300 the face wants
+   sentence case, which is what the homepage sets. */
 .v4-display {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  text-transform: uppercase;
+  font-weight: 300;
   letter-spacing: -0.025em;
 }
 
+/* Matches .edge-label on the homepage — same size, same tracking, same
+   colour. A near-miss would read worse than an obvious difference. */
 .v4-eyebrow {
   font-family: var(--v4-mono);
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--v4-ink-mute);
+  color: var(--v4-ink-dim);
 }
 
 .v4-hero-h {
   font-family: var(--v4-display);
-  font-weight: 900;
-  font-stretch: 75%;
-  font-size: clamp(48px, min(10vw, 13vh), 140px);
-  line-height: 0.88;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
-  color: var(--v4-accent-warm);
+  font-weight: 300;
+  font-size: clamp(44px, min(9vw, 12vh), 132px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--v4-ink);
 }
 
 @media (max-width: 760px) {
@@ -157,13 +194,13 @@ body.v4.is-light.tone-bright {
 
 .v4-section-h {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(36px, 5vw, 72px);
-  line-height: 0.92;
+  line-height: 1.02;
   letter-spacing: -0.025em;
-  text-transform: uppercase;
-  color: var(--v4-accent-warm);
+  /* Even line lengths, rather than a full first line and one orphan word. */
+  text-wrap: balance;
+  color: var(--v4-ink);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -182,6 +219,34 @@ body.v4.is-light.tone-bright {
   border-bottom: 1px solid var(--v4-line-soft);
 }
 
+/* Once the white sheet is under it, the nav flips to light. Rebinding tokens
+   rather than restyling children keeps every nav rule working unchanged.
+
+   The blur also comes off here. Over the hero it is doing real work — there is
+   a live shader behind the bar and the blur softens it under the links. Over
+   the sheet there is a flat ground behind it for most of the page, where a
+   blur repaints a wide translucent strip every frame to produce an image
+   identical to the one it started with. The translucency stays, so the bar
+   still takes its tone from the section beneath it. */
+body.sheet-active .v4-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  --v4-ink: #151515;
+  /* .v4-nav__cta is ink-on-bg, so --v4-bg has to flip too or the pill goes
+     black-on-black. */
+  --v4-bg: #ffffff;
+  --v4-ink-mute: #55585a;
+  --v4-ink-dim: #7a7d7f;
+  --v4-line-soft: rgba(0, 0, 0, 0.09);
+  background: rgba(255 255 255 / 0.78);
+  color: #151515;
+}
+
+.v4-nav,
+.v4-nav * {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
 .v4-nav__inner {
   display: flex;
   align-items: center;
@@ -194,9 +259,9 @@ body.v4.is-light.tone-bright {
   align-items: center;
   gap: 8px;
   font-family: var(--v4-mono);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   color: var(--v4-ink);
   flex-shrink: 0;
 }
@@ -216,9 +281,20 @@ body.v4.is-light.tone-bright {
   margin-left: auto;
 }
 
+/* ── One voice in the bar ──
+   The nav was running three: Space Mono on the brand, Inter on the links,
+   Inter semibold on the pill. A navigation bar is not prose — it is a row of
+   small labels doing wayfinding, which is exactly the register Space Mono
+   already holds in this design (section labels, buttons, the hero kicker
+   directly beneath it). Inter at 13px medium was the generic-SaaS default and
+   the odd one out. Uppercase and tracked, because mono at this size needs the
+   air to stay legible. */
 .v4-nav__links a {
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--v4-ink-mute);
   transition: color 0.15s ease;
 }
@@ -236,12 +312,14 @@ body.v4.is-light.tone-bright {
   display: inline-flex;
   align-items: center;
   height: 34px;
-  padding: 0 16px;
+  padding: 0 18px;
   background: var(--v4-ink);
   color: var(--v4-bg);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   border-radius: 999px;
   transition: opacity 0.15s ease;
   white-space: nowrap;
@@ -249,8 +327,14 @@ body.v4.is-light.tone-bright {
 
 .v4-nav__cta:hover { opacity: 0.85; }
 
+/* Below 760px the links move into the drawer, and the CTA with them — the
+   drawer carries Contact in its list. This was an inline display:none plus a one-shot
+   width check in script, which meant no JS, no call to action on desktop, and
+   none at all for anyone who widened the window after load. It is the page's
+   single next step; it does not get to depend on JavaScript. */
 @media (max-width: 760px) {
-  .v4-nav__links { display: none; }
+  .v4-nav__links,
+  .v4-nav__cta { display: none; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -342,12 +426,13 @@ body.v4.is-light.tone-bright {
   gap: 4px;
 }
 
+/* Space Grotesk has neither an 800 weight nor a width axis — the 800/75%
+   pair was written for Archivo and browsers were synthesising both. This is
+   the display face as it actually exists on this concept: light and large. */
 .v4-drawer__links a {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(36px, 8vw, 56px);
-  text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--v4-ink-mute);
   transition: color 0.15s ease;
@@ -522,11 +607,10 @@ body.v4.is-light.tone-bright {
 
 .v4-stat__num {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
+  font-weight: 300;
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1;
-  color: var(--v4-accent-warm);
+  color: var(--v4-ink);
   letter-spacing: -0.02em;
 }
 
@@ -554,7 +638,7 @@ body.v4.is-light.tone-bright {
 .v4-work-card {
   flex: 0 0 clamp(260px, 36vw, 420px);
   scroll-snap-align: start;
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   background: var(--v4-panel);
   position: relative;
@@ -585,11 +669,9 @@ body.v4.is-light.tone-bright {
 
 .v4-work-card__client {
   font-family: var(--v4-display);
-  font-weight: 700;
-  font-stretch: 75%;
-  font-size: 22px;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: -0.015em;
 }
 
 .v4-work-card__meta {
@@ -603,9 +685,8 @@ body.v4.is-light.tone-bright {
 
 .v4-work-card__stat {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: 36px;
+  font-weight: 300;
+  font-size: 38px;
   line-height: 1;
   letter-spacing: -0.02em;
   margin-top: 8px;
@@ -619,7 +700,7 @@ body.v4.is-light.tone-bright {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1px;
   border: 1px solid var(--v4-line);
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -642,13 +723,11 @@ body.v4.is-light.tone-bright {
 
 .v4-service-card__title {
   font-family: var(--v4-display);
-  font-weight: 700;
-  font-stretch: 75%;
+  font-weight: 400;
   font-size: clamp(20px, 2.2vw, 28px);
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: var(--v4-accent-warm);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  color: var(--v4-ink);
   margin-bottom: 12px;
 }
 
@@ -721,10 +800,140 @@ img.v4-marquee__item {
   display: block;
 }
 
-/* Dark-ink marks render as a clean white silhouette on the dark theme.
-   brightness(0) first so a coloured dark mark doesn't invert to a random hue. */
-.logo-dark-invert { filter: brightness(0) invert(1); }
-.is-light .logo-dark-invert { filter: none; }
+/* ── Client marks ──────────────────────────────────────────────
+   Sizing and treatment live here, not in a page's scoped styles, because the
+   marks are rendered by ClientLogo.astro. Astro's scope attribute lands on the
+   elements a page writes itself, so a page-scoped `.edge-quote__logo` rule
+   never matched the component's img at all — the marks shipped unsized and
+   unfiltered, at their natural resolution.
+
+   The policy is one line: monochrome at rest, colour under the pointer. Four
+   brand palettes side by side read as a jumble; desaturated they line up as
+   one set, and the colour coming back on hover gives each mark the affordance
+   of the link it now is.
+
+   Two contexts cannot honour the hover, and say so through --logo-hover: a
+   dark-ink mark on a dark ground and a white-ink mark on a light one are both
+   silhouettes, and a silhouette has no colour to return to. Those lift their
+   opacity instead. */
+.edge-client-logo,
+.edge-quote__logo,
+.edge-row__logo,
+.v4-client-logo {
+  --logo-rest: grayscale(1);
+  --logo-hover: none;
+  filter: var(--logo-rest);
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+/* On a dark band pale marks are lifted; on the light sheet they stay as they
+   are. Specificity is equal between this and the silhouette rule below, so
+   source order decides — the silhouette has to come second. */
+.edge-block--dark .edge-client-logo,
+.edge-block--dark .edge-quote__logo,
+.edge-block--dark .edge-row__logo {
+  --logo-rest: grayscale(1) brightness(1.9);
+}
+
+/* Dark-ink artwork on a dark ground. brightness(0) first, so a coloured dark
+   mark does not invert to a random hue. */
+.edge-block--dark .logo-dark-invert,
+body.v4:not(.is-light) .v4-client-logo.logo-dark-invert {
+  --logo-rest: brightness(0) invert(1);
+  --logo-hover: brightness(0) invert(1);
+}
+
+/* Except where the dark ink is a colour rather than black. Arnlea's mark
+   averages a warm brown, so there is a hue under the silhouette — it just sits
+   too close to the ground to read unlifted. Dropping the filter entirely would
+   put a brown mark on a near-black band; the lift brings the hue up to where it
+   reads, which is the same promise the coloured marks make on hover. */
+.edge-block--dark .logo-colour-on-dark,
+body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
+  --logo-hover: brightness(2.1);
+}
+
+/* The work rows stay monochrome, hover included. Yann's call, and it is the
+   right one: those marks sit inside a link to the case study, in a list where
+   the eye is meant to travel down the results column. Four marks lighting up
+   one at a time as the pointer passes turns a quiet list into a fairground.
+   The row still answers — it dims, and the mark holds at full opacity while it
+   does — so the affordance survives without the colour.
+
+   --logo-hover resolves per element, so pointing it at --logo-rest keeps
+   whatever treatment that ground already chose: silhouette on ink, desaturated
+   elsewhere. Placed after the rules above, which it deliberately overrides for
+   this one placement. */
+.edge-block--dark .edge-row__logo,
+.edge-block .edge-row__logo {
+  --logo-hover: var(--logo-rest);
+}
+
+/* White-ink artwork on a light ground. */
+.is-light .logo-light-ink,
+.edge-block:not(.edge-block--dark) .logo-light-ink {
+  --logo-rest: brightness(0) grayscale(1);
+  --logo-hover: brightness(0) grayscale(1);
+}
+
+/* Dark-ink artwork on a light ground needs no flip — the sheet is light, and
+   the mark is drawn dark. */
+.is-light .logo-dark-invert,
+.edge-block:not(.edge-block--dark) .logo-dark-invert {
+  --logo-rest: grayscale(1);
+  --logo-hover: none;
+}
+
+/* Any link that contains a mark, not just the one that points at the client's
+   own site: a case-study row picks its logo back up on hover too, or the same
+   mark would behave differently depending on where it sits. */
+a:hover .edge-client-logo,
+a:hover .edge-quote__logo,
+a:hover .edge-row__logo,
+a:hover .v4-client-logo,
+a:focus-visible .edge-client-logo,
+a:focus-visible .edge-quote__logo,
+a:focus-visible .edge-row__logo,
+a:focus-visible .v4-client-logo {
+  filter: var(--logo-hover);
+  opacity: 1;
+}
+
+/* ── Sizing ──
+   Height, never width: the marks run from 2.2:1 to 5:1, so a fixed width
+   squashes the wide ones. The current-projects row caps width as well, or a
+   5:1 wordmark towers over a 2:1 one.
+
+   Height alone is not enough on its own, either. A stacked lockup at the same
+   height as a wordmark reads as half the size, because half of its height goes
+   on the mark above the type — hence --logo-scale, set per logo in the data for
+   the ones that need correcting. */
+.edge-client-logo {
+  height: calc(clamp(30px, 4.2vw, 56px) * var(--logo-scale, 1));
+  width: auto;
+  max-width: min(100%, 260px);
+  object-fit: contain;
+  opacity: 0.62;
+}
+
+.edge-quote__logo {
+  height: calc(22px * var(--logo-scale, 1));
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0.6;
+  margin-bottom: 24px;
+}
+
+.edge-row__logo {
+  height: calc(22px * var(--logo-scale, 1));
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0.75;
+}
 
 /* ─────────────────────────────────────────────────────────────
    CLIENT LOGOS (outside the marquee)
@@ -734,7 +943,7 @@ img.v4-marquee__item {
    case-study heroes. Constrain height, never width — the marks range from
    2.2:1 to 5:1, so a fixed width squashes the wide ones. */
 .v4-client-logo {
-  height: 26px;
+  height: calc(26px * var(--logo-scale, 1));
   width: auto;
   max-width: 160px;
   object-fit: contain;
@@ -742,7 +951,7 @@ img.v4-marquee__item {
   display: block;
 }
 
-.v4-client-logo--lg { height: 40px; max-width: 240px; }
+.v4-client-logo--lg { height: calc(40px * var(--logo-scale, 1)); max-width: 240px; }
 
 /* Fixed-height slot so testimonial cards stay aligned even when a client
    has no logo on file. */
@@ -766,7 +975,7 @@ img.v4-marquee__item {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 0;
   background: oklch(1 0 0 / 0.92);
   box-shadow: 0 2px 10px oklch(0 0 0 / 0.18);
 }
@@ -789,7 +998,7 @@ img.v4-marquee__item {
 
 .v4-testimonial {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(24px, 3vw, 40px);
   border: 1px solid var(--v4-line-soft);
 }
@@ -838,7 +1047,7 @@ img.v4-marquee__item {
 
 .v4-post-card {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   border: 1px solid var(--v4-line-soft);
   transition: background 0.2s ease, transform 0.2s ease;
@@ -894,7 +1103,7 @@ img.v4-marquee__item {
 ───────────────────────────────────────────────────────────── */
 .v4-closer {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(40px, 5vw, 80px);
   border: 1px solid var(--v4-line-soft);
   text-align: center;
@@ -902,7 +1111,7 @@ img.v4-marquee__item {
 
 .v4-contact-form {
   background: var(--v4-panel);
-  border-radius: 16px;
+  border-radius: 0;
   padding: clamp(32px, 4vw, 56px);
   border: 1px solid var(--v4-line-soft);
   max-width: 640px;
@@ -929,7 +1138,7 @@ img.v4-marquee__item {
 .v4-field select {
   background: var(--v4-panel-2);
   border: 1px solid var(--v4-line);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 12px 14px;
   font-family: var(--v4-sans);
   font-size: 15px;
@@ -937,6 +1146,15 @@ img.v4-marquee__item {
   width: 100%;
   transition: border-color 0.15s ease;
   outline: none;
+}
+
+/* The browser default is the field's own colour at 50% alpha, which measured
+   3.89:1 on the light sheet. A placeholder is text a user has to read to know
+   what the field wants, so it takes the same 4.5:1 as any other. */
+.v4-field input::placeholder,
+.v4-field textarea::placeholder {
+  color: var(--v4-ink-mute);
+  opacity: 1;
 }
 
 .v4-field input:focus,
@@ -953,12 +1171,14 @@ img.v4-marquee__item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 44px;
-  padding: 0 24px;
+  height: 46px;
+  padding: 0 26px;
   border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-family: var(--v4-mono);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
   white-space: nowrap;
@@ -985,9 +1205,19 @@ img.v4-marquee__item {
 /* ─────────────────────────────────────────────────────────────
    FOOTER
 ───────────────────────────────────────────────────────────── */
+/* The footer is the last band of the page and declares its ground like any
+   other: pitch, the same close the CTA sits on, so the page ends on ink rather
+   than trailing off whatever section happened to come last. */
 .v4-footer {
+  background: var(--edge-pitch);
+  --v4-ink: #f2f1ec;
+  --v4-ink-mute: #a2a5a3;
+  --v4-ink-dim: #909391;
+  --v4-line: rgba(255, 255, 255, 0.16);
+  --v4-line-soft: rgba(255, 255, 255, 0.09);
+  color: var(--v4-ink);
   border-top: 1px solid var(--v4-line-soft);
-  padding-block: clamp(48px, 6vw, 80px);
+  padding-block: clamp(56px, 7vw, 96px);
 }
 
 .v4-footer__grid {
@@ -1074,13 +1304,12 @@ img.v4-marquee__item {
 
 .v4-prose h2 {
   font-family: var(--v4-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: clamp(24px, 3vw, 36px);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--v4-accent-warm);
+  font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  text-wrap: balance;
+  color: var(--v4-ink);
   margin-top: 56px;
   margin-bottom: 20px;
 }
@@ -1137,7 +1366,7 @@ img.v4-marquee__item {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 28px;
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid var(--v4-line-soft);
 }
 
@@ -1253,10 +1482,36 @@ img.v4-marquee__item {
   border-radius: 3px;
 }
 
+/* Skip link — the nav carries a dropdown of six services before the content
+   starts, which is a long way to tab past on every page. Off-screen until it
+   takes focus, rather than display:none, which would take it out of the tab
+   order and defeat the point. */
+.v4-skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  transform: translateY(-200%);
+  padding: 12px 18px;
+  background: var(--v4-ink);
+  color: var(--v4-bg);
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.v4-skip:focus-visible {
+  transform: translateY(0);
+}
+
 /* ─────────────────────────────────────────────────────────────
    MICRO-MOTION (gated behind reduced-motion preference)
 ───────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
+  /* Kept for pages that load no motion, but note that it does nothing where
+     ScrollTrigger runs: it writes `scroll-behavior: auto` inline on <html> on
+     init, because native smooth scrolling desynchronises its measurements, and
+     inline style wins. Anchor glide is done in scripts/smooth-anchors.js. */
   html { scroll-behavior: smooth; }
 
   details.v4-faq-item[open] > p {
@@ -1266,4 +1521,487 @@ img.v4-marquee__item {
   @keyframes v4FaqIn {
     from { opacity: 0; transform: translateY(-4px); }
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   THE EDGE
+   Lifted out of the homepage's scoped styles so every page can speak it.
+   Scoped styles only match the elements the page that wrote them renders,
+   which is also why the client marks broke when they moved into a component.
+───────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   THE EDGE — a near-black ground, one enormous light line, and
+   mono micro-labels as the only second voice. The restraint is
+   the design; the field behind it is ambience, not the subject.
+───────────────────────────────────────────────────────────── */
+
+.edge-wrap {
+  width: min(100% - clamp(24px, 6vw, 96px), 1440px);
+  margin-inline: auto;
+}
+.edge-wrap--narrow { max-width: 780px; }
+
+/* The section rhythm every Edge page shares. */
+.edge-block {
+  padding-block: clamp(80px, 12vh, 180px);
+}
+
+/* One screen per section is a homepage device — a page of eight statements,
+   each given the viewport. A services page, a case study or a journal post is
+   a document, and a screen per section would fight the reading, so they use
+   the rhythm above instead.
+
+   min-height, not height: a phone, a short laptop or a long FAQ grows past it
+   rather than clipping. svh, so mobile browser chrome cannot push the last
+   line under the fold. */
+.edge-block--full {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding-block: clamp(72px, 12vh, 160px);
+}
+
+/* ── Micro-labels: the Space Mono voice ── */
+.edge-label,
+.edge-kicker {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+/* ── Hero ── */
+.edge-hero {
+  /* Sticky, not fixed: it holds while .edge-sheet scrolls up over it, then
+     releases with the document. z-index 0 keeps it under the sheet. */
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(120px, 18vh, 200px) clamp(60px, 10vh, 100px);
+}
+.edge-kicker { margin-bottom: clamp(32px, 6vh, 64px); }
+
+.edge-h1 {
+  font-family: var(--v4-display);
+  /* Light weight at enormous size is the whole trick — at 600 this reads as
+     a poster, at 300 it reads as air. */
+  font-weight: 300;
+  font-size: clamp(52px, 11.5vw, 220px);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--v4-ink);
+  margin: 0;
+}
+.edge-h1__sub {
+  display: block;
+  font-family: var(--v4-mono);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  line-height: 1.5;
+  margin-top: clamp(28px, 4vh, 48px);
+}
+
+.edge-hero__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: clamp(48px, 8vh, 88px);
+}
+.edge-hero__where {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+.edge-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  padding-inline: 26px;
+  border: 1px solid var(--v4-line);
+  border-radius: 999px;
+  font-family: var(--v4-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v4-ink);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.edge-btn:hover {
+  background: var(--v4-ink);
+  border-color: var(--v4-ink);
+  color: #151515;
+}
+
+/* ── The sheet ──
+   Carries the light token set; the background belongs to each block so
+   sections can differ. The sheet itself is transparent, which is what lets
+   an --clear block show the field through. Every direct child must therefore
+   declare a ground, or the hero shows through it. */
+.edge-sheet {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  --v4-ink: #151515;
+  /* Both carry 11-12px text — section labels, row descriptors, captions —
+     so both need 4.5:1 against the palest and the deepest light ground.
+     Measured on sand (#e8e4dc), the worst case: mute 7.27, dim 4.70. The
+     old pair read 5.65 and 2.78, so every label on the page failed AA. */
+  --v4-ink-mute: #45484a;
+  --v4-ink-dim: #616467;
+  --v4-line: rgba(0, 0, 0, 0.14);
+  --v4-line-soft: rgba(0, 0, 0, 0.08);
+  /* The inner pages are inline-styled against these, so rebinding them here is
+     what carries that markup onto a light ground unchanged. */
+  --v4-bg: #ffffff;
+  --v4-panel: rgba(0, 0, 0, 0.025);
+  --v4-panel-2: rgba(0, 0, 0, 0.05);
+  --v4-panel-3: rgba(0, 0, 0, 0.075);
+  color: var(--v4-ink);
+}
+
+/* ── Per-section grounds ──
+   One ladder, no hues: warm off-whites, cool off-whites, and three depths of
+   near-black. A monochrome page can give every section its own ground and
+   still read as one material — colour would not. Swap the modifier on any
+   section; --clear lets the hero field show through instead. */
+.edge-block--white { background: var(--edge-white); }        /* 01 proposition */
+.edge-block--paper { background: var(--edge-paper); } /* current projects */
+.edge-block--ink   { background: var(--edge-ink); }   /* 02 work */
+.edge-block--mist  { background: var(--edge-mist); }  /* 03 services */
+.edge-block--slate { background: var(--edge-slate); } /* 04 proof */
+.edge-block--sand  { background: var(--edge-sand); }  /* 05 faq */
+.edge-block--bone  { background: var(--edge-bone); }  /* 06 journal */
+.edge-block--pitch { background: var(--edge-pitch); } /* the close */
+.edge-block--clear { background: transparent; }
+
+/* Any dark ground rebinds the ink tokens, so every rule written for the
+   light sheet works on it unchanged — no duplicate styles per section. */
+.edge-block--dark {
+  --v4-ink: #f2f1ec;
+  /* Slate is the palest of the three dark grounds and so the hard case:
+     mute 6.13, dim 4.91. Dim was 3.76 there. */
+  --v4-ink-mute: #a2a5a3;
+  --v4-ink-dim: #909391;
+  --v4-line: rgba(255, 255, 255, 0.16);
+  --v4-line-soft: rgba(255, 255, 255, 0.09);
+  color: var(--v4-ink);
+}
+
+.edge-sheet .edge-btn:hover {
+  background: #151515;
+  border-color: #151515;
+  color: #fff;
+}
+/* Ink on ink is invisible: on a dark ground the fill inverts. */
+.edge-block--dark .edge-btn:hover {
+  background: #f2f1ec;
+  border-color: #f2f1ec;
+  color: #151515;
+}
+
+/* ── Section heads ── */
+.edge-head { margin-bottom: clamp(40px, 6vh, 72px); }
+.edge-h2 {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(38px, 6vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-top: 14px;
+}
+
+/* ── Lede ── */
+.edge-lede__text {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(22px, 3.2vw, 46px);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  max-width: 20ch;
+  margin-top: 20px;
+}
+.edge-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 80px);
+  margin-top: clamp(48px, 8vh, 88px);
+  padding-top: 32px;
+  border-top: 1px solid var(--v4-line-soft);
+}
+.edge-figure { display: flex; flex-direction: column; gap: 6px; }
+.edge-figure__num {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.edge-figure__label {
+  font-family: var(--v4-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  max-width: 15ch;
+}
+
+/* ── The problem ──
+   Two columns at desktop, which keeps four symptoms on one screen and stops
+   the list reading as a specification. The symptom carries the display face
+   because it is the line a reader recognises themselves in; the cost sits
+   under it in body copy, doing the arguing. */
+.edge-problems {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 5vw, 72px) clamp(40px, 6vw, 96px);
+  list-style: none;
+}
+
+/* Two columns, not auto-fit. There are four symptoms, and auto-fit gave three
+   across on a wide screen — which leaves the fourth sitting alone in a row
+   looking like an afterthought. Two-up fills exactly. */
+@media (min-width: 761px) {
+  .edge-problems { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.edge-problem__symptom {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(21px, 2.2vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin-bottom: 14px;
+}
+
+.edge-problem__cost {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--v4-ink-mute);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* ── Clients ── */
+/* Auto-fit rather than flex-wrap: at full height the four marks should sit
+   on one even row and break to a tidy grid, not trail a widow. */
+.edge-clients {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(48px, 7vw, 96px);
+  margin-top: clamp(48px, 8vh, 96px);
+  list-style: none;
+}
+/* ── Rows: work, services, journal all share one rhythm ── */
+.edge-rows { list-style: none; border-top: 1px solid var(--v4-line-soft); }
+.edge-rows li { border-bottom: 1px solid var(--v4-line-soft); }
+
+/* Work rows: mark, descriptor, number. The client name is gone — the logo
+   says it, and printing both made the row say everything twice. That puts
+   the alt text to work: it is the only place the name is now written. */
+.edge-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(20px, 4vw, 60px);
+  padding-block: clamp(28px, 4.5vh, 56px);
+  transition: opacity 0.25s ease;
+}
+.edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
+.edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+
+/* A case with no logo on file still needs a name. */
+.edge-row__client--fallback { align-self: center; }
+.edge-rows li:hover .edge-row { opacity: 0.62; }
+
+.edge-row__num,
+.edge-row__desc {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--v4-ink-dim);
+  text-transform: uppercase;
+}
+/* Overrides the label treatment above: the descriptor is prose, and it is the
+   middle column of the work row, so it reads from the left edge of its own
+   track rather than floating in the middle of the row. */
+.edge-row__desc {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: left;
+  justify-self: start;
+}
+.edge-row__client {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 34px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+.edge-row__stat {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 46px);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* Insights: the description sits alongside a much larger title, so the two
+   are aligned on their first baseline rather than centred against each
+   other. Below 860px the row is a single column and there is nothing to
+   align to. */
+@media (min-width: 861px) {
+  .edge-row--post { align-items: baseline; }
+}
+
+.edge-more {
+  display: inline-block;
+  margin-top: 32px;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  transition: color 0.2s ease;
+}
+.edge-more:hover { color: var(--v4-ink); }
+
+/* ── Quotes ── */
+.edge-quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(32px, 5vw, 72px);
+}
+.edge-quote { display: flex; flex-direction: column; }
+.edge-quote blockquote {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--v4-ink);
+}
+.edge-quote figcaption {
+  font-family: var(--v4-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  margin-top: 20px;
+}
+
+/* ── FAQ ── */
+.edge-faq { border-top: 1px solid var(--v4-line-soft); }
+.edge-faq__item { border-bottom: 1px solid var(--v4-line-soft); }
+.edge-faq__item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-block: 24px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(16px, 1.7vw, 22px);
+  letter-spacing: -0.01em;
+}
+.edge-faq__item summary::-webkit-details-marker { display: none; }
+.edge-faq__item summary span { color: var(--v4-ink-dim); flex-shrink: 0; }
+.edge-faq__item[open] summary span { transform: rotate(45deg); }
+.edge-faq__item p {
+  padding-bottom: 26px;
+  max-width: 62ch;
+  color: var(--v4-ink-mute);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── CTA ── */
+.edge-cta { text-align: center; }
+.edge-cta__h { margin-top: 0; }
+.edge-cta__p {
+  color: var(--v4-ink-mute);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 42ch;
+  margin: 24px auto 40px;
+}
+
+/* ── Narrow ── */
+@media (max-width: 860px) {
+  .edge-row,
+  .edge-row--service,
+  .edge-row--post {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .edge-row__stat { margin-top: 4px; }
+  .edge-hero__foot { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── The inner-page hero ──
+   The homepage handover in miniature: a near-black opening, then the sheet.
+   Not sticky and not a full screen — the homepage hero earns that because it
+   is the argument of the page. This one says what the document is and gets out
+   of the way. align-content: end so the title sits on the fold rather than
+   floating in the middle of an empty band. */
+/* position/overflow so the contained field has something to fill and cannot
+   spill past the hero; the wrap is lifted above it. The near-black background
+   stays underneath, so a browser with no WebGL gets a flat ground rather than
+   a hole. */
+.edge-page-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 58svh;
+  display: grid;
+  align-content: end;
+  padding-block: clamp(130px, 20vh, 200px) clamp(48px, 7vh, 84px);
+}
+
+.edge-page-hero > .edge-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.edge-page-hero__h {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  /* Half the homepage's ceiling: 220px is a statement, and a page title that
+     shouts as loudly as the site's one line flattens the hierarchy between
+     them. */
+  font-size: clamp(40px, 6.5vw, 104px);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--v4-ink);
+  margin-top: clamp(20px, 3vh, 32px);
+}
+
+.edge-page-hero__lede {
+  margin-top: clamp(20px, 3vh, 30px);
+  max-width: 62ch;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--v4-ink-mute);
+  text-wrap: pretty;
 }

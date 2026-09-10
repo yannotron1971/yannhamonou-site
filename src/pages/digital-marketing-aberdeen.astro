@@ -1,11 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import EdgeField from '../components/EdgeField.astro';
 import { testimonials, cases, services } from '../data/index';
+import ClientLogo from '../components/ClientLogo.astro';
 
 const faq = [
   {
     q: 'What digital marketing services do you offer in Aberdeen?',
-    a: 'The full range: marketing strategy, SEO and local search, paid media (Google Ads, LinkedIn, Meta), positioning and messaging, website conversion optimisation, and marketing automation. Most Aberdeen SME engagements combine two or three of these rather than treating them as separate projects — because the channels amplify each other when they share a strategy.',
+    a: 'The full range: marketing strategy, SEO and local search, paid media (Google Ads, LinkedIn, Meta), positioning and messaging, and website conversion optimisation. Most Aberdeen SME engagements combine two or three of these rather than treating them as separate projects — because the channels amplify each other when they share a strategy.',
   },
   {
     q: 'Do you work with businesses outside Aberdeen city centre?',
@@ -28,33 +30,36 @@ const faq = [
 
 <Layout
   title="Digital Marketing Aberdeen — B2B Marketing Consultant · Yann Hamonou"
-  description="Digital marketing consultant based in Aberdeen and Stonehaven. Strategy, SEO, paid media, and automation for Aberdeen and Scottish B2B SMEs. Free 30-min review."
+  description="Digital marketing consultant based in Aberdeen and Stonehaven. Strategy, SEO, paid media, and web for Aberdeen and Scottish B2B SMEs. Free 30-min review."
 >
   <!-- Hero -->
-  <section class="v4-block tight" style="border-bottom:1px solid var(--v4-line-soft)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">B2B Digital Marketing · Aberdeen</div>
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">B2B Digital Marketing · Aberdeen</div>
       <h1
-        style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(40px,7vw,110px);line-height:0.9;letter-spacing:-0.025em;text-transform:uppercase;color:var(--v4-accent-warm);margin-bottom:24px"
+        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,7vw,110px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
       >
         Digital Marketing<br/>Aberdeen
       </h1>
       <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
-        B2B digital marketing strategy and execution for Aberdeen and Scottish SMEs. SEO, paid media, positioning, and automation — all pointed at the same goal: qualified leads and sustainable growth.
+        B2B digital marketing strategy and execution for Aberdeen and Scottish SMEs. SEO, paid media, positioning, and websites — all pointed at the same goal: qualified leads and sustainable growth.
       </p>
       <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px">
-        <a href="/contact" class="v4-btn v4-btn--primary">Book a free 30-min review</a>
-        <a href="/services" class="v4-btn v4-btn--outline">See all services →</a>
+        <a href="/contact" class="edge-btn">Book a free 30-min review</a>
+        <a href="/services" class="edge-btn">See all services →</a>
       </div>
     </div>
   </section>
 
+  <div class="edge-sheet">
+
   <!-- The Aberdeen context -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
-          <div class="v4-eyebrow" style="margin-bottom:20px">Why Aberdeen is different</div>
+          <div class="edge-label" style="margin-bottom:20px">Why Aberdeen is different</div>
           <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
             <p>
               Digital marketing in Aberdeen operates in a specific commercial environment. The city's economy is dominated by energy, professional services, and industrial supply — B2B markets where buying decisions are relationship-driven, sales cycles are long, and generic national campaigns rarely convert.
@@ -68,9 +73,9 @@ const faq = [
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="v4-eyebrow" style="margin-bottom:4px">Services for Aberdeen businesses</div>
+          <div class="edge-label" style="margin-bottom:4px">Services for Aberdeen businesses</div>
           {services.map(s => (
-            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:12px;border:1px solid var(--v4-line-soft);transition:background 0.2s ease;text-decoration:none"
+            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft);transition:background 0.2s ease;text-decoration:none"
               onmouseover="this.style.background='var(--v4-panel-3)'"
               onmouseout="this.style.background='var(--v4-panel)'"
             >
@@ -87,10 +92,10 @@ const faq = [
   </section>
 
   <!-- What good digital marketing looks like for Aberdeen SMEs -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">How I work</div>
-      <h2 class="v4-section-h" style="margin-bottom:16px;max-width:700px">Digital Marketing That Connects<br/>to Revenue</h2>
+  <section class="edge-block edge-block--paper">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">How I work</div>
+      <h2 class="edge-h2" style="margin-bottom:16px;max-width:700px">Digital Marketing That Connects<br/>to Revenue</h2>
       <p style="font-size:17px;color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:48px">
         Most Aberdeen SMEs have tried marketing that did not work — an agency campaign that generated clicks but no leads, an SEO retainer that produced reports but no rankings, a LinkedIn spend with nothing to show for it. The problem is almost never the channel. It is strategy, or positioning, or the wrong metrics.
       </p>
@@ -109,12 +114,12 @@ const faq = [
             body: 'Google Ads, LinkedIn, and Meta campaigns built around your sales cycle. Every campaign includes conversion tracking, audience segmentation, and a feedback loop that improves week on week.',
           },
           {
-            title: 'Automation that scales',
-            body: 'Lead nurture, CRM workflows, and email sequences that keep your pipeline moving without manual follow-up. Built for Aberdeen B2B sales cycles, not e-commerce funnels.',
+            title: 'Websites that convert',
+            body: 'Conversion-focused builds with technical SEO embedded from the start. Every page built around a single goal, and measured against it.',
           },
         ].map(item => (
-          <div style="padding:28px;background:var(--v4-panel);border-radius:12px;border:1px solid var(--v4-line-soft)">
-            <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(18px,2vw,22px);text-transform:uppercase;letter-spacing:-0.01em;color:var(--v4-accent-warm);margin-bottom:12px">
+          <div style="padding:28px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft)">
+            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {item.title}
             </h3>
             <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
@@ -125,33 +130,33 @@ const faq = [
   </section>
 
   <!-- SEO Aberdeen spotlight -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div style="background:var(--v4-panel);border-radius:20px;padding:clamp(32px,4vw,56px);border:1px solid var(--v4-line-soft);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div style="background:var(--v4-panel);border-radius:0;padding:clamp(32px,4vw,56px);border:1px solid var(--v4-line-soft);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
         <div>
-          <div class="v4-eyebrow" style="margin-bottom:16px">Most in-demand service</div>
-          <h2 style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(28px,4vw,52px);text-transform:uppercase;letter-spacing:-0.02em;color:var(--v4-accent-warm);margin-bottom:16px;line-height:1">
+          <div class="edge-label" style="margin-bottom:16px">Most in-demand service</div>
+          <h2 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:16px;line-height:1">
             SEO Aberdeen
           </h2>
           <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.65;max-width:520px;margin-bottom:24px">
             The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" style="color:var(--v4-ink);text-decoration:underline;text-underline-offset:3px">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
           </p>
           <div style="display:flex;flex-wrap:wrap;gap:12px">
-            <a href="/services/seo-aberdeen" class="v4-btn v4-btn--primary" style="height:40px;font-size:13px;padding:0 20px">
+            <a href="/services/seo-aberdeen" class="edge-btn" style="height:40px;font-size:13px;padding:0 20px">
               SEO Aberdeen service →
             </a>
-            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="v4-btn v4-btn--outline" style="height:40px;font-size:13px;padding:0 20px">
+            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:40px;font-size:13px;padding:0 20px">
               Read the Aberdeen SEO guide →
             </a>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:20px;text-align:right;flex-shrink:0">
           <div>
-            <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">#3</div>
+            <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">#3</div>
             <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Google rank<br/>in 4 weeks</div>
           </div>
           <div>
-            <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">500%</div>
+            <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">500%</div>
             <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Organic traffic<br/>growth</div>
           </div>
         </div>
@@ -160,11 +165,11 @@ const faq = [
   </section>
 
   <!-- Results -->
-  <section class="v4-block tight">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Aberdeen results</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">What This Delivers</h2>
-      <div style="display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;border:1px solid var(--v4-line-soft)">
+  <section class="edge-block edge-block--mist">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Aberdeen results</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">What This Delivers</h2>
+      <div style="display:flex;flex-direction:column;gap:2px;border-radius:0;overflow:hidden;border:1px solid var(--v4-line-soft)">
         {cases.map(c => (
           <a
             href={`/work/${c.slug}`}
@@ -183,14 +188,14 @@ const faq = [
                   loading="lazy"
                 />
               )}
-              <div class="v4-eyebrow" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
-              <h3 style="font-family:var(--v4-display);font-weight:700;font-stretch:75%;font-size:clamp(22px,3vw,36px);text-transform:uppercase;letter-spacing:-0.015em;color:var(--v4-accent-warm);margin-bottom:8px">
+              <div class="edge-label" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
+              <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(22px,3vw,36px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
                 {c.client}
               </h3>
               <p style="font-size:15px;color:var(--v4-ink-mute)">{c.summary}</p>
             </div>
             <div style="text-align:right;flex-shrink:0">
-              <div style="font-family:var(--v4-display);font-weight:800;font-stretch:75%;font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-0.02em;color:var(--v4-accent-warm)">
+              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
                 {c.stat}
               </div>
               <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
@@ -204,22 +209,15 @@ const faq = [
   </section>
 
   <!-- Testimonials -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap">
-      <div class="v4-eyebrow" style="margin-bottom:20px">What clients say</div>
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">What clients say</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
         {testimonials.map(t => (
           <div class="v4-testimonial">
             <div class="v4-testimonial__logo">
               {t.logo && (
-                <img
-                  src={t.logo.src}
-                  alt=""
-                  width={t.logo.w}
-                  height={t.logo.h}
-                  class={`v4-client-logo${t.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                  loading="lazy"
-                />
+                <ClientLogo logo={t.logo} name={t.company} class="v4-client-logo" decorative />
               )}
             </div>
             <p class="v4-testimonial__quote">"{t.quote}"</p>
@@ -236,11 +234,11 @@ const faq = [
   </section>
 
   <!-- FAQ -->
-  <section class="v4-block tight">
-    <div class="v4-wrap" style="max-width:800px">
-      <div class="v4-eyebrow" style="margin-bottom:20px">Common questions</div>
-      <h2 class="v4-section-h" style="margin-bottom:40px">Digital Marketing Aberdeen — FAQ</h2>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:16px;overflow:hidden">
+  <section class="edge-block edge-block--sand">
+    <div class="edge-wrap" style="max-width:800px">
+      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
+      <h2 class="edge-h2" style="margin-bottom:40px">Digital Marketing Aberdeen — FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
         {faq.map(item => (
           <details class="v4-faq-item" style="background:var(--v4-panel)">
             <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
@@ -255,17 +253,18 @@ const faq = [
   </section>
 
   <!-- CTA -->
-  <section class="v4-block tight" style="background:var(--v4-bg-2)">
-    <div class="v4-wrap" style="max-width:640px;text-align:center">
-      <h2 class="v4-section-h" style="margin-bottom:16px">Ready to Make Your<br/>Marketing Work?</h2>
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Make Your<br/>Marketing Work?</h2>
       <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
         Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
       </p>
-      <a href="/contact" class="v4-btn v4-btn--primary" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
         Book the free review →
       </a>
     </div>
   </section>
+</div>
 </Layout>
 
 <style>

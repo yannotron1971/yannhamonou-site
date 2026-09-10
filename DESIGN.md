@@ -1,210 +1,214 @@
-# Design
+# Design — The Edge
+
+Documents the design as built on the `edge-concept` branch. `main` carries the
+earlier v4 design and its own copy of this file; the two have diverged
+deliberately.
+
+## The idea
+
+One near-black ground, one enormous light-weight line, and mono micro-labels as
+the only second voice. The restraint is the design. Inspired by topology.vc, and
+built fresh rather than by degrading the Oak & Coast concept toward it — the two
+languages are opposites, and mixing them is what made an earlier attempt fail.
+
+The season/theme system was removed on this branch, not overridden: the Edge has
+one ground, so there is nothing to switch between.
 
 ## Theme
 
-Dark-default with visitor-facing toggle. Four modes:
+No toggle, no `localStorage`, no light modes. `body` carries `v4 edge`.
 
-| Class | Name | Character |
+Every page has the same shape: a near-black hero, then a white sheet whose
+sections each declare a ground, then a pitch-black footer. The homepage's hero
+is the full screen, sticky, and holds the field; the sheet rises over it. An
+inner page's hero is a little over half a screen, scrolls away normally, and
+carries no field — it says what the document is and gets out of the way.
+
+## Colour
+
+### The ground ladder
+
+Tokens live in `global.css` on `body.v4`. One monochrome ladder — warm
+off-whites, cool off-whites, three depths of near-black. No hues: a page built
+on one light line and mono labels can give every section its own ground and
+still read as one material; colour would break it.
+
+| Token | Value | Used by |
 |---|---|---|
-| *(none)* | Dark | Near-black canvas, warm off-white type — the default |
-| `.is-light.tone-warm` | Light Warm | Parchment-tinted surface, dark ink |
-| `.is-light.tone-cool` | Light Cool | Blue-grey surface, near-black ink |
-| `.is-light.tone-bright` | Light Bright | Pure white surface, near-black ink |
+| `--edge-white` | `#ffffff` | 01 Proposition |
+| `--edge-paper` | `#f3f2ee` | Current projects |
+| `--edge-ink` | `#151515` | 02 Work, and the hero ground |
+| `--edge-mist` | `#eceeee` | 03 Services |
+| `--edge-slate` | `#22262a` | 04 Proof |
+| `--edge-sand` | `#e8e4dc` | 05 FAQ |
+| `--edge-bone` | `#f7f6f3` | 06 Journal |
+| `--edge-pitch` | `#0b0c0c` | The close, and the footer |
 
-Theme class applied to `<body>`. Persisted to `localStorage` (`v4-theme`, `v4-paper`). Applied synchronously before first paint via inline `<script>` in `<head>` to prevent flash.
+A block changes ground by swapping one class, anywhere on the site. `--dark`
+carries the light token rebinding; each ground class carries only a background.
+`--clear` lets the hero field show through.
 
-## Color Palette
+Grounds are assigned per page rather than by a repeating pattern: Services runs
+white then pitch, a case study white then pitch, the SEO page white, paper,
+white, mist, white, sand, white, pitch.
 
-All values in CSS custom properties. Full set re-declared per theme selector.
+`.edge-sheet` rebinds `--v4-bg` and the panel tokens as well as the ink ones.
+The inner pages are inline-styled against those, which is what carries their
+markup onto a light ground untouched.
 
-### Dark (default — no class)
+### Ink
 
-```css
---v4-bg:          oklch(0.100 0.000 0);   /* #0A0A0A — page background */
---v4-bg-2:        oklch(0.121 0.000 0);   /* #111111 — alt background */
---v4-panel:       oklch(0.146 0.000 0);   /* #161616 — card / elevated surface */
---v4-panel-2:     oklch(0.170 0.000 0);   /* #1B1B1B — nested surface */
---v4-panel-3:     oklch(0.193 0.000 0);   /* #202020 — hover surface */
---v4-line:        rgba(255 255 255 / 0.10);
---v4-line-soft:   rgba(255 255 255 / 0.06);
---v4-ink:         oklch(0.954 0.003 75);  /* #F2F2F0 — primary text */
---v4-ink-mute:    oklch(0.591 0.004 75);  /* #8C8C88 — secondary text */
---v4-ink-dim:     oklch(0.407 0.003 75);  /* #5C5C58 — tertiary text */
---v4-accent:      oklch(0.954 0.003 75);  /* #F2F2F0 — accent (white on dark) */
---v4-accent-warm: oklch(0.910 0.025 75);  /* #E6DCC4 — warm off-white headlines */
---v4-smoke-rgb:   255 255 255;
-```
+Three levels, on both the light and the dark sets. Every value is measured, not
+picked by eye — the muted levels carry 11–12px text (section labels, row
+descriptors, captions), so they need 4.5:1.
 
-### Light Warm (`.is-light.tone-warm`)
+| | Light set (on the sheet) | Worst-case ratio | Dark set | Worst-case ratio |
+|---|---|---|---|---|
+| ink | `#151515` | 14.4 on sand | `#f2f1ec` | 13.5 on slate |
+| mute | `#45484a` | 7.27 on sand | `#a2a5a3` | 6.13 on slate |
+| dim | `#616467` | 4.70 on sand | `#909391` | 4.91 on slate |
 
-```css
---v4-bg:          oklch(0.955 0.015 75);  /* #F2EEE6 */
---v4-bg-2:        oklch(0.920 0.018 75);  /* #E9E4D9 */
---v4-panel:       oklch(0.985 0.008 75);  /* #FBF9F3 */
---v4-panel-2:     oklch(0.963 0.014 75);  /* #F4F0E8 */
---v4-panel-3:     oklch(0.940 0.016 75);  /* #EDE8DE */
---v4-line:        rgba(20 18 12 / 0.14);
---v4-line-soft:   rgba(20 18 12 / 0.08);
---v4-ink:         oklch(0.161 0.008 75);  /* #17150F */
---v4-ink-mute:    oklch(0.463 0.012 75);  /* #6E695E */
---v4-ink-dim:     oklch(0.672 0.010 75);  /* #A8A294 */
---v4-accent:      oklch(0.161 0.008 75);  /* #17150F */
---v4-accent-warm: oklch(0.207 0.010 75);  /* #2A241C */
---v4-smoke-rgb:   80 60 20;
-```
+The `body.v4` OKLCH tokens are what the heroes and any block outside a sheet
+use: mute `oklch(0.70 0.004 75)` at 6.84:1 on `#151515`, dim
+`oklch(0.60 0.003 75)` at 4.63:1.
 
-### Light Cool (`.is-light.tone-cool`)
-
-```css
---v4-bg:          oklch(0.940 0.008 240); /* #EDEFF2 */
---v4-bg-2:        oklch(0.905 0.010 240); /* #E2E5EA */
---v4-panel:       oklch(0.981 0.004 240); /* #FAFBFC */
---v4-panel-2:     oklch(0.950 0.008 240); /* #EFF1F4 */
---v4-panel-3:     oklch(0.925 0.010 240); /* #E7EAEE */
---v4-line:        rgba(15 20 30 / 0.14);
---v4-line-soft:   rgba(15 20 30 / 0.08);
---v4-ink:         oklch(0.148 0.008 240); /* #12151A */
---v4-ink-mute:    oklch(0.429 0.010 240); /* #5E646E */
---v4-ink-dim:     oklch(0.650 0.008 240); /* #9CA1AA */
---v4-accent:      oklch(0.148 0.008 240); /* #12151A */
---v4-accent-warm: oklch(0.191 0.010 240); /* #1E232B */
---v4-smoke-rgb:   20 30 60;
-```
-
-### Light Bright (`.is-light.tone-bright`)
-
-```css
---v4-bg:          oklch(1.000 0.000 0);   /* #FFFFFF */
---v4-bg-2:        oklch(0.960 0.000 0);   /* #F3F3F3 */
---v4-panel:       oklch(0.980 0.000 0);   /* #FAFAFA */
---v4-panel-2:     oklch(0.965 0.000 0);   /* #F5F5F5 */
---v4-panel-3:     oklch(0.945 0.000 0);   /* #EEEEEE */
---v4-line:        rgba(0 0 0 / 0.13);
---v4-line-soft:   rgba(0 0 0 / 0.07);
---v4-ink:         oklch(0.130 0.000 0);   /* #0E0E0E */
---v4-ink-mute:    oklch(0.440 0.003 75);  /* #66665F */
---v4-ink-dim:     oklch(0.680 0.003 75);  /* #ABABA3 */
---v4-accent:      oklch(0.130 0.000 0);   /* #0E0E0E */
---v4-accent-warm: oklch(0.161 0.000 0);   /* #161616 */
---v4-smoke-rgb:   0 0 0;
-```
+Client logos are monochrome site-wide and take their colour back under the
+pointer, on any link that holds one. Four brand palettes side by side read as a
+jumble; desaturated, the marks line up as one set. `darkInvert` flips dark-ink
+artwork on dark grounds, `lightInk` is the mirror for white-ink artwork on light
+ones — and both say through `--logo-hover` that they cannot return to colour,
+because a silhouette has none, so they lift their opacity instead.
 
 ## Typography
 
-### Font Stack
+| Role | Face | Notes |
+|---|---|---|
+| Display | Space Grotesk 300 | Light weight at size is the whole trick |
+| Body | Inter | 200–500 |
+| Labels | Space Mono | 11px, uppercase, 0.16em |
 
-```css
---v4-display: 'Archivo', system-ui, sans-serif;
---v4-sans:    'Inter', system-ui, sans-serif;
---v4-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
-```
+All three are free on Google Fonts; topology's Magnetik and LazareGrotesk are
+commercial licences.
 
-Google Fonts import:
-```
-Archivo:wght@400;500;600;700;800;900 + Inter:wght@300;400;500;600;700 + Geist+Mono:wght@400;500
-```
+- `.edge-h1` — `clamp(52px, 11.5vw, 220px)`, line-height 0.88, `-0.03em`
+- `.edge-h2` / `.v4-section-h` — `clamp(36px, 5vw, 72px)`, line-height 1.02
+- `.edge-label` / `.v4-eyebrow` — 11px mono, uppercase, 0.16em, ink-dim
+- Headings carry `text-wrap: balance`
 
-### Display (Archivo)
-
-Used at `font-stretch: 75%` (condensed), uppercase, for all large headlines. This is the visual signature of the site — do not use Archivo at normal stretch.
-
-- **Hero H1:** `clamp(30px, 8.6vw, 48px)` mobile / `clamp(56px, 11vw, 168px)` desktop · `line-height: 0.88` · `letter-spacing: -0.025em` · weight 800–900
-- **Section H2:** `clamp(36px, 5vw, 72px)` · `line-height: 0.92` · weight 700–800
-- **Work card name:** `22px` · weight 700
-
-### Body (Inter)
-
-- **Base:** `15px` · `line-height: 1.55` · weight 400
-- **Body large:** `17–18px` for intro paragraphs
-- **Small / meta:** `13px` · weight 400–500
-
-### Mono (Geist Mono)
-
-Used for eyebrows, labels, stats, metadata. `11–13px` · uppercase · `letter-spacing: 0.05–0.08em`.
+Sentence case throughout. The display face has no 800 weight and no width axis,
+so nothing asks for one — an earlier Archivo-era `font-weight: 800` +
+`font-stretch: 75%` pair was being synthesised by the browser on every inner
+page.
 
 ## Layout
 
-```css
---v4-maxw:    1320px;
---v4-gutter:  clamp(20px, 4vw, 56px);
-```
-
-- `.v4-wrap` — max-width container, centered, horizontal padding = `--v4-gutter`
-- Sections use `padding-block: clamp(64px, 9vw, 140px)`
-- `.tight` sections use `padding-block: clamp(48px, 6vw, 88px)`
-
-## Spacing Scale
-
-Rough rhythm: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128px. Not tokenised as named vars — applied contextually.
+- `.edge-wrap` — `min(100% - clamp(24px, 6vw, 96px), 1440px)`
+- `.edge-block` — the shared rhythm, `clamp(80px, 12vh, 180px)`
+- `.edge-block--full` — `min-height: 100svh`, contents centred. One screen per
+  section is a homepage device: a page of eight statements, each given the
+  viewport. A services page, a case study or a post is a document, and it would
+  fight the reading there.
+- `min-height`, never `height`: a phone, a short laptop or a long FAQ grows past
+  the viewport rather than clipping.
+- Single breakpoint at 860px on the homepage, 760px for the nav.
+- Flat throughout. This design draws with lines, not rounded panels; the pill
+  button is the one round thing.
 
 ## Components
 
 ### Nav (`.v4-nav`)
 
-Sticky. `backdrop-filter: blur(12px)`. Background: `rgba(10 10 10 / 0.78)` dark / equivalent translucent in light modes. Left: brand mark. Center: desktop nav links (hidden ≤760px). Right: theme toggle pill + hamburger (mobile) + Contact CTA.
+Sticky. One voice — Space Mono, 11px, uppercase, 0.1em — across brand, links,
+dropdown and CTA. Translucent, with `backdrop-filter: blur(14px)` only over the
+hero, where there is a live shader to soften; the blur comes off under
+`.sheet-active`, where the ground is flat and it would repaint for nothing.
 
-### Theme Toggle
+Flips to a light token set past 0.62vh. The services dropdown is a disclosure
+(`aria-expanded` + `aria-controls`), not a menu widget.
 
-Pill switch with sliding knob. Moon/sun icons. Single source of truth for `is-light` + `tone-*` on `<body>`.
+### The field (`.edge-field`)
 
-### Mobile Drawer
+Raw WebGL2, no dependency — a full-screen triangle and one fragment shader;
+Three.js would be ~150KB gzipped to draw one quad. Behind every hero on the
+site, in one of two modes:
 
-Full-screen overlay, blurred, big condensed uppercase nav links. `z-index: 500`. Auto-closes on route change.
+- **Fixed** (`homepage`, via a Layout prop): full-bleed at `z-index: -1` under
+  the whole page, fading out as the sheet rises over the held hero.
+- **Contained** (`--in-hero`, every other page): inside the hero itself, above
+  that section's ground and beneath its type. An inner hero is not sticky and
+  has opaque sections scrolling past it, so a fixed canvas would have nothing
+  to show through. The hero keeps its own near-black background underneath, so
+  where WebGL is unavailable the canvas removes itself and the ground is simply
+  flat rather than the hero turning transparent over a white page.
 
-### Work Cards
+The canvas measures its own box rather than the viewport, so a hero at 58svh
+shades 58svh. Visibility follows the handover when fixed, and an
+IntersectionObserver when contained — either way it stops drawing the moment
+there is nothing to see.
 
-Horizontally-scrollable rail. Each card has an image slot + bottom overlay foot: client name · year · descriptor · big stat. Overlay text always `oklch(0.965 0.014 75)` (light) regardless of theme, as it sits over imagery.
+Budgeted for the integrated GPU this site's visitors are on:
+`PIXEL_BUDGET` 1.2e6 fragments (~12ms/frame on Intel UHD, against 31ms at the
+original 3.2e6), capped at 30fps, and it stops drawing entirely once it has
+faded out. `INTENSITY` is the one dial worth turning. Survives context loss:
+`webglcontextlost` calls `preventDefault()` and stops the loop, and one rebuild
+is attempted on restore.
 
-### Contact Form
+### The handover (`edge-handover.js`)
 
-Panel at `--v4-panel`. `border-radius: 16px`. Fields: Name · Email · Company · Goal tag-picker (multi-select pills) · Brief textarea · Send. Client-side; wired to Formspree or equivalent.
+Owns everything that happens as the sheet rises: the field's opacity, the nav's
+light state, and `inert` on the hero once it is covered. It lives apart from the
+field module so that a browser with no WebGL still gets a working nav.
 
-### Smoke Wisps
+It handles both heroes. The homepage's is sticky and held under the sheet, so
+the nav flips at 0.62 of the viewport and the hero leaves the tab order; an
+inner page's scrolls away, so the flip waits until its last pixel passes under
+the nav, and nothing goes inert — that hero comes back when you scroll up.
 
-Absolutely-positioned `div`s. `filter: blur(40px)`. `opacity: 0.5`. Dark: `mix-blend-mode: screen`. Light: `mix-blend-mode: multiply` (tinted via `--v4-smoke-rgb`). Inside `overflow: hidden` containers only — never cause scroll. Gated behind `@media (prefers-reduced-motion: no-preference)`.
+### PageHero (`PageHero.astro`)
 
-### Cards & Surfaces
+The inner-page hero: label, title capped at 104px against the homepage's 220,
+and an optional lede. `align-content: end`, so the title sits on the fold rather
+than floating in an empty band.
 
-`border-radius: 16px` for panels, form containers. `border-radius: 999px` for pills and tags.
+### Rows (`.edge-row`)
+
+One rhythm for work, services and journal. Work rows are mark / descriptor /
+number — no client name, because the logo is the name, which is also why the alt
+text carries it. Journal rows align title and description on their first
+baseline above 860px.
 
 ## Motion
 
-All scripted motion lives in `src/scripts/motion.js` (GSAP + ScrollTrigger, loaded once from
-`Layout.astro`). Everything sits inside a `prefers-reduced-motion: no-preference` matchMedia
-context, so reduced-motion visitors and no-JS visitors get the static page.
+- `edge-motion.js` — every page. One entrance vocabulary, a short rise on the
+  way in: section heads, item groups, the page hero, the close, and a structural
+  pass over any `.edge-block` whose contents no hand-tuned moment already owns —
+  which is what the converted inner pages rely on, since their markup is
+  inline-styled with no hooks beyond the block and the wrap. `once: true`,
+  opacity and transform only, nothing scrubbed. Item groups use
+  `ScrollTrigger.batch` so a list stacked into one column on a phone does not run
+  its whole stagger off the first item.
+- `motion.js` — reads `.v4-*` markup, which no page on this branch writes any
+  more. It stays because it is shared with the other branches; here it no-ops.
+- `smooth-anchors.js` — same-page anchors glide via GSAP's ScrollToPlugin. It
+  has to be JS: ScrollTrigger writes `scroll-behavior: auto` inline on `<html>`
+  at init, so the stylesheet's `scroll-behavior: smooth` never applies on a page
+  that loads motion. No scroll hijack; wheel, trackpad, scrollbar and keyboard
+  keep native behaviour.
 
-### Layers
-
-| Layer | What it covers | Treatment |
-|---|---|---|
-| Hero | `.v4-hero` on the homepage | Timeline: smoke fade, eyebrow drop, headline lines stagger, rule wipe, supporting content rise |
-| Lead block | First `.v4-block` on any page without a hero | Page-load rise, `y: 26` · `0.9s` · `expo.out`, layers offset 90ms |
-| Section heads | `.v4-section-head` | `y: 22` · `0.8s` · `expo.out`, children stagger 100ms |
-| Item groups | `.v4-works-rail` (slides `x: 56`), `.v4-services`, `.v4-testimonials`, `.v4-posts`, `.v4-intro__stats`, plus any grid or ≥3-child flex container found structurally | Sibling stagger, `y: 24` · `0.75s` · `power3.out`, total stagger capped at 450ms |
-| Copy runs | Consecutive headings/paragraphs/buttons in a section wrap | `y: 18` · `0.75s` · `expo.out`, stagger 70ms |
-| Stats | `.v4-stat__num`, `[data-count]` | Count-up to value, `1.4s` · `power2.out`, exact source text restored on completion |
-| Ambient | `.v4-smoke`, hero scroll arrow | Slow looping drift, `sine.inOut` |
-
-Item groups go through `ScrollTrigger.batch`, not one shared trigger. At desktop widths a grid's
-items sit side by side and enter as a single batch that staggers; the same grid collapsed to one
-column at ≤760px would otherwise run its whole stagger the moment item 1 crossed the line, leaving
-items 2 and 3 already settled before they scrolled into view. Batching gives each stacked item its
-own entrance.
-
-Scroll reveals fire once at `top 88%` (`top 85%` for the hand-tuned groups). Inner pages carry
-no reusable class hooks, so the generic pass reads each `.v4-block`'s wrap structurally and picks
-the copy-run or item-group treatment per layer. `.v4-prose` article bodies are deliberately
-untouched — no per-paragraph reveals in long-form reading.
-
-### Rules
-
-- Entrance animations end fully visible. Never gate content visibility on a class-triggered transition.
-- Hand-tuned moments mark their targets with `data-motion`; the generic pass steps around them so nothing animates twice.
-- A watchdog force-completes every pending reveal if the GSAP ticker never advances (throttled tab, headless render) and on `beforeprint`, so no section can ship blank.
-- `ScrollTrigger.refresh()` runs on `document.fonts.ready` — the Archivo swap at `font-stretch: 75%` shifts layout enough to leave triggers at stale offsets.
-- Hover: links fade `0.15s ease`. Buttons invert `0.2s ease`. Cards lift to `--v4-panel-3` `0.2s ease`.
-- Reduced motion: crossfade or instant transition only.
+Everything runs inside a `prefers-reduced-motion: no-preference` gate, and a
+watchdog force-finishes every pending reveal if the GSAP ticker never advances —
+`gsap.from()` writes `opacity: 0` immediately, so without it a throttled tab
+could ship a blank section.
 
 ## Accessibility
 
-WCAG AA across all four themes. Body text contrast ≥ 4.5:1 vs background. Large display type ≥ 3:1. All interactive elements keyboard-focusable with visible focus ring. Theme toggle announces state change to screen readers via `aria-label`.
+WCAG AA. Body text ≥ 4.5:1, large display ≥ 3:1 — the ink table above is the
+record of that, measured per ground.
+
+- Skip link to `#main` past the nav and its six-service dropdown
+- Global `:focus-visible` ring, 2px at `--v4-ink-mute`, 3px offset
+- The sticky hero is `inert` once covered, so focus cannot land on it unseen
+- The nav CTA is shown and hidden by media query, never by script
+- Client logos: the accessible name sits on the link when the mark is a link,
+  and on the `alt` when it is not — never both
+- The field canvas is `aria-hidden`

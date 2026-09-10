@@ -6,12 +6,12 @@ const navLinks = [
 ];
 
 const services = [
-  { label: 'Marketing Strategy', href: '/services/strategy' },
   { label: 'Positioning', href: '/services/positioning' },
+  { label: 'Marketing Strategy', href: '/services/strategy' },
   { label: 'SEO & GEO', href: '/services/seo-aberdeen' },
-  { label: 'Paid Media', href: '/services/paid' },
+  { label: 'Organic & Paid Media', href: '/services/media' },
   { label: 'Web & CRO', href: '/services/web' },
-  { label: 'Marketing Automation', href: '/services/automation' },
+  { label: 'Marketing Leadership', href: '/services/leadership' },
 ];
 ---
 
@@ -27,10 +27,14 @@ const services = [
     <ul class="v4-nav__links" role="list">
       <!-- Services dropdown -->
       <li class="v4-nav__dropdown-wrap" id="services-dropdown-wrap">
+        <!-- A disclosure, not a menu widget: the panel holds links, and there
+             is no arrow-key roving focus, so aria-haspopup would promise
+             behaviour that is not implemented. aria-controls ties the button
+             to what it opens. -->
         <button
           class="v4-nav__dropdown-trigger"
-          aria-haspopup="true"
           aria-expanded="false"
+          aria-controls="services-menu"
           id="services-trigger"
         >
           Services <span class="v4-nav__chevron" aria-hidden="true">›</span>
@@ -51,24 +55,8 @@ const services = [
 
     <!-- Right cluster -->
     <div class="v4-nav__right">
-      <!-- Theme toggle -->
-      <div class="v4-theme-toggle" role="group" aria-label="Theme selector" id="theme-toggle">
-        <button class="v4-theme-toggle__btn" id="btn-dark" aria-label="Dark theme" title="Dark">
-          ◐
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-warm" aria-label="Light warm theme" title="Light — Warm">
-          ☀
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-cool" aria-label="Light cool theme" title="Light — Cool">
-          ◑
-        </button>
-        <button class="v4-theme-toggle__btn" id="btn-bright" aria-label="Light bright theme" title="Light — Bright">
-          ○
-        </button>
-      </div>
-
       <!-- Contact CTA (desktop) -->
-      <a href="/contact" class="v4-nav__cta" style="display:none" id="nav-cta-desktop">
+      <a href="/contact" class="v4-nav__cta" id="nav-cta-desktop">
         Free Consultation
       </a>
 
@@ -102,43 +90,8 @@ const services = [
 </div>
 
 <script>
-  // Theme toggle
-  const body = document.body;
-  const btns: Record<string, HTMLButtonElement | null> = {
-    dark:   document.getElementById('btn-dark') as HTMLButtonElement,
-    warm:   document.getElementById('btn-warm') as HTMLButtonElement,
-    cool:   document.getElementById('btn-cool') as HTMLButtonElement,
-    bright: document.getElementById('btn-bright') as HTMLButtonElement,
-  };
-
-  function applyTheme(theme: string, paper: string) {
-    body.classList.remove('is-light', 'tone-warm', 'tone-cool', 'tone-bright');
-    Object.values(btns).forEach(b => b?.classList.remove('is-active'));
-    if (theme === 'light') {
-      body.classList.add('is-light', `tone-${paper}`);
-      btns[paper]?.classList.add('is-active');
-      localStorage.setItem('v4-theme', 'light');
-      localStorage.setItem('v4-paper', paper);
-    } else {
-      btns.dark?.classList.add('is-active');
-      localStorage.setItem('v4-theme', 'dark');
-      localStorage.removeItem('v4-paper');
-    }
-  }
-
-  // Initialise from localStorage
-  const savedTheme = localStorage.getItem('v4-theme') ?? 'dark';
-  const savedPaper = localStorage.getItem('v4-paper') ?? 'warm';
-  applyTheme(savedTheme, savedPaper);
-
-  btns.dark?.addEventListener('click', () => applyTheme('dark', ''));
-  btns.warm?.addEventListener('click', () => applyTheme('light', 'warm'));
-  btns.cool?.addEventListener('click', () => applyTheme('light', 'cool'));
-  btns.bright?.addEventListener('click', () => applyTheme('light', 'bright'));
-
-  // Show CTA on desktop
-  const cta = document.getElementById('nav-cta-desktop');
-  if (window.innerWidth > 760 && cta) cta.style.display = '';
+  // Season/theme toggle removed on this concept — the Edge language has one
+  // ground, so there is nothing to switch between.
 
   // Mobile drawer
   const hamburger = document.getElementById('hamburger');
@@ -209,19 +162,22 @@ const services = [
     position: relative;
   }
 
+  /* Matches .v4-nav__links a — the trigger is one of the links. */
   .v4-nav__dropdown-trigger {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    font: inherit;
-    font-size: 14px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--v4-ink-mute);
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     transition: color 0.15s ease;
-    letter-spacing: 0.01em;
   }
   .v4-nav__dropdown-trigger:hover,
   .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown-trigger {
@@ -247,9 +203,9 @@ const services = [
     transform: translateX(-50%);
     background: var(--v4-panel);
     border: 1px solid var(--v4-line-soft);
-    border-radius: 14px;
+    border-radius: 0;
     padding: 8px;
-    min-width: 220px;
+    min-width: 248px;
     list-style: none;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     z-index: 100;
@@ -261,9 +217,12 @@ const services = [
   .v4-nav__dropdown li a {
     display: block;
     padding: 9px 14px;
-    font-size: 13px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--v4-ink-mute);
-    border-radius: 8px;
+    border-radius: 0;
     transition: background 0.12s ease, color 0.12s ease;
     text-decoration: none;
     white-space: nowrap;
@@ -298,7 +257,10 @@ const services = [
     gap: 2px;
   }
   .v4-drawer__sub li a {
-    font-size: 14px;
+    font-family: var(--v4-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--v4-ink-dim);
     padding: 6px 0;
     display: block;

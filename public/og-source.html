@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+  Source for public/og-default.png. Rendered in a browser and captured, so the
+  share card is set in the site's own faces rather than whatever a server-side
+  rasteriser happens to have installed. Kept in the repo so the card can be
+  remade when the wording changes; it is excluded from the sitemap and carries
+  a noindex, so nothing links to it.
+-->
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <title>OG source</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&family=Space+Mono:wght@400&display=swap">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #151515; }
+
+    .card {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #151515;
+      color: #f2f1ec;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 64px 72px;
+    }
+
+    /* The field, as a still. The live one is a shader; this is the same
+       palette — a cold pale swell over near-black — sitting where the weather
+       usually sits. */
+    .field {
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(58% 44% at 22% 30%, rgba(158, 173, 181, 0.30), transparent 68%),
+        radial-gradient(46% 38% at 78% 68%, rgba(120, 140, 150, 0.22), transparent 70%),
+        radial-gradient(70% 60% at 62% 12%, rgba(26, 33, 38, 0.9), transparent 72%);
+      filter: blur(38px);
+    }
+
+    .row { position: relative; display: flex; justify-content: space-between; align-items: baseline; }
+
+    .label {
+      font-family: 'Space Mono', ui-monospace, monospace;
+      font-size: 15px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #909391;
+    }
+
+    h1 {
+      position: relative;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 132px;
+      line-height: 0.9;
+      letter-spacing: -0.035em;
+      color: #f2f1ec;
+    }
+
+    .rule { position: relative; height: 1px; background: rgba(255, 255, 255, 0.16); margin-bottom: 26px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="field"></div>
+
+    <div class="row">
+      <span class="label">Yann Hamonou</span>
+      <span class="label">B2B Marketing Consultant</span>
+    </div>
+
+    <h1>Marketing from<br>the edge.</h1>
+
+    <div>
+      <div class="rule"></div>
+      <div class="row">
+        <span class="label">Strategy · SEO &amp; GEO · Paid &amp; organic</span>
+        <span class="label">Stonehaven · Aberdeenshire</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

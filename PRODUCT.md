@@ -10,7 +10,7 @@ SME owners, directors, and senior managers across Aberdeen, Aberdeenshire, and S
 
 ## Product Purpose
 
-Personal marketing site and portfolio for Yann Hamonou, B2B marketing consultant based in Stonehaven, Scotland. 20+ years experience. Specialises in strategy, SEO & GEO, positioning, content, paid media, and marketing automation for B2B SMEs. The site exists to convert cold visitors into booked consultations — primarily through the free 30-minute strategy review offer. Secondary goals: establish authority in Aberdeen/Scotland B2B marketing, and support word-of-mouth referrals with a site that reflects Yann's calibre.
+Personal marketing site and portfolio for Yann Hamonou, B2B marketing consultant based in Stonehaven, Scotland. 20+ years experience. Specialises in strategy, SEO & GEO, positioning, content, paid media, and web & CRO for B2B SMEs. The site exists to convert cold visitors into booked consultations — primarily through the free 30-minute strategy review offer. Secondary goals: establish authority in Aberdeen/Scotland B2B marketing, and support word-of-mouth referrals with a site that reflects Yann's calibre.
 
 ## Brand Personality
 
@@ -34,4 +34,6 @@ Voice: precise, confident, no jargon. Writes like a senior peer who respects the
 
 ## Accessibility & Inclusion
 
-WCAG AA minimum across all four themes (dark default + 3 light paper tones). Body text contrast ≥ 4.5:1; large display type ≥ 3:1. Entrance animations gated behind `prefers-reduced-motion`. Theme preference persisted to localStorage to respect user choice across sessions.
+WCAG AA minimum. Body text contrast ≥ 4.5:1; large display type ≥ 3:1, measured against every section ground rather than assumed — see the ink table in DESIGN.md. Entrance animations gated behind `prefers-reduced-motion`, with a watchdog so a stalled ticker can never leave a section blank. Keyboard: skip link, visible focus ring, and no focus on the covered hero.
+
+On the `edge-concept` branch there is a single ground and no theme toggle, so nothing is persisted to localStorage.

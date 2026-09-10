@@ -1,4 +1,5 @@
 ---
+import EdgeField from '../components/EdgeField.astro';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -15,11 +16,14 @@ interface Props {
   author?: string;
   tags?: string[];
   breadcrumbs?: { name: string; item: string }[];
+  /** Ambient background field. On only where the page is sparse enough to
+      carry it — the inner pages are still the v4 layout and go murky under it. */
+  field?: boolean;
 }
 
 const {
   title: rawTitle,
-  description = 'B2B marketing consultant based in Stonehaven, Scotland. Strategy, SEO, paid media, positioning, and automation for Scottish SMEs.',
+  description = 'B2B marketing consultant based in Stonehaven, Scotland. Strategy, SEO, paid media, positioning, and web for Scottish SMEs.',
   ogType = 'website',
   ogImage,
   canonical: canonicalOverride,
@@ -27,6 +31,7 @@ const {
   publishedTime,
   modifiedTime,
   author = 'Yann Hamonou',
+  field = false,
   tags = [],
   breadcrumbs,
 } = Astro.props;
@@ -47,7 +52,7 @@ const ogImageUrl = ogImage
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="theme-color" content="#151515" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -81,25 +86,40 @@ const ogImageUrl = ogImage
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Anti-flash theme script — runs synchronously before first paint -->
-    <script is:inline>
-      (function () {
-        var theme = localStorage.getItem('v4-theme');
-        var paper = localStorage.getItem('v4-paper');
-        var body = document.documentElement;
-        if (theme === 'light') {
-          body.classList.add('v4-preload-light');
-          if (paper) body.classList.add('v4-preload-' + paper);
-        }
-      })();
-    </script>
+    <!-- No season/theme script on this concept: the Edge language has a single
+         ground (#151515). Leaving the old localStorage reader in would flash
+         parchment before paint for anyone who last chose a light season. -->
+
+    <!-- ── GA4 ──
+         Same measurement ID the Webflow site uses, so the migration reads as
+         one continuous property rather than a new site starting from zero.
+
+         Production only: `astro dev` and `astro preview` would otherwise post
+         every local page view into the same property you are trying to compare
+         before and after cutover.
+
+         Consent is NOT handled here. The tag sets cookies and there is no
+         banner on this build, which is fine while nothing is deployed and is
+         not fine on the day it is. Either add a consent tool before cutover or
+         move to something cookieless. -->
+    {import.meta.env.PROD && (
+      <Fragment>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-NEGE3F0RZC"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-NEGE3F0RZC');
+        </script>
+      </Fragment>
+    )}
 
     <!-- JSON-LD -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify({
@@ -134,7 +154,7 @@ const ogImageUrl = ogImage
           "@type": ["ProfessionalService", "LocalBusiness"],
           "@id": "https://yannhamonou.pages.dev/#business",
           "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen",
-          "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and marketing automation for SMEs.",
+          "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and conversion-focused websites for SMEs.",
           "url": "https://yannhamonou.pages.dev",
           "telephone": "+447853455816",
           "email": "yanndaman@googlemail.com",
@@ -188,9 +208,11 @@ const ogImageUrl = ogImage
     })} />
   </head>
 
-  <body class="v4">
+  <body class="v4 edge">
+    {field && <EdgeField />}
+    <a class="v4-skip" href="#main">Skip to content</a>
     <Nav />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <Footer />
@@ -198,20 +220,17 @@ const ogImageUrl = ogImage
     <!-- GSAP motion (hero entrance, scroll reveals, stat count-ups) -->
     <script>
       import '../scripts/motion.js';
+      /* The Edge homepage speaks a different markup vocabulary; this pass is a
+         no-op on the v4 inner pages, and motion.js is a no-op on the Edge. */
+      import '../scripts/edge-motion.js';
+      import '../scripts/smooth-anchors.js';
+      import { initEdgeHandover } from '../scripts/edge-handover.js';
+      initEdgeHandover();
     </script>
 
-    <!-- Apply persisted theme after body renders -->
+    <!-- Single ground: tag the body for the stylesheet, no theme branch. -->
     <script is:inline>
-      (function () {
-        var theme = localStorage.getItem('v4-theme');
-        var paper = localStorage.getItem('v4-paper');
-        var body = document.body;
-        body.classList.add('v4');
-        if (theme === 'light') {
-          body.classList.add('is-light');
-          if (paper) body.classList.add('tone-' + paper);
-        }
-      })();
+      (function () { document.body.classList.add('v4', 'edge'); })();
     </script>
 
     <!-- Responsive tables: wrap for desktop overflow + stamp data-label for mobile column collapse -->

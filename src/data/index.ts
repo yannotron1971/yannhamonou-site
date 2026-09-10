@@ -1,56 +1,62 @@
 /* Client logo artwork. `darkInvert` marks logos drawn in dark ink — they need
-   inverting on the dark theme, and always on top of a photo/gradient. */
-export type Logo = { src: string; w: number; h: number; darkInvert?: boolean };
+   inverting on the dark theme, and always on top of a photo/gradient.
+   `lightInk` is the mirror case: artwork drawn in white, which needs flipping
+   on a light ground or it disappears into it.
+   `site` is the client's own website: where a mark appears outside a link of
+   its own, it becomes one. Verified against each company's live site rather
+   than guessed from the name.
+   `colourOnDark` is for dark-ink artwork that is dark *and coloured* rather
+   than black: silhouetted at rest like any other, but it has a hue to come
+   back to on hover, so it lifts into it instead of staying a silhouette.
+   `scale` corrects optical size. Marks are matched on height, which works
+   until one of them is a stacked lockup: at the same height as a 5:1 wordmark
+   it reads as half the size, because it is. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string; colourOnDark?: boolean; scale?: number };
 
 export const logos = {
-  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true },
-  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true },
-  bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false },
-  incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false },
+  /* Ink measured off the artwork: Arnlea averages rgb(87,60,46), a warm brown,
+     so it has something to show. Viewport3 averages rgb(0,0,0) — pure black,
+     with no colour under the silhouette to reveal. */
+  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  colourOnDark: true, site: 'https://www.arnlea.com/' },
+  /* 2.19:1 against Arnlea's 5.02:1 — a stacked lockup, so height alone leaves
+     it looking half the size of the wordmarks beside it. */
+  viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true,  scale: 1.3, site: 'https://viewport3.com/' },
+  bowtiemaster:    { src: '/logos/Bowtie.webp',          w: 3023, h: 693, darkInvert: false, site: 'https://bowtiemaster.com/' },
+  incidentInsight: { src: '/logos/IncidentInsight.avif', w: 1102, h: 276, darkInvert: false, site: 'https://incident-insight.com/' },
+  /* The supplied artwork is the inverted cut: white wordmark, orange mark. It
+     sits on the dark grounds every testimonial currently uses; `lightInk`
+     covers it if one of those ever turns light. The mark links to Tenders
+     Direct, which is where the Proactis Tenders business actually lives. */
+  proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true, site: 'https://www.tendersdirect.co.uk/' },
 } satisfies Record<string, Logo>;
+
+/* The four symptoms that bring an SME here. Written as things you would
+   recognise in your own month rather than problems in the abstract, and each
+   one paired with what it costs — a symptom nobody has priced is easy to live
+   with. */
+export const problems = [
+  {
+    symptom: 'You cannot tell which half of it is working',
+    cost: 'The reports arrive full of impressions and sessions, and none of it reconciles with the enquiries that actually landed. So the budget stays where it is, because moving it is a guess either way.',
+  },
+  {
+    symptom: 'Leads arrive by referral, or they do not arrive',
+    cost: 'A good month follows a good conversation. A quiet one follows nothing you can point at. That makes hiring, forecasting and turning work down a matter of nerve rather than evidence.',
+  },
+  {
+    symptom: 'Competitors you are better than keep coming up first',
+    cost: 'They are not winning on the work. They are winning because the buyer found them at the moment they were looking, and never got as far as your name.',
+  },
+  {
+    symptom: 'Nobody can say what a lead costs you',
+    cost: 'Without that number every budget conversation runs on opinion, and marketing becomes the easiest line to cut when the year gets tight.',
+  },
+];
 
 export const services = [
   {
-    slug: 'strategy',
-    num: '01',
-    title: 'Marketing Strategy',
-    desc: 'Clear, practical strategy rooted in your business goals — not templates.',
-    long: 'Most SMEs jump straight to tactics. Strategy first means every pound you spend is pointed at the right target. I audit your current position, map your competitive landscape, and build a 12-month roadmap that your team can actually execute.',
-    headline: 'Stop wasting budget on tactics without a strategy behind them',
-    intro: 'In today\'s competitive landscape, SMEs need more than tactical marketing — they need a clear, actionable strategy that connects every activity to revenue. Drawing from 20+ years of B2B experience across Scotland and the UK, I build practical marketing strategies that drive growth without overwhelming your resources.',
-    why: 'Most marketing problems aren\'t channel problems. They\'re strategy problems: unclear positioning, the wrong audience, no measurement framework. Fix the upstream problem first and execution becomes straightforward.',
-    process: [
-      { num: '01', title: 'Marketing audit', body: 'I review everything you\'re currently doing — what\'s delivering results and what isn\'t. This includes competitor analysis and understanding how customers currently find and interact with your business. The audit reveals immediate opportunities and shapes what comes next.' },
-      { num: '02', title: 'Strategy development', body: 'I build a strategy that fits your business goals and resources. We identify exactly who your ideal customers are and how to reach them. You get a practical, month-by-month plan that focuses budget on the channels most likely to produce results — with proper tracking so you can see what\'s working.' },
-      { num: '03', title: 'Ongoing support', body: 'Marketing needs regular attention and adjustment. Through monthly check-ins, I review performance in plain English — no jargon. Expert direction without the cost of a full-time marketing manager.' },
-    ],
-    deliverables: [
-      'Current-state marketing audit',
-      'Competitor landscape map',
-      '12-month priority roadmap',
-      'Channel mix recommendations with budget allocation',
-      'KPI framework and monthly targets',
-      'Tracking and measurement setup',
-    ],
-    proof: {
-      stat: '100%',
-      statLabel: 'lead gen growth in 12 months',
-      quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
-      name: 'Debbie Mackenzie',
-      role: 'Managing Director',
-      company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
-    },
-    faq: [
-      { q: 'Why work with a consultant rather than hire in-house?', a: 'You get senior-level marketing expertise and execution capability at a fraction of the cost of a full-time hire. You also benefit from experience across multiple industries and proven frameworks — without the overhead of employment costs, management time, or the risk of a bad hire.' },
-      { q: 'What makes your approach different?', a: 'I combine strategic thinking with practical execution. Unlike pure consultants who deliver a document and leave, I help implement the strategies we build together — which means I\'m accountable for results, not just recommendations.' },
-      { q: 'How do you measure success?', a: 'Every engagement starts with clear, measurable objectives. Whether it\'s lead generation, market positioning, or digital presence, we track concrete metrics aligned with your business goals. No vanity metrics.' },
-      { q: 'What are your fees?', a: 'A standalone strategy engagement typically starts from £1,500. Monthly retainers covering strategy and execution run £900–£2,000/month depending on scope. The free 30-minute review is the right starting point.' },
-    ],
-  },
-  {
     slug: 'positioning',
-    num: '02',
+    num: '01',
     title: 'Positioning',
     desc: 'Stand out in your market with a message that resonates and converts.',
     long: 'Positioning is the highest-leverage work in marketing. Get it right and everything downstream — copy, ads, sales conversations — becomes easier. I run a structured positioning sprint that defines your category, ideal buyer, and differentiators.',
@@ -88,6 +94,44 @@ export const services = [
     ],
   },
   {
+    slug: 'strategy',
+    num: '02',
+    title: 'Marketing Strategy',
+    desc: 'Clear, practical strategy rooted in your business goals — not templates.',
+    long: 'Most SMEs jump straight to tactics. Strategy first means every pound you spend is pointed at the right target. I audit your current position, map your competitive landscape, and build a 12-month roadmap that your team can actually execute.',
+    headline: 'Stop wasting budget on tactics without a strategy behind them',
+    intro: 'In today\'s competitive landscape, SMEs need more than tactical marketing — they need a clear, actionable strategy that connects every activity to revenue. Drawing from 20+ years of B2B experience across Scotland and the UK, I build practical marketing strategies that drive growth without overwhelming your resources.',
+    why: 'Most marketing problems aren\'t channel problems. They\'re strategy problems: unclear positioning, the wrong audience, no measurement framework. Fix the upstream problem first and execution becomes straightforward.',
+    process: [
+      { num: '01', title: 'Marketing audit', body: 'I review everything you\'re currently doing — what\'s delivering results and what isn\'t. This includes competitor analysis and understanding how customers currently find and interact with your business. The audit reveals immediate opportunities and shapes what comes next.' },
+      { num: '02', title: 'Strategy development', body: 'I build a strategy that fits your business goals and resources. We identify exactly who your ideal customers are and how to reach them. You get a practical, month-by-month plan that focuses budget on the channels most likely to produce results — with proper tracking so you can see what\'s working.' },
+      { num: '03', title: 'Ongoing support', body: 'Marketing needs regular attention and adjustment. Through monthly check-ins, I review performance in plain English — no jargon. Expert direction without the cost of a full-time marketing manager.' },
+    ],
+    deliverables: [
+      'Current-state marketing audit',
+      'Competitor landscape map',
+      '12-month priority roadmap',
+      'Channel mix recommendations with budget allocation',
+      'KPI framework and monthly targets',
+      'Tracking and measurement setup',
+    ],
+    proof: {
+      stat: '100%',
+      statLabel: 'lead gen growth in 12 months',
+      quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
+      name: 'Debbie Mackenzie',
+      role: 'Managing Director',
+      company: 'Proactis Tenders',
+      logo: logos.proactis,
+    },
+    faq: [
+      { q: 'Why work with a consultant rather than hire in-house?', a: 'You get senior-level marketing expertise and execution capability at a fraction of the cost of a full-time hire. You also benefit from experience across multiple industries and proven frameworks — without the overhead of employment costs, management time, or the risk of a bad hire.' },
+      { q: 'What makes your approach different?', a: 'I combine strategic thinking with practical execution. Unlike pure consultants who deliver a document and leave, I help implement the strategies we build together — which means I\'m accountable for results, not just recommendations.' },
+      { q: 'How do you measure success?', a: 'Every engagement starts with clear, measurable objectives. Whether it\'s lead generation, market positioning, or digital presence, we track concrete metrics aligned with your business goals. No vanity metrics.' },
+      { q: 'What are your fees?', a: 'Engagements are scoped to the work rather than sold as packages, so the honest answer is that it depends on what you need and how much of it you want done for you. The free 30-minute review is the right starting point: you will have a figure before you commit to anything.' },
+    ],
+  },
+  {
     slug: 'seo-aberdeen',
     num: '03',
     title: 'SEO & GEO',
@@ -101,23 +145,23 @@ export const services = [
     faq: [],
   },
   {
-    slug: 'paid',
+    slug: 'media',
     num: '04',
-    title: 'Paid Media',
-    desc: 'Google, LinkedIn, and Meta campaigns built to generate qualified leads.',
-    long: 'B2B paid media requires patience and precision. I build campaigns around your sales cycle, not vanity metrics. Every campaign includes conversion tracking, audience segmentation, and a feedback loop that improves performance week on week.',
-    headline: 'Qualified leads from Google, LinkedIn, and Meta — built around your sales cycle',
-    intro: 'Digital advertising can quickly drive qualified leads to your business, but only when managed effectively. Having managed successful B2B campaigns across Google, Microsoft, and LinkedIn with budgets up to £200,000 per year, I know what it takes to make paid media work for longer sales cycles — not just e-commerce conversions.',
-    why: 'Most B2B paid media fails because it\'s optimised for clicks, not pipeline. Campaigns target audiences that are too broad, send traffic to generic pages, and have no feedback loop between lead quality and bid strategy. Every campaign I run is built from the buyer backwards: the right audience, the right message, at the right stage of their decision.',
+    title: 'Organic & Paid Media',
+    desc: 'One plan across the channels you own and the ones you buy.',
+    long: 'Organic and paid pull in the same direction when the same person runs them. I build the audience through organic social, email and content distribution, and buy reach where buying it is worth the money: Google for active demand, LinkedIn for the accounts you want, Meta for people who already visited.',
+    headline: 'Reach your buyers where they already are, earned and bought',
+    intro: 'Advertising can put qualified leads in front of you within a week, but only if someone manages it properly. I have run B2B campaigns across Google, Microsoft and LinkedIn on budgets up to £200,000 a year, and the same thing holds every time: paid buys attention now, organic compounds it. Run apart, the two duplicate each other and argue over the credit. Run together, the audience you build organically is the one you retarget, and the post that earned attention on its own is the one worth paying to amplify.',
+    why: 'Most B2B paid media is optimised for clicks rather than pipeline. The audience is drawn too wide, the traffic lands on a page that was written for nobody in particular, and nothing connects lead quality back to the bidding. Most B2B organic has a different problem: a company page posting product updates to an audience of its own staff and its competitors. One fix covers both. Decide who you are talking to, say something they would repeat to a colleague, and measure what pays your invoices rather than what the platform likes to report.',
     process: [
-      { num: '01', title: 'Campaign strategy', body: 'Before any ads go live, we define target audiences by job title, company size, and buying stage. We map your offer to the right platform — Google Search for active intent, LinkedIn for account-based targeting, Meta for retargeting and awareness. Every campaign has a single conversion goal and clear success metrics agreed upfront.' },
-      { num: '02', title: 'Build and launch', body: 'I handle campaign structure, ad copy, landing page direction, conversion tracking, and attribution setup. For B2B, attribution matters: a lead that came from LinkedIn last week but converted via Google today needs to be tracked correctly or you\'ll kill the channel that actually started the relationship.' },
-      { num: '03', title: 'Optimise and report', body: 'Weekly review of what\'s working — audience segments, ad variations, keyword match types, bid strategies. Monthly reporting in plain English: what we spent, what it produced, and what we\'re changing. Campaigns improve continuously because we close the loop between lead quality feedback and campaign settings.' },
+      { num: '01', title: 'Plan both sides together', body: 'I audit what you are already running: spend, audiences, creative, and the organic accounts nobody has posted to since the last campaign. Then we decide which job each channel does. Google Search captures demand that already exists. LinkedIn reaches the job titles and accounts you want before they start looking. Organic social and email build the audience that makes the paid cheaper, because retargeting people who already know you costs a fraction of finding strangers.' },
+      { num: '02', title: 'Build and launch', body: 'I handle campaign structure, ad copy, landing page direction, conversion tracking and attribution, alongside a posting cadence you can sustain after I leave. Attribution matters more in B2B than anywhere: a lead that came from LinkedIn last week and converted through Google today has to be recorded properly, or you switch off the channel that started the relationship.' },
+      { num: '03', title: 'Optimise and report', body: 'Each week I go through audience segments, ad variations, match types and bids, and through what the organic posts actually did. Anything that earns attention without spend gets amplified with it. Once a month you get plain English: what we spent, what it produced, what changes next. The loop that makes any of this improve runs from your sales team back to the campaign settings.' },
     ],
     deliverables: [
-      'Campaign strategy and channel recommendations',
-      'Audience targeting and segmentation',
-      'Ad copy and creative direction',
+      'Channel plan covering organic and paid together',
+      'Audience targeting, segmentation and retargeting pools',
+      'Ad copy, creative direction and organic posting cadence',
       'Conversion tracking and attribution setup',
       'Landing page CRO recommendations',
       'Weekly optimisation and monthly reporting',
@@ -126,16 +170,18 @@ export const services = [
       stat: '2×',
       statLabel: 'leads, lower cost per acquisition',
       quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
-      name: 'Chris',
+      name: 'Chris Harvey',
       role: 'CEO',
       company: 'Viewport3',
       logo: logos.viewport3,
     },
     faq: [
-      { q: 'Which platform should I advertise on?', a: 'It depends on where your buyers are and what stage they\'re at. Google Search captures active demand — people already searching for what you sell. LinkedIn reaches specific job titles and company types even before they\'re searching. Meta is effective for retargeting visitors who didn\'t convert. Most B2B businesses benefit from Google first, LinkedIn second, Meta third.' },
-      { q: 'What budget do I need to get started?', a: 'Google Search campaigns can produce results from £1,000–£2,000/month in ad spend for a focused local or niche campaign. LinkedIn is more expensive per click but reaches decision-makers more precisely — £2,000/month is a sensible floor. Below these levels, the data volume is too low to optimise effectively.' },
-      { q: 'How long before I see results?', a: 'Google Search campaigns can generate leads within the first week. LinkedIn typically takes 4–6 weeks to find the right audience and creative combination. Expect 3 months before you have enough data to make confident optimisation decisions.' },
-      { q: 'Can you manage campaigns we\'ve already started?', a: 'Yes. Most new clients come to me with existing campaigns that are spending but not converting. I start with a full account audit, identify what\'s wasting budget, and restructure before adding spend.' },
+      { q: 'How does this differ from SEO & GEO?', a: 'SEO and GEO win you visibility in search and in AI answers, where someone is already looking for what you sell. This service covers everything else that reaches them: paid campaigns on Google, LinkedIn and Meta, and the organic social, email and content distribution that build an audience between purchases. Most engagements run both, because search captures demand and media creates it.' },
+      { q: 'Which platform should I advertise on?', a: 'It depends where your buyers are and what stage they are at. Google Search captures active demand from people already looking for what you sell. LinkedIn reaches specific job titles and company types before they start searching. Meta works for retargeting visitors who did not convert. Most B2B businesses benefit from Google first, LinkedIn second, Meta third.' },
+      { q: 'What budget do I need to get started?', a: 'A focused local or niche Google Search campaign can produce results on £1,000 to £2,000 a month in ad spend. LinkedIn costs more per click and reaches decision-makers more precisely, so £2,000 a month is a sensible floor. Below those levels there is too little data to optimise on, and you are paying to guess.' },
+      { q: 'Is organic worth it if we are already advertising?', a: 'It is what makes the advertising cheaper. Retargeting an audience that already recognises you converts at a fraction of the cost of cold reach, and the organic posts tell you which messages are worth putting budget behind before you spend anything finding out.' },
+      { q: 'How long before I see results?', a: 'Google Search campaigns can generate leads in the first week. LinkedIn usually takes four to six weeks to settle on the right audience and creative. Organic works on a longer clock again: three months of consistent posting before the audience is worth retargeting. Expect three months before you have enough data to make confident decisions across the lot.' },
+      { q: 'Can you manage campaigns we have already started?', a: 'Yes, and most clients arrive that way — spending, but not converting. I start with a full account audit, find what is wasting budget, and restructure before adding a penny of spend.' },
     ],
   },
   {
@@ -162,57 +208,57 @@ export const services = [
       'Martech integration (GA4, CRM, email)',
     ],
     proof: {
-      stat: '500%',
-      statLabel: 'organic traffic growth',
+      stat: '100%',
+      statLabel: 'lead generation growth',
       quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance.',
       name: 'Debbie Mackenzie',
       role: 'Managing Director',
       company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
+      logo: logos.proactis,
     },
     faq: [
       { q: 'Why Webflow and not WordPress?', a: 'Webflow gives you a visual CMS that\'s fast to build, easy for non-developers to update, and produces clean, performant code without a plugin ecosystem to maintain. It\'s also significantly faster than a typical WordPress install out of the box. For clients who have a specific reason to stay on WordPress, I can work with that too.' },
       { q: 'Do you do design or just development?', a: 'Both. I handle the full process from information architecture through visual design to the live Webflow build. If you have an existing brand identity I\'ll work within it; if not, I\'ll develop the visual direction as part of the project.' },
       { q: 'Can you improve our existing site without rebuilding it?', a: 'Often yes. A CRO audit can identify the highest-impact changes — sometimes a headline rewrite and a clearer CTA on the homepage moves the needle more than a full rebuild. I\'ll tell you honestly whether an audit-and-optimise or a rebuild is the right answer for your situation.' },
-      { q: 'What does a website project cost?', a: 'A focused marketing site (home, services, about, contact) typically runs £3,000–£6,000. Larger sites with complex CMS structures, multiple landing pages, or e-commerce elements are scoped individually. The free 30-minute review is the right starting point.' },
+      { q: 'What does a website project cost?', a: 'It depends on the number of pages, whether the CMS needs to be editable by your team, and how much of the content exists already. A four-page marketing site and a fifty-page site with landing-page variants are different projects. I scope it after the free 30-minute review.' },
     ],
   },
   {
-    slug: 'automation',
+    slug: 'leadership',
     num: '06',
-    title: 'Marketing Automation',
-    desc: 'Nurture leads and retain clients without manual follow-up.',
-    long: 'Marketing automation for B2B SMEs isn\'t about replacing people — it\'s about making sure no lead falls through the cracks. I set up email sequences, CRM workflows, and lead scoring that keep your pipeline moving while you focus on closing.',
-    headline: 'Stop losing leads to slow follow-up and manual processes',
-    intro: 'Marketing automation for B2B SMEs isn\'t about replacing people — it\'s about making sure no lead falls through the cracks. When a prospect downloads your guide, requests a demo, or visits your pricing page three times, the right message should reach them automatically, at the right moment, without someone manually checking a spreadsheet.',
-    why: 'Most B2B SMEs lose leads not because they\'re bad at sales, but because follow-up is inconsistent. A lead comes in on a Friday, gets a reply Monday, goes cold by Wednesday. Or a prospect visits the site five times over three weeks but never gets a nudge. Automation fixes this — not by blasting everyone with emails, but by triggering the right action at the right time based on actual behaviour.',
+    title: 'Marketing Leadership',
+    desc: 'Someone senior running your marketing, a day or two a week.',
+    long: 'Your marketing needs someone senior deciding what it does and answering for what it produces. I take that seat one or two days a week: setting the direction, running the plan, managing whoever executes it, and reporting to you or your board in plain English.',
+    headline: 'Senior marketing direction, without a senior hire',
+    intro: 'Plenty of SMEs have marketing activity and no marketing leadership. A junior marketer doing their best with no brief, or an agency that reports impressions and invoices monthly. The work happens, but nobody owns the question of whether it is the right work. That is the seat I take, one or two days a week instead of a salary.',
+    why: 'A marketing director in Aberdeen costs £60,000 to £80,000 before employer costs, so most SMEs leave the role unfilled and the decisions fall to whoever is nearest. Budget follows whatever is easiest to measure. You brief an agency in a sentence, then judge it on whether the invoice felt worth paying. Campaigns start when someone has a free week. Every one of those is a decision nobody was appointed to make, and at this size making them is not a full-time job.',
     process: [
-      { num: '01', title: 'Audit and platform selection', body: 'I review what you\'re currently using — CRM, email platform, website forms — and identify the gaps. For most Aberdeen SMEs the right stack is HubSpot (Free or Starter), Mailerlite, or Microsoft Dynamics depending on what\'s already in place. I also introduce N8N for more complex workflow automation that doesn\'t require an enterprise budget.' },
-      { num: '02', title: 'Build the sequences', body: 'Lead nurture sequences mapped to your buying stages: awareness, consideration, decision. Each email is triggered by behaviour — what they downloaded, which pages they visited, how recently they engaged. Lead scoring configured so sales only gets notified when a prospect has shown enough intent to be worth a conversation.' },
-      { num: '03', title: 'Reporting and refinement', body: 'A reporting dashboard showing open rates, click rates, sequence completion, and — most importantly — how many automated leads convert to sales conversations. Reviewed and refined quarterly based on what the data shows.' },
+      { num: '01', title: 'Take stock', body: 'I start where a new marketing director would: what you have spent, what it produced, who does what, and which contracts you are already committed to. That means the numbers, including pipeline, sources and cost per lead where anyone has tracked it, and the people, including any agency or freelancer already on the books. You get an honest read on what works, what does not, and what nobody owns.' },
+      { num: '02', title: 'Set the direction and own it', body: 'You get a plan with priorities, a budget mapped to them, and one number per activity that decides whether it continues. Then I run it: briefing whoever executes, holding agencies to the numbers they signed up to, and making the trade-offs when they arrive instead of parking them until the next quarter. You stay in the decisions that change the business and out of the weekly ones.' },
+      { num: '03', title: 'Report, adjust, and hand over', body: 'Each month, a review you could take to a board or a bank: what we spent, what it produced, what changes next and why. The role should shrink as the function matures. Part of the job is telling you when you are ready to hire in-house, and writing the brief for that hire.' },
     ],
     deliverables: [
-      'CRM review and setup (HubSpot, Dynamics, or Mailerlite)',
-      'Lead nurture sequence design and build',
-      'Lead scoring configuration',
-      'Behavioural trigger setup',
-      'N8N workflow automation where relevant',
-      'Reporting dashboard setup',
+      'Fractional marketing director, one or two days a week',
+      'Marketing plan, budget allocation and quarterly priorities',
+      'Agency and freelancer selection, briefing and management',
+      'Reporting pack for you, your board or your investors',
+      'Team mentoring for an in-house marketer',
+      'Recruitment support when the role becomes full-time',
     ],
     proof: {
-      stat: '100%',
-      statLabel: 'lead gen growth in 12 months',
-      quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
-      name: 'Debbie Mackenzie',
-      role: 'Managing Director',
-      company: 'Proactis Tenders',
-      logo: null, // no logo artwork on file for Proactis
+      stat: '+38%',
+      statLabel: 'demo request uplift at Viewport3',
+      quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
+      name: 'Chris Harvey',
+      role: 'CEO',
+      company: 'Viewport3',
+      logo: logos.viewport3,
     },
     faq: [
-      { q: 'Which automation platform do you recommend?', a: 'It depends on what you\'re already using. HubSpot Free or Starter is the right answer for most SMEs starting from scratch — it connects CRM, email, and forms in one place. Mailerlite is excellent for pure email automation at lower cost. Microsoft Dynamics suits businesses already in the Microsoft ecosystem. I don\'t have a platform preference — I recommend what fits your situation.' },
-      { q: 'Do I need a big contact list for automation to work?', a: 'No. Automation works from day one — even with a small list — because it\'s triggered by behaviour, not list size. A 200-person list with well-timed nurture sequences will outperform a 10,000-person list blasted with the same email every month.' },
-      { q: 'How long does setup take?', a: 'A basic lead nurture setup — CRM, forms, 3–4 email sequence — typically takes 2–3 weeks. More complex setups with lead scoring, multiple sequences, and CRM integration take 4–6 weeks. Ongoing refinement is part of the engagement.' },
-      { q: 'What about GDPR?', a: 'Compliance is built into every setup: double opt-in where appropriate, consent recorded in the CRM, suppression lists maintained, unsubscribe links in every email. I\'ll flag any compliance gaps in your current setup as part of the audit.' },
+      { q: 'How is this different from the strategy service?', a: 'Strategy is a project with an end: research, decisions, a plan you own. Leadership is the seat that runs the plan month after month and changes it when the evidence says so. Engagements often start as strategy and become leadership, because a plan with nobody running it goes back in a drawer.' },
+      { q: 'How much of your week do we get?', a: 'One or two days, split across the week rather than taken in a block, so decisions do not wait five days and I am not managing agencies in arrears. The first month usually runs heavier while I get across your numbers and your people.' },
+      { q: 'Do you replace our agency or our marketer?', a: 'Neither, most of the time. The execution is usually fine and the direction is missing, so I manage what you already have. If an agency is not delivering I will show you the numbers and help you replace them, but that is a finding rather than the starting assumption.' },
+      { q: 'What happens when we are ready to hire in-house?', a: 'That is the intended ending. I write the role, sit in on interviews, and hand over a function with a plan, a budget and reporting already in place. Whoever takes it on gets a far easier first six months than someone inheriting a blank page.' },
     ],
   },
 ];
@@ -227,7 +273,7 @@ export const cases = [
     statSub: '500% organic traffic growth',
     image: '/work/Arnlea-H.avif',
     logo: logos.arnlea,
-    summary: 'Took Arnlea from invisible in search to top-3 rankings, generating 100+ qualified visits per month.',
+    summary: 'Took Arnlea from invisible in search to #1 for their primary term in four weeks, and 100+ qualified organic visits a month.',
   },
   {
     slug: 'viewport3',
@@ -238,23 +284,23 @@ export const cases = [
     statSub: 'demo request uplift',
     image: '/work/clamp.avif',
     logo: logos.viewport3,
-    summary: 'Repositioned Viewport3 from a generic tech agency to a specialist digital twin partner, driving demo request uplift.',
+    summary: 'Reframed Viewport3 from photogrammetry vendor to dimensional assurance partner, out of price competition and into a category of their own.',
   },
   {
     slug: 'BowtieMaster',
     client: 'BowtieMaster',
     year: '2026',
     descriptor: 'SEO & PPC for lead gen',
-    stat: 'x7 leads/month',
-    statSub: 'demo request uplift',
+    stat: '7×',
+    statSub: 'leads per month',
     image: '',
     logo: logos.bowtiemaster,
-    summary: 'Audited BowtieMaster website and Google Ads campaigns for lead generation, driving demo request uplift.',
+    summary: 'Audited the BowtieMaster site and Google Ads account, then rebuilt both around lead generation — seven times the monthly leads.',
   },
 ] as const;
 
 export const ticker = [
-  '100% organic traffic growth',
+  '100% lead generation growth',
   '20+ years B2B experience',
   '#1 Google rank in 4 weeks',
   'Aberdeen · Scotland · Remote',
@@ -266,7 +312,7 @@ export const ticker = [
 
 export const numbers = [
   { num: '20+', label: 'Years B2B experience' },
-  { num: '100%', label: 'Organic traffic growth' },
+  { num: '100%', label: 'Lead generation growth' },
   { num: '#1', label: 'Google rank in 4 weeks' },
   { num: '100+', label: 'Qualified leads/month' },
 ];
@@ -294,10 +340,11 @@ export const testimonials: Testimonial[] = [
     role: 'Managing Director',
     company: 'Proactis Tenders',
     location: 'Scotland',
+    logo: logos.proactis,
   },
   {
     quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
-    name: 'Chris',
+    name: 'Chris Harvey',
     role: 'CEO',
     company: 'Viewport3',
     location: 'Aberdeen',
