@@ -7,9 +7,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "yannhamonou-site",
   "compatibility_date": "2026-09-10",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "pages_build_output_dir": "dist",
-
   // Astro's Cloudflare adapter enables sessions backed by KV and looks for a
   // binding called SESSION. Without it a deployed build fails at runtime with
   // "Invalid binding `SESSION`" — this is the warning printed on every build.
@@ -21,7 +22,7 @@
   "kv_namespaces": [
     {
       "binding": "SESSION",
-      "id": "PLACEHOLDER_RUN_WRANGLER_KV_NAMESPACE_CREATE"
+      "id": "543af29397ec4ce09f54c272c1694e5c"
     }
   ]
 }
