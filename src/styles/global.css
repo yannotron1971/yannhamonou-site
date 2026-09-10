@@ -863,11 +863,11 @@ body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
    Both halves carry .logo-colour-on-dark, so these follow the rule above and
    override only the hover. */
 .edge-block--dark .logo-colour-on-dark.logo-split__mark,
-body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark.logo-split__mark {
+body.v4 .edge-block--dark .v4-client-logo.logo-colour-on-dark.logo-split__mark {
   --logo-hover: none;
 }
 .edge-block--dark .logo-colour-on-dark.logo-split__word,
-body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark.logo-split__word {
+body.v4 .edge-block--dark .v4-client-logo.logo-colour-on-dark.logo-split__word {
   --logo-hover: brightness(0) invert(1);
 }
 
@@ -898,6 +898,19 @@ body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark.logo-split__word {
    the mark is drawn dark. */
 .is-light .logo-dark-invert,
 .edge-block:not(.edge-block--dark) .logo-dark-invert {
+  --logo-rest: grayscale(1);
+  --logo-hover: none;
+}
+
+/* The `body.v4` rules above were written when a page was one dark ground from
+   top to bottom. The Edge puts a light sheet on every page, so a mark can now
+   sit on a light ground inside a body that still carries `.v4` — and the
+   body-scoped selector outranks the ground-scoped one it ought to defer to.
+   On the work index that showed as white silhouettes on a white panel: the
+   marks were invisible until a hover repainted them.
+
+   Restated here at a specificity that wins. Ground decides, not body. */
+body.v4 .edge-block:not(.edge-block--dark) .v4-client-logo.logo-dark-invert {
   --logo-rest: grayscale(1);
   --logo-hover: none;
 }
