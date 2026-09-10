@@ -19,3 +19,6 @@ Thumbs.db
 
 # claude code worktrees
 .claude/worktrees/
+
+# Cloudflare
+.wrangler/

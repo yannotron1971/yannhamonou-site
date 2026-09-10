@@ -1,0 +1,27 @@
+{
+  // Cloudflare Pages config for the Astro build.
+  //
+  // Nothing here is live yet: the project below has to exist in the Cloudflare
+  // dashboard (or be created by the first `npm run deploy`) before any of it
+  // takes effect. See README for the one-time setup.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yannhamonou-site",
+  "compatibility_date": "2026-09-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "dist",
+
+  // Astro's Cloudflare adapter enables sessions backed by KV and looks for a
+  // binding called SESSION. Without it a deployed build fails at runtime with
+  // "Invalid binding `SESSION`" — this is the warning printed on every build.
+  //
+  // The id below is a placeholder. Create the namespace once:
+  //   npx wrangler kv namespace create SESSION
+  // then paste the id it prints over PLACEHOLDER, or set the binding in the
+  // dashboard under Settings → Bindings if you deploy via the Git integration.
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "PLACEHOLDER_RUN_WRANGLER_KV_NAMESPACE_CREATE"
+    }
+  ]
+}
