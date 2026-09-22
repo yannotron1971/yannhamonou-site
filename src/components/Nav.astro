@@ -99,6 +99,7 @@ const services = [
 <script>
   // Season/theme toggle removed on this concept — the Edge language has one
   // ground, so there is nothing to switch between.
+  import { gsap } from 'gsap';
 
   // Mobile drawer
   const hamburger = document.getElementById('hamburger');
@@ -108,6 +109,39 @@ const services = [
   // drops the links and the CTA that the index is already showing at scale.
   const nav = document.querySelector('.v4-nav');
 
+  /* The index arrives line by line behind the drawer's own 0.25s fade.
+     Everything else about the roll is CSS; this is the one part that is not,
+     because the trigger is an event rather than a state a selector can see.
+
+     The rows are what move, never the spans inside them — those carry the
+     hover roll, and a tween writing transform on the same element would
+     fight it. clearProps hands them back untouched when the stagger lands.
+
+     Under reduced motion the callback never runs and the drawer simply
+     fades, which is what it did before any of this. */
+  const indexRows = () => drawer?.querySelectorAll('.v4-drawer__links > li, .v4-drawer__rail') ?? [];
+  const mm = gsap.matchMedia();
+  let staggerIn = null;
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    staggerIn = () => {
+      const rows = indexRows();
+      gsap.killTweensOf(rows);
+      gsap.fromTo(
+        rows,
+        { yPercent: 12, autoAlpha: 0 },
+        {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: 0.55,
+          ease: 'power3.out',
+          stagger: 0.055,
+          delay: 0.08,
+          clearProps: 'all',
+        }
+      );
+    };
+  });
+
   function openDrawer() {
     drawer?.classList.add('is-open');
     hamburger?.classList.add('is-open');
@@ -115,9 +149,14 @@ const services = [
     hamburger?.setAttribute('aria-label', 'Close menu');
     nav?.classList.add('is-drawer-open');
     document.body.style.overflow = 'hidden';
+    staggerIn?.();
   }
 
   function closeDrawer() {
+    /* Closing part-way through the stagger would leave the unplayed rows at
+       autoAlpha:0, and the next open would start from a half-blank index. */
+    gsap.killTweensOf(indexRows());
+    gsap.set(indexRows(), { clearProps: 'all' });
     drawer?.classList.remove('is-open');
     hamburger?.classList.remove('is-open');
     hamburger?.setAttribute('aria-expanded', 'false');
