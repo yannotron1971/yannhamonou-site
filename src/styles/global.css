@@ -62,6 +62,12 @@ body.v4 {
   --v4-maxw:    1320px;
   --v4-gutter:  clamp(20px, 4vw, 56px);
 
+  /* Decel curve for the index roll. Chosen over the near-expo ease the
+     reference uses: that one holds still, then snaps, which reads as a cut.
+     This moves immediately and settles, which is the register of the rest
+     of this concept. */
+  --v4-ease-roll: cubic-bezier(0.22, 1, 0.36, 1);
+
   background-color: transparent;
   color: var(--v4-ink);
   font-family: var(--v4-sans);
@@ -209,7 +215,9 @@ body.v4.is-light.tone-bright {
 .v4-nav {
   position: sticky;
   top: 0;
-  z-index: 200;
+  /* Above the drawer (500), not below it: when the index is open the bar
+     keeps the wordmark and the toggle on screen and drops everything else. */
+  z-index: 600;
   height: 64px;
   display: flex;
   align-items: center;
@@ -232,8 +240,10 @@ body.sheet-active .v4-nav {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   --v4-ink: #151515;
-  /* .v4-nav__cta is ink-on-bg, so --v4-bg has to flip too or the pill goes
-     black-on-black. */
+  /* Kept flipped with the rest of the set. The ink-on-bg pill this was
+     written for is gone with the bar's links, so nothing in the nav reads
+     --v4-bg today; it stays bound so the group cannot drift apart if
+     something ink-on-bg lands back in here. */
   --v4-bg: #ffffff;
   --v4-ink-mute: #55585a;
   --v4-ink-dim: #7a7d7f;
@@ -273,34 +283,6 @@ body.sheet-active .v4-nav {
   background: var(--v4-ink-mute);
 }
 
-.v4-nav__links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  list-style: none;
-  margin-left: auto;
-}
-
-/* ── One voice in the bar ──
-   The nav was running three: Space Mono on the brand, Inter on the links,
-   Inter semibold on the pill. A navigation bar is not prose — it is a row of
-   small labels doing wayfinding, which is exactly the register Space Mono
-   already holds in this design (section labels, buttons, the hero kicker
-   directly beneath it). Inter at 13px medium was the generic-SaaS default and
-   the odd one out. Uppercase and tracked, because mono at this size needs the
-   air to stay legible. */
-.v4-nav__links a {
-  font-family: var(--v4-mono);
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--v4-ink-mute);
-  transition: color 0.15s ease;
-}
-
-.v4-nav__links a:hover { color: var(--v4-ink); }
-
 .v4-nav__right {
   display: flex;
   align-items: center;
@@ -308,34 +290,60 @@ body.sheet-active .v4-nav {
   margin-left: auto;
 }
 
-.v4-nav__cta {
-  display: inline-flex;
-  align-items: center;
-  height: 34px;
-  padding: 0 18px;
-  background: var(--v4-ink);
-  color: var(--v4-bg);
-  font-family: var(--v4-mono);
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border-radius: 999px;
-  transition: opacity 0.15s ease;
-  white-space: nowrap;
+
+
+/* ── Bar, with the index open ──
+   The bar loses its own ground: over the drawer's blur, a second translucent
+   strip reads as a seam across the index rather than as a header. Only the
+   wordmark and the toggle remain, and they sit directly on the field. */
+/* The second selector is not redundant: body.sheet-active .v4-nav (0,2,1)
+   outranks .v4-nav.is-drawer-open (0,2,0), so on any page scrolled into the
+   white sheet the bar kept its light ground and its dark ink — a white strip
+   across a dark index, with the wordmark on the wrong side of the contrast.
+   The index is always dark, so the open bar always takes the dark set. */
+.v4-nav.is-drawer-open,
+body.sheet-active .v4-nav.is-drawer-open {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  --v4-ink: #f2f1ec;
+  --v4-ink-mute: #a2a5a3;
+  --v4-ink-dim: #909391;
+  color: #f2f1ec;
 }
 
-.v4-nav__cta:hover { opacity: 0.85; }
+/* The bar's only job now is the wordmark and the toggle, so the toggle needs
+   the far edge to itself. */
+.v4-nav__right { margin-left: auto; }
+
+/* No-JS fallback: the index cannot open, so the bar shows the destinations
+   as plain links in the mono voice the bar already used. */
+.v4-nav__nojs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  margin-left: auto;
+}
+
+.v4-nav__nojs a {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--v4-ink-mute);
+}
+
+.v4-nav__nojs a:hover { color: var(--v4-ink); }
 
 /* Below 760px the links move into the drawer, and the CTA with them — the
    drawer carries Contact in its list. This was an inline display:none plus a one-shot
    width check in script, which meant no JS, no call to action on desktop, and
    none at all for anyone who widened the window after load. It is the page's
    single next step; it does not get to depend on JavaScript. */
-@media (max-width: 760px) {
-  .v4-nav__links,
-  .v4-nav__cta { display: none; }
-}
+/* The bar no longer holds links or a CTA at any width — the index holds
+   them, and it is reachable from every width now. */
 
 /* ─────────────────────────────────────────────────────────────
    THEME TOGGLE
@@ -392,9 +400,10 @@ body.sheet-active .v4-nav {
 .v4-hamburger.is-open span:nth-child(2) { opacity: 0; }
 .v4-hamburger.is-open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
 
-@media (max-width: 760px) {
-  .v4-hamburger { display: flex; }
-}
+/* The index is not a mobile fallback: it is the site's table of contents, and
+   it reads at display scale on every width. The bar keeps its own links and
+   CTA above 760px — the two coexist, they do not substitute for each other. */
+.v4-hamburger { display: flex; }
 
 /* ─────────────────────────────────────────────────────────────
    MOBILE DRAWER
@@ -409,6 +418,11 @@ body.sheet-active .v4-nav {
   display: flex;
   flex-direction: column;
   padding: 80px var(--v4-gutter) 48px;
+  /* At 104px the five lines plus the rail run ~710px. That clears an 800px
+     viewport, but not a short one — without this the last line is unreachable
+     rather than merely cropped. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -432,22 +446,87 @@ body.sheet-active .v4-nav {
 .v4-drawer__links a {
   font-family: var(--v4-display);
   font-weight: 300;
-  font-size: clamp(36px, 8vw, 56px);
+  /* 56px is a phone size: on a laptop it reads as a list rather than as the
+     index. .95 leading tightens the stack and makes the mask exactly one
+     line, which is what the roll below measures itself against. */
+  font-size: clamp(40px, 9vw, 104px);
   letter-spacing: -0.02em;
   color: var(--v4-ink-mute);
-  transition: color 0.15s ease;
-  line-height: 1.1;
+  line-height: 0.95;
+
+  /* The roll: each link carries two copies of its label inside a one-line
+     mask. Hover slides both up by exactly one line, so the first leaves as
+     the second arrives. No JavaScript — the whole effect is two transforms.
+     Ease is a decel curve: the label settles rather than snapping. */
+  display: block;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  will-change: transform;
 }
 
-.v4-drawer__links a:hover { color: var(--v4-ink); }
+.v4-drawer__links a > span {
+  display: block;
+  transition: transform 0.62s var(--v4-ease-roll),
+              color 0.62s var(--v4-ease-roll);
+}
 
-.v4-drawer__close {
+/* The arriving copy is parked one line below and carries aria-hidden in the
+   markup, so the label is announced once. */
+.v4-drawer__links a .v4-roll__b {
   position: absolute;
-  top: 20px;
-  right: var(--v4-gutter);
-  font-size: 24px;
-  color: var(--v4-ink-mute);
-  padding: 8px;
+  inset-inline: 0;
+  top: 0;
+  transform: translateY(100%);
+  color: var(--v4-ink);
+}
+
+.v4-drawer__links a:hover .v4-roll__a,
+.v4-drawer__links a:focus-visible .v4-roll__a { transform: translateY(-100%); }
+
+.v4-drawer__links a:hover .v4-roll__b,
+.v4-drawer__links a:focus-visible .v4-roll__b { transform: translateY(0); }
+
+/* Keyboard users get the same affordance as the pointer. */
+.v4-drawer__links a:focus-visible { outline: 1px solid var(--v4-ink-dim); outline-offset: 6px; }
+
+/* Reduced motion swaps rather than slides — the label still changes, it just
+   does not travel. */
+@media (prefers-reduced-motion: reduce) {
+  .v4-drawer__links a > span { transition-duration: 0.01ms; }
+}
+
+/* Variant B: the six services stay one click away, in the mono voice, as a
+   rail beneath the five index lines rather than nested inside one of them. */
+.v4-drawer__rail {
+  list-style: none;
+  margin-top: clamp(20px, 3vw, 32px);
+  padding-top: clamp(16px, 2vw, 22px);
+  border-top: 1px solid var(--v4-line-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.v4-drawer__rail a {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.v4-drawer__rail a:hover,
+.v4-drawer__rail a:focus-visible { color: var(--v4-ink); }
+
+/* The hamburger now sits above the drawer and already animates into an X,
+   so the drawer's own close button would be a second X in the same corner.
+   It stays in the DOM for anyone who reaches it before the bar renders, but
+   it is not painted. */
+.v4-drawer__close {
+  display: none;
 }
 
 /* ─────────────────────────────────────────────────────────────

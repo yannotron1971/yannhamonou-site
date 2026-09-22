@@ -23,43 +23,13 @@ const services = [
       Yann.Hamonou
     </a>
 
-    <!-- Desktop links -->
-    <ul class="v4-nav__links" role="list">
-      <!-- Services dropdown -->
-      <li class="v4-nav__dropdown-wrap" id="services-dropdown-wrap">
-        <!-- A disclosure, not a menu widget: the panel holds links, and there
-             is no arrow-key roving focus, so aria-haspopup would promise
-             behaviour that is not implemented. aria-controls ties the button
-             to what it opens. -->
-        <button
-          class="v4-nav__dropdown-trigger"
-          aria-expanded="false"
-          aria-controls="services-menu"
-          id="services-trigger"
-        >
-          Services <span class="v4-nav__chevron" aria-hidden="true">›</span>
-        </button>
-        <ul class="v4-nav__dropdown" role="list" id="services-menu">
-          <li>
-            <a href="/services" class="v4-nav__dropdown-all">All services →</a>
-          </li>
-          {services.map(s => (
-            <li><a href={s.href}>{s.label}</a></li>
-          ))}
-        </ul>
-      </li>
-      {navLinks.map(link => (
-        <li><a href={link.href}>{link.label}</a></li>
-      ))}
-    </ul>
+    <!-- The bar carries the wordmark and the toggle. Everything else lives
+         in the index: repeating the same five destinations at 11px in the
+         corner while they are set at 104px behind the toggle says it twice
+         and makes the index decorative. -->
 
     <!-- Right cluster -->
     <div class="v4-nav__right">
-      <!-- Contact CTA (desktop) -->
-      <a href="/contact" class="v4-nav__cta" id="nav-cta-desktop">
-        Free Consultation
-      </a>
-
       <!-- Hamburger -->
       <button class="v4-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
         <span></span>
@@ -67,25 +37,62 @@ const services = [
         <span></span>
       </button>
     </div>
+
+    <!-- The toggle needs JavaScript to open the index, so without it the bar
+         would offer no way through the site at all. This is the same
+         principle the CTA rule already stated: the page's next step does not
+         get to depend on JS. -->
+    <noscript>
+      <ul class="v4-nav__nojs" role="list">
+        <li><a href="/services">Services</a></li>
+        {navLinks.map(link => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </noscript>
   </div>
 </nav>
 
 <!-- Mobile drawer -->
-<div class="v4-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation">
+<!-- Not aria-modal: the control that closes this is the bar's toggle, which
+     sits outside it, and nothing traps focus here. Claiming modality would
+     tell assistive tech to ignore the one button that gets you out. -->
+<div class="v4-drawer" id="mobile-drawer" role="dialog" aria-label="Navigation">
   <button class="v4-drawer__close" id="drawer-close" aria-label="Close menu">✕</button>
+  <!-- Five index lines, one level deep. Each carries its label twice: the
+       second copy is the one that rolls up into place on hover, and it is
+       hidden from assistive tech so the item is announced once. -->
   <ul class="v4-drawer__links" role="list">
     <li>
-      <a href="/services">Services</a>
-      <ul class="v4-drawer__sub" role="list">
-        {services.map(s => (
-          <li><a href={s.href}>{s.label}</a></li>
-        ))}
-      </ul>
+      <a href="/services">
+        <span class="v4-roll__a">Services</span>
+        <span class="v4-roll__b" aria-hidden="true">Services</span>
+      </a>
     </li>
     {navLinks.map(link => (
-      <li><a href={link.href}>{link.label}</a></li>
+      <li>
+        <a href={link.href}>
+          <span class="v4-roll__a">{link.label}</span>
+          <span class="v4-roll__b" aria-hidden="true">{link.label}</span>
+        </a>
+      </li>
     ))}
-    <li><a href="/contact">Contact</a></li>
+    <li>
+      <a href="/contact">
+        <span class="v4-roll__a">Contact</span>
+        <span class="v4-roll__b" aria-hidden="true">Contact</span>
+      </a>
+    </li>
+  </ul>
+
+  <!-- The six services, kept one click away in the mono voice rather than
+       nested under the Services line: eleven rows at this scale do not fit a
+       laptop viewport, and a sub-list breaks the index's single breath. -->
+  <ul class="v4-drawer__rail" role="list" aria-label="Services">
+    {services.map(s => (
+      <li><a href={s.href}>{s.label}</a></li>
+    ))}
   </ul>
 </div>
 
@@ -97,11 +104,16 @@ const services = [
   const hamburger = document.getElementById('hamburger');
   const drawer = document.getElementById('mobile-drawer');
   const drawerClose = document.getElementById('drawer-close');
+  // The bar reacts to the drawer: it keeps the wordmark and the toggle, and
+  // drops the links and the CTA that the index is already showing at scale.
+  const nav = document.querySelector('.v4-nav');
 
   function openDrawer() {
     drawer?.classList.add('is-open');
     hamburger?.classList.add('is-open');
     hamburger?.setAttribute('aria-expanded', 'true');
+    hamburger?.setAttribute('aria-label', 'Close menu');
+    nav?.classList.add('is-drawer-open');
     document.body.style.overflow = 'hidden';
   }
 
@@ -109,6 +121,8 @@ const services = [
     drawer?.classList.remove('is-open');
     hamburger?.classList.remove('is-open');
     hamburger?.setAttribute('aria-expanded', 'false');
+    hamburger?.setAttribute('aria-label', 'Open menu');
+    nav?.classList.remove('is-drawer-open');
     document.body.style.overflow = '';
   }
 
@@ -124,145 +138,12 @@ const services = [
 
   // Close on Escape
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeDrawer(); closeDropdown(); }
+    if (e.key === 'Escape') closeDrawer();
   });
 
-  // Services dropdown
-  const trigger = document.getElementById('services-trigger') as HTMLButtonElement | null;
-  const menu = document.getElementById('services-menu');
-  const wrap = document.getElementById('services-dropdown-wrap');
-
-  function openDropdown() {
-    trigger?.setAttribute('aria-expanded', 'true');
-    wrap?.classList.add('is-open');
-  }
-  function closeDropdown() {
-    trigger?.setAttribute('aria-expanded', 'false');
-    wrap?.classList.remove('is-open');
-  }
-
-  trigger?.addEventListener('click', () => {
-    wrap?.classList.contains('is-open') ? closeDropdown() : openDropdown();
-  });
-
-  // Close when focus moves outside the dropdown
-  wrap?.addEventListener('focusout', e => {
-    if (!wrap.contains(e.relatedTarget as Node)) closeDropdown();
-  });
-
-  // Close on outside click
-  document.addEventListener('click', e => {
-    if (!wrap?.contains(e.target as Node)) closeDropdown();
-  });
 </script>
 
 <style>
-  /* Services dropdown */
-  .v4-nav__dropdown-wrap {
-    position: relative;
-  }
-
-  /* Matches .v4-nav__links a — the trigger is one of the links. */
-  .v4-nav__dropdown-trigger {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    font-family: var(--v4-mono);
-    font-size: 11px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--v4-ink-mute);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.15s ease;
-  }
-  .v4-nav__dropdown-trigger:hover,
-  .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown-trigger {
-    color: var(--v4-ink);
-  }
-
-  .v4-nav__chevron {
-    display: inline-block;
-    transition: transform 0.2s ease;
-    font-size: 16px;
-    line-height: 1;
-    margin-top: 1px;
-  }
-  .v4-nav__dropdown-wrap.is-open .v4-nav__chevron {
-    transform: rotate(90deg);
-  }
-
-  .v4-nav__dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--v4-panel);
-    border: 1px solid var(--v4-line-soft);
-    border-radius: 0;
-    padding: 8px;
-    min-width: 248px;
-    list-style: none;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    z-index: 100;
-  }
-  .v4-nav__dropdown-wrap.is-open .v4-nav__dropdown {
-    display: block;
-  }
-
-  .v4-nav__dropdown li a {
-    display: block;
-    padding: 9px 14px;
-    font-family: var(--v4-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--v4-ink-mute);
-    border-radius: 0;
-    transition: background 0.12s ease, color 0.12s ease;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .v4-nav__dropdown li a:hover {
-    background: var(--v4-panel-2);
-    color: var(--v4-ink);
-  }
-
-  .v4-nav__dropdown-all {
-    font-family: var(--v4-mono) !important;
-    font-size: 11px !important;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--v4-ink-dim) !important;
-    border-bottom: 1px solid var(--v4-line-soft);
-    border-radius: 0 !important;
-    margin-bottom: 4px;
-    padding-bottom: 10px !important;
-  }
-  .v4-nav__dropdown-all:hover {
-    background: none !important;
-    color: var(--v4-ink) !important;
-  }
-
-  /* Mobile drawer sub-list */
-  .v4-drawer__sub {
-    list-style: none;
-    padding: 4px 0 8px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .v4-drawer__sub li a {
-    font-family: var(--v4-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--v4-ink-dim);
-    padding: 6px 0;
-    display: block;
-  }
+  /* The drawer's services rail is styled in global.css beside the index
+     links it belongs to — .v4-drawer__sub is gone with the nesting. */
 </style>
