@@ -65,21 +65,21 @@ const services = [
        hidden from assistive tech so the item is announced once. -->
   <ul class="v4-drawer__links" role="list">
     <li>
-      <a href="/services">
+      <a href="/services" class="v4-roll">
         <span class="v4-roll__a">Services</span>
         <span class="v4-roll__b" aria-hidden="true">Services</span>
       </a>
     </li>
     {navLinks.map(link => (
       <li>
-        <a href={link.href}>
+        <a href={link.href} class="v4-roll">
           <span class="v4-roll__a">{link.label}</span>
           <span class="v4-roll__b" aria-hidden="true">{link.label}</span>
         </a>
       </li>
     ))}
     <li>
-      <a href="/contact">
+      <a href="/contact" class="v4-roll">
         <span class="v4-roll__a">Contact</span>
         <span class="v4-roll__b" aria-hidden="true">Contact</span>
       </a>

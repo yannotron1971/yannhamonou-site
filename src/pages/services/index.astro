@@ -24,7 +24,10 @@ import PageHero from '../../components/PageHero.astro';
           <li>
             <a href={`/services/${s.slug}`} class="edge-row edge-row--service">
               <span class="edge-row__num">{s.num}</span>
-              <span class="edge-row__client">{s.title}</span>
+              <span class="edge-row__client v4-roll">
+                <span class="v4-roll__a">{s.title}</span>
+                <span class="v4-roll__b" aria-hidden="true">{s.title}</span>
+              </span>
               <span class="edge-row__desc">{s.desc}</span>
             </a>
           </li>

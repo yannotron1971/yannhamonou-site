@@ -133,6 +133,32 @@ const detail = details[c.slug];
   </section>
   )}
 
+  <!-- Proof plate — the one image on the case study.
+       The page runs ~2,750px of unbroken prose otherwise. Precedent is
+       Palais de Tokyo: a monochrome interface with a single image carrying
+       whatever colour the page has. The ground ladder stays hueless, so the
+       no-hue rule in DESIGN.md holds exactly as written.
+
+       TODO: replace each slot with a real asset. The placeholder reserves
+       the final aspect ratio, so dropping the image in causes no shift. -->
+  <section class="edge-block edge-block--paper">
+    <div class="edge-wrap">
+      <figure class="edge-plate">
+        <div
+          class="edge-plate__slot"
+          role="img"
+          aria-label={`Image pending for the ${c.client} case study`}
+        >
+          <span class="edge-plate__state">Image pending</span>
+          <span class="edge-plate__spec">{c.client} · 1600 × 900 min · greyscale or muted</span>
+        </div>
+        <figcaption class="edge-plate__cap">
+          {c.client} — {c.descriptor}. Caption to be written with the image.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="edge-block edge-block--dark edge-block--pitch">
     <div class="edge-wrap" style="max-width:640px;text-align:center">

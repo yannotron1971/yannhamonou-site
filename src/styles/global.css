@@ -443,21 +443,18 @@ body.sheet-active .v4-nav.is-drawer-open {
 /* Space Grotesk has neither an 800 weight nor a width axis — the 800/75%
    pair was written for Archivo and browsers were synthesising both. This is
    the display face as it actually exists on this concept: light and large. */
-.v4-drawer__links a {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  /* 56px is a phone size: on a laptop it reads as a list rather than as the
-     index. .95 leading tightens the stack and makes the mask exactly one
-     line, which is what the roll below measures itself against. */
-  font-size: clamp(40px, 9vw, 104px);
-  letter-spacing: -0.02em;
-  color: var(--v4-ink-mute);
-  line-height: 0.95;
+/* ── The roll ──
+   Two copies of a label inside a one-line mask: the first in flow, the second
+   parked one line below. Hover slides both up by one line, so the first
+   leaves as the second arrives. No JavaScript — two transforms.
 
-  /* The roll: each link carries two copies of its label inside a one-line
-     mask. Hover slides both up by exactly one line, so the first leaves as
-     the second arrives. No JavaScript — the whole effect is two transforms.
-     Ease is a decel curve: the label settles rather than snapping. */
+   The hover target is the enclosing link, not the mask, so this works whether
+   the link *is* the roll (the index) or merely contains it (a row where the
+   name is one cell of a grid).
+
+   The .v4-roll__b copy is a duplicate and carries aria-hidden in the markup,
+   so the label is announced once. */
+.v4-roll {
   display: block;
   position: relative;
   overflow: hidden;
@@ -465,15 +462,13 @@ body.sheet-active .v4-nav.is-drawer-open {
   will-change: transform;
 }
 
-.v4-drawer__links a > span {
+.v4-roll > span {
   display: block;
   transition: transform 0.62s var(--v4-ease-roll),
               color 0.62s var(--v4-ease-roll);
 }
 
-/* The arriving copy is parked one line below and carries aria-hidden in the
-   markup, so the label is announced once. */
-.v4-drawer__links a .v4-roll__b {
+.v4-roll__b {
   position: absolute;
   inset-inline: 0;
   top: 0;
@@ -481,19 +476,32 @@ body.sheet-active .v4-nav.is-drawer-open {
   color: var(--v4-ink);
 }
 
-.v4-drawer__links a:hover .v4-roll__a,
-.v4-drawer__links a:focus-visible .v4-roll__a { transform: translateY(-100%); }
+a:hover .v4-roll__a,
+a:focus-visible .v4-roll__a { transform: translateY(-100%); }
 
-.v4-drawer__links a:hover .v4-roll__b,
-.v4-drawer__links a:focus-visible .v4-roll__b { transform: translateY(0); }
-
-/* Keyboard users get the same affordance as the pointer. */
-.v4-drawer__links a:focus-visible { outline: 1px solid var(--v4-ink-dim); outline-offset: 6px; }
+a:hover .v4-roll__b,
+a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 /* Reduced motion swaps rather than slides — the label still changes, it just
    does not travel. */
 @media (prefers-reduced-motion: reduce) {
-  .v4-drawer__links a > span { transition-duration: 0.01ms; }
+  .v4-roll > span { transition-duration: 0.01ms; }
+}
+
+/* Keyboard users get the same affordance as the pointer. */
+.v4-drawer__links a:focus-visible,
+.edge-row--service:focus-visible { outline: 1px solid var(--v4-ink-dim); outline-offset: 6px; }
+
+.v4-drawer__links a {
+  font-family: var(--v4-display);
+  font-weight: 300;
+  /* 56px is a phone size: on a laptop it reads as a list rather than as the
+     index. .95 leading tightens the stack and makes the mask exactly one
+     line, which is what the roll measures itself against. */
+  font-size: clamp(40px, 9vw, 104px);
+  letter-spacing: -0.02em;
+  color: var(--v4-ink-mute);
+  line-height: 0.95;
 }
 
 /* Variant B: the six services stay one click away, in the mono voice, as a
@@ -1757,6 +1765,41 @@ a:focus-visible .v4-client-logo {
    near-black. A monochrome page can give every section its own ground and
    still read as one material — colour would not. Swap the modifier on any
    section; --clear lets the hero field show through instead. */
+/* ── Proof plate ──
+   One image per case study. The slot holds the final aspect ratio while the
+   asset is outstanding, so the page does not move when it lands, and it says
+   plainly that it is unfinished rather than looking like a broken image. */
+.edge-plate { margin: 0; }
+
+.edge-plate__slot {
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  text-align: center;
+  border: 1px dashed var(--v4-line-soft);
+  background: color-mix(in srgb, var(--v4-ink) 3%, transparent);
+}
+
+.edge-plate__state,
+.edge-plate__spec,
+.edge-plate__cap {
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+.edge-plate__state { color: var(--v4-ink-mute); }
+
+.edge-plate__cap {
+  display: block;
+  margin-top: 16px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
 .edge-block--white { background: var(--edge-white); }        /* 01 proposition */
 .edge-block--paper { background: var(--edge-paper); } /* current projects */
 .edge-block--ink   { background: var(--edge-ink); }   /* 02 work */
@@ -1908,6 +1951,40 @@ a:focus-visible .v4-client-logo {
 /* A case with no logo on file still needs a name. */
 .edge-row__client--fallback { align-self: center; }
 .edge-rows li:hover .edge-row { opacity: 0.62; }
+
+/* ── Services, at index scale ──
+   These rows already carried the index grammar — number, name, mono
+   descriptor — at a third of the size. Set at display scale they say the
+   same thing the menu says, which is the point: the flagship page and the
+   way into it speak one language rather than two.
+
+   The row-wide dim is switched off here. It was the whole hover signal when
+   the name was 34px; against the roll it fights, because the arriving copy
+   brightens while the row beneath it fades. */
+.edge-rows li:hover .edge-row--service { opacity: 1; }
+
+.edge-row--service .edge-row__client {
+  font-size: clamp(34px, 5.6vw, 76px);
+  /* Not .95 like the index. The mask is exactly one line tall, so the leading
+     sets what it can show — and four of these six names carry a descender
+     ("Positioning", "Strategy", "Organic"). The index gets away with tighter
+     leading because none of its five labels descends; that is luck, not a
+     rule, and this page proves it. */
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: var(--v4-ink-mute);
+}
+
+/* At 76px the name needs the room the descriptor was holding; the descriptor
+   drops to a label on the far margin, which is where it was acting anyway. */
+@media (min-width: 861px) {
+  .edge-row--service {
+    grid-template-columns: 60px minmax(0, 1.9fr) minmax(0, 1fr);
+    align-items: baseline;
+  }
+
+  .edge-row--service .edge-row__desc { justify-self: end; text-align: right; }
+}
 
 .edge-row__num,
 .edge-row__desc {
