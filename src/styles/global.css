@@ -1052,6 +1052,68 @@ a:focus-visible .v4-client-logo {
 /* Case-list rows put the logo above the client name. */
 .v4-case-row__logo { margin-bottom: 14px; }
 
+/* ── The figure is the row ──
+   These numbers are the most valuable content on the work page and they were
+   set at 64px, near enough the client name beside them to read as an
+   annotation of it. At this size the relationship inverts: the figure is what
+   the row is about, and the name and summary become its caption.
+
+   Monolog's move, without its crop — type doing structural work rather than
+   decorative work. */
+/* Was three inline declarations plus onmouseover/onmouseout attributes
+   writing style strings. The hover is a state, so it belongs in a selector —
+   and inline handlers are the one thing on this page a CSP would reject. */
+.edge-case-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  background: var(--v4-panel);
+  padding: clamp(24px, 3vw, 40px);
+  transition: background 0.2s ease;
+}
+
+.edge-case-row:hover,
+.edge-case-row:focus-visible { background: var(--v4-panel-3); }
+
+.edge-case-fig {
+  text-align: right;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.edge-case-fig__n {
+  display: block;
+  font-family: var(--v4-display);
+  font-weight: 300;
+  font-size: clamp(56px, 9vw, 124px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: var(--v4-ink);
+}
+
+.edge-case-fig__u {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+}
+
+/* Below this the figure stops sharing a line with the copy and sits under it,
+   where a right edge it no longer has would strand it. */
+@media (max-width: 52rem) {
+  .edge-case-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 20px;
+  }
+
+  .edge-case-fig { text-align: left; }
+}
+
 /* Work cards sit over imagery, so the logo gets its own light chip and keeps
    its real brand colour rather than being inverted. */
 .v4-work-card__badge {
@@ -2129,13 +2191,69 @@ a:focus-visible .v4-client-logo {
   overflow: hidden;
   min-height: 58svh;
   display: grid;
-  align-content: end;
-  padding-block: clamp(130px, 20vh, 200px) clamp(48px, 7vh, 84px);
+  /* The wrap is now a full-height grid that pushes its own corners apart, so
+     the block no longer needs a tall top padding to drive content downward. */
+  align-content: stretch;
+  padding-block: clamp(56px, 9vh, 96px) clamp(40px, 6vh, 72px);
 }
 
 .edge-page-hero > .edge-wrap {
   position: relative;
   z-index: 1;
+}
+
+/* ── Corners hold the facts, the middle holds the argument ── */
+.edge-page-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(28px, 5vh, 56px) 24px;
+  align-items: start;
+  /* No width here: .edge-wrap makes its gutter out of `width`, not padding,
+     so setting width:100% on the same element silently removes it. */
+}
+
+.edge-page-hero__tl { grid-column: 1; grid-row: 1; }
+
+.edge-page-hero__mid {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-self: center;
+}
+
+.edge-page-hero__bl { grid-column: 1; grid-row: 3; align-self: end; }
+
+.edge-page-hero__br {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: end;
+  text-align: right;
+}
+
+.edge-page-hero__bl span,
+.edge-page-hero__br span {
+  display: block;
+  font-family: var(--v4-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  line-height: 1.9;
+}
+
+.edge-page-hero__bl .is-ink,
+.edge-page-hero__br .is-ink { color: var(--v4-ink-mute); }
+
+/* At phone width there are no opposing corners to anchor to: the four blocks
+   become one column and the baseline pair reads as a stacked colophon. */
+@media (max-width: 46rem) {
+  .edge-page-hero__grid { grid-template-columns: 1fr; }
+  .edge-page-hero__mid { grid-column: 1; }
+  .edge-page-hero__br {
+    grid-column: 1;
+    grid-row: auto;
+    text-align: left;
+  }
 }
 
 .edge-page-hero__h {

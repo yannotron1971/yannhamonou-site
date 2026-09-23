@@ -25,10 +25,30 @@ const { label, title, lede, class: className = '', field = true } = Astro.props;
 
 <section class={`edge-block edge-block--dark edge-block--ink edge-page-hero ${className}`}>
   {field && <EdgeField contained />}
-  <div class="edge-wrap">
-    {label && <p class="edge-label">{label}</p>}
-    <h1 class="edge-page-hero__h" set:html={title} />
-    {lede && <p class="edge-page-hero__lede">{lede}</p>}
-    <slot />
+  <div class="edge-wrap edge-page-hero__grid">
+    <!-- The corners carry what the document is; the middle carries what it
+         says. Aristide Benoist's fold, which pins its facts to the four
+         corners and leaves the centre to one thing — except that his centre
+         holds a photographic strip and these heroes carry no field by the
+         rule above, so the headline stays rather than stepping back. -->
+    {label && <p class="edge-label edge-page-hero__tl">{label}</p>}
+
+    <div class="edge-page-hero__mid">
+      <h1 class="edge-page-hero__h" set:html={title} />
+      {lede && <p class="edge-page-hero__lede">{lede}</p>}
+      <slot />
+    </div>
+
+    <!-- Facts already stated elsewhere on the site: the wordmark's role, and
+         the coordinates the homepage puts on its own baseline. Nothing here
+         is a new claim. -->
+    <p class="edge-page-hero__bl">
+      <span>Yann Hamonou</span>
+      <span class="is-ink">Marketing technologist</span>
+    </p>
+    <p class="edge-page-hero__br">
+      <span>Stonehaven · Aberdeenshire</span>
+      <span class="is-ink">Scotland</span>
+    </p>
   </div>
 </section>

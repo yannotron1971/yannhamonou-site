@@ -27,9 +27,7 @@ import { cases } from '../../data/index';
         {cases.map(c => (
           <a
             href={`/work/${c.slug}`}
-            style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--v4-panel);padding:clamp(24px,3vw,40px);transition:background 0.2s ease;cursor:pointer"
-            onmouseover="this.style.background='var(--v4-panel-3)'"
-            onmouseout="this.style.background='var(--v4-panel)'"
+            class="edge-case-row"
           >
             <div>
               {c.logo && (
@@ -48,13 +46,9 @@ import { cases } from '../../data/index';
               </h2>
               <p style="font-size:15px;color:var(--v4-ink-mute)">{c.summary}</p>
             </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
-                {c.stat}
-              </div>
-              <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
-                {c.statSub}
-              </div>
+            <div class="edge-case-fig">
+              <span class="edge-case-fig__n">{c.stat}</span>
+              <span class="edge-case-fig__u">{c.statSub}</span>
             </div>
           </a>
         ))}
