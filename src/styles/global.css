@@ -1962,6 +1962,26 @@ a:focus-visible .v4-client-logo {
   .edge-problems { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+/* The mark sits above its claim, at the size of the mono voice rather than
+   the display one — it labels the row, it does not announce it. A hairline
+   rule runs from it to the column edge, so four marks read as a set of
+   readouts on one instrument rather than as four decorations. */
+.edge-problem__mark {
+  /* 32px read as a speck beside a 30px claim. At 44 the mark is legible as a
+     diagram without competing with the line it labels. */
+  width: 44px;
+  height: 44px;
+  display: block;
+  color: var(--v4-ink-mute);
+  margin-bottom: 20px;
+  overflow: visible;
+}
+
+.edge-problems li {
+  border-top: 1px solid var(--v4-line-soft);
+  padding-top: clamp(20px, 3vh, 28px);
+}
+
 .edge-problem__symptom {
   font-family: var(--v4-display);
   font-weight: 300;

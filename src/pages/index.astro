@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ProblemMark from '../components/ProblemMark.astro';
 import { reader } from '../lib/keystatic';
 import { services, cases, clients, numbers, testimonials, faq, problems } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
@@ -68,6 +69,7 @@ const recentPosts = allPosts
       <ul class="edge-problems" role="list">
         {problems.map(p => (
           <li>
+            <ProblemMark name={p.mark} />
             <p class="edge-problem__symptom">{p.symptom}</p>
             <p class="edge-problem__cost">{p.cost}</p>
           </li>

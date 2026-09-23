@@ -37,18 +37,22 @@ export const logos = {
 export const problems = [
   {
     symptom: 'You cannot tell which half of it is working',
+    mark: 'split',
     cost: 'The reports arrive full of impressions and sessions, and none of it reconciles with the enquiries that actually landed. So the budget stays where it is, because moving it is a guess either way.',
   },
   {
     symptom: 'Leads arrive by referral, or they do not arrive',
+    mark: 'spike',
     cost: 'A good month follows a good conversation. A quiet one follows nothing you can point at. That makes hiring, forecasting and turning work down a matter of nerve rather than evidence.',
   },
   {
     symptom: 'Competitors you are better than keep coming up first',
+    mark: 'rank',
     cost: 'They are not winning on the work. They are winning because the buyer found them at the moment they were looking, and never got as far as your name.',
   },
   {
     symptom: 'Nobody can say what a lead costs you',
+    mark: 'ratio',
     cost: 'Without that number every budget conversation runs on opinion, and marketing becomes the easiest line to cut when the year gets tight.',
   },
 ];

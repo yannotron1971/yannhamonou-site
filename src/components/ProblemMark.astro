@@ -1,0 +1,78 @@
+---
+/**
+ * The marks on "Where it goes wrong".
+ *
+ * Diagrams, not icons. Nothing here is a metaphor for a feeling — each one
+ * draws the shape of the specific problem its row describes, in the register
+ * the rest of the page already uses: one weight of hairline, no fill, no
+ * corner radius, currentColor so it inherits whatever ground it lands on.
+ *
+ * A magnifying glass or a lightbulb would be decoration wearing a costume;
+ * this page's whole argument is that the reader cannot see something, so the
+ * marks are drawn as instrument readouts with the reading missing.
+ *
+ * They are aria-hidden: the symptom and its cost carry the meaning, and a
+ * screen reader announcing "split bar chart" adds nothing a sighted reader
+ * gets from the same mark.
+ */
+interface Props {
+  name: 'split' | 'spike' | 'rank' | 'ratio';
+}
+const { name } = Astro.props;
+---
+
+<svg
+  class="edge-problem__mark"
+  viewBox="0 0 32 32"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.25"
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    name === 'split' && (
+      /* Half measured, half not: the left of the window is ruled, the right
+         is empty. "You cannot tell which half of it is working." */
+      <g>
+        <rect x="2.5" y="6.5" width="27" height="19" />
+        <line x1="16" y1="6.5" x2="16" y2="25.5" />
+        <line x1="6" y1="12" x2="12" y2="12" />
+        <line x1="6" y1="16" x2="12" y2="16" />
+        <line x1="6" y1="20" x2="12" y2="20" />
+      </g>
+    )
+  }
+  {
+    name === 'spike' && (
+      /* One event, then flat. A good month follows a good conversation; a
+         quiet one follows nothing you can point at. */
+      <g>
+        <polyline points="2.5,23 9,23 12,9 15,23 29.5,23" stroke-linejoin="miter" />
+        <line x1="2.5" y1="27.5" x2="29.5" y2="27.5" opacity="0.45" />
+      </g>
+    )
+  }
+  {
+    name === 'rank' && (
+      /* Three results in order. The one with the marker — yours — is last. */
+      <g>
+        <line x1="10" y1="8.5" x2="29.5" y2="8.5" />
+        <line x1="10" y1="16" x2="29.5" y2="16" />
+        <line x1="10" y1="23.5" x2="26" y2="23.5" />
+        <path d="M2.5 20.5 L6 23.5 L2.5 26.5 Z" fill="currentColor" stroke="none" />
+      </g>
+    )
+  }
+  {
+    name === 'ratio' && (
+      /* A division with no denominator: spend over an unknown. Without that
+         number every budget conversation runs on opinion. */
+      <g>
+        <circle cx="16" cy="8.5" r="2.1" fill="currentColor" stroke="none" />
+        <line x1="4.5" y1="16" x2="27.5" y2="16" />
+        <circle cx="16" cy="23.5" r="3.2" />
+      </g>
+    )
+  }
+</svg>
