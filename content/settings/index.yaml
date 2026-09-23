@@ -4,25 +4,30 @@ testimonials:
       Yann transformed our martech stack and used data insights to develop
       highly effective marketing campaigns. His efforts resulted in increased
       brand visibility and a 100% increase in lead generation performance over a
-      period of just 12 months. I'm confident that Yann will be an asset to any
-      organisation.
+      period of just 12 months.
     name: Debbie Mackenzie
     role: Managing Director
     company: Proactis Tenders
+    location: Scotland
+    logo: proactis
   - quote: >-
       Working with Yann was a turning point. He cut through the noise and gave
       us a clear strategy we could actually execute. Within three months we saw
       measurable results in both organic traffic and lead quality.
-    name: Stuart McKenzie
+    name: Chris Harvey
     role: CEO
     company: Viewport3
+    location: Aberdeen
+    logo: viewport3
   - quote: >-
       Yann doesn't do fluff. He came in, understood our business quickly, and
       delivered a positioning and SEO strategy that's already showing results.
       I'd recommend him to any SME serious about growth.
-    name: Colin Robertson
-    role: Operations Director
+    name: Claire Murray
+    role: Head of Business Development
     company: Arnlea Systems
+    location: Aberdeen
+    logo: arnlea
 faq:
   - q: Do you work with companies outside Aberdeen?
     a: >-

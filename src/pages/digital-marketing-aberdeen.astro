@@ -1,8 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import EdgeField from '../components/EdgeField.astro';
-import { testimonials, cases, services } from '../data/index';
+import { cases, services } from '../data/index';
+import { getSettings } from '../lib/keystatic';
 import ClientLogo from '../components/ClientLogo.astro';
+
+/* The page-specific FAQ below stays in this file — those questions are about
+   Aberdeen and belong to this page. The testimonials are the site's, so they
+   come from the one editable source. */
+const { testimonials } = await getSettings();
 
 const faq = [
   {

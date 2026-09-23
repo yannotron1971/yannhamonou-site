@@ -46,7 +46,12 @@ export default config({
   singletons: {
     settings: singleton({
       label: 'Site Settings',
-      path: 'content/settings',
+      /* The trailing slash is load-bearing. Without it Keystatic looks for a
+         file at content/settings.yaml, does not find one, and the reader
+         returns null with no error — which is why this singleton had never
+         been read by anything and its contents had drifted from the copies in
+         src/data. */
+      path: 'content/settings/',
       schema: {
         navPhone: fields.text({ label: 'Nav phone number' }),
         testimonials: fields.array(
@@ -55,6 +60,23 @@ export default config({
             name: fields.text({ label: 'Name' }),
             role: fields.text({ label: 'Role' }),
             company: fields.text({ label: 'Company' }),
+            location: fields.text({ label: 'Location' }),
+            /* The logo artwork carries per-file rendering rules — intrinsic
+               size, whether it inverts on dark, whether it has colour to keep.
+               Those belong with the file, so the editor picks which mark to
+               use and the code supplies how to draw it. */
+            logo: fields.select({
+              label: 'Client logo',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Arnlea', value: 'arnlea' },
+                { label: 'Viewport3', value: 'viewport3' },
+                { label: 'Bowtie Master', value: 'bowtiemaster' },
+                { label: 'Incident Insight', value: 'incidentInsight' },
+                { label: 'Proactis Tenders', value: 'proactis' },
+              ],
+              defaultValue: 'none',
+            }),
           }),
           { label: 'Testimonials', itemLabel: (p) => p.fields.name.value }
         ),

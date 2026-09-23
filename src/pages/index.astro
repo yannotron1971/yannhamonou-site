@@ -1,10 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProblemMark from '../components/ProblemMark.astro';
-import { reader } from '../lib/keystatic';
-import { services, cases, clients, numbers, testimonials, faq, problems } from '../data/index';
+import { reader, getSettings } from '../lib/keystatic';
+import { services, cases, clients, numbers, problems } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
 
+const { testimonials, faq } = await getSettings();
 const allPosts = await reader.collections.posts.all();
 const recentPosts = allPosts
   .sort((a, b) => {

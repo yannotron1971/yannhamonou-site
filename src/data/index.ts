@@ -337,48 +337,7 @@ export type Testimonial = {
   logo?: Logo;
 };
 
-export const testimonials: Testimonial[] = [
-  {
-    quote: 'Yann transformed our martech stack and used data insights to develop highly effective marketing campaigns. His efforts resulted in increased brand visibility and a 100% increase in lead generation performance over a period of just 12 months.',
-    name: 'Debbie Mackenzie',
-    role: 'Managing Director',
-    company: 'Proactis Tenders',
-    location: 'Scotland',
-    logo: logos.proactis,
-  },
-  {
-    quote: 'Working with Yann was a turning point. He cut through the noise and gave us a clear strategy we could actually execute. Within three months we saw measurable results in both organic traffic and lead quality.',
-    name: 'Chris Harvey',
-    role: 'CEO',
-    company: 'Viewport3',
-    location: 'Aberdeen',
-    logo: logos.viewport3,
-  },
-  {
-    quote: 'Yann doesn\'t do fluff. He came in, understood our business quickly, and delivered a positioning and SEO strategy that\'s already showing results. I\'d recommend him to any SME serious about growth.',
-    name: 'Claire Murray',
-    role: 'Head of Business Development',
-    company: 'Arnlea Systems',
-    location: 'Aberdeen',
-    logo: logos.arnlea,
-  },
-];
-
-export const faq = [
-  {
-    q: 'Do you work with companies outside Aberdeen?',
-    a: 'Yes — I work remotely with clients across Scotland and the rest of the UK. Most of my work is delivered online, so location isn\'t a barrier.',
-  },
-  {
-    q: 'What size of company do you typically work with?',
-    a: 'B2B SMEs with 5–100 employees, typically with an existing sales team but a marketing function that\'s under-resourced or under-performing.',
-  },
-  {
-    q: 'How does the free 30-minute strategy review work?',
-    a: 'We talk through your current situation, your biggest growth challenge, and where you\'re losing opportunities. I\'ll share what I\'d prioritise. No pitch, no agenda — just a useful conversation.',
-  },
-  {
-    q: 'Do you offer retainers or project-based work?',
-    a: 'Both. I offer monthly retainers for ongoing strategy and execution, and fixed-scope projects for specific deliverables like a positioning sprint or SEO audit.',
-  },
-];
+/* Testimonials and the FAQ moved to content/settings, which Keystatic edits
+   and src/lib/keystatic.ts reads. They lived here as well until the two copies
+   disagreed about who said what, which is the argument against keeping a
+   second one. The Testimonial type above is still the shape both sides use. */
