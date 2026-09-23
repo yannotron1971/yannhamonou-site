@@ -104,6 +104,8 @@ export async function getCases() {
       statSub: entry.statSub,
       summary: entry.summary,
       image: entry.image,
+      imageAlt: entry.imageAlt,
+      imageFocus: entry.imageFocus,
       logo: resolveLogo(entry.logo),
       challenge: entry.challenge,
       approach: [...entry.approach],

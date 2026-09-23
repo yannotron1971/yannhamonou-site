@@ -1833,6 +1833,16 @@ a:focus-visible .v4-client-logo {
    plainly that it is unfinished rather than looking like a broken image. */
 .edge-plate { margin: 0; }
 
+/* Originals are square and portrait; the page wants one ratio across the
+   three case studies, so the box fixes 16:9 and the crop focus decides which
+   part of the frame survives. */
+.edge-plate__img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
 .edge-plate__slot {
   aspect-ratio: 16 / 9;
   display: grid;

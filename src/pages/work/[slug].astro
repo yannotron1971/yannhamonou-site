@@ -115,17 +115,33 @@ const detail = c.challenge ? c : null;
   <section class="edge-block edge-block--paper">
     <div class="edge-wrap">
       <figure class="edge-plate">
-        <div
-          class="edge-plate__slot"
-          role="img"
-          aria-label={`Image pending for the ${c.client} case study`}
-        >
-          <span class="edge-plate__state">Image pending</span>
-          <span class="edge-plate__spec">{c.client} · 1600 × 900 min · greyscale or muted</span>
-        </div>
-        <figcaption class="edge-plate__cap">
-          {c.client} — {c.descriptor}. Caption to be written with the image.
-        </figcaption>
+        {
+          /* An image ships only once it has a description. Without one the
+             slot stays a placeholder rather than putting an undescribed
+             photograph in front of a screen reader. */
+          c.image && c.imageAlt ? (
+            <img
+              class="edge-plate__img"
+              src={c.image}
+              alt={c.imageAlt}
+              style={`object-position: ${c.imageFocus};`}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div
+              class="edge-plate__slot"
+              role="img"
+              aria-label={`Image pending for the ${c.client} case study`}
+            >
+              <span class="edge-plate__state">
+                {c.image ? 'Description pending' : 'Image pending'}
+              </span>
+              <span class="edge-plate__spec">{c.client} · 16:9 · dark ground, one lit subject</span>
+            </div>
+          )
+        }
+        <figcaption class="edge-plate__cap">{c.client} — {c.descriptor}</figcaption>
       </figure>
     </div>
   </section>

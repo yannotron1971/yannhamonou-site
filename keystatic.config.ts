@@ -89,6 +89,23 @@ export default config({
         statSub: fields.text({ label: 'Figure label' }),
         summary: fields.text({ label: 'Summary', multiline: true }),
         image: fields.text({ label: 'Image path (optional)' }),
+        /* An image that carries meaning needs a description. Left empty the
+           plate falls back to its placeholder rather than shipping an
+           undescribed photograph. */
+        imageAlt: fields.text({ label: 'Image description (alt text)', multiline: true }),
+        /* Square and portrait originals both crop to 16:9 here, so the case
+           studies sit in one ratio. This says which part survives. */
+        imageFocus: fields.select({
+          label: 'Crop focus',
+          options: [
+            { label: 'Centre', value: 'center' },
+            { label: 'Top', value: 'top' },
+            { label: 'Bottom', value: 'bottom' },
+            { label: 'Left', value: 'left' },
+            { label: 'Right', value: 'right' },
+          ],
+          defaultValue: 'center',
+        }),
         logo: fields.select({ label: 'Client logo',
               options: [
                 { label: 'None', value: 'none' },
