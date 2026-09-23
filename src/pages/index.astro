@@ -1,11 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProblemMark from '../components/ProblemMark.astro';
-import { reader, getSettings } from '../lib/keystatic';
-import { services, cases, clients, numbers, problems } from '../data/index';
+import { reader, getSettings, getHomepage, lines } from '../lib/keystatic';
+import { services, cases, clients } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
 
-const { testimonials, faq } = await getSettings();
+const { testimonials, faq, figures } = await getSettings();
+const home = await getHomepage();
+const { proposition, problems, results, servicesIntro, proof, faqIntro, journal, cta } = home;
 const allPosts = await reader.collections.posts.all();
 const recentPosts = allPosts
   .sort((a, b) => {
@@ -16,24 +18,22 @@ const recentPosts = allPosts
   .slice(0, 3);
 ---
 
-<Layout
-  title="Marketing Consultant Aberdeen — Yann Hamonou"
-  description="B2B marketing consultant and digital marketing specialist based in Aberdeen, Scotland. Strategy, SEO, paid media, and websites that generate qualified leads for Scottish SMEs. Free 30-min review."
-  field
->
+<Layout title={home.metaTitle} description={home.metaDescription} field>
   <!-- ═══ HERO — one line, and as little else as the page can bear ═══ -->
   <section class="edge-hero">
     <div class="edge-wrap">
-      <p class="edge-kicker">Yann Hamonou — B2B Marketing</p>
+      <p class="edge-kicker">{home.hero.kicker}</p>
 
       <h1 class="edge-h1">
-        Marketing from<br />the edge.
-        <span class="edge-h1__sub">Marketing Consultant · Aberdeen &amp; Aberdeenshire</span>
+        {lines(home.hero.headline).map((line, i) => (
+          <>{i > 0 && <br />}{line}</>
+        ))}
+        <span class="edge-h1__sub">{home.hero.sub}</span>
       </h1>
 
       <div class="edge-hero__foot">
-        <a href="/contact" class="edge-btn">Book a free 30-min review</a>
-        <p class="edge-hero__where">Stonehaven · Aberdeenshire · Scotland</p>
+        <a href="/contact" class="edge-btn">{home.hero.ctaLabel}</a>
+        <p class="edge-hero__where">{home.hero.where}</p>
       </div>
     </div>
   </section>
@@ -43,14 +43,10 @@ const recentPosts = allPosts
   <!-- ═══ PROPOSITION ═══ -->
   <section class="edge-block edge-block--full edge-block--white">
     <div class="edge-wrap edge-lede">
-      <p class="edge-label">The proposition</p>
-      <p class="edge-lede__text">
-        Strategy, SEO, and paid media for B2B businesses across Aberdeen,
-        Aberdeenshire, and Scotland. Twenty years of it. Pointed at qualified
-        leads, not vanity metrics.
-      </p>
+      <p class="edge-label">{proposition.label}</p>
+      <p class="edge-lede__text">{proposition.text}</p>
       <div class="edge-figures">
-        {numbers.map(n => (
+        {figures.map(n => (
           <div class="edge-figure">
             <span class="edge-figure__num">{n.num}</span>
             <span class="edge-figure__label">{n.label}</span>
@@ -64,11 +60,11 @@ const recentPosts = allPosts
   <section class="edge-block edge-block--full edge-block--dark edge-block--slate" id="problem">
     <div class="edge-wrap">
       <div class="edge-head">
-        <p class="edge-label">Sound familiar</p>
-        <h2 class="edge-h2">Where it goes wrong</h2>
+        <p class="edge-label">{problems.label}</p>
+        <h2 class="edge-h2">{problems.heading}</h2>
       </div>
       <ul class="edge-problems" role="list">
-        {problems.map(p => (
+        {problems.items.map(p => (
           <li>
             <ProblemMark name={p.mark} />
             <p class="edge-problem__symptom">{p.symptom}</p>
@@ -82,7 +78,7 @@ const recentPosts = allPosts
   <!-- ═══ CLIENTS ═══ -->
   <section class="edge-block edge-block--full edge-block--paper">
     <div class="edge-wrap">
-      <p class="edge-label">Current projects</p>
+      <p class="edge-label">{home.clientsLabel}</p>
       <ul class="edge-clients" role="list">
         {clients.map(c => (
           <li>
@@ -97,8 +93,8 @@ const recentPosts = allPosts
   <section class="edge-block edge-block--full edge-block--dark edge-block--ink" id="work">
     <div class="edge-wrap">
       <div class="edge-head">
-        <p class="edge-label">Selected work</p>
-        <h2 class="edge-h2">Results</h2>
+        <p class="edge-label">{results.label}</p>
+        <h2 class="edge-h2">{results.heading}</h2>
       </div>
       <ul class="edge-rows" role="list">
         {cases.map(c => (
@@ -128,7 +124,7 @@ const recentPosts = allPosts
           </li>
         ))}
       </ul>
-      <a href="/work" class="edge-more">All work →</a>
+      <a href="/work" class="edge-more">{results.moreLabel}</a>
     </div>
   </section>
 
@@ -136,8 +132,8 @@ const recentPosts = allPosts
   <section class="edge-block edge-block--full edge-block--mist" id="services">
     <div class="edge-wrap">
       <div class="edge-head">
-        <p class="edge-label">What I do</p>
-        <h2 class="edge-h2">Services</h2>
+        <p class="edge-label">{servicesIntro.label}</p>
+        <h2 class="edge-h2">{servicesIntro.heading}</h2>
       </div>
       <ul class="edge-rows" role="list">
         {services.map(s => (
@@ -157,8 +153,8 @@ const recentPosts = allPosts
   <section class="edge-block edge-block--full edge-block--dark edge-block--slate" id="proof">
     <div class="edge-wrap">
       <div class="edge-head">
-        <p class="edge-label">What clients say</p>
-        <h2 class="edge-h2">Proof</h2>
+        <p class="edge-label">{proof.label}</p>
+        <h2 class="edge-h2">{proof.heading}</h2>
       </div>
       <div class="edge-quotes">
         {testimonials.map(t => (
@@ -180,8 +176,8 @@ const recentPosts = allPosts
   <section class="edge-block edge-block--full edge-block--sand" id="faq">
     <div class="edge-wrap edge-wrap--narrow">
       <div class="edge-head">
-        <p class="edge-label">Common questions</p>
-        <h2 class="edge-h2">FAQ</h2>
+        <p class="edge-label">{faqIntro.label}</p>
+        <h2 class="edge-h2">{faqIntro.heading}</h2>
       </div>
       <div class="edge-faq">
         {faq.map(item => (
@@ -202,8 +198,8 @@ const recentPosts = allPosts
     <section class="edge-block edge-block--full edge-block--bone" id="journal">
       <div class="edge-wrap">
         <div class="edge-head">
-          <p class="edge-label">From the journal</p>
-          <h2 class="edge-h2">Insights</h2>
+          <p class="edge-label">{journal.label}</p>
+          <h2 class="edge-h2">{journal.heading}</h2>
         </div>
         <ul class="edge-rows" role="list">
           {recentPosts.map(p => (
@@ -215,7 +211,7 @@ const recentPosts = allPosts
             </li>
           ))}
         </ul>
-        <a href="/journal" class="edge-more">All writing →</a>
+        <a href="/journal" class="edge-more">{journal.moreLabel}</a>
       </div>
     </section>
   )}
@@ -223,12 +219,13 @@ const recentPosts = allPosts
   <!-- ═══ CTA ═══ -->
   <section class="edge-block edge-block--full edge-block--dark edge-block--pitch edge-cta">
     <div class="edge-wrap edge-wrap--narrow">
-      <h2 class="edge-h2 edge-cta__h">Let's make your<br />marketing work.</h2>
-      <p class="edge-cta__p">
-        A free 30-minute review. No pitch — an honest look at where your
-        biggest marketing opportunity is.
-      </p>
-      <a href="/contact" class="edge-btn">Book the free review →</a>
+      <h2 class="edge-h2 edge-cta__h">
+        {lines(cta.heading).map((line, i) => (
+          <>{i > 0 && <br />}{line}</>
+        ))}
+      </h2>
+      <p class="edge-cta__p">{cta.body}</p>
+      <a href="/contact" class="edge-btn">{cta.buttonLabel}</a>
     </div>
   </section>
   </div>

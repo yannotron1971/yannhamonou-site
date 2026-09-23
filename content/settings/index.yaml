@@ -1,4 +1,13 @@
 navPhone: "+44 7853 455 816"
+figures:
+  - num: 20+
+    label: Years B2B experience
+  - num: 100%
+    label: Lead generation growth
+  - num: "#1"
+    label: Google rank in 4 weeks
+  - num: 100+
+    label: Qualified leads/month
 testimonials:
   - quote: >-
       Yann transformed our martech stack and used data insights to develop

@@ -1,0 +1,72 @@
+metaTitle: Marketing Consultant Aberdeen — Yann Hamonou
+metaDescription: >-
+  B2B marketing consultant and digital marketing specialist based in Aberdeen,
+  Scotland. Strategy, SEO, paid media, and websites that generate qualified
+  leads for Scottish SMEs. Free 30-min review.
+hero:
+  kicker: Yann Hamonou — B2B Marketing
+  headline: |-
+    Marketing from
+    the edge.
+  sub: Marketing Consultant · Aberdeen & Aberdeenshire
+  ctaLabel: Book a free 30-min review
+  where: Stonehaven · Aberdeenshire · Scotland
+proposition:
+  label: The proposition
+  text: >-
+    Strategy, SEO, and paid media for B2B businesses across Aberdeen,
+    Aberdeenshire, and Scotland. Twenty years of it. Pointed at qualified leads,
+    not vanity metrics.
+problems:
+  label: Sound familiar
+  heading: Where it goes wrong
+  items:
+    - symptom: You cannot tell which half of it is working
+      cost: >-
+        The reports arrive full of impressions and sessions, and none of it
+        reconciles with the enquiries that actually landed. So the budget stays
+        where it is, because moving it is a guess either way.
+      mark: split
+    - symptom: Leads arrive by referral, or they do not arrive
+      cost: >-
+        A good month follows a good conversation. A quiet one follows nothing
+        you can point at. That makes hiring, forecasting and turning work down a
+        matter of nerve rather than evidence.
+      mark: spike
+    - symptom: Competitors you are better than keep coming up first
+      cost: >-
+        They are not winning on the work. They are winning because the buyer
+        found them at the moment they were looking, and never got as far as your
+        name.
+      mark: rank
+    - symptom: Nobody can say what a lead costs you
+      cost: >-
+        Without that number every budget conversation runs on opinion, and
+        marketing becomes the easiest line to cut when the year gets tight.
+      mark: ratio
+clientsLabel: Current projects
+results:
+  label: Selected work
+  heading: Results
+  moreLabel: All work →
+servicesIntro:
+  label: What I do
+  heading: Services
+proof:
+  label: What clients say
+  heading: Proof
+faqIntro:
+  label: Common questions
+  heading: FAQ
+journal:
+  label: From the journal
+  heading: Insights
+  moreLabel: All writing →
+cta:
+  heading: |-
+    Let's make your
+    marketing work.
+  body: >-
+    A free 30-minute review. No pitch — an honest look at where your biggest
+    marketing opportunity is.
+  buttonLabel: Book the free review →

@@ -30,32 +30,6 @@ export const logos = {
   proactis:        { src: '/logos/proactis-tenders.svg',  w: 662,  h: 112, lightInk: true, site: 'https://www.tendersdirect.co.uk/' },
 } satisfies Record<string, Logo>;
 
-/* The four symptoms that bring an SME here. Written as things you would
-   recognise in your own month rather than problems in the abstract, and each
-   one paired with what it costs — a symptom nobody has priced is easy to live
-   with. */
-export const problems = [
-  {
-    symptom: 'You cannot tell which half of it is working',
-    mark: 'split',
-    cost: 'The reports arrive full of impressions and sessions, and none of it reconciles with the enquiries that actually landed. So the budget stays where it is, because moving it is a guess either way.',
-  },
-  {
-    symptom: 'Leads arrive by referral, or they do not arrive',
-    mark: 'spike',
-    cost: 'A good month follows a good conversation. A quiet one follows nothing you can point at. That makes hiring, forecasting and turning work down a matter of nerve rather than evidence.',
-  },
-  {
-    symptom: 'Competitors you are better than keep coming up first',
-    mark: 'rank',
-    cost: 'They are not winning on the work. They are winning because the buyer found them at the moment they were looking, and never got as far as your name.',
-  },
-  {
-    symptom: 'Nobody can say what a lead costs you',
-    mark: 'ratio',
-    cost: 'Without that number every budget conversation runs on opinion, and marketing becomes the easiest line to cut when the year gets tight.',
-  },
-];
 
 export const services = [
   {
@@ -314,12 +288,6 @@ export const ticker = [
   '100+ qualified leads/month',
 ];
 
-export const numbers = [
-  { num: '20+', label: 'Years B2B experience' },
-  { num: '100%', label: 'Lead generation growth' },
-  { num: '#1', label: 'Google rank in 4 weeks' },
-  { num: '100+', label: 'Qualified leads/month' },
-];
 
 export const clients = [
   { name: 'Arnlea',           ...logos.arnlea },
@@ -337,7 +305,12 @@ export type Testimonial = {
   logo?: Logo;
 };
 
-/* Testimonials and the FAQ moved to content/settings, which Keystatic edits
+/* The homepage's own copy — its symptoms and its figures — moved to
+   content/homepage, which Keystatic edits. What is left here is what several
+   pages share: the logos and their drawing rules, the cases, the services.
+   Those want to be collections next, not fields on one page's record.
+
+   Testimonials and the FAQ moved to content/settings, which Keystatic edits
    and src/lib/keystatic.ts reads. They lived here as well until the two copies
    disagreed about who said what, which is the argument against keeping a
    second one. The Testimonial type above is still the shape both sides use. */

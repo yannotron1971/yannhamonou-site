@@ -21,7 +21,7 @@ import { logos, type Testimonial } from '../data/index';
 
 export async function getSettings() {
   const settings = await reader.singletons.settings.read();
-  if (!settings) return { navPhone: '', testimonials: [] as Testimonial[], faq: [] };
+  if (!settings) throw new Error('content/settings/index.yaml could not be read.');
 
   const testimonials: Testimonial[] = settings.testimonials.map((t) => ({
     quote: t.quote,
@@ -34,7 +34,24 @@ export async function getSettings() {
 
   return {
     navPhone: settings.navPhone,
+    figures: settings.figures.map((f) => ({ num: f.num, label: f.label })),
     testimonials,
     faq: settings.faq.map((f) => ({ q: f.q, a: f.a })),
   };
 }
+
+/* ── Homepage ──
+   The page's own words, so the argument can be edited by the person making
+   it. Cases, services and client logos stay in src/data: those are entities
+   that several pages share, and they want to be collections rather than
+   fields on one page's record. */
+export async function getHomepage() {
+  const home = await reader.singletons.homepage.read();
+  if (!home) throw new Error('content/homepage/index.yaml could not be read — the homepage has no copy without it.');
+  return home;
+}
+
+/* Headlines are written with their line breaks, because where they break is
+   part of how they are set. Returns the lines so the template can put the
+   <br> in itself — nothing here injects markup from the CMS. */
+export const lines = (text: string) => text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);

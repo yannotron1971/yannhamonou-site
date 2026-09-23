@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { numbers } from '../data/index';
+import { getSettings } from '../lib/keystatic';
+
+const { figures: numbers } = await getSettings();
 import PageHero from '../components/PageHero.astro';
 ---
 
