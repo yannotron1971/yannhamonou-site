@@ -248,7 +248,12 @@ body.sheet-active .v4-nav {
   --v4-ink-mute: #55585a;
   --v4-ink-dim: #7a7d7f;
   --v4-line-soft: rgba(0, 0, 0, 0.09);
-  background: rgba(255 255 255 / 0.78);
+  /* 0.78 with the blur switched off let a 104px heading read straight through
+     the bar — crisp, not frosted, so it looked like a mistake rather than a
+     layer. Near-opaque instead. Every ground on the sheet is within a few
+     points of white (paper #f3f2ee, mist #eceeee, sand #e8e4dc, bone #f7f6f3),
+     so the seam this leaves is not visible while the read-through was. */
+  background: rgba(255 255 255 / 0.96);
   color: #151515;
 }
 
@@ -264,14 +269,19 @@ body.sheet-active .v4-nav {
   width: 100%;
 }
 
+/* The bar now holds the wordmark and the toggle and nothing else, so the
+   wordmark is the only voice in it — and it was the only 700 weight on a site
+   whose display face runs at 300 and whose labels run at 400. Bold tracked
+   mono read as a logo bolted to a document. At 400 in the display face it is
+   the same voice as the page, quietly. */
 .v4-nav__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--v4-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  gap: 9px;
+  font-family: var(--v4-display);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   color: var(--v4-ink);
   flex-shrink: 0;
 }
