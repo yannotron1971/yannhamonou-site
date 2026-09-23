@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { services } from '../../data/index';
+import { getServices } from '../../lib/keystatic';
+
+const services = await getServices();
 import PageHero from '../../components/PageHero.astro';
 ---
 

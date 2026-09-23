@@ -1,7 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import EdgeField from '../../components/EdgeField.astro';
-import { cases } from '../../data/index';
+import { getCases } from '../../lib/keystatic';
+
+const cases = await getCases();
 ---
 
 <Layout

@@ -1,7 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import EdgeField from '../components/EdgeField.astro';
-import { cases, services } from '../data/index';
+import { getCases, getServices } from '../lib/keystatic';
+
+const cases = await getCases();
+const services = await getServices();
 import { getSettings } from '../lib/keystatic';
 import ClientLogo from '../components/ClientLogo.astro';
 

@@ -1,10 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import EdgeField from '../../components/EdgeField.astro';
-import { cases } from '../../data/index';
+import { getCases } from '../../lib/keystatic';
 import ClientLogo from '../../components/ClientLogo.astro';
 
-export function getStaticPaths() {
+/* Fetched inside getStaticPaths — Astro calls it before the module's
+   top-level await settles. */
+export async function getStaticPaths() {
+  const cases = await getCases();
   return cases.map(c => ({
     params: { slug: c.slug },
     props: { case: c },
@@ -13,42 +16,10 @@ export function getStaticPaths() {
 
 const { case: c } = Astro.props;
 
-const details: Record<string, { challenge: string; approach: string[]; results: string[] }> = {
-  arnlea: {
-    challenge: 'Arnlea Systems, a specialist supplier of safety-critical industrial equipment, had almost no organic search presence despite 30+ years of trading. They were losing leads to newer competitors who had invested in digital and needed to establish authority in a competitive technical niche.',
-    approach: [
-      'Technical SEO audit — fixed crawl errors, consolidated duplicate pages, improved site speed to pass Core Web Vitals',
-      'Keyword and intent mapping — identified 40+ target terms across product categories and buyer intent stages',
-      'Content strategy — created authoritative product pages, technical guides, and local landing pages for Aberdeen and North Sea market',
-      'Local SEO — fully optimised Google Business Profile, Bing Places, and built consistent NAP citations',
-      'GEO setup — structured data and FAQ schema to capture AI-powered search visibility',
-    ],
-    results: [
-      '#3 Google ranking for primary commercial terms within 4 weeks of launch',
-      '500% increase in organic traffic within 6 months',
-      '100+ qualified organic visits per month, up from near-zero',
-      'First-page visibility for 25+ target keywords',
-    ],
-  },
-  viewport3: {
-    challenge: 'Viewport3 does subsea photogrammetry: ROV and diver-mounted cameras producing sub-millimetric 3D scans of underwater assets. Buyers were comparing them against generic 3D scanning vendors on price, because the category they were being shopped in did not describe what they actually deliver. The sales cycle ran long while prospects worked out the difference for themselves.',
-    approach: [
-      'Positioning sprint — customer interviews first, to find what their best clients actually valued and the words they used for it',
-      'Category design — reframed from "photogrammetry vendor" to "dimensional assurance partner", with seven provable differentiators behind it',
-      'Messaging framework — claims, proof points and objection handling, drawn from how those customers described the service',
-      'Website messaging refresh — rewrote key landing pages to lead with the repositioned narrative',
-      'Demand generation strategy — defined the content and outreach channels most likely to reach their ideal buyer profile',
-    ],
-    results: [
-      '+38% increase in qualified demo requests within 90 days',
-      'Shortened average sales cycle from discovery to proposal stage',
-      'Consistent positioning language adopted across sales, marketing, and leadership',
-      'Clear differentiation from generic competitors in prospect conversations',
-    ],
-  },
-};
 
-const detail = details[c.slug];
+/* The long-form body now travels with the case study itself rather than
+   being looked up in a parallel record keyed by slug. */
+const detail = c.challenge ? c : null;
 ---
 
 <Layout

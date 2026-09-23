@@ -1,0 +1,91 @@
+title: Web & CRO
+num: "05"
+desc: Websites that convert — built on Webflow, fast, and built to rank.
+long: >-
+  Your website is your best salesperson. I design and build conversion-focused
+  websites that load fast, rank well, and guide visitors toward a single goal.
+  Webflow as the platform means you stay in control without needing a
+  developer for every change.
+headline: Your website should be generating leads — not just existing online
+intro: >-
+  Most SME websites describe the business but don't convert visitors into
+  enquiries. They load slowly, bury the value proposition, and send everyone
+  to the same contact page regardless of what they were looking for. I design
+  and build websites that are conversion-focused from the first wireframe —
+  built on Webflow so you stay in control without needing a developer for
+  every change.
+why: >-
+  A website that doesn't convert is a leaky bucket. You can spend whatever you
+  like on SEO and paid media, but if the site doesn't guide visitors toward a
+  clear next step — with the right message, at the right moment — you're
+  paying to fill a bucket with a hole in it. CRO fixes the hole before you
+  pour more traffic in.
+process:
+  - num: "01"
+    title: Audit and strategy
+    body: >-
+      I start with a conversion audit of your existing site: where visitors
+      are dropping off, which pages have the highest exit rates, and what's
+      stopping people from making contact. This shapes the build brief. We
+      also confirm the technical SEO requirements — page architecture, URL
+      structure, site speed targets — so the new site doesn't sacrifice search
+      visibility for design.
+  - num: "02"
+    title: Design and build
+    body: >-
+      Built on Webflow, with technical SEO embedded from the start: semantic
+      HTML, Core Web Vitals optimisation, structured data, and clean canonical
+      structure. Every page is built around a single conversion goal. Landing
+      pages for paid campaigns get their own variants, tested against each
+      other to improve conversion rate over time.
+  - num: "03"
+    title: Connect and hand over
+    body: >-
+      Integration with your existing tools: Google Analytics, Search Console,
+      CRM, email platform, live chat. I train you on the Webflow CMS so you
+      can update content without touching code. Post-launch, I monitor Core
+      Web Vitals and conversion rates and flag anything that needs attention.
+deliverables:
+  - Conversion audit of existing site
+  - UX and information architecture recommendations
+  - Webflow design and build
+  - Technical SEO embedded from build
+  - CMS setup and team training
+  - Core Web Vitals optimisation
+  - Martech integration (GA4, CRM, email)
+caseNote: ""
+proof:
+  quote: >-
+    Yann transformed our martech stack and used data insights to develop
+    highly effective marketing campaigns. His efforts resulted in increased
+    brand visibility and a 100% increase in lead generation performance.
+  name: Debbie Mackenzie
+  role: Managing Director
+  company: Proactis Tenders
+  logo: proactis
+faq:
+  - q: Why Webflow and not WordPress?
+    a: >-
+      Webflow gives you a visual CMS that's fast to build, easy for
+      non-developers to update, and produces clean, performant code without a
+      plugin ecosystem to maintain. It's also significantly faster than a
+      typical WordPress install out of the box. For clients who have a
+      specific reason to stay on WordPress, I can work with that too.
+  - q: Do you do design or just development?
+    a: >-
+      Both. I handle the full process from information architecture through
+      visual design to the live Webflow build. If you have an existing brand
+      identity I'll work within it; if not, I'll develop the visual direction
+      as part of the project.
+  - q: Can you improve our existing site without rebuilding it?
+    a: >-
+      Often yes. A CRO audit can identify the highest-impact changes —
+      sometimes a headline rewrite and a clearer CTA on the homepage moves the
+      needle more than a full rebuild. I'll tell you honestly whether an
+      audit-and-optimise or a rebuild is the right answer for your situation.
+  - q: What does a website project cost?
+    a: >-
+      It depends on the number of pages, whether the CMS needs to be editable
+      by your team, and how much of the content exists already. A four-page
+      marketing site and a fifty-page site with landing-page variants are
+      different projects. I scope it after the free 30-minute review.

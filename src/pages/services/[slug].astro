@@ -1,21 +1,24 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import EdgeField from '../../components/EdgeField.astro';
-import { services } from '../../data/index';
+import { getServices } from '../../lib/keystatic';
 import ClientLogo from '../../components/ClientLogo.astro';
 
-export function getStaticPaths() {
+/* The fetch belongs inside getStaticPaths: Astro calls it to discover the
+   routes before the module's top-level await has settled, so a const above
+   it is still in its temporal dead zone when the function runs. */
+export async function getStaticPaths() {
+  const services = await getServices();
   // seo-aberdeen has a dedicated page at services/seo-aberdeen.astro
   return services
     .filter(s => s.slug !== 'seo-aberdeen')
     .map(s => ({
       params: { slug: s.slug },
-      props: { service: s },
+      props: { service: s, otherServices: services.filter(o => o.slug !== s.slug) },
     }));
 }
 
-const { service } = Astro.props;
-const otherServices = services.filter(s => s.slug !== service.slug);
+const { service, otherServices } = Astro.props;
 
 const s = service as any;
 ---

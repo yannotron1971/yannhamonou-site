@@ -55,3 +55,62 @@ export async function getHomepage() {
    part of how they are set. Returns the lines so the template can put the
    <br> in itself — nothing here injects markup from the CMS. */
 export const lines = (text: string) => text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+
+/* ── Services and case studies ──
+   Entities with their own URLs, listed by several pages. The reader returns
+   them in the shape the templates already expected, with `slug` taken from
+   the folder name and `logo` resolved from its key, so the pages did not have
+   to learn a new vocabulary to stop being hard-coded.
+
+   Order is explicit — `num` for services, newest-year-first for work —
+   because a directory listing is alphabetical and neither of these reads in
+   alphabetical order. */
+const resolveLogo = (key: string | null | undefined) =>
+  key && key !== 'none' ? logos[key as keyof typeof logos] : undefined;
+
+export async function getServices() {
+  const all = await reader.collections.services.all();
+  return all
+    .map(({ slug, entry }) => ({
+      slug,
+      num: entry.num,
+      title: entry.title,
+      desc: entry.desc,
+      long: entry.long,
+      headline: entry.headline,
+      intro: entry.intro,
+      why: entry.why,
+      process: entry.process.map((p) => ({ num: p.num, title: p.title, body: p.body })),
+      deliverables: [...entry.deliverables],
+      caseNote: entry.caseNote,
+      proof: entry.proof?.name
+        ? { ...entry.proof, logo: resolveLogo(entry.proof.logo) }
+        : undefined,
+      faq: entry.faq.map((f) => ({ q: f.q, a: f.a })),
+    }))
+    .sort((a, b) => a.num.localeCompare(b.num));
+}
+
+export async function getCases() {
+  const all = await reader.collections.work.all();
+  return all
+    .map(({ slug, entry }) => ({
+      slug,
+      client: entry.client,
+      order: entry.order,
+      year: entry.year,
+      descriptor: entry.descriptor,
+      stat: entry.stat,
+      statSub: entry.statSub,
+      summary: entry.summary,
+      image: entry.image,
+      logo: resolveLogo(entry.logo),
+      challenge: entry.challenge,
+      approach: [...entry.approach],
+      results: [...entry.results],
+    }))
+    .sort((a, b) => a.order - b.order);
+}
+
+export type Service = Awaited<ReturnType<typeof getServices>>[number];
+export type Case = Awaited<ReturnType<typeof getCases>>[number];

@@ -1,7 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import EdgeField from '../../components/EdgeField.astro';
-import { services, logos } from '../../data/index';
+import { logos } from '../../data/index';
+import { getServices } from '../../lib/keystatic';
+
+const services = await getServices();
 import ClientLogo from '../../components/ClientLogo.astro';
 
 const service = services.find(s => s.slug === 'seo-aberdeen')!;

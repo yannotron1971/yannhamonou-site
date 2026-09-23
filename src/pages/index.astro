@@ -1,12 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProblemMark from '../components/ProblemMark.astro';
-import { reader, getSettings, getHomepage, lines } from '../lib/keystatic';
-import { services, cases, clients } from '../data/index';
+import { reader, getSettings, getHomepage, getServices, getCases, lines } from '../lib/keystatic';
+import { clients } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
 
 const { testimonials, faq, figures } = await getSettings();
 const home = await getHomepage();
+const services = await getServices();
+const cases = await getCases();
 const { proposition, problems, results, servicesIntro, proof, faqIntro, journal, cta } = home;
 const allPosts = await reader.collections.posts.all();
 const recentPosts = allPosts

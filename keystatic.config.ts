@@ -16,6 +16,99 @@ export default config({
   },
 
   collections: {
+    /* Services and case studies are entities, not page copy: each one has its
+       own URL, and several pages list them. The slug is the folder name, so
+       renaming an entry in the UI would change its URL — which is why the
+       slug field is the one thing here that is not free text. */
+    services: collection({
+      label: 'Services',
+      slugField: 'title',
+      path: 'content/services/*/',
+      format: { data: 'yaml' },
+      schema: {
+        title: fields.slug({ name: { label: 'Title' }, slug: { label: 'URL segment' } }),
+        num: fields.text({ label: 'Number (01–06)' }),
+        desc: fields.text({ label: 'One-line description', multiline: true }),
+        long: fields.text({ label: 'Longer description', multiline: true }),
+        headline: fields.text({ label: 'Page headline', multiline: true }),
+        intro: fields.text({ label: 'Intro', multiline: true }),
+        why: fields.text({ label: 'Why it matters', multiline: true }),
+        process: fields.array(
+          fields.object({
+            num: fields.text({ label: 'Step number' }),
+            title: fields.text({ label: 'Step title' }),
+            body: fields.text({ label: 'Step body', multiline: true }),
+          }),
+          { label: 'Process', itemLabel: (p) => `${p.fields.num.value} ${p.fields.title.value}` }
+        ),
+        deliverables: fields.array(fields.text({ label: 'Deliverable' }), {
+          label: 'Deliverables',
+          itemLabel: (p) => p.value,
+        }),
+        caseNote: fields.text({ label: 'Case note', multiline: true }),
+        proof: fields.object({
+          quote: fields.text({ label: 'Quote', multiline: true }),
+          name: fields.text({ label: 'Name' }),
+          role: fields.text({ label: 'Role' }),
+          company: fields.text({ label: 'Company' }),
+          logo: fields.select({ label: 'Client logo',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Arnlea', value: 'arnlea' },
+                { label: 'Viewport3', value: 'viewport3' },
+                { label: 'Bowtie Master', value: 'bowtiemaster' },
+                { label: 'Incident Insight', value: 'incidentInsight' },
+                { label: 'Proactis Tenders', value: 'proactis' },
+              ],
+            defaultValue: 'none' }),
+        }, { label: 'Proof quote' }),
+        faq: fields.array(
+          fields.object({
+            q: fields.text({ label: 'Question' }),
+            a: fields.text({ label: 'Answer', multiline: true }),
+          }),
+          { label: 'FAQ', itemLabel: (p) => p.fields.q.value }
+        ),
+      },
+    }),
+
+    work: collection({
+      label: 'Case studies',
+      slugField: 'client',
+      path: 'content/work/*/',
+      format: { data: 'yaml' },
+      schema: {
+        client: fields.slug({ name: { label: 'Client' }, slug: { label: 'URL segment' } }),
+        /* Explicit, because two of these share a year and a folder listing is
+           alphabetical — which silently reordered the work page when these
+           stopped being an array. */
+        order: fields.integer({ label: 'Order', defaultValue: 1 }),
+        year: fields.text({ label: 'Year' }),
+        descriptor: fields.text({ label: 'What the work was' }),
+        stat: fields.text({ label: 'Headline figure' }),
+        statSub: fields.text({ label: 'Figure label' }),
+        summary: fields.text({ label: 'Summary', multiline: true }),
+        image: fields.text({ label: 'Image path (optional)' }),
+        logo: fields.select({ label: 'Client logo',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Arnlea', value: 'arnlea' },
+                { label: 'Viewport3', value: 'viewport3' },
+                { label: 'Bowtie Master', value: 'bowtiemaster' },
+                { label: 'Incident Insight', value: 'incidentInsight' },
+                { label: 'Proactis Tenders', value: 'proactis' },
+              ],
+          defaultValue: 'none' }),
+        challenge: fields.text({ label: 'The challenge', multiline: true }),
+        approach: fields.array(fields.text({ label: 'Step' }), {
+          label: 'The approach', itemLabel: (p) => p.value,
+        }),
+        results: fields.array(fields.text({ label: 'Result' }), {
+          label: 'The results', itemLabel: (p) => p.value,
+        }),
+      },
+    }),
+
     posts: collection({
       label: 'Journal',
       slugField: 'title',
