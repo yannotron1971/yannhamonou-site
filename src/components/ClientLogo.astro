@@ -11,6 +11,11 @@
  * the link and once for the image inside it. When it doesn't link, the alt
  * text carries the name — unless the surrounding markup already says it, which
  * is what `decorative` is for.
+ *
+ * A logo carrying `splitAt` is drawn twice, each copy clipped to one half of
+ * the artwork, so a lockup whose mark and wordmark are different inks can
+ * treat them differently. Only the visible half carries the alt text; the
+ * overlay is hidden from assistive tech, or the company is announced twice.
  */
 import type { Logo } from '../data/index';
 
@@ -42,37 +47,63 @@ const imgClass = [
 
 /* Optical scale rides along with whatever the caller passed. */
 const imgStyle = [style, logo.scale ? `--logo-scale:${logo.scale}` : ''].filter(Boolean).join(';');
+
+/* When the mark links, the anchor carries the name and the artwork goes
+   decorative; otherwise the alt text does the work. */
+const alt = logo.site ? '' : decorative ? '' : name;
+
+/* Fragment as a dynamic tag renders no element, so the unlinked case stays
+   exactly the markup it was before the link existed. */
+const Wrapper = logo.site ? 'a' : Fragment;
+const wrapperProps = logo.site
+  ? {
+      href: logo.site,
+      class: 'client-logo-link',
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      'aria-label': `${name} — visit website, opens in a new tab`,
+    }
+  : {};
+
+const cut = logo.splitAt ? `${(logo.splitAt * 100).toFixed(4)}%` : '';
 ---
 
-{logo.site ? (
-  <a
-    href={logo.site}
-    class="client-logo-link"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={`${name} — visit website, opens in a new tab`}
-  >
+<Wrapper {...wrapperProps}>
+  {logo.splitAt ? (
+    <span class="logo-split" style={imgStyle}>
+      {/* The wordmark stays in flow and sizes the wrapper. */}
+      <img
+        src={logo.src}
+        alt={alt}
+        width={logo.w}
+        height={logo.h}
+        class={`${imgClass} logo-split__word`}
+        style={`--logo-cut:${cut}`}
+        loading={loading}
+      />
+      <img
+        src={logo.src}
+        alt=""
+        aria-hidden="true"
+        width={logo.w}
+        height={logo.h}
+        class={`${imgClass} logo-split__mark`}
+        style={`--logo-cut:${cut}`}
+        loading={loading}
+      />
+    </span>
+  ) : (
     <img
       src={logo.src}
-      alt=""
+      alt={alt}
       width={logo.w}
       height={logo.h}
       class={imgClass}
       style={imgStyle}
       loading={loading}
     />
-  </a>
-) : (
-  <img
-    src={logo.src}
-    alt={decorative ? '' : name}
-    width={logo.w}
-    height={logo.h}
-    class={imgClass}
-    style={imgStyle}
-    loading={loading}
-  />
-)}
+  )}
+</Wrapper>
 
 <style is:global>
   /* Inline-flex so the anchor takes the mark's own box and changes no layout
@@ -87,5 +118,23 @@ const imgStyle = [style, logo.scale ? `--logo-scale:${logo.scale}` : ''].filter(
   .client-logo-link:hover img,
   .client-logo-link:focus-visible img {
     opacity: 1;
+  }
+
+  /* Two copies of one file, clipped either side of --logo-cut. The wordmark
+     half holds the box; the mark half is laid over it at the same size, so
+     the two always agree however the placement sizes them. */
+  .logo-split {
+    position: relative;
+    display: inline-block;
+  }
+  .logo-split__word {
+    clip-path: inset(0 0 0 var(--logo-cut));
+  }
+  .logo-split__mark {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    clip-path: inset(0 calc(100% - var(--logo-cut)) 0 0);
   }
 </style>

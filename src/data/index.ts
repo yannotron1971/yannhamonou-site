@@ -10,14 +10,24 @@
    back to on hover, so it lifts into it instead of staying a silhouette.
    `scale` corrects optical size. Marks are matched on height, which works
    until one of them is a stacked lockup: at the same height as a 5:1 wordmark
-   it reads as half the size, because it is. */
-export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string; colourOnDark?: boolean; scale?: number };
+   it reads as half the size, because it is.
+   `splitAt` is for lockups whose mark and wordmark are drawn in different
+   inks, where one filter cannot serve both. It is the fraction of the width
+   where the mark ends, and it makes the component render the artwork as two
+   clipped layers so each half can be treated on its own. */
+export type Logo = { src: string; w: number; h: number; darkInvert?: boolean; lightInk?: boolean; site?: string; colourOnDark?: boolean; scale?: number; splitAt?: number };
 
 export const logos = {
-  /* Ink measured off the artwork: Arnlea averages rgb(87,60,46), a warm brown,
-     so it has something to show. Viewport3 averages rgb(0,0,0) — pure black,
+  /* Ink measured off the artwork, per half rather than over the whole file:
+     the three bars are rgb(241,115,10), a strong orange, and the wordmark is
+     rgb(29,39,59), near-navy. Averaging the two gives the warm brown this
+     comment used to claim, which is a colour that appears nowhere in the mark.
+     That is why it splits: on hover the bars return to orange and the wordmark
+     stays white, instead of the whole lockup lifting into a muddy blue-grey.
+     The bars end at x=205 and the wordmark starts at x=274, so the cut is the
+     middle of that gap: 239/1130. Viewport3 averages rgb(0,0,0) — pure black,
      with no colour under the silhouette to reveal. */
-  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  colourOnDark: true, site: 'https://www.arnlea.com/' },
+  arnlea:          { src: '/logos/arnlea.webp',          w: 1130, h: 225, darkInvert: true,  colourOnDark: true, splitAt: 0.2115, site: 'https://www.arnlea.com/' },
   /* 2.19:1 against Arnlea's 5.02:1 — a stacked lockup, so height alone leaves
      it looking half the size of the wordmarks beside it. */
   viewport3:       { src: '/logos/viewport3.png',        w: 1944, h: 894, darkInvert: true,  scale: 1.3, site: 'https://viewport3.com/' },
