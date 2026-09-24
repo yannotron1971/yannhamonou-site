@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference — The Edge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0b0c0c;
+    --ink:#151515;
+    --slate:#22262a;
+    --line:#2a2e31;
+    --text:#f2f1ec;
+    --mute:#a2a5a3;
+    --dim:#7e8280;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --gut:clamp(1.25rem,4vw,4rem);
+    --rhythm:clamp(4.5rem,9vw,8.5rem);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--pitch);color:var(--text);
+    font-family:var(--sans);font-weight:300;
+    font-size:clamp(1rem,.95rem + .2vw,1.0625rem);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit}
+
+  .wrap{max-width:76rem;margin-inline:auto;padding-inline:var(--gut)}
+
+  /* ---- mono micro-label: the second voice, as on the Edge ---- */
+  .label{
+    font-family:var(--mono);font-size:.6875rem;font-weight:500;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  }
+
+  /* ---- masthead ---- */
+  .masthead{padding-block:clamp(3rem,7vw,6rem) clamp(2.5rem,5vw,4rem);border-bottom:1px solid var(--line)}
+  .masthead h1{
+    font-weight:200;letter-spacing:-.03em;line-height:.95;
+    font-size:clamp(2.6rem,1.4rem + 4.6vw,5.5rem);
+    margin-block:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,2vw,1.75rem);
+    max-width:14ch;
+  }
+  .masthead p{max-width:62ch;color:var(--mute);font-size:clamp(1.0625rem,1rem + .35vw,1.25rem)}
+  .meta{display:flex;flex-wrap:wrap;gap:.6rem 1.75rem;margin-top:clamp(1.75rem,3vw,2.5rem)}
+
+  /* ---- the thesis ---- */
+  .thesis{padding-block:var(--rhythm);border-bottom:1px solid var(--line)}
+  .thesis-inner{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.5rem,3vw,2.5rem)}
+  @media(min-width:58rem){.thesis-inner{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(3rem,6vw,6rem)}}
+  .thesis h2{
+    font-weight:200;letter-spacing:-.025em;line-height:1.05;
+    font-size:clamp(1.9rem,1.2rem + 2.6vw,3.25rem);max-width:18ch;
+  }
+  .thesis .body p + p{margin-top:1.1rem}
+  .thesis .body{color:var(--mute)}
+  .thesis .body strong{color:var(--text);font-weight:400}
+
+  /* ---- ranked moves: index rows, the Edge's own grammar ---- */
+  .moves{padding-block:var(--rhythm)}
+  .moves > .wrap > .label{display:block;margin-bottom:clamp(2rem,4vw,3rem)}
+
+  .move{
+    border-top:1px solid var(--line);
+    padding-block:clamp(2.25rem,4vw,3.25rem);
+    display:grid;grid-template-columns:minmax(0,1fr);
+    gap:clamp(1.5rem,3vw,2.25rem);
+  }
+  .move:last-child{border-bottom:1px solid var(--line)}
+  @media(min-width:58rem){
+    .move{grid-template-columns:4rem minmax(0,1fr) minmax(0,19rem);gap:clamp(1.5rem,3vw,3rem);align-items:start}
+  }
+  .move-no{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;color:var(--dim);padding-top:.45rem}
+  .move h3{
+    font-weight:300;letter-spacing:-.02em;line-height:1.1;
+    font-size:clamp(1.5rem,1.15rem + 1.3vw,2.125rem);max-width:22ch;
+  }
+  .move .from{margin-top:.7rem}
+  .move .why{margin-top:1.1rem;color:var(--mute);max-width:58ch}
+  .move .why + .why{margin-top:.85rem}
+  .move .carry{
+    margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--line);
+    max-width:58ch;font-size:.9375rem;color:var(--mute);
+  }
+  .move .carry b{color:var(--text);font-weight:400;font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:.45rem;color:var(--dim)}
+
+  /* ---- reference plate ---- */
+  figure{margin:0}
+  figure img{
+    width:100%;border:1px solid var(--line);
+    /* These are other people's shipped sites. Desaturated so the plate reads
+       as reference material rather than as a proposed palette. */
+    filter:grayscale(1) contrast(.95);
+  }
+  figcaption{margin-top:.7rem;display:flex;flex-direction:column;gap:.25rem}
+  figcaption .src{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;color:var(--dim)}
+  .recommended{color:var(--text)}
+
+  /* ---- caveats ---- */
+  .caveats{padding-block:var(--rhythm);border-top:1px solid var(--line);background:var(--ink)}
+  .caveat-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.75rem,3vw,2.5rem);margin-top:clamp(2rem,4vw,3rem)}
+  @media(min-width:46rem){.caveat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,4vw,3.5rem)}}
+  .caveat h4{font-weight:400;font-size:1.125rem;letter-spacing:-.01em;margin-bottom:.6rem}
+  .caveat p{color:var(--mute);font-size:.9375rem;max-width:46ch}
+  .caveat p + p{margin-top:.7rem}
+
+  /* ---- colophon ---- */
+  .colophon{padding-block:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--line)}
+  .colophon p{color:var(--dim);font-size:.875rem;max-width:64ch}
+  .colophon p + p{margin-top:.6rem}
+  .colophon a{text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="label">Reference study · edge-concept</p>
+    <h1>Five moves the Edge has already earned.</h1>
+    <p>The Edge already runs one near-black ground, one enormous light line and mono micro-labels. Nothing below proposes changing that. Each reference is a site that pushed one of those three decisions further than this build currently does — shown so you can judge how far you want to go, not as a template to match.</p>
+    <div class="meta">
+      <span class="label">Source · Inspo archive</span>
+      <span class="label">Brief · dark / serious / monochrome</span>
+      <span class="label">24 sites measured</span>
+      <span class="label">No changes applied</span>
+    </div>
+  </div>
+</header>
+
+<section class="thesis">
+  <div class="wrap thesis-inner">
+    <h2>The archive's gravity runs against you. Stay against it.</h2>
+    <div class="body">
+      <p>Across 24 sites matching this brief, <strong>83% use a grotesk display face</strong> — the Edge does too. But the same measurement puts the accent hue consensus at <strong>chromatic-other, 42%</strong>, with only 4% landing on neutral. Almost everything in this category eventually reaches for a colour.</p>
+      <p>The Edge's DESIGN.md rules that out on purpose: <em>a page built on one light line and mono labels can give every section its own ground and still read as one material; colour would break it.</em> That is the single most distinctive decision in the build, and the archive is evidence it's rare rather than evidence it's wrong.</p>
+      <p><strong>So the ranking below contains no palette advice.</strong> Every move is about scale, position and restraint — the three axes still open to you once hue is off the table.</p>
+    </div>
+  </div>
+</section>
+
+<section class="moves">
+  <div class="wrap">
+    <p class="label">Ranked — most to least worth doing</p>
+
+    <!-- 01 -->
+    <article class="move">
+      <p class="move-no">01</p>
+      <div>
+        <h3 class="recommended">Let the index become the fold.</h3>
+        <p class="label from">Adcker — “Index” · <span class="recommended">recommended</span></p>
+        <p class="why">Adcker's navigation <em>is</em> the hero: six stacked all-caps lines at roughly 120px, zero leading, letters nearly touching between rows — with 12px labels flanking each line left and right (“Home”, “What we do”, “Projects”, “Showreel”). Scale jump measured at 10:1. No CTA anywhere in the fold.</p>
+        <p class="why">You already have this grammar — the Services section runs numbered index rows (<code>06 Marketing Leadership</code>) with a mono descriptor to the right. Adcker is the same structure at ten times the size, promoted from a mid-page section to the opening statement.</p>
+        <p class="carry"><b>What transfers</b>The flanking-label pattern: a big line with small mono text on <em>both</em> margins. It gives a row two reading speeds at once, which is exactly what your services rows are already trying to do with number + name + descriptor.</p>
+      </div>
+      <figure>
+        <img src="https://0nme3pk5am3urwa9.public.blob.vercel-storage.com/captures/adcker-com/hero.1440.webp" alt="Adcker index page: stacked oversized all-caps navigation on near-black, with small labels flanking each line" loading="lazy">
+        <figcaption>
+          <span class="src">adcker-com · Inspo capture</span>
+          <span class="src">#1a1a1a ground · NHM · 10:1 scale jump</span>
+        </figcaption>
+      </figure>
+    </article>
+
+    <!-- 02 -->
+    <article class="move">
+      <p class="move-no">02</p>
+      <div>
+        <h3>Take the headline out and let the corners carry it.</h3>
+        <p class="label from">Aristide Benoist · aristidebenoist.com · captured 4 May 2026</p>
+        <p class="why">The fold has no headline at all. Wordmark top-left, one word top-right, a fragmented visual centre-right, and micro-text pinned to the bottom corners: <code>INDEPENDENT DEVELOPER / AVAILABLE APR. 2023</code> bottom-left, a contact stack bottom-right. Logo runs ~24px, body ~8px — an extreme scale jump in the opposite direction from Adcker.</p>
+        <p class="why">Your hero already does a version of this: <code>STONEHAVEN · ABERDEENSHIRE · SCOTLAND</code> sits on the baseline opposite the CTA. This is the end state of that idea — the corners hold the facts, and the centre holds only the field.</p>
+        <p class="carry"><b>What transfers</b>Corner anchoring as a system, not a flourish. Availability, location and contact all become baseline furniture, which frees the centre of the hero to be nothing but the moving ground.</p>
+      </div>
+      <figure>
+        <img src="https://0nme3pk5am3urwa9.public.blob.vercel-storage.com/captures/aristidebenoist-com/hero.1440.webp" alt="Aristide Benoist: near-black page, sliced grayscale photo strips centre-right, tiny text pinned to bottom corners, no headline" loading="lazy">
+        <figcaption>
+          <span class="src">aristidebenoist.com · captured 4 May 2026</span>
+          <span class="src">paperL 20 · neutral accent · no headline in fold</span>
+        </figcaption>
+      </figure>
+    </article>
+
+    <!-- 03 -->
+    <article class="move">
+      <p class="move-no">03</p>
+      <div>
+        <h3>Crop enormous type against the bottom edge as structure.</h3>
+        <p class="label from">Monolog · bymonolog.com · captured 10 Sep 2026</p>
+        <p class="why">A small centred copy block floats in negative space, and the bottom 40% of the viewport is filled by the wordmark set gigantic and cropped hard at both edges. It reads as a structural footer to the first screen rather than as decoration — the type is load-bearing.</p>
+        <p class="why"><strong>Take the composition, not the weight.</strong> Monolog's face is heavy, wide Khteka and its ground measures L 40 — mid grey, not dark. The Edge runs <code>#151515</code> under an enormous <em>light-weight</em> line. This is the closest reference here on mood and the furthest on execution; adopting its type weight would undo your own distinction.</p>
+        <p class="carry"><b>What transfers</b>Cropping display type at the viewport edge so it behaves as architecture. At 200 weight rather than 800, the same move reads quiet instead of loud.</p>
+      </div>
+      <figure>
+        <img src="https://0nme3pk5am3urwa9.public.blob.vercel-storage.com/captures/bymonolog-com/hero.1440.webp" alt="Monolog: grainy charcoal gradient, small centred copy, and the wordmark set enormous and cropped across the bottom of the viewport" loading="lazy">
+        <figcaption>
+          <span class="src">bymonolog.com · captured 10 Sep 2026</span>
+          <span class="src">paperL 40.2 — mid, not dark · Khteka, heavy</span>
+        </figcaption>
+      </figure>
+    </article>
+
+    <!-- 04 -->
+    <article class="move">
+      <p class="move-no">04</p>
+      <div>
+        <h3>Keep the interface hueless; let one image hold all the colour.</h3>
+        <p class="label from">Palais de Tokyo</p>
+        <p class="why">Pure black ground, pure white type, a monochrome interface throughout — nav, headings, listings, all neutral. The only colour on the page is inside a single circular image: a rust-toned specimen photograph that reads as a laboratory sample dropped into a museum wall.</p>
+        <p class="why">This is a precedent for a rule adjacent to yours. Your no-hue rule governs the <em>system</em>; it does not have to govern photography. A client logo, a portrait, a single plate could carry colour without any token changing — the ground ladder stays hueless and the page still reads as one material.</p>
+        <p class="carry"><b>What transfers</b>Permission, narrowly drawn. Colour confined to content, never to chrome — so the rule in DESIGN.md holds exactly as written while the page gains one warm point of fixation.</p>
+      </div>
+      <figure>
+        <img src="https://0nme3pk5am3urwa9.public.blob.vercel-storage.com/captures/palaisdetokyo-com/hero.1440.webp" alt="Palais de Tokyo: black ground, white all-caps listings, a single circular colour photograph at left" loading="lazy">
+        <figcaption>
+          <span class="src">palaisdetokyo-com · Inspo capture</span>
+          <span class="src">#000000 ground · accent in image only</span>
+        </figcaption>
+      </figure>
+    </article>
+
+    <!-- 05 -->
+    <article class="move">
+      <p class="move-no">05</p>
+      <div>
+        <h3>The contrast case: what luxe-dark looks like when it reaches for a serif.</h3>
+        <p class="label from">Origin — About · for comparison, not adoption</p>
+        <p class="why">Same near-black ground, same restraint, same category read — but the display voice is an italic roman serif, and the whole page tips from <em>technical</em> to <em>wealth management</em>. It is the most direct evidence available for why your grotesk choice is doing work.</p>
+        <p class="why">Included so the ranking has a floor. If anyone argues the Edge would feel more premium with a serif line, this is what that actually buys and costs.</p>
+        <p class="carry"><b>What transfers</b>Nothing — deliberately. Use it as the control against moves 01–03.</p>
+      </div>
+      <figure>
+        <img src="https://0nme3pk5am3urwa9.public.blob.vercel-storage.com/captures/useorigin-com--company/hero.1440.webp" alt="Origin about page: near-black ground with a large italic serif headline reading Revolutionizing wealth management" loading="lazy">
+        <figcaption>
+          <span class="src">useorigin-com--company · Inspo capture</span>
+          <span class="src">dark / neutral · serif display — the divergence</span>
+        </figcaption>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<section class="caveats">
+  <div class="wrap">
+    <p class="label">Read the references with these in hand</p>
+    <div class="caveat-grid">
+      <div class="caveat">
+        <h4>The palette swatches are measurements, not proposals.</h4>
+        <p>Inspo returns a palette for every capture, and it returned Raycast's crimson as a suggestion for this brief. That is a description of Raycast, not advice for the Edge. Every thumbnail on this page is desaturated for exactly that reason.</p>
+      </div>
+      <div class="caveat">
+        <h4>These are real shipped sites, not compliant ones.</h4>
+        <p>Several would fail a strict contrast or motion audit. Your DESIGN.md already carries measured ratios for every ink level against every ground — that is stricter than most of what is pictured here, and worth keeping.</p>
+      </div>
+      <div class="caveat">
+        <h4>Fold discipline still applies.</h4>
+        <p>The archive's measured guidance: nav, headline, supporting line and CTA complete inside 1280&nbsp;×&nbsp;800, display type sized to two or three balanced lines. Moves 01 and 03 both enlarge type — check the fold after either.</p>
+      </div>
+      <div class="caveat">
+        <h4>One rhythm at every seam.</h4>
+        <p>Measured median step between sections across the set: 96px, with 80–160px the working band. Below ~64px two sections read as one block. Your ground ladder changes background per section, which makes a consistent step more important, not less.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="wrap">
+    <p class="label" style="display:block;margin-bottom:1rem">Colophon</p>
+    <p>Screenshots are captures from the Inspo archive of real production websites, reproduced here as design reference and credited to their originating sites. Capture dates are shown where the archive recorded one.</p>
+    <p>Nothing in the <code>edge-concept</code> worktree was modified to produce this page. It is served from a scratchpad directory outside the repository.</p>
+  </div>
+</footer>
+
+</body>
+</html>

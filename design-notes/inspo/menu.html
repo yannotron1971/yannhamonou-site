@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The menu — what actually changes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* The Edge's own tokens, read from global.css on edge-concept */
+    --pitch:#0b0c0c; --ink-bg:#151515; --slate:#22262a;
+    --line:#2a2e31;
+    --ink:#f2f1ec; --mute:#a2a5a3; --dim:#909391;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'Space Mono',ui-monospace,monospace;
+    --gutter:clamp(20px, 4vw, 56px);
+    --rhythm:clamp(4.5rem, 9vw, 8rem);
+    /* Soft out — your pick. A decel curve: it settles rather than cuts. */
+    --roll-ease:cubic-bezier(.22, 1, .36, 1);
+    --roll-dur:.62s;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  body{background:var(--pitch);color:var(--ink);font-family:var(--display);
+    font-weight:300;font-size:clamp(1rem, .95rem + .2vw, 1.0625rem);line-height:1.6;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--gutter)}
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  a{color:inherit}
+  code{font-family:var(--mono);font-size:.85em;color:var(--ink)}
+
+  header{padding-block:clamp(3rem, 7vw, 5.5rem) clamp(2.5rem, 5vw, 3.5rem);
+    border-bottom:1px solid var(--line)}
+  header h1{font-weight:300;letter-spacing:-.03em;line-height:1;
+    font-size:clamp(2.3rem, 1.3rem + 4vw, 4.5rem);margin-block:1.5rem 1.25rem;max-width:16ch}
+  header .lede{max-width:60ch;color:var(--mute);font-size:clamp(1.0625rem, 1rem + .3vw, 1.1875rem)}
+  header .lede + .lede{margin-top:1rem}
+  header .lede b{color:var(--ink);font-weight:400}
+
+  section{padding-block:var(--rhythm);border-bottom:1px solid var(--line)}
+  h2{font-weight:300;letter-spacing:-.025em;line-height:1.1;
+    font-size:clamp(1.7rem, 1.2rem + 2vw, 2.6rem);max-width:22ch}
+  .sub{margin-top:1rem;color:var(--mute);max-width:60ch}
+  .sub + .sub{margin-top:.85rem}
+
+  /* ============ the live drawer ============ */
+  .stage{margin-top:clamp(2rem, 4vw, 3rem);border:1px solid var(--line);
+    background:var(--ink-bg);position:relative;overflow:hidden}
+  .stage-bar{display:flex;align-items:center;justify-content:space-between;
+    padding:18px var(--gutter);border-bottom:1px solid var(--line)}
+  .brand{font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:8px}
+  .brand .dot{width:6px;height:6px;border-radius:50%;background:var(--ink);display:block}
+  .burger{display:flex;flex-direction:column;gap:5px;width:24px;padding:4px 0;
+    background:none;border:0;cursor:pointer}
+  .burger span{display:block;height:1.5px;background:var(--ink);border-radius:1px;width:100%}
+
+  .drawer{padding:clamp(2.5rem, 5vw, 4rem) var(--gutter) clamp(3rem, 6vw, 4.5rem)}
+  .dlinks{list-style:none;display:flex;flex-direction:column;gap:4px}
+
+  .drow{position:relative;display:flex;align-items:center}
+  .drow .flank{position:absolute;right:0;font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim);opacity:.5;
+    white-space:nowrap;
+    transition:opacity var(--roll-dur) var(--roll-ease),color var(--roll-dur) var(--roll-ease)}
+  .drow:hover .flank{opacity:1;color:var(--ink)}
+  @media(max-width:48rem){.drow .flank{display:none}}
+
+  /* THE ROLL — unchanged from the reference in structure,
+     soft-out in feel. Two copies, one mask, one transform. */
+  .roll{display:block;position:relative;overflow:hidden;text-decoration:none;
+    white-space:nowrap;font-family:var(--display);font-weight:300;
+    letter-spacing:-.02em;line-height:.95;
+    font-size:clamp(40px, 9vw, 104px);   /* was clamp(36px, 8vw, 56px) */
+    color:var(--mute);will-change:transform}
+  .roll .a,.roll .b{display:block;
+    transition:transform var(--roll-dur) var(--roll-ease),color var(--roll-dur) var(--roll-ease)}
+  .roll .b{position:absolute;inset-inline:0;top:0;transform:translateY(100%);color:var(--ink)}
+  .roll:hover .a,.roll:focus-visible .a{transform:translateY(-100%)}
+  .roll:hover .b,.roll:focus-visible .b{transform:translateY(0)}
+  .roll:focus-visible{outline:1px solid var(--dim);outline-offset:.3rem}
+
+  /* variant B: services as flank labels */
+  .stage[data-variant="b"] .drow[data-svc] .flank{opacity:.75}
+  .stage[data-variant="a"] .svc-note{display:none}
+
+  .svc-note{margin-top:clamp(1.75rem, 3vw, 2.5rem);padding-top:1.25rem;
+    border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.5rem 1.5rem}
+  .svc-note span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--dim)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:.6rem 1.25rem;margin-top:clamp(1.75rem, 3vw, 2.5rem)}
+  .controls button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;background:transparent;color:var(--mute);
+    border:1px solid var(--line);padding:.7em 1.1em;cursor:pointer;
+    transition:border-color .2s,color .2s}
+  .controls button:hover{color:var(--ink);border-color:var(--dim)}
+  .controls button[aria-pressed=true]{color:var(--ink);border-color:var(--ink)}
+
+  /* ============ change list ============ */
+  ol.changes{list-style:none;counter-reset:c;margin-top:clamp(2rem, 4vw, 3rem)}
+  ol.changes li{counter-increment:c;border-top:1px solid var(--line);
+    padding-block:clamp(1.5rem, 3vw, 2.25rem);display:grid;
+    grid-template-columns:minmax(0,1fr);gap:1rem}
+  ol.changes li:last-child{border-bottom:1px solid var(--line)}
+  @media(min-width:56rem){
+    ol.changes li{grid-template-columns:3.5rem minmax(0,24rem) minmax(0,1fr);
+      gap:clamp(1.5rem,3vw,2.5rem);align-items:start}
+  }
+  ol.changes li::before{content:"0" counter(c);font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;color:var(--dim);padding-top:.5rem}
+  ol.changes h3{font-weight:400;font-size:1.25rem;letter-spacing:-.01em;line-height:1.25}
+  ol.changes .cost{margin-top:.6rem}
+  ol.changes p{color:var(--mute);font-size:.9375rem;max-width:52ch}
+  ol.changes p + p{margin-top:.7rem}
+
+  pre{background:var(--ink-bg);border:1px solid var(--line);padding:clamp(1rem,2vw,1.4rem);
+    overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.75;color:var(--mute);
+    margin-top:.9rem}
+  pre b{color:var(--ink);font-weight:400}
+  pre i{color:var(--dim);font-style:normal}
+  pre .del{color:#c79f9f}
+  pre .add{color:#9fc7a4}
+
+  .callout{margin-top:clamp(2rem,4vw,3rem);border:1px solid var(--line);
+    background:var(--ink-bg);padding:clamp(1.5rem,3vw,2.25rem)}
+  .callout h3{font-weight:400;font-size:1.25rem;margin-bottom:.75rem;letter-spacing:-.01em}
+  .callout p{color:var(--mute);max-width:56ch}
+  .callout p + p{margin-top:.8rem}
+
+  footer{padding-block:clamp(2.5rem,5vw,4rem)}
+  footer p{color:var(--dim);font-size:.875rem;max-width:64ch}
+  footer p + p{margin-top:.6rem}
+  footer a{text-decoration:underline;text-underline-offset:.2em}
+
+  @media(prefers-reduced-motion:reduce){
+    .roll .a,.roll .b,.drow .flank{transition-duration:.01ms !important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="label">Move 01 · what it costs you</p>
+    <h1>No. The drawer you already have <em>is</em> the index.</h1>
+    <p class="lede">I read <code>Nav.astro</code> and <code>global.css</code> on <code>edge-concept</code> before answering. Your mobile drawer is already <code>position:fixed; inset:0</code>, already set in the display face at weight 300, already a flat column of links at <code>clamp(36px, 8vw, 56px)</code>.</p>
+    <p class="lede"><b>That is the Adcker index, two-thirds built, gated behind a 760px media query.</b> Three of the four changes below are one line each. Only the fourth is a design decision.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="label">Live — your real nav items, soft-out ease</p>
+    <h2>What it looks like with the gate removed.</h2>
+    <p class="sub">Space Grotesk 300 on <code>#151515</code>, your tokens throughout. Hover any line. The ease is <code>cubic-bezier(.22, 1, .36, 1)</code> at 620ms — a decel curve, so the label settles into place instead of snapping.</p>
+
+    <div class="stage" data-variant="a">
+      <div class="stage-bar">
+        <span class="brand"><span class="dot" aria-hidden="true"></span>Yann.Hamonou</span>
+        <button class="burger" type="button" aria-label="Menu (demonstration)"><span></span><span></span><span></span></button>
+      </div>
+      <div class="drawer">
+        <ul class="dlinks" role="list">
+          <li class="drow" data-svc>
+            <a class="roll" href="#0"><span class="a">Services</span><span class="b" aria-hidden="true">Services</span></a>
+            <span class="flank" aria-hidden="true">Six of them</span>
+          </li>
+          <li class="drow">
+            <a class="roll" href="#0"><span class="a">Work</span><span class="b" aria-hidden="true">Work</span></a>
+            <span class="flank" aria-hidden="true">Proof</span>
+          </li>
+          <li class="drow">
+            <a class="roll" href="#0"><span class="a">About</span><span class="b" aria-hidden="true">About</span></a>
+            <span class="flank" aria-hidden="true">Who I am</span>
+          </li>
+          <li class="drow">
+            <a class="roll" href="#0"><span class="a">Journal</span><span class="b" aria-hidden="true">Journal</span></a>
+            <span class="flank" aria-hidden="true">Writing</span>
+          </li>
+          <li class="drow">
+            <a class="roll" href="#0"><span class="a">Contact</span><span class="b" aria-hidden="true">Contact</span></a>
+            <span class="flank" aria-hidden="true">Free consultation</span>
+          </li>
+        </ul>
+        <div class="svc-note">
+          <span>Positioning</span><span>Marketing Strategy</span><span>SEO &amp; GEO</span>
+          <span>Organic &amp; Paid Media</span><span>Web &amp; CRO</span><span>Marketing Leadership</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button type="button" data-v="a" aria-pressed="true">A · five lines, services one level down</button>
+      <button type="button" data-v="b" aria-pressed="false">B · five lines + services as a mono rail</button>
+      <button type="button" data-ease="cubic-bezier(.22, 1, .36, 1)" aria-pressed="true">Soft out</button>
+      <button type="button" data-ease="cubic-bezier(.98, 0, .02, 1)" aria-pressed="false">Adcker ease</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">The actual diff</p>
+    <h2>Three one-liners and a template edit.</h2>
+
+    <ol class="changes">
+      <li>
+        <div>
+          <h3>Let the hamburger exist above 760px.</h3>
+          <p class="cost label">global.css · one media query</p>
+        </div>
+        <div>
+          <p>Right now the index is unreachable on desktop. This is the only change that makes the move visible at all.</p>
+<pre><span class="del">- @media (max-width: 760px) { .v4-hamburger { display: flex } }</span>
+<span class="add">+ .v4-hamburger { display: flex }</span>   <i>← drop the gate entirely</i></pre>
+          <p>Keep <code>.v4-nav__links</code> and the CTA on desktop as they are. Adcker does exactly this: a working bar <em>and</em> an index behind it.</p>
+        </div>
+      </li>
+
+      <li>
+        <div>
+          <h3>Raise the cap on the drawer type.</h3>
+          <p class="cost label">global.css · one value</p>
+        </div>
+        <div>
+          <p>56px is a phone size. On a 1280 screen it reads as a list; at 104px it reads as the index.</p>
+<pre>.v4-drawer__links a {
+<span class="del">-  font-size: clamp(36px, 8vw, 56px);</span>
+<span class="add">+  font-size: clamp(40px, 9vw, 104px);</span>
+<span class="del">-  line-height: 1.1;</span>
+<span class="add">+  line-height: .95;</span>   <i>← tightens the stack; mask = one line</i>
+}</pre>
+          <p>Five lines at 104px and .95 leading is ~495px — comfortable inside an 800px viewport with your <code>80px</code> drawer padding.</p>
+        </div>
+      </li>
+
+      <li>
+        <div>
+          <h3>Swap the colour fade for the roll.</h3>
+          <p class="cost label">global.css + Nav.astro · ~12 lines</p>
+        </div>
+        <div>
+          <p>The drawer currently does <code>color: mute → ink</code> over 0.15s. The roll replaces that transition; the markup gains a duplicate label.</p>
+<pre>{navLinks.map(link =&gt; (
+  &lt;li&gt;&lt;a href={link.href} <span class="add">class="roll"</span>&gt;
+    <span class="add">&lt;span class="a"&gt;</span>{link.label}<span class="add">&lt;/span&gt;</span>
+    <span class="add">&lt;span class="b" aria-hidden="true"&gt;{link.label}&lt;/span&gt;</span>
+  &lt;/a&gt;&lt;/li&gt;
+))}</pre>
+          <p>One <code>.map()</code>, in a file you already maintain. The duplicate takes <code>aria-hidden</code> so screen readers still hear each item once.</p>
+        </div>
+      </li>
+
+      <li>
+        <div>
+          <h3>Decide what happens to the six services.</h3>
+          <p class="cost label">the only real decision</p>
+        </div>
+        <div>
+          <p>This is where it stops being mechanical. Your drawer nests six services under <code>Services</code> as an 11px mono sub-list. Five top-level lines plus six children is eleven rows — at 104px that is ~1,090px and it will not fit a laptop viewport.</p>
+          <p><b>A</b> — five lines only; <code>Services</code> goes to <code>/services</code>, which already exists and already lists all six. The index stays one level deep, like the reference.</p>
+          <p><b>B</b> — five lines, with the six services kept as a mono rail beneath. Denser, but it keeps them one click away and uses the mono voice you already have.</p>
+          <p>Toggle both in the demo above. I'd take <b>A</b>: the whole argument for move 01 is that the index is a single held breath, and a sub-list is the thing that breaks it.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <h3>What you are not changing</h3>
+      <p>The top bar, the brand lockup, the Services dropdown, the ground ladder, the hero field, the sticky-hero-under-sheet structure, every token, and the entire type system. The drawer's <code>backdrop-filter: blur(24px)</code> over the field already gives you the one thing Adcker doesn't have — the index opens <em>over</em> the moving ground rather than replacing it.</p>
+      <p>The <code>0.25s</code> opacity fade on <code>.v4-drawer.is-open</code> stays as-is. If you later want the lines to stagger in behind it, that is GSAP — already a dependency, and it is the only part of this that needs JavaScript.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="label" style="display:block;margin-bottom:1rem">Notes</p>
+    <p>Line numbers and values quoted from <code>src/components/Nav.astro</code> and <code>src/styles/global.css</code> on the <code>edge-concept</code> worktree, read on 22 September 2026. Nothing in that worktree was modified — it is still clean.</p>
+    <p><a href="index.html">← reference study</a> · <a href="motion.html">← the motion, measured</a></p>
+  </div>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  const stage = document.querySelector('.stage');
+  const btns = [...document.querySelectorAll('.controls button')];
+  btns.forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.v) {
+      stage.dataset.variant = b.dataset.v;
+      btns.filter(o => o.dataset.v).forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+    } else {
+      root.style.setProperty('--roll-ease', b.dataset.ease);
+      btns.filter(o => o.dataset.ease).forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+    }
+  }));
+</script>
+</body>
+</html>

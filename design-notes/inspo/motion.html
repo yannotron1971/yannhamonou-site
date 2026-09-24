@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Move 01 — the motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0b0c0c; --ink:#151515; --slate:#22262a;
+    --line:#2a2e31; --text:#f2f1ec; --mute:#a2a5a3; --dim:#7e8280;
+    --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --gut:clamp(1.25rem,4vw,4rem); --rhythm:clamp(4.5rem,9vw,8rem);
+    /* Measured off adcker.com, 2026-09-22 */
+    --roll-ease:cubic-bezier(.98,0,.02,1);
+    --roll-dur:.7s;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  body{background:var(--pitch);color:var(--text);font-family:var(--sans);font-weight:300;
+    font-size:clamp(1rem,.95rem + .2vw,1.0625rem);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:76rem;margin-inline:auto;padding-inline:var(--gut)}
+  .label{font-family:var(--mono);font-size:.6875rem;font-weight:500;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim)}
+  a{color:inherit}
+  code,kbd{font-family:var(--mono);font-size:.85em}
+
+  header{padding-block:clamp(3rem,7vw,5.5rem) clamp(2.5rem,5vw,3.5rem);border-bottom:1px solid var(--line)}
+  header h1{font-weight:200;letter-spacing:-.03em;line-height:1;
+    font-size:clamp(2.4rem,1.4rem + 4vw,4.75rem);margin-block:1.5rem 1.25rem;max-width:15ch}
+  header p{max-width:60ch;color:var(--mute);font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem)}
+  .verdict{margin-top:1.25rem;color:var(--text);max-width:60ch}
+  .verdict b{font-weight:400}
+
+  section{padding-block:var(--rhythm);border-bottom:1px solid var(--line)}
+  h2{font-weight:200;letter-spacing:-.025em;line-height:1.1;
+    font-size:clamp(1.7rem,1.2rem + 2vw,2.75rem);max-width:20ch}
+  .sub{margin-top:1rem;color:var(--mute);max-width:58ch}
+
+  /* ================= THE DEMO ================= */
+  .stage{margin-top:clamp(2.5rem,5vw,4rem);padding-block:clamp(2.5rem,5vw,4rem);
+    background:var(--ink);border:1px solid var(--line)}
+  .hint{text-align:center;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
+
+  .index{display:flex;flex-direction:column;align-items:center}
+
+  /* The row: big line, with a mono label pinned on each margin.
+     This is the flanking-label pattern from the reference. */
+  .row{position:relative;display:flex;align-items:center;justify-content:center;
+    width:100%;max-width:56rem;margin-inline:auto}
+  .row .flank{position:absolute;font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);white-space:nowrap;
+    transition:color var(--roll-dur) var(--roll-ease),opacity var(--roll-dur) var(--roll-ease);opacity:.55}
+  .row .flank.l{right:calc(100% + 1.25rem)}
+  .row .flank.r{left:calc(100% + 1.25rem)}
+  @media(max-width:62rem){.row .flank{display:none}}
+  .row:hover .flank{color:var(--text);opacity:1}
+
+  /* THE MOVE — two copies of the label stacked inside a one-line mask.
+     Copy A sits in flow; copy B is parked exactly one line below.
+     On hover both slide up by one line: A leaves, B arrives. No JS. */
+  .roll{
+    display:block;position:relative;overflow:hidden;
+    text-decoration:none;white-space:nowrap;
+    font-weight:200;letter-spacing:-.045em;
+    font-size:clamp(2.75rem,1.2rem + 6.6vw,7rem);
+    line-height:.86;                 /* the mask height = one line */
+    will-change:transform;
+  }
+  .roll .a,.roll .b{display:block;transition:transform var(--roll-dur) var(--roll-ease)}
+  .roll .b{position:absolute;inset-inline:0;top:0;transform:translateY(100%)}
+  .roll:hover .a,.roll:focus-visible .a{transform:translateY(-100%)}
+  .roll:hover .b,.roll:focus-visible .b{transform:translateY(0)}
+  .roll:focus-visible{outline:1px solid var(--dim);outline-offset:.35rem}
+  /* The arriving copy is a duplicate, so hide it from assistive tech. */
+
+  /* the bracketed plate, as in the reference */
+  .plate{display:flex;align-items:center;justify-content:center;gap:clamp(.5rem,1.5vw,1.25rem);
+    font-size:clamp(2.75rem,1.2rem + 6.6vw,7rem);line-height:.86;font-weight:200;color:var(--dim)}
+  .plate .sq{width:.62em;height:.62em;background:var(--slate);border:1px solid var(--line);display:block}
+
+  /* controls */
+  .controls{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:center;margin-top:clamp(2rem,4vw,3rem)}
+  .controls button{
+    font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;
+    background:transparent;color:var(--mute);border:1px solid var(--line);
+    padding:.65em 1.1em;cursor:pointer;transition:border-color .2s,color .2s}
+  .controls button:hover{color:var(--text);border-color:var(--dim)}
+  .controls button[aria-pressed=true]{color:var(--text);border-color:var(--text)}
+
+  /* ================= code ================= */
+  pre{margin-top:clamp(1.5rem,3vw,2.25rem);background:var(--ink);border:1px solid var(--line);
+    padding:clamp(1.1rem,2.5vw,1.75rem);overflow-x:auto;font-family:var(--mono);
+    font-size:.8125rem;line-height:1.7;color:var(--mute)}
+  pre b{color:var(--text);font-weight:400}
+  pre i{color:var(--dim);font-style:normal}
+
+  /* ================= stack table ================= */
+  table{width:100%;border-collapse:collapse;margin-top:clamp(2rem,4vw,3rem);font-size:.9375rem}
+  th,td{text-align:left;padding:1rem 1rem 1rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:.6875rem;font-weight:500;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  td{color:var(--mute)}
+  td:first-child{color:var(--text);font-weight:400;white-space:nowrap}
+  .yes{color:#9fc7a4}.no{color:#c79f9f}
+
+  footer{padding-block:clamp(2.5rem,5vw,4rem)}
+  footer p{color:var(--dim);font-size:.875rem;max-width:64ch}
+  footer p + p{margin-top:.6rem}
+  footer a{text-decoration:underline;text-underline-offset:.2em}
+
+  @media(prefers-reduced-motion:reduce){
+    .roll .a,.roll .b,.row .flank{transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="label">Move 01 · motion · measured from the live site</p>
+    <h1>Yes — and the signature move needs no JavaScript.</h1>
+    <p>Adcker runs GSAP, Lenis, Barba.js and anime.js. But the thing that makes the index feel expensive isn't any of them: each menu line holds <em>two copies</em> of its label inside a one-line mask, and hover slides both up by exactly one line. That is a CSS transition.</p>
+    <p class="verdict"><b>The stack is separable.</b> You can take the roll today with zero dependencies, and decide about smooth-scroll and page transitions separately — those are the parts that actually cost something.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="label">Live — hover a line, or tab into it</p>
+    <h2>The roll, rebuilt on your own tokens.</h2>
+    <p class="sub">Same structure and the same measured timing as the reference, set in a 200-weight line on <code>#0b0c0c</code> instead of a bold condensed face. The flanking mono labels are the second half of move 01.</p>
+
+    <div class="stage">
+      <p class="hint label">↓ hover ↓</p>
+      <nav class="index" aria-label="Demonstration index">
+        <div class="row">
+          <span class="flank l" aria-hidden="true">Start here</span>
+          <a class="roll" href="#0"><span class="a">Index</span><span class="b" aria-hidden="true">Index</span></a>
+          <span class="flank r" aria-hidden="true">01</span>
+        </div>
+        <div class="row">
+          <span class="flank l" aria-hidden="true">What I do</span>
+          <a class="roll" href="#0"><span class="a">Services</span><span class="b" aria-hidden="true">Services</span></a>
+          <span class="flank r" aria-hidden="true">02</span>
+        </div>
+        <div class="row">
+          <span class="flank l" aria-hidden="true">Proof</span>
+          <a class="roll" href="#0"><span class="a">Work</span><span class="b" aria-hidden="true">Work</span></a>
+          <span class="flank r" aria-hidden="true">03</span>
+        </div>
+        <div class="row" aria-hidden="true">
+          <span class="plate">( <span class="sq"></span> )</span>
+        </div>
+        <div class="row">
+          <span class="flank l" aria-hidden="true">Who I am</span>
+          <a class="roll" href="#0"><span class="a">About</span><span class="b" aria-hidden="true">About</span></a>
+          <span class="flank r" aria-hidden="true">04</span>
+        </div>
+        <div class="row">
+          <span class="flank l" aria-hidden="true">Get in touch</span>
+          <a class="roll" href="#0"><span class="a">Contact</span><span class="b" aria-hidden="true">Contact</span></a>
+          <span class="flank r" aria-hidden="true">05</span>
+        </div>
+      </nav>
+
+      <div class="controls">
+        <button type="button" data-ease="cubic-bezier(.98,0,.02,1)" aria-pressed="true">Adcker ease · .7s</button>
+        <button type="button" data-ease="cubic-bezier(.22,1,.36,1)" aria-pressed="false">Soft out · .7s</button>
+        <button type="button" data-ease="linear" aria-pressed="false">Linear · .7s</button>
+        <button type="button" data-dur="1.4s" aria-pressed="false">Half speed</button>
+      </div>
+      <p class="hint label" style="margin:1.25rem 0 0">The first is what the reference actually uses</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">What I measured on adcker.com</p>
+    <h2>The rest state gives the whole mechanism away.</h2>
+    <p class="sub">Reading one live index link, at rest, with no interaction:</p>
+<pre><b>a.group</b> { overflow: <b>hidden</b>; height: <b>91.09px</b> }   <i>← mask = exactly one line</i>
+
+  span   "About"   position: static     transform: <b>none</b>
+  span   "About"   position: absolute   transform: <b>translateY(95.65px)</b>
+                   top: 0               <i>← second copy parked one line below</i>
+
+  transition: <b>0.7s cubic-bezier(0.98, 0, 0.02, 1)</b>
+  font: 117px / 91.1px, letter-spacing <b>-5.84px</b>   <i>← ≈ -0.05em</i></pre>
+    <p class="sub" style="margin-top:1.5rem">Two identical labels, one mask, one transform. Hover moves both up 100% — the first leaves, the second arrives. That ease is close to an expo in-out: it holds still at both ends and crosses the middle almost instantly, which is what makes the swap read as a <em>cut</em> rather than a slide.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">The whole thing</p>
+    <h2>Twelve lines of CSS.</h2>
+<pre><b>&lt;a class="roll" href="/services"&gt;</b>
+  &lt;span class="a"&gt;Services&lt;/span&gt;
+  &lt;span class="b" <b>aria-hidden="true"</b>&gt;Services&lt;/span&gt;   <i>← duplicate: hide from SR</i>
+<b>&lt;/a&gt;</b>
+
+.roll        { position:relative; <b>overflow:hidden</b>; display:block;
+               line-height:.86; }              <i>← the mask is one line tall</i>
+.roll .a,
+.roll .b     { display:block;
+               transition:transform <b>.7s cubic-bezier(.98,0,.02,1)</b>; }
+.roll .b     { position:absolute; inset-inline:0; top:0;
+               transform:<b>translateY(100%)</b>; }
+.roll:hover .a,
+.roll:focus-visible .a { transform:<b>translateY(-100%)</b>; }
+.roll:hover .b,
+.roll:focus-visible .b { transform:<b>translateY(0)</b>; }
+
+@media (prefers-reduced-motion:reduce) {
+  .roll .a, .roll .b { transition-duration:.01ms; }   <i>← swap, don't slide</i>
+}</pre>
+    <p class="sub" style="margin-top:1.5rem">Three things worth keeping when you port it: <code>:focus-visible</code> alongside <code>:hover</code> so keyboard users get the same affordance, <code>aria-hidden</code> on the duplicate so screen readers don't announce every label twice, and the reduced-motion branch. The reference site ships none of those three.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">Their stack vs. yours</p>
+    <h2>Take one library, skip three.</h2>
+    <table>
+      <thead><tr><th>Library</th><th>Does what</th><th>Replicate?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>— none —</td>
+          <td>The index roll itself, flanking-label reveal, bracket plate</td>
+          <td class="yes">Yes. Pure CSS, shown above. Do this one.</td>
+        </tr>
+        <tr>
+          <td>GSAP</td>
+          <td>Staggered entrance of the index lines on load</td>
+          <td class="yes">Yes — and free. <code>gsap ^3.15.0</code> is already a dependency on this branch, and you already run one orchestrated load sequence.</td>
+        </tr>
+        <tr>
+          <td>Lenis</td>
+          <td>Smooth / inertial scrolling</td>
+          <td class="no">Skip. It hijacks native scroll, fights your sticky hero and the ground-ladder section changes, and is the most common accessibility complaint about sites like this.</td>
+        </tr>
+        <tr>
+          <td>Barba.js</td>
+          <td>Cross-page transitions without a reload</td>
+          <td class="no">Skip. It turns a static Astro site into a client-routed one — you'd be trading your build's biggest advantage for a fade. If you want the effect, the native View Transitions API gets most of it for nothing.</td>
+        </tr>
+        <tr>
+          <td>anime.js</td>
+          <td>Loaded alongside GSAP on the same page</td>
+          <td class="no">Skip. Two tweening engines is their bundle being a WordPress <code>autoptimize</code> concatenation, not a design decision.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="label" style="display:block;margin-bottom:1rem">Notes</p>
+    <p>Measurements taken from <a href="https://adcker.com/" rel="noreferrer">adcker.com</a> on 22 September 2026 by reading computed styles on a live index link at rest. I could not capture the hover mid-transition — the index is behind an icon-only trigger I wasn't able to open — so the ease and duration above are read from the declared <code>transition</code> property rather than from frame timing.</p>
+    <p>The demo on this page is my own rebuild on the Edge's tokens, not their code. Nothing in the <code>edge-concept</code> worktree was modified. <a href="index.html">← back to the reference study</a></p>
+  </div>
+</footer>
+
+<script>
+  // Demo controls only — none of this is needed for the effect itself.
+  const root = document.documentElement;
+  const btns = [...document.querySelectorAll('.controls button')];
+  btns.forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.ease) {
+      root.style.setProperty('--roll-ease', b.dataset.ease);
+      root.style.setProperty('--roll-dur', '.7s');
+      btns.filter(o => o.dataset.ease).forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+      btns.find(o => o.dataset.dur).setAttribute('aria-pressed', 'false');
+    } else {
+      const on = b.getAttribute('aria-pressed') === 'true';
+      root.style.setProperty('--roll-dur', on ? '.7s' : b.dataset.dur);
+      b.setAttribute('aria-pressed', String(!on));
+    }
+  }));
+</script>
+</body>
+</html>

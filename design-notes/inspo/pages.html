@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moves 3 and 4 — demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0b0c0c; --ink-bg:#151515; --slate:#22262a;
+    --white:#ffffff; --paper:#f3f2ee; --mist:#eceeee;
+    --line:#2a2e31; --line-soft:rgba(255,255,255,.09);
+    --ink:#f2f1ec; --mute:#a2a5a3; --dim:#909391;
+    --ink-d:#151515; --mute-d:#45484a; --dim-d:#616467; --line-d:rgba(0,0,0,.09);
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'Space Mono',ui-monospace,monospace;
+    --gutter:clamp(20px, 4vw, 56px);
+    --rhythm:clamp(4.5rem, 9vw, 8rem);
+    --ease-roll:cubic-bezier(.22, 1, .36, 1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  body{background:var(--pitch);color:var(--ink);font-family:var(--display);font-weight:300;
+    font-size:clamp(1rem, .95rem + .2vw, 1.0625rem);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1320px;margin-inline:auto;padding-inline:var(--gutter)}
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  a{color:inherit;text-decoration:none}
+  code{font-family:var(--mono);font-size:.85em}
+
+  header{padding-block:clamp(3rem,7vw,5rem) clamp(2.5rem,5vw,3.5rem);border-bottom:1px solid var(--line)}
+  header h1{font-weight:300;letter-spacing:-.03em;line-height:1;
+    font-size:clamp(2.2rem, 1.3rem + 3.6vw, 4rem);margin-block:1.25rem 1rem;max-width:18ch}
+  header p{max-width:62ch;color:var(--mute)}
+
+  .intro{padding-block:var(--rhythm) 0}
+  .intro h2{font-weight:300;letter-spacing:-.025em;line-height:1.1;
+    font-size:clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);max-width:24ch}
+  .intro p{margin-top:1rem;color:var(--mute);max-width:60ch}
+  .intro p + p{margin-top:.8rem}
+  .intro .now{margin-top:1.5rem;padding-left:1rem;border-left:1px solid var(--line);
+    color:var(--dim);font-size:.9375rem;max-width:56ch}
+
+  /* ---------- demo frames ---------- */
+  .frame{margin-top:clamp(2rem,4vw,3rem);border:1px solid var(--line);overflow:hidden}
+  .frame__bar{display:flex;gap:1.25rem;align-items:center;padding:12px var(--gutter);
+    border-bottom:1px solid var(--line);background:var(--ink-bg)}
+  .frame__bar .label{color:var(--mute)}
+
+  /* ===== MOVE 3 — work rows, figures at display scale ===== */
+  .sheet{background:var(--white);color:var(--ink-d);padding-block:clamp(2.5rem,5vw,4rem)}
+  .rows{list-style:none;border-top:1px solid var(--line-d)}
+  .rows li{border-bottom:1px solid var(--line-d)}
+  .row{display:grid;align-items:baseline;gap:clamp(16px,3vw,48px);
+    padding-block:clamp(26px,4vw,48px);
+    grid-template-columns:minmax(0,1fr) minmax(0,auto)}
+  .row__meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--dim-d);display:block;margin-bottom:10px}
+  .row__name{font-weight:300;letter-spacing:-.02em;line-height:1.1;
+    font-size:clamp(22px,2.4vw,34px);color:var(--ink-d)}
+  .row__sum{margin-top:10px;font-size:15px;line-height:1.6;color:var(--mute-d);max-width:52ch}
+
+  /* the move: the figure goes to display scale and takes the right margin */
+  .row__fig{text-align:right;white-space:nowrap}
+  .row__fig .n{display:block;font-weight:300;letter-spacing:-.035em;line-height:.9;
+    color:var(--ink-d);font-size:var(--figsize,clamp(56px,9vw,124px))}
+  .row__fig .u{display:block;margin-top:12px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim-d)}
+
+  /* ===== MOVE 4 — corner-anchored inner hero ===== */
+  .hero{position:relative;min-height:62svh;background:var(--ink-bg);
+    padding:clamp(2rem,4vw,3rem) var(--gutter);display:flex;flex-direction:column;
+    overflow:hidden}
+  .hero__field{position:absolute;inset:0;z-index:0;opacity:.5;
+    background:
+      radial-gradient(60% 50% at 70% 35%, rgba(255,255,255,.07), transparent 70%),
+      radial-gradient(45% 40% at 25% 70%, rgba(255,255,255,.05), transparent 70%);
+    filter:blur(6px)}
+  .hero__grid{position:relative;z-index:1;flex:1;display:grid;
+    grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;gap:1rem}
+  .hero__tl{grid-column:1;grid-row:1}
+  .hero__tr{grid-column:2;grid-row:1;text-align:right}
+  .hero__bl{grid-column:1;grid-row:3;align-self:end}
+  .hero__br{grid-column:2;grid-row:3;text-align:right;align-self:end}
+  .hero .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);display:block;line-height:2}
+  .hero .k b{color:var(--ink);font-weight:400}
+
+  /* the variable: how much of a headline survives in the middle */
+  .hero__mid{grid-column:1 / -1;grid-row:2;display:flex;align-items:center}
+  .hero__mid h3{font-weight:300;letter-spacing:-.03em;line-height:.98;
+    font-size:clamp(2.5rem,7vw,5.5rem);max-width:14ch;color:var(--ink);
+    transition:opacity .45s var(--ease-roll)}
+  .hero[data-mode="none"] .hero__mid h3{opacity:0}
+  .hero[data-mode="quiet"] .hero__mid h3{opacity:.28}
+
+  .controls{display:flex;flex-wrap:wrap;gap:.6rem 1rem;margin-top:1.5rem}
+  .controls button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;background:transparent;color:var(--mute);
+    border:1px solid var(--line);padding:.7em 1.1em;cursor:pointer;
+    transition:border-color .2s,color .2s}
+  .controls button:hover{color:var(--ink);border-color:var(--dim)}
+  .controls button[aria-pressed=true]{color:var(--ink);border-color:var(--ink)}
+
+  .verdict{margin-top:clamp(2rem,4vw,3rem);border:1px solid var(--line);
+    background:var(--ink-bg);padding:clamp(1.4rem,3vw,2rem)}
+  .verdict h4{font-weight:400;font-size:1.125rem;margin-bottom:.6rem}
+  .verdict p{color:var(--mute);max-width:58ch;font-size:.9375rem}
+  .verdict p + p{margin-top:.7rem}
+
+  footer{padding-block:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--line);margin-top:var(--rhythm)}
+  footer p{color:var(--dim);font-size:.875rem;max-width:64ch}
+  footer p + p{margin-top:.6rem}
+  footer a{text-decoration:underline;text-underline-offset:.2em}
+
+  @media(max-width:48rem){
+    .row{grid-template-columns:1fr}
+    .row__fig{text-align:left}
+    .hero__grid{grid-template-columns:1fr}
+    .hero__tr,.hero__br{text-align:left;grid-column:1}
+    .hero__tr{grid-row:1}
+    .hero__bl,.hero__br{grid-row:auto}
+  }
+  @media(prefers-reduced-motion:reduce){ .hero__mid h3{transition-duration:.01ms} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="label">Moves 3 &amp; 4 · demo only · nothing applied</p>
+    <h1>Two page moves, at the scale they'd actually ship.</h1>
+    <p>Built on your tokens — Space Grotesk 300, Space Mono, the ground ladder. Move 1 (services at index scale) and move 2 (case-study plates) are already on the branch; these two are not, and this page is the only place they exist.</p>
+  </div>
+</header>
+
+<!-- ===================== MOVE 3 ===================== -->
+<section class="intro">
+  <div class="wrap">
+    <p class="label">Move 03 · reference: Monolog — type as architecture</p>
+    <h2>Let the figures be the biggest thing on the work page.</h2>
+    <p>Monolog's signature is display type cropped against the viewport edge, doing structural work rather than decorative work. The transferable part isn't the crop — it's treating a number as architecture instead of as a caption.</p>
+    <p class="now"><b>Now:</b> <code>+38%</code> and <code>7×</code> render at <code>clamp(24px, 3vw, 46px)</code>, right-aligned, roughly the same weight as the client name beside them. They're the most valuable content on the page and they read as annotations.</p>
+
+    <div class="frame">
+      <div class="frame__bar"><span class="label">/work</span><span class="label">drag the size</span></div>
+      <div class="sheet">
+        <div class="wrap">
+          <ul class="rows" role="list" id="workrows">
+            <li><a class="row" href="#0">
+              <div class="row__meta">
+                <span class="k">2026 · Inbound Growth</span>
+                <div class="row__name">Arnlea</div>
+                <p class="row__sum">Built organic search presence from near zero for a specialist supplier with 30+ years of trading and no digital footprint.</p>
+              </div>
+              <div class="row__fig"><span class="n">#1</span><span class="u">Rank</span></div>
+            </a></li>
+            <li><a class="row" href="#0">
+              <div class="row__meta">
+                <span class="k">2026 · Positioning &amp; SEO</span>
+                <div class="row__name">Viewport3</div>
+                <p class="row__sum">Reframed Viewport3 from photogrammetry vendor to dimensional assurance partner, out of price competition and into a category of their own.</p>
+              </div>
+              <div class="row__fig"><span class="n">+38%</span><span class="u">Demo request uplift</span></div>
+            </a></li>
+            <li><a class="row" href="#0">
+              <div class="row__meta">
+                <span class="k">2026 · SEO &amp; PPC for lead gen</span>
+                <div class="row__name">BowtieMaster</div>
+                <p class="row__sum">Audited the site and Google Ads account, then rebuilt both around lead generation — seven times the monthly leads.</p>
+              </div>
+              <div class="row__fig"><span class="n">7×</span><span class="u">Leads per month</span></div>
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" id="figctl">
+      <button type="button" data-fig="clamp(24px, 3vw, 46px)" aria-pressed="false">As built · 46px</button>
+      <button type="button" data-fig="clamp(44px, 6vw, 84px)" aria-pressed="false">Raised · 84px</button>
+      <button type="button" data-fig="clamp(56px, 9vw, 124px)" aria-pressed="true">Architectural · 124px</button>
+    </div>
+
+    <div class="verdict">
+      <h4>What I'd take</h4>
+      <p><b>124px.</b> At 84px the figure competes with the client name; at 124px it stops competing and becomes the thing the row is about, with the name and summary reading as its caption. That inversion is the whole move.</p>
+      <p>One caution: three figures at 124px is three display moments on one page, and the page already ends with a display-scale CTA. Worth viewing after move 1 rather than deciding in isolation — same warning as before.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MOVE 4 ===================== -->
+<section class="intro">
+  <div class="wrap">
+    <p class="label">Move 04 · reference: Aristide Benoist — corners carry the facts</p>
+    <h2>Let the inner-page hero say what the document is, from its corners.</h2>
+    <p>Aristide's fold has no headline: wordmark top-left, one word top-right, availability bottom-left, contact bottom-right, and the middle left to the visual. Extreme scale jump in the opposite direction from the index — logo ~24px, body ~8px.</p>
+    <p class="now"><b>Your DESIGN.md already asks for this:</b> an inner hero is "a little over half a screen, scrolls away normally, and carries no field — it says what the document is and gets out of the way." The corner pattern is that brief, drawn.</p>
+
+    <div class="frame">
+      <div class="frame__bar"><span class="label">/about</span><span class="label">try the three middles</span></div>
+      <div class="hero" data-mode="quiet" id="hero">
+        <div class="hero__field" aria-hidden="true"></div>
+        <div class="hero__grid">
+          <div class="hero__tl"><span class="k">← All work</span></div>
+          <div class="hero__tr"><span class="k">Document <b>02</b></span></div>
+          <div class="hero__mid"><h3>About</h3></div>
+          <div class="hero__bl">
+            <span class="k">Yann Hamonou</span>
+            <span class="k"><b>Marketing technologist</b></span>
+          </div>
+          <div class="hero__br">
+            <span class="k">Stonehaven · Aberdeenshire</span>
+            <span class="k"><b>Available now</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" id="heroctl">
+      <button type="button" data-mode="full" aria-pressed="false">Headline full</button>
+      <button type="button" data-mode="quiet" aria-pressed="true">Headline quiet</button>
+      <button type="button" data-mode="none" aria-pressed="false">No headline</button>
+    </div>
+
+    <div class="verdict">
+      <h4>What I'd take</h4>
+      <p><b>Quiet, not none.</b> Aristide can drop the headline because a photographic strip holds the centre. Your inner heroes carry no field by your own rule, so "none" leaves a genuinely empty box rather than a composed one — restraint needs something to restrain.</p>
+      <p>The real win here is smaller than the reference: move the page's facts to the corners, keep a reduced headline in the middle. You already do half of it on the homepage with <code>STONEHAVEN · ABERDEENSHIRE · SCOTLAND</code> on the baseline.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="label" style="display:block;margin-bottom:1rem">Notes</p>
+    <p>Neither move is on the branch. The figures, summaries and labels above are your real content, copied from <code>src/data/index.ts</code>; the hero field is a CSS approximation, not your WebGL one.</p>
+    <p><a href="index.html">← reference study</a> · <a href="motion.html">the motion</a> · <a href="menu.html">the menu</a></p>
+  </div>
+</footer>
+
+<script>
+  const pressed = (list, el) => list.forEach(b => b.setAttribute('aria-pressed', String(b === el)));
+  const figBtns = [...document.querySelectorAll('#figctl button')];
+  figBtns.forEach(b => b.addEventListener('click', () => {
+    document.getElementById('workrows').style.setProperty('--figsize', b.dataset.fig);
+    pressed(figBtns, b);
+  }));
+  const heroBtns = [...document.querySelectorAll('#heroctl button')];
+  heroBtns.forEach(b => b.addEventListener('click', () => {
+    document.getElementById('hero').dataset.mode = b.dataset.mode;
+    pressed(heroBtns, b);
+  }));
+</script>
+</body>
+</html>
