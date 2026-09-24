@@ -1388,18 +1388,68 @@ a:focus-visible .v4-client-logo {
   padding-block: clamp(56px, 7vw, 96px);
 }
 
-.v4-footer__grid {
+/* ── Footer, as an index ──
+   The four-column grid and its PAGES / SERVICES / JOURNAL / CONSULT headings
+   are gone. What is left is the shape the rest of the site uses: facts in the
+   corners, then one flat list in the mono voice. */
+.edge-footer__top {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: clamp(32px, 4vw, 64px);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
 }
 
-@media (max-width: 900px) {
-  .v4-footer__grid { grid-template-columns: 1fr 1fr; }
+.edge-footer__contact {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
 }
 
-@media (max-width: 500px) {
-  .v4-footer__grid { grid-template-columns: 1fr; }
+.edge-footer__contact a {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v4-ink-dim);
+  transition: color 0.15s ease;
+}
+
+.edge-footer__contact a:hover,
+.edge-footer__contact a:focus-visible { color: var(--v4-ink); }
+
+/* One list, wrapping. Thirteen destinations still crawlable, with none of the
+   column chrome that made this look like every other B2B footer. */
+.edge-footer__index {
+  margin-top: clamp(36px, 6vh, 64px);
+  padding-top: clamp(20px, 3vh, 28px);
+  border-top: 1px solid var(--v4-line-soft);
+}
+
+.edge-footer__index ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(18px, 2.5vw, 34px);
+}
+
+.edge-footer__index a {
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v4-ink-mute);
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.edge-footer__index a:hover,
+.edge-footer__index a:focus-visible { color: var(--v4-ink); }
+
+@media (max-width: 46rem) {
+  .edge-footer__top { grid-template-columns: 1fr; }
+  .edge-footer__contact { text-align: left; flex-direction: row; gap: 20px; }
 }
 
 .v4-footer__brand {
@@ -1418,29 +1468,13 @@ a:focus-visible .v4-client-logo {
   max-width: 260px;
 }
 
-.v4-footer__col-title {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  margin-bottom: 14px;
-}
+/* .v4-footer__col-title and .v4-footer__col-links went with the columns. */
 
-.v4-footer__col-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.edge-footer__where { flex: 1 1 auto; text-align: center; }
 
-.v4-footer__col-links a {
-  font-size: var(--v4-text-small);
-  color: var(--v4-ink-mute);
-  transition: color 0.15s ease;
+@media (max-width: 46rem) {
+  .edge-footer__where { text-align: left; }
 }
-
-.v4-footer__col-links a:hover { color: var(--v4-ink); }
 
 .v4-footer__legal {
   margin-top: 48px;

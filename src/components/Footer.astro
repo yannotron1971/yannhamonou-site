@@ -1,84 +1,75 @@
 ---
+/**
+ * The footer, as an index rather than a link farm.
+ *
+ * It held four columns under PAGES / SERVICES / JOURNAL / CONSULT headings —
+ * the generic shape, and listing the same five destinations the menu now sets
+ * at 104px. The headings are gone: on a site whose way in is an index, the way
+ * out should be one too, in the mono voice at the other end of the scale.
+ *
+ * Every link stays. This is a search consultant's site, /services/seo-aberdeen
+ * and /digital-marketing-aberdeen are landing pages that earn from internal
+ * links, and stripping the footer to a reference site's two corners would be
+ * design purity paid for out of the client's own product.
+ */
 const year = new Date().getFullYear();
+
+/* The site's order, not alphabetical: the five destinations the menu carries,
+   then the six services, then the two that hang off them. */
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/work', label: 'Work' },
+  { href: '/journal', label: 'Journal' },
+  { href: '/contact', label: 'Contact' },
+  { href: '/services/positioning', label: 'Positioning' },
+  { href: '/services/strategy', label: 'Strategy' },
+  { href: '/services/seo-aberdeen', label: 'SEO Aberdeen & GEO' },
+  { href: '/services/media', label: 'Organic & Paid Media' },
+  { href: '/services/web', label: 'Web & CRO' },
+  { href: '/services/leadership', label: 'Marketing Leadership' },
+  { href: '/digital-marketing-aberdeen', label: 'Digital Marketing Aberdeen' },
+  { href: '/contact', label: 'Free 30-min review' },
+];
 ---
 
 <footer class="v4-footer">
   <div class="v4-wrap">
-    <div class="v4-footer__grid">
-      <!-- Brand col -->
+    <div class="edge-footer__top">
       <div>
         <div class="v4-footer__brand">Yann.Hamonou</div>
         <p class="v4-footer__tagline">
-          B2B marketing consultant based in Stonehaven, Scotland. Helping SMEs get found, get known, and grow.
+          B2B marketing consultant based in Stonehaven, Scotland. Helping SMEs
+          get found, get known, and grow.
         </p>
-        <div style="margin-top:20px; display:flex; gap:12px;">
+      </div>
+
+      <!-- Corner-anchored, the way the inner-page heroes carry their facts.
+           The hover was two inline onmouseover/onmouseout handlers writing
+           style strings; it is a selector now, like the work rows. -->
+      <ul class="edge-footer__contact" role="list">
+        <li><a href="mailto:yanndaman@googlemail.com">Email ↗</a></li>
+        <li>
           <a
             href="https://www.linkedin.com/in/yannhamonou"
             target="_blank"
-            rel="noopener noreferrer"
-            class="v4-eyebrow"
-            style="color:var(--v4-ink-dim); transition:color 0.15s ease;"
-            onmouseover="this.style.color='var(--v4-ink)'"
-            onmouseout="this.style.color='var(--v4-ink-dim)'"
-            aria-label="LinkedIn"
-          >
-            LinkedIn ↗
-          </a>
-          <a
-            href="mailto:yanndaman@googlemail.com"
-            class="v4-eyebrow"
-            style="color:var(--v4-ink-dim); transition:color 0.15s ease;"
-            onmouseover="this.style.color='var(--v4-ink)'"
-            onmouseout="this.style.color='var(--v4-ink-dim)'"
-          >
-            Email ↗
-          </a>
-        </div>
-      </div>
-
-      <!-- Pages col -->
-      <div>
-        <div class="v4-footer__col-title">Pages</div>
-        <ul class="v4-footer__col-links" role="list">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/work">Work</a></li>
-          <li><a href="/digital-marketing-aberdeen">Digital Marketing Aberdeen</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-      </div>
-
-      <!-- Services col -->
-      <div>
-        <div class="v4-footer__col-title">Services</div>
-        <ul class="v4-footer__col-links" role="list">
-          <li><a href="/services/positioning">Positioning</a></li>
-          <li><a href="/services/strategy">Strategy</a></li>
-          <li><a href="/services/seo-aberdeen">SEO Aberdeen & GEO</a></li>
-          <li><a href="/services/media">Organic &amp; Paid Media</a></li>
-          <li><a href="/services/web">Web & CRO</a></li>
-          <li><a href="/services/leadership">Marketing Leadership</a></li>
-        </ul>
-      </div>
-
-      <!-- Journal col -->
-      <div>
-        <div class="v4-footer__col-title">Journal</div>
-        <ul class="v4-footer__col-links" role="list">
-          <li><a href="/journal">All posts</a></li>
-        </ul>
-        <div style="margin-top:24px;">
-          <div class="v4-footer__col-title">Consult</div>
-          <ul class="v4-footer__col-links" role="list">
-            <li><a href="/contact">Free 30-min review</a></li>
-          </ul>
-        </div>
-      </div>
+            rel="noopener noreferrer">LinkedIn ↗</a>
+        </li>
+      </ul>
     </div>
 
+    <nav class="edge-footer__index" aria-label="Footer">
+      <ul role="list">
+        {links.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </nav>
+
     <div class="v4-footer__legal">
-      <span class="v4-footer__copy">© {year} Yann Hamonou. All rights reserved.</span>
-      <a href="/privacy" class="v4-footer__copy" style="transition:color 0.15s ease;">Privacy Policy</a>
+      <span class="v4-footer__copy">© {year} Yann Hamonou</span>
+      <span class="v4-footer__copy edge-footer__where">
+        Stonehaven · Aberdeenshire · Scotland
+      </span>
+      <a href="/privacy" class="v4-footer__copy">Privacy</a>
     </div>
   </div>
 </footer>
