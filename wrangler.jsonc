@@ -6,6 +6,15 @@
   // takes effect. See README for the one-time setup.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "yannhamonou-site",
+  // No account_id here: Pages configs reject the key outright ("Configuration
+  // file for Pages projects does not support account_id"). It is still needed,
+  // because two accounts are reachable from this login — a client's and Yann's
+  // own — and wrangler will not pick between them. Pass it in the environment:
+  //
+  //   CLOUDFLARE_ACCOUNT_ID=73623c5494ea90d6e95dc6675a0d4776 npm run deploy
+  //
+  // That is the personal account. The site does not belong in a client's
+  // infrastructure.
   "compatibility_date": "2026-09-10",
   "compatibility_flags": [
     "nodejs_compat"
@@ -15,10 +24,11 @@
   // binding called SESSION. Without it a deployed build fails at runtime with
   // "Invalid binding `SESSION`" — this is the warning printed on every build.
   //
-  // The id below is a placeholder. Create the namespace once:
+  // Created once with:
   //   npx wrangler kv namespace create SESSION
-  // then paste the id it prints over PLACEHOLDER, or set the binding in the
-  // dashboard under Settings → Bindings if you deploy via the Git integration.
+  // The id below is the real namespace, created earlier — or set the binding
+  // in the dashboard under Settings → Bindings if you deploy via the Git
+  // integration.
   "kv_namespaces": [
     {
       "binding": "SESSION",

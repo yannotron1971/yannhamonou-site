@@ -7,8 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && wrangler pages deploy",
-    "cf-preview": "astro build && wrangler pages dev"
+    "deploy": "astro build && node scripts/dedupe-routes.mjs && wrangler pages deploy",
+    "cf-preview": "astro build && node scripts/dedupe-routes.mjs && wrangler pages dev"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
