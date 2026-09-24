@@ -58,7 +58,7 @@ import PageHero from '../components/PageHero.astro';
           <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--v4-line-soft)">
             <div class="edge-label" style="margin-bottom:12px">Prefer to call?</div>
             <a href="tel:+447853455816" style="font-size:22px;font-weight:600;color:var(--v4-ink)">+44 7853 455 816</a>
-            <p style="font-size:13px;color:var(--v4-ink-dim);margin-top:4px">Mon–Fri, 9am–6pm GMT</p>
+            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-dim);margin-top:4px">Mon–Fri, 9am–6pm GMT</p>
           </div>
         </div>
 
@@ -74,10 +74,10 @@ import PageHero from '../components/PageHero.astro';
                 { n: '03', t: '30-min call, clear priorities', b: 'You leave with a specific list of what I\'d fix first — not a generic report.' },
               ].map(step => (
                 <li style="display:flex;gap:14px;align-items:flex-start">
-                  <span style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.08em;padding-top:3px;flex-shrink:0">{step.n}</span>
+                  <span style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.08em;padding-top:3px;flex-shrink:0">{step.n}</span>
                   <div>
-                    <div style="font-weight:500;font-size:14px;color:var(--v4-ink);margin-bottom:2px">{step.t}</div>
-                    <div style="font-size:13px;color:var(--v4-ink-mute);line-height:1.5">{step.b}</div>
+                    <div style="font-weight:500;font-size:var(--v4-text-small);color:var(--v4-ink);margin-bottom:2px">{step.t}</div>
+                    <div style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.5">{step.b}</div>
                   </div>
                 </li>
               ))}
@@ -89,7 +89,7 @@ import PageHero from '../components/PageHero.astro';
             <div style="font-family:var(--v4-display);font-weight:300;font-size:48px;line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
               &lt;4h
             </div>
-            <p style="font-size:13px;color:var(--v4-ink-mute);margin-top:8px;line-height:1.5">
+            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);margin-top:8px;line-height:1.5">
               During business hours. I read every enquiry personally and respond with something useful — not a templated reply.
             </p>
           </div>
@@ -104,10 +104,10 @@ import PageHero from '../components/PageHero.astro';
               decorative
             />
             <blockquote style="margin:0">
-              <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:12px">
+              <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:12px">
                 "Within three months we saw measurable results in both organic traffic and lead quality."
               </p>
-              <footer style="font-size:12px;color:var(--v4-ink-dim)">
+              <footer style="font-size:var(--v4-text-label);color:var(--v4-ink-dim)">
                 Chris Harvey, CEO · Viewport3, Aberdeen
               </footer>
             </blockquote>

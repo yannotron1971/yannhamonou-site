@@ -23,7 +23,7 @@ import PageHero from '../components/PageHero.astro';
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
           <div class="edge-label" style="margin-bottom:20px">The background</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.65">
+          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.65">
             <p>
               I've spent two decades working in B2B marketing — from early-stage SaaS companies to established industrial and professional services firms across the UK and Europe.
             </p>
@@ -54,7 +54,7 @@ import PageHero from '../components/PageHero.astro';
             <div class="edge-label" style="margin-bottom:12px">Specialist in</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               {['Strategy', 'Positioning', 'SEO & GEO', 'Organic & Paid Media', 'Web & CRO', 'Marketing Leadership', 'B2B Lead Generation', 'Aberdeen & Scotland'].map(tag => (
-                <span style="padding:6px 12px;background:var(--v4-panel-2);border-radius:999px;font-size:12px;color:var(--v4-ink-mute);font-family:var(--v4-mono);letter-spacing:0.04em">
+                <span style="padding:6px 12px;background:var(--v4-panel-2);border-radius:0;font-size:var(--v4-text-label);color:var(--v4-ink-mute);font-family:var(--v4-mono);letter-spacing:0.04em">
                   {tag}
                 </span>
               ))}
@@ -81,7 +81,7 @@ import PageHero from '../components/PageHero.astro';
             <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(22px,2.5vw,30px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {step.title}
             </h3>
-            <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
+            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
           </div>
         ))}
       </div>
@@ -92,10 +92,10 @@ import PageHero from '../components/PageHero.astro';
   <section class="edge-block edge-block--dark edge-block--pitch">
     <div class="edge-wrap" style="max-width:640px;text-align:center">
       <h2 class="edge-h2" style="margin-bottom:16px">Ready to Talk?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
         Book a free 30-minute strategy review. I'll look at your current situation and tell you exactly what I'd change.
       </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
         Book the free review →
       </a>
     </div>

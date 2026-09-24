@@ -68,10 +68,19 @@ body.v4 {
      of this concept. */
   --v4-ease-roll: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* Three steps under the display scale, not eight. The measured set ran
+     10, 11, 12, 13, 14, 15, 16 and 17px across ~117 declarations — eight ways
+     to set a label on a site whose references use four type steps in total,
+     and whose own brief says the restraint is the design. 11 and 15 already
+     did most of the work; the other six collapse into them. */
+  --v4-text-label: 11px;  /* mono labels, eyebrows, meta, captions */
+  --v4-text-small: 13px;  /* secondary body, row descriptors */
+  --v4-text-body:  15px;  /* body prose */
+
   background-color: transparent;
   color: var(--v4-ink);
   font-family: var(--v4-sans);
-  font-size: 15px;
+  font-size: var(--v4-text-body);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -177,7 +186,7 @@ body.v4.is-light.tone-bright {
    colour. A near-miss would read worse than an obvious difference. */
 .v4-eyebrow {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -279,7 +288,7 @@ body.sheet-active .v4-nav {
   align-items: center;
   gap: 9px;
   font-family: var(--v4-display);
-  font-size: 15px;
+  font-size: var(--v4-text-body);
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--v4-ink);
@@ -339,7 +348,7 @@ body.sheet-active .v4-nav.is-drawer-open {
 
 .v4-nav__nojs a {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--v4-ink-mute);
@@ -364,7 +373,7 @@ body.sheet-active .v4-nav.is-drawer-open {
   height: 28px;
   padding: 0 4px;
   border: 1px solid var(--v4-line);
-  border-radius: 999px;
+  border-radius: 0;
   gap: 2px;
   background: var(--v4-panel);
 }
@@ -378,7 +387,7 @@ body.sheet-active .v4-nav.is-drawer-open {
   border-radius: 50%;
   color: var(--v4-ink-dim);
   transition: background 0.15s ease, color 0.15s ease;
-  font-size: 12px;
+  font-size: var(--v4-text-label);
 }
 
 .v4-theme-toggle__btn:hover,
@@ -528,7 +537,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-drawer__rail a {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -645,7 +654,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-hero__location {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -653,7 +662,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-hero__scroll {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -712,7 +721,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 }
 
 .v4-stat__label {
-  font-size: 13px;
+  font-size: var(--v4-text-small);
   color: var(--v4-ink-mute);
   margin-top: 4px;
 }
@@ -773,7 +782,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-work-card__meta {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 0.7;
@@ -812,7 +821,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-service-card__num {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   color: var(--v4-ink-dim);
   margin-bottom: 20px;
@@ -829,7 +838,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 }
 
 .v4-service-card__desc {
-  font-size: 14px;
+  font-size: var(--v4-text-small);
   color: var(--v4-ink-mute);
   line-height: 1.5;
 }
@@ -837,7 +846,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 .v4-service-card__arrow {
   margin-top: 24px;
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -880,7 +889,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 
 .v4-marquee__item {
   font-family: var(--v4-mono);
-  font-size: 12px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1106,7 +1115,7 @@ a:focus-visible .v4-client-logo {
   display: block;
   margin-top: 12px;
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1182,14 +1191,14 @@ a:focus-visible .v4-client-logo {
 }
 
 .v4-testimonial__name {
-  font-size: 14px;
+  font-size: var(--v4-text-small);
   font-weight: 600;
   color: var(--v4-ink);
 }
 
 .v4-testimonial__role {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.04em;
   color: var(--v4-ink-dim);
   margin-top: 2px;
@@ -1224,7 +1233,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-post-card__cat {
   font-family: var(--v4-mono);
-  font-size: 10px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1232,14 +1241,14 @@ a:focus-visible .v4-client-logo {
 }
 
 .v4-post-card__title {
-  font-size: 16px;
+  font-size: var(--v4-text-body);
   font-weight: 600;
   line-height: 1.35;
   color: var(--v4-ink);
 }
 
 .v4-post-card__desc {
-  font-size: 13px;
+  font-size: var(--v4-text-small);
   color: var(--v4-ink-mute);
   line-height: 1.5;
   margin-top: 8px;
@@ -1252,7 +1261,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-post-card__date {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   color: var(--v4-ink-dim);
   margin-top: 16px;
 }
@@ -1286,7 +1295,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-field label {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1300,7 +1309,7 @@ a:focus-visible .v4-client-logo {
   border-radius: 0;
   padding: 12px 14px;
   font-family: var(--v4-sans);
-  font-size: 15px;
+  font-size: var(--v4-text-body);
   color: var(--v4-ink);
   width: 100%;
   transition: border-color 0.15s ease;
@@ -1332,9 +1341,9 @@ a:focus-visible .v4-client-logo {
   gap: 8px;
   height: 46px;
   padding: 0 26px;
-  border-radius: 999px;
+  border-radius: 0;
   font-family: var(--v4-mono);
-  font-size: 12px;
+  font-size: var(--v4-text-label);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1395,7 +1404,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-footer__brand {
   font-family: var(--v4-mono);
-  font-size: 13px;
+  font-size: var(--v4-text-small);
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--v4-ink);
@@ -1403,7 +1412,7 @@ a:focus-visible .v4-client-logo {
 }
 
 .v4-footer__tagline {
-  font-size: 13px;
+  font-size: var(--v4-text-small);
   color: var(--v4-ink-dim);
   line-height: 1.5;
   max-width: 260px;
@@ -1411,7 +1420,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-footer__col-title {
   font-family: var(--v4-mono);
-  font-size: 10px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1426,7 +1435,7 @@ a:focus-visible .v4-client-logo {
 }
 
 .v4-footer__col-links a {
-  font-size: 13px;
+  font-size: var(--v4-text-small);
   color: var(--v4-ink-mute);
   transition: color 0.15s ease;
 }
@@ -1446,7 +1455,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-footer__copy {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   color: var(--v4-ink-dim);
 }
 
@@ -1457,7 +1466,7 @@ a:focus-visible .v4-client-logo {
   max-width: 680px;
   margin-inline: auto;
   color: var(--v4-ink-mute);
-  font-size: 17px;
+  font-size: var(--v4-text-body);
   line-height: 1.65;
 }
 
@@ -1504,7 +1513,7 @@ a:focus-visible .v4-client-logo {
 
 .v4-prose code {
   background: var(--v4-panel-2);
-  border-radius: 4px;
+  border-radius: 0;
   padding: 2px 6px;
   font-family: var(--v4-mono);
   font-size: 0.875em;
@@ -1532,7 +1541,7 @@ a:focus-visible .v4-client-logo {
 .v4-prose table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--v4-text-small);
 }
 
 .v4-prose thead tr { background: var(--v4-panel-2); }
@@ -1541,7 +1550,7 @@ a:focus-visible .v4-client-logo {
   padding: 12px 16px;
   text-align: left;
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1599,7 +1608,7 @@ a:focus-visible .v4-client-logo {
     top: 10px;
     width: 42%;
     font-family: var(--v4-mono);
-    font-size: 10px;
+    font-size: var(--v4-text-label);
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1655,7 +1664,7 @@ a:focus-visible .v4-client-logo {
   background: var(--v4-ink);
   color: var(--v4-bg);
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1725,7 +1734,7 @@ a:focus-visible .v4-client-logo {
 .edge-label,
 .edge-kicker {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1779,7 +1788,7 @@ a:focus-visible .v4-client-logo {
 }
 .edge-hero__where {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1791,9 +1800,12 @@ a:focus-visible .v4-client-logo {
   height: 46px;
   padding-inline: 26px;
   border: 1px solid var(--v4-line);
-  border-radius: 999px;
+  /* Square, like everything else. Every reference this design was studied
+     against measures a radius scale of exactly [0]; the buttons were the only
+     rounded thing on the site, and they appear on every page. */
+  border-radius: 0;
   font-family: var(--v4-mono);
-  font-size: 12px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--v4-ink);
@@ -1867,7 +1879,7 @@ a:focus-visible .v4-client-logo {
 .edge-plate__spec,
 .edge-plate__cap {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -1956,7 +1968,7 @@ a:focus-visible .v4-client-logo {
 }
 .edge-figure__label {
   font-family: var(--v4-mono);
-  font-size: 10px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -2013,7 +2025,7 @@ a:focus-visible .v4-client-logo {
 }
 
 .edge-problem__cost {
-  font-size: 15px;
+  font-size: var(--v4-text-body);
   line-height: 1.7;
   color: var(--v4-ink-mute);
   max-width: 46ch;
@@ -2094,7 +2106,7 @@ a:focus-visible .v4-client-logo {
 .edge-row__num,
 .edge-row__desc {
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.08em;
   color: var(--v4-ink-dim);
   text-transform: uppercase;
@@ -2105,7 +2117,7 @@ a:focus-visible .v4-client-logo {
 .edge-row__desc {
   text-transform: none;
   letter-spacing: 0.02em;
-  font-size: 12px;
+  font-size: var(--v4-text-label);
   line-height: 1.6;
   text-align: left;
   justify-self: start;
@@ -2144,7 +2156,7 @@ a:focus-visible .v4-client-logo {
   display: inline-block;
   margin-top: 32px;
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -2169,7 +2181,7 @@ a:focus-visible .v4-client-logo {
 }
 .edge-quote figcaption {
   font-family: var(--v4-mono);
-  font-size: 10px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
@@ -2199,7 +2211,7 @@ a:focus-visible .v4-client-logo {
   padding-bottom: 26px;
   max-width: 62ch;
   color: var(--v4-ink-mute);
-  font-size: 14px;
+  font-size: var(--v4-text-small);
   line-height: 1.7;
 }
 
@@ -2208,7 +2220,7 @@ a:focus-visible .v4-client-logo {
 .edge-cta__h { margin-top: 0; }
 .edge-cta__p {
   color: var(--v4-ink-mute);
-  font-size: 15px;
+  font-size: var(--v4-text-body);
   line-height: 1.7;
   max-width: 42ch;
   margin: 24px auto 40px;
@@ -2284,7 +2296,7 @@ a:focus-visible .v4-client-logo {
 .edge-page-hero__br span {
   display: block;
   font-family: var(--v4-mono);
-  font-size: 11px;
+  font-size: var(--v4-text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);

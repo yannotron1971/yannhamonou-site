@@ -60,7 +60,7 @@ const s = service as any;
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
           <div class="edge-label" style="margin-bottom:20px">The challenge</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
+          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.7">
             <p>{s.intro}</p>
             {s.why && <p>{s.why}</p>}
           </div>
@@ -74,7 +74,7 @@ const s = service as any;
           <div class="edge-label" style="margin-bottom:16px">What's included</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
             {s.deliverables.map((item: string) => (
-              <li style="font-size:14px;color:var(--v4-ink-mute);padding-left:16px;position:relative">
+              <li style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);padding-left:16px;position:relative">
                 <span style="position:absolute;left:0;color:var(--v4-ink-dim)">→</span>{item}
               </li>
             ))}
@@ -99,7 +99,7 @@ const s = service as any;
             <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {step.title}
             </h3>
-            <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
+            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
           </div>
         ))}
       </div>
@@ -128,19 +128,19 @@ const s = service as any;
               <p style="font-size:clamp(16px,2vw,20px);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:16px">
                 "{s.proof.quote}"
               </p>
-              <footer style="font-size:13px;color:var(--v4-ink-dim)">
+              <footer style="font-size:var(--v4-text-small);color:var(--v4-ink-dim)">
                 {s.proof.name} · {s.proof.role}, {s.proof.company}
               </footer>
             </blockquote>
             {s.caseNote && (
-              <p style="font-size:15px;color:var(--v4-ink-mute);line-height:1.65;border-top:1px solid var(--v4-line-soft);padding-top:20px;margin-top:4px">
+              <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.65;border-top:1px solid var(--v4-line-soft);padding-top:20px;margin-top:4px">
                 {s.caseNote}
               </p>
             )}
           </div>
           <div style="text-align:right;flex-shrink:0">
             <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">{s.proof.stat}</div>
-            <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;max-width:120px;margin-left:auto">{s.proof.statLabel}</div>
+            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;max-width:120px;margin-left:auto">{s.proof.statLabel}</div>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ const s = service as any;
               {item.q}
               <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
             </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
+            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6">{item.a}</p>
           </details>
         ))}
       </div>
@@ -175,7 +175,7 @@ const s = service as any;
       <div class="edge-label" style="margin-bottom:16px">Also available</div>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
         {otherServices.map(os => (
-          <a href={`/services/${os.slug}`} class="edge-btn" style="height:36px;font-size:13px">
+          <a href={`/services/${os.slug}`} class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
             {os.title}
           </a>
         ))}
@@ -187,10 +187,10 @@ const s = service as any;
   <section class="edge-block edge-block--dark edge-block--pitch">
     <div class="edge-wrap" style="max-width:640px;text-align:center">
       <h2 class="edge-h2" style="margin-bottom:16px">Ready to Talk?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
         Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
       </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
         Book the free review →
       </a>
     </div>

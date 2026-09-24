@@ -71,7 +71,7 @@ const detail = c.challenge ? c : null;
         <!-- Challenge -->
         <div style="display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start">
           <div class="edge-label" style="padding-top:4px">The challenge</div>
-          <p style="font-size:17px;color:var(--v4-ink-mute);line-height:1.7">{detail.challenge}</p>
+          <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.7">{detail.challenge}</p>
         </div>
 
         <!-- Approach -->
@@ -80,8 +80,8 @@ const detail = c.challenge ? c : null;
           <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
             {detail.approach.map(item => (
               <li style="display:flex;gap:16px;align-items:start">
-                <span style="color:var(--v4-ink-dim);font-family:var(--v4-mono);font-size:11px;flex-shrink:0;padding-top:2px">→</span>
-                <span style="font-size:16px;color:var(--v4-ink-mute);line-height:1.6">{item}</span>
+                <span style="color:var(--v4-ink-dim);font-family:var(--v4-mono);font-size:var(--v4-text-label);flex-shrink:0;padding-top:2px">→</span>
+                <span style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{item}</span>
               </li>
             ))}
           </ul>
@@ -93,8 +93,8 @@ const detail = c.challenge ? c : null;
           <ul style="list-style:none;display:flex;flex-direction:column;gap:16px">
             {detail.results.map(item => (
               <li style="display:flex;gap:16px;align-items:start">
-                <span style="color:var(--v4-accent-warm);font-family:var(--v4-mono);font-size:11px;flex-shrink:0;padding-top:2px">✓</span>
-                <span style="font-size:16px;color:var(--v4-ink);line-height:1.6;font-weight:500">{item}</span>
+                <span style="color:var(--v4-accent-warm);font-family:var(--v4-mono);font-size:var(--v4-text-label);flex-shrink:0;padding-top:2px">✓</span>
+                <span style="font-size:var(--v4-text-body);color:var(--v4-ink);line-height:1.6;font-weight:500">{item}</span>
               </li>
             ))}
           </ul>
@@ -150,10 +150,10 @@ const detail = c.challenge ? c : null;
   <section class="edge-block edge-block--dark edge-block--pitch">
     <div class="edge-wrap" style="max-width:640px;text-align:center">
       <h2 class="edge-h2" style="margin-bottom:16px">Want Results<br/>Like These?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
         Book a free 30-minute review. I'll tell you where the biggest opportunity is for your business.
       </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
         Book the free review →
       </a>
     </div>

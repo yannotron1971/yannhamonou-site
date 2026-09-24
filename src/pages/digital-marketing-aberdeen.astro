@@ -69,7 +69,7 @@ const faq = [
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
         <div>
           <div class="edge-label" style="margin-bottom:20px">Why Aberdeen is different</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:16px;line-height:1.7">
+          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.7">
             <p>
               Digital marketing in Aberdeen operates in a specific commercial environment. The city's economy is dominated by energy, professional services, and industrial supply — B2B markets where buying decisions are relationship-driven, sales cycles are long, and generic national campaigns rarely convert.
             </p>
@@ -88,10 +88,10 @@ const faq = [
               onmouseover="this.style.background='var(--v4-panel-3)'"
               onmouseout="this.style.background='var(--v4-panel)'"
             >
-              <span style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);flex-shrink:0;padding-top:2px">{s.num}</span>
+              <span style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);flex-shrink:0;padding-top:2px">{s.num}</span>
               <div>
-                <div style="font-size:14px;font-weight:600;color:var(--v4-ink);margin-bottom:4px">{s.title}</div>
-                <div style="font-size:13px;color:var(--v4-ink-mute);line-height:1.5">{s.desc}</div>
+                <div style="font-size:var(--v4-text-small);font-weight:600;color:var(--v4-ink);margin-bottom:4px">{s.title}</div>
+                <div style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.5">{s.desc}</div>
               </div>
             </a>
           ))}
@@ -105,7 +105,7 @@ const faq = [
     <div class="edge-wrap">
       <div class="edge-label" style="margin-bottom:20px">How I work</div>
       <h2 class="edge-h2" style="margin-bottom:16px;max-width:700px">Digital Marketing That Connects<br/>to Revenue</h2>
-      <p style="font-size:17px;color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:48px">
+      <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:48px">
         Most Aberdeen SMEs have tried marketing that did not work — an agency campaign that generated clicks but no leads, an SEO retainer that produced reports but no rankings, a LinkedIn spend with nothing to show for it. The problem is almost never the channel. It is strategy, or positioning, or the wrong metrics.
       </p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
@@ -131,7 +131,7 @@ const faq = [
             <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
               {item.title}
             </h3>
-            <p style="font-size:14px;color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
+            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
           </div>
         ))}
       </div>
@@ -147,14 +147,14 @@ const faq = [
           <h2 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:16px;line-height:1">
             SEO Aberdeen
           </h2>
-          <p style="font-size:16px;color:var(--v4-ink-mute);line-height:1.65;max-width:520px;margin-bottom:24px">
+          <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.65;max-width:520px;margin-bottom:24px">
             The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" style="color:var(--v4-ink);text-decoration:underline;text-underline-offset:3px">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
           </p>
           <div style="display:flex;flex-wrap:wrap;gap:12px">
-            <a href="/services/seo-aberdeen" class="edge-btn" style="height:40px;font-size:13px;padding:0 20px">
+            <a href="/services/seo-aberdeen" class="edge-btn" style="height:40px;font-size:var(--v4-text-small);padding:0 20px">
               SEO Aberdeen service →
             </a>
-            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:40px;font-size:13px;padding:0 20px">
+            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:40px;font-size:var(--v4-text-small);padding:0 20px">
               Read the Aberdeen SEO guide →
             </a>
           </div>
@@ -162,11 +162,11 @@ const faq = [
         <div style="display:flex;flex-direction:column;gap:20px;text-align:right;flex-shrink:0">
           <div>
             <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">#3</div>
-            <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Google rank<br/>in 4 weeks</div>
+            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Google rank<br/>in 4 weeks</div>
           </div>
           <div>
             <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">500%</div>
-            <div style="font-family:var(--v4-mono);font-size:10px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Organic traffic<br/>growth</div>
+            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Organic traffic<br/>growth</div>
           </div>
         </div>
       </div>
@@ -201,13 +201,13 @@ const faq = [
               <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(22px,3vw,36px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
                 {c.client}
               </h3>
-              <p style="font-size:15px;color:var(--v4-ink-mute)">{c.summary}</p>
+              <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute)">{c.summary}</p>
             </div>
             <div style="text-align:right;flex-shrink:0">
               <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
                 {c.stat}
               </div>
-              <div style="font-family:var(--v4-mono);font-size:11px;color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
+              <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
                 {c.statSub}
               </div>
             </div>
@@ -254,7 +254,7 @@ const faq = [
               {item.q}
               <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
             </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:15px;line-height:1.6">{item.a}</p>
+            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6">{item.a}</p>
           </details>
         ))}
       </div>
@@ -265,10 +265,10 @@ const faq = [
   <section class="edge-block edge-block--dark edge-block--pitch">
     <div class="edge-wrap" style="max-width:640px;text-align:center">
       <h2 class="edge-h2" style="margin-bottom:16px">Ready to Make Your<br/>Marketing Work?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:17px;line-height:1.6;margin-bottom:32px">
+      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
         Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
       </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:15px;padding:0 32px">
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
         Book the free review →
       </a>
     </div>
