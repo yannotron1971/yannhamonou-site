@@ -203,12 +203,12 @@ const s = service as any;
   details.v4-faq-item[open] summary span { transform: rotate(45deg); }
   details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
   @media (max-width: 760px) {
-    div[style*="grid-template-columns:2fr 1fr"],
-    div[style*="grid-template-columns:1fr auto"],
-    div[style*="grid-template-columns:repeat(3"] {
+    div[style*="2fr 1fr"],
+    div[style*="1fr auto"],
+    div[style*="repeat(3"] {
       grid-template-columns: 1fr !important;
     }
-    div[style*="text-align:right"] {
+    div[style*="text-align: right"] {
       text-align: left !important;
     }
   }
