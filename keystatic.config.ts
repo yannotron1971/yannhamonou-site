@@ -6,7 +6,11 @@ export default config({
   storage: isProduction
     ? {
         kind: 'github',
-        repo: { owner: 'yannhamonou', name: 'yannhamonou-site' },
+        /* The owner is the account that actually holds the repo. It read
+           'yannhamonou', which 404s — in production Keystatic would have
+           authenticated against a repository that does not exist and the
+           admin UI would have failed to read or write anything. */
+        repo: { owner: 'yannotron1971', name: 'yannhamonou-site' },
         branchPrefix: 'keystatic/',
       }
     : { kind: 'local' },
