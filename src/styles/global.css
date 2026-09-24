@@ -232,7 +232,6 @@ body.v4.is-light.tone-bright {
   align-items: center;
   background: var(--v4-nav-bg);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--v4-line-soft);
 }
 
@@ -247,7 +246,6 @@ body.v4.is-light.tone-bright {
    still takes its tone from the section beneath it. */
 body.sheet-active .v4-nav {
   backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   --v4-ink: #151515;
   /* Kept flipped with the rest of the set. The ink-on-bg pill this was
      written for is gone with the bar's links, so nothing in the nav reads
@@ -324,7 +322,6 @@ body.sheet-active .v4-nav {
 body.sheet-active .v4-nav.is-drawer-open {
   background: transparent;
   backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   border-bottom-color: transparent;
   --v4-ink: #f2f1ec;
   --v4-ink-mute: #a2a5a3;
@@ -433,7 +430,6 @@ body.sheet-active .v4-nav.is-drawer-open {
   z-index: 500;
   background: color-mix(in srgb, var(--v4-bg) 92%, transparent);
   backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
   padding: 80px var(--v4-gutter) 48px;
