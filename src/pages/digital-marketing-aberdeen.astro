@@ -84,7 +84,7 @@ const faq = [
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="edge-label" style="margin-bottom:4px">Services for Aberdeen businesses</div>
           {services.map(s => (
-            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft);transition:background 0.2s ease;text-decoration:none"
+            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft);transition:background 0.28s var(--v4-ease-roll);text-decoration:none"
               onmouseover="this.style.background='var(--v4-panel-3)'"
               onmouseout="this.style.background='var(--v4-panel)'"
             >
@@ -182,7 +182,7 @@ const faq = [
         {cases.map(c => (
           <a
             href={`/work/${c.slug}`}
-            style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--v4-panel);padding:clamp(24px,3vw,40px);transition:background 0.2s ease;text-decoration:none"
+            style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--v4-panel);padding:clamp(24px,3vw,40px);transition:background 0.28s var(--v4-ease-roll);text-decoration:none"
             onmouseover="this.style.background='var(--v4-panel-3)'"
             onmouseout="this.style.background='var(--v4-panel)'"
           >

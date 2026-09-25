@@ -18,7 +18,17 @@ html {
 }
 img, video { display: block; max-width: 100%; }
 button { cursor: pointer; background: none; border: none; font: inherit; }
-a { color: inherit; text-decoration: none; }
+/* Every link answers on the same curve, including any that never got a rule
+   of their own. Properties are named rather than `all`, so this cannot start
+   easing a layout property by accident. */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.28s var(--v4-ease-roll),
+              opacity 0.28s var(--v4-ease-roll),
+              background-color 0.28s var(--v4-ease-roll),
+              border-color 0.28s var(--v4-ease-roll);
+}
 
 /* ─────────────────────────────────────────────────────────────
    DARK THEME TOKENS (default — body.v4, no extra class)
@@ -67,6 +77,10 @@ body.v4 {
      This moves immediately and settles, which is the register of the rest
      of this concept. */
   --v4-ease-roll: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Link hovers share the index roll's curve. At 0.15s a cubic-bezier is
+     imperceptible — the eye reads duration, not shape, below about a fifth of
+     a second — so these lengthen to 0.28s, which is where the settle starts to
+     register without the link feeling slow to answer. */
 
   /* Three steps under the display scale, not eight. The measured set ran
      10, 11, 12, 13, 14, 15, 16 and 17px across ~117 declarations — eight ways
@@ -266,7 +280,7 @@ body.sheet-active .v4-nav {
 
 .v4-nav,
 .v4-nav * {
-  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+  transition: background-color 0.35s var(--v4-ease-roll), color 0.35s var(--v4-ease-roll), border-color 0.35s var(--v4-ease-roll);
 }
 
 .v4-nav__inner {
@@ -440,7 +454,7 @@ body.sheet-active .v4-nav.is-drawer-open {
   overscroll-behavior: contain;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.28s var(--v4-ease-roll);
 }
 
 .v4-drawer.is-open {
@@ -538,7 +552,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
   text-transform: uppercase;
   color: var(--v4-ink-dim);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.28s var(--v4-ease-roll);
 }
 
 .v4-drawer__rail a:hover,
@@ -665,7 +679,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: color 0.15s ease;
+  transition: color 0.28s var(--v4-ease-roll);
 }
 
 .v4-hero__scroll:hover { color: var(--v4-ink-mute); }
@@ -809,7 +823,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
 .v4-service-card {
   background: var(--v4-panel);
   padding: clamp(24px, 3vw, 40px);
-  transition: background 0.2s ease;
+  transition: background 0.28s var(--v4-ease-roll);
   cursor: pointer;
 }
 
@@ -849,7 +863,7 @@ a:focus-visible .v4-roll__b { transform: translateY(0); }
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.15s ease, gap 0.15s ease;
+  transition: color 0.28s var(--v4-ease-roll), gap 0.28s var(--v4-ease-roll);
 }
 
 .v4-service-card:hover .v4-service-card__arrow {
@@ -925,7 +939,7 @@ img.v4-marquee__item {
   --logo-rest: grayscale(1);
   --logo-hover: none;
   filter: var(--logo-rest);
-  transition: filter 0.25s ease, opacity 0.25s ease;
+  transition: filter 0.28s var(--v4-ease-roll), opacity 0.28s var(--v4-ease-roll);
 }
 
 /* On a dark band pale marks are lifted; on the light sheet they stay as they
@@ -1147,7 +1161,7 @@ a:focus-visible .v4-client-logo {
   align-items: center;
   background: var(--v4-panel);
   padding: clamp(24px, 3vw, 40px);
-  transition: background 0.2s ease;
+  transition: background 0.28s var(--v4-ease-roll);
 }
 
 .edge-case-row:hover,
@@ -1276,7 +1290,7 @@ a:focus-visible .v4-client-logo {
   border-radius: 0;
   overflow: hidden;
   border: 1px solid var(--v4-line-soft);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.28s var(--v4-ease-roll), transform 0.28s var(--v4-ease-roll);
   cursor: pointer;
 }
 
@@ -1370,7 +1384,7 @@ a:focus-visible .v4-client-logo {
   font-size: var(--v4-text-body);
   color: var(--v4-ink);
   width: 100%;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.28s var(--v4-ease-roll);
   outline: none;
 }
 
@@ -1471,7 +1485,7 @@ a:focus-visible .v4-client-logo {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
-  transition: color 0.15s ease;
+  transition: color 0.28s var(--v4-ease-roll);
 }
 
 .edge-footer__contact a:hover,
@@ -1498,7 +1512,7 @@ a:focus-visible .v4-client-logo {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--v4-ink-mute);
-  transition: color 0.15s ease;
+  transition: color 0.28s var(--v4-ease-roll);
   white-space: nowrap;
 }
 
@@ -1615,7 +1629,7 @@ a:focus-visible .v4-client-logo {
   color: var(--v4-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.28s var(--v4-ease-roll);
 }
 
 .v4-prose a:hover { opacity: 0.7; }
@@ -1901,7 +1915,7 @@ a:focus-visible .v4-client-logo {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--v4-ink);
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transition: background-color 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
 }
 .edge-btn:hover {
   background: var(--v4-ink);
@@ -2149,7 +2163,7 @@ a:focus-visible .v4-client-logo {
   align-items: center;
   gap: clamp(20px, 4vw, 60px);
   padding-block: clamp(28px, 4.5vh, 56px);
-  transition: opacity 0.25s ease;
+  transition: opacity 0.28s var(--v4-ease-roll);
 }
 .edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
 .edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
@@ -2252,7 +2266,7 @@ a:focus-visible .v4-client-logo {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--v4-ink-dim);
-  transition: color 0.2s ease;
+  transition: color 0.28s var(--v4-ease-roll);
 }
 .edge-more:hover { color: var(--v4-ink); }
 
