@@ -502,6 +502,17 @@ body.sheet-active .v4-nav.is-drawer-open {
   inset-inline: 0;
   top: 0;
   transform: translateY(100%);
+  /* No colour here. It used to force var(--v4-ink), which is the index's
+     "arriving copy lands brighter" — and on a button that fills on hover,
+     near-white ink on a near-white fill made the label disappear entirely.
+     Inheriting means the arriving copy is whatever the link's own hover
+     state says it should be. */
+}
+
+/* The index and the service rows keep the brightening, where the ground is
+   dark and does not invert. */
+.v4-drawer__links .v4-roll__b,
+.edge-row--service .v4-roll__b {
   color: var(--v4-ink);
 }
 

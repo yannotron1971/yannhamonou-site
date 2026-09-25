@@ -44,9 +44,18 @@ const eligible = (a) => {
   const text = kids.filter((n) => n.nodeType === 3 && n.textContent.trim());
   if (text.length !== 1 || kids.some((n) => n.nodeType === 1)) return false;
 
-  /* getClientRects returns one box per line fragment, so this is the honest
-     test for "does this label wrap". */
-  if (a.getClientRects().length !== 1) return false;
+  /* One box per line fragment — but measured over the TEXT, not the element.
+     A flex or inline-block link reports a single box however many lines its
+     label runs to, which let a long button label through: the mask sets
+     nowrap, so a label that used to wrap was forced onto one line and pushed
+     405px of button across a 390px viewport. A Range sees the lines. */
+  const range = document.createRange();
+  range.selectNodeContents(a);
+  if (range.getClientRects().length !== 1) return false;
+
+  /* And it must still fit unwrapped, since the mask will stop it wrapping. */
+  const room = (a.closest('section, footer, nav, div') || document.body).clientWidth;
+  if (range.getBoundingClientRect().width > room) return false;
 
   const label = a.textContent.trim();
   return label.length > 0 && label.length <= 48;
@@ -55,6 +64,14 @@ const eligible = (a) => {
 const roll = (a) => {
   const label = a.textContent.trim();
   a.textContent = '';
+
+  /* The mask is an inner span, never the link itself. A padded link is taller
+     than its text — .edge-btn is 48px around a 22px line — so masking the link
+     leaves the arriving copy parked inside the visible box and both labels
+     read at once. An inner span is exactly one line tall whatever padding,
+     display or flex the link carries. */
+  const mask = document.createElement('span');
+  mask.className = 'v4-roll v4-roll--inline';
 
   const first = document.createElement('span');
   first.className = 'v4-roll__a';
@@ -67,8 +84,8 @@ const roll = (a) => {
   second.setAttribute('aria-hidden', 'true');
   second.textContent = label;
 
-  a.append(first, second);
-  a.classList.add('v4-roll', 'v4-roll--inline');
+  mask.append(first, second);
+  a.append(mask);
 };
 
 const run = () => {
