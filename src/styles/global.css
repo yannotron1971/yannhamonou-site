@@ -1977,6 +1977,84 @@ a:focus-visible .v4-client-logo {
    near-black. A monochrome page can give every section its own ground and
    still read as one material — colour would not. Swap the modifier on any
    section; --clear lets the hero field show through instead. */
+/* ── Reveal band ──
+   A full-bleed photograph that opens from its bottom edge as it scrolls in.
+   Adcker drives the same effect by writing `height` on every scroll frame;
+   this drives it from the view timeline instead, so there is no scroll
+   listener, nothing on the main thread, and no layout property in the
+   animation — a clip-path and a scale, which the compositor owns. */
+.edge-reveal {
+  position: relative;
+  background: var(--edge-pitch);
+}
+
+.edge-reveal__frame {
+  height: clamp(300px, 62svh, 680px);
+  overflow: hidden;
+  /* The resting state is the finished state. Anything that cannot run the
+     animation — an older browser, reduced motion — gets the photograph. */
+  clip-path: inset(0 0 0 0);
+}
+
+.edge-reveal__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  display: block;
+  transform-origin: 50% 100%;
+}
+
+.edge-reveal__cap {
+  position: absolute;
+  left: var(--v4-gutter);
+  bottom: clamp(14px, 2vh, 22px);
+  margin: 0;
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f2f1ec;
+  mix-blend-mode: difference;
+}
+
+@keyframes edgeRevealOpen {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes edgeRevealGrow {
+  from { transform: scale(1.14); }
+  to   { transform: scale(1); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* One named timeline on the band, referenced by both children. With each
+       element on its own `view()` the image measured its own progress, which
+       inside a clipped frame barely changes — the scale sat at 1.055 the whole
+       way down. Named, they answer to the same subject. */
+    .edge-reveal {
+      view-timeline-name: --edge-reveal;
+      view-timeline-axis: block;
+    }
+
+    .edge-reveal__frame {
+      animation: edgeRevealOpen linear both;
+      animation-timeline: --edge-reveal;
+      /* Opens across the lower half of its approach and is finished well
+         before it leaves, so the plate is whole while it is being looked at. */
+      animation-range: entry 8% cover 48%;
+    }
+
+    .edge-reveal__img {
+      animation: edgeRevealGrow linear both;
+      animation-timeline: --edge-reveal;
+      animation-range: entry 8% cover 80%;
+    }
+  }
+}
+
 /* ── Proof plate ──
    One image per case study. The slot holds the final aspect ratio while the
    asset is outstanding, so the page does not move when it lands, and it says

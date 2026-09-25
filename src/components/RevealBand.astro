@@ -1,0 +1,45 @@
+---
+/**
+ * A full-bleed plate that reveals from the bottom as it scrolls into view.
+ *
+ * The reference (adcker.com) animates the container's inline `height` from 0
+ * on every scroll frame. That is the one thing edge-motion.js rules out in
+ * writing: "Nothing here scrubs ... this page also carries a live WebGL field
+ * and a blurred sticky nav, and the GPU it has to run on has no headroom to
+ * spare." Animating height is worse again — it is a layout property, so each
+ * frame reflows the document below it.
+ *
+ * Same picture, none of the cost: the reveal is a clip-path and the growth is
+ * a scale, both compositor-only, and both driven by `animation-timeline: view()`
+ * so the browser runs them off the main thread with no scroll listener at all.
+ * No JavaScript is involved.
+ *
+ * Where that timeline is unsupported, or under reduced motion, the plate is
+ * simply there — fully revealed, no animation. It is a photograph either way.
+ */
+interface Props {
+  src: string;
+  srcWide?: string;
+  alt: string;
+  /** Sits against the section below it, so the caption can name the place. */
+  caption?: string;
+}
+const { src, srcWide, alt, caption } = Astro.props;
+---
+
+<section class="edge-reveal" aria-label={caption ?? alt}>
+  <div class="edge-reveal__frame">
+    <img
+      class="edge-reveal__img"
+      src={src}
+      srcset={srcWide ? `${src} 1600w, ${srcWide} 2400w` : undefined}
+      sizes="100vw"
+      alt={alt}
+      width="1600"
+      height="1067"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  {caption && <p class="edge-reveal__cap">{caption}</p>}
+</section>

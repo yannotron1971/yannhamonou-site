@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProblemMark from '../components/ProblemMark.astro';
+import RevealBand from '../components/RevealBand.astro';
 import { reader, getSettings, getHomepage, getServices, getCases, lines } from '../lib/keystatic';
 import { clients } from '../data/index';
 import ClientLogo from '../components/ClientLogo.astro';
@@ -57,6 +58,14 @@ const recentPosts = allPosts
       </div>
     </div>
   </section>
+
+  <!-- ═══ REVEAL ═══ -->
+  <RevealBand
+    src="/reveal/dunnottar-1600.avif"
+    srcWide="/reveal/dunnottar-2400.avif"
+    alt="Dunnottar Castle on its headland above a heavy North Sea, near Stonehaven."
+    caption="Dunnottar · Stonehaven"
+  />
 
   <!-- ═══ THE PROBLEM ═══ -->
   <section class="edge-block edge-block--full edge-block--dark edge-block--slate" id="problem">
