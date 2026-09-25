@@ -505,6 +505,17 @@ body.sheet-active .v4-nav.is-drawer-open {
   color: var(--v4-ink);
 }
 
+/* The roll at label size, applied at runtime by link-roll.js.
+   inline-block because overflow:hidden does nothing to an inline box, and a
+   little leading because the mask is one line tall and these labels have
+   descenders — the index gets away with .95 only because none of its five
+   words has one. */
+.v4-roll--inline {
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: 1.45;
+}
+
 a:hover .v4-roll__a,
 a:focus-visible .v4-roll__a { transform: translateY(-100%); }
 
