@@ -1,6 +1,6 @@
 ---
 /**
- * A full-bleed plate that reveals from the bottom as it scrolls into view.
+ * A photograph that grows, centred on white, as it scrolls into view.
  *
  * The reference (adcker.com) animates the container's inline `height` from 0
  * on every scroll frame. That is the one thing edge-motion.js rules out in
@@ -9,19 +9,19 @@
  * spare." Animating height is worse again — it is a layout property, so each
  * frame reflows the document below it.
  *
- * Same picture, none of the cost: the reveal is a clip-path and the growth is
- * a scale, both compositor-only, and both driven by `animation-timeline: view()`
- * so the browser runs them off the main thread with no scroll listener at all.
- * No JavaScript is involved.
+ * Same picture, none of the cost: the frame is laid out at its final size and
+ * scaled down to start, so the box it occupies never changes and nothing below
+ * it reflows. Driven by animation-timeline, so the browser runs it off the main
+ * thread with no scroll listener at all. No JavaScript is involved.
  *
  * Where that timeline is unsupported, or under reduced motion, the plate is
- * simply there — fully revealed, no animation. It is a photograph either way.
+ * simply there — at full size, no animation. It is a photograph either way.
  */
 interface Props {
   src: string;
   srcWide?: string;
   alt: string;
-  /** Sits against the section below it, so the caption can name the place. */
+  /** Set below the frame, in the mono voice, naming the place. */
   caption?: string;
 }
 const { src, srcWide, alt, caption } = Astro.props;
