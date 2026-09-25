@@ -2015,6 +2015,13 @@ a:focus-visible .v4-client-logo {
   object-fit: cover;
   object-position: center 58%;
   display: block;
+  /* Hueless, like the interface. The case study plates are where colour is
+     allowed to live — those carry the client's own world. This one is a
+     location, and in grey it reads as part of the ground ladder rather than
+     as the one warm thing on a page that has no other warm thing.
+     A little contrast back, because removing the colour flattens the
+     separation between the wall, the grass and the sea. */
+  filter: grayscale(1) contrast(1.08);
 }
 
 .edge-reveal__cap {
