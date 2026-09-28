@@ -12,8 +12,31 @@ image: ""
 imageAlt: ""
 imageFocus: center
 logo: bowtiemaster
-challenge: ""
-approach: []
+challenge: >-
+  Bowtie Master is Salus's software for bowtie risk analysis. In April 2026 its
+  Google Ads account had no conversion tracking, a single ad rated Poor, and
+  most keywords scoring 0 to 2 out of 10 for quality, so it reached only a
+  fifth of the searches it was eligible for. In early May, more than a third
+  of its spend went on generic risk terms and foreign-language searches with
+  nothing to do with bowtie. The website had drifted the same way: titles and
+  headings that no longer matched their pages, missing structured data and
+  broken download links across its 59 pages.
+approach:
+  - >-
+    Google Ads audit: search-term mining to find the wasted spend, then
+    negative keywords for the unrelated and foreign-language queries
+  - >-
+    Ad strength, keyword quality and campaign structure reviewed, with a
+    conversion tracking plan for demo bookings
+  - >-
+    One SEO action plan, every item checked against the live site across all
+    59 pages before it was marked done
+  - >-
+    Titles, headings, structured data, redirects, sitemap and internal
+    linking fixed
+  - >-
+    The "bowtie risk assessment" pages rebuilt so AI answers could quote
+    them
 results:
   - Position 1 on Google for all six core bowtie template terms (August 2026)
   - >-

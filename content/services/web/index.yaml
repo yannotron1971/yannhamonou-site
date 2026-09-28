@@ -1,19 +1,20 @@
 title: Web & CRO
 num: "05"
-desc: Websites that convert — built on Webflow, fast, and built to rank.
+desc: Websites that convert — built on Webflow or Astro, fast, and built to rank.
 long: >-
   Your website is your best salesperson. I design and build conversion-focused
   websites that load fast, rank well, and guide visitors toward a single goal.
-  Webflow as the platform means you stay in control without needing a
-  developer for every change.
+  I build on Webflow when your team wants to edit visually, and on Astro when
+  speed and full control matter more. Either way you can change content
+  without a developer.
 headline: Your website should be generating leads — not just existing online
 intro: >-
   Most SME websites describe the business but don't convert visitors into
   enquiries. They load slowly, bury the value proposition, and send everyone
   to the same contact page regardless of what they were looking for. I design
   and build websites that are conversion-focused from the first wireframe —
-  built on Webflow so you stay in control without needing a developer for
-  every change.
+  built on Webflow or Astro so you stay in control without needing a
+  developer for every change.
 why: >-
   A website that doesn't convert is a leaky bucket. You can spend whatever you
   like on SEO and paid media, but if the site doesn't guide visitors toward a
@@ -33,7 +34,7 @@ process:
   - num: "02"
     title: Design and build
     body: >-
-      Built on Webflow, with technical SEO embedded from the start: semantic
+      Built on Webflow or Astro, with technical SEO embedded from the start: semantic
       HTML, Core Web Vitals optimisation, structured data, and clean canonical
       structure. Every page is built around a single conversion goal. Landing
       pages for paid campaigns get their own variants, tested against each
@@ -42,13 +43,14 @@ process:
     title: Connect and hand over
     body: >-
       Integration with your existing tools: Google Analytics, Search Console,
-      CRM, email platform, live chat. I train you on the Webflow CMS so you
-      can update content without touching code. Post-launch, I monitor Core
+      CRM, email platform, live chat. I train you on the CMS (Webflow's own,
+      or Keystatic on an Astro build) so you can update content without
+      touching code. Post-launch, I monitor Core
       Web Vitals and conversion rates and flag anything that needs attention.
 deliverables:
   - Conversion audit of existing site
   - UX and information architecture recommendations
-  - Webflow design and build
+  - Webflow or Astro design and build
   - Technical SEO embedded from build
   - CMS setup and team training
   - Core Web Vitals optimisation
@@ -71,10 +73,17 @@ faq:
       plugin ecosystem to maintain. It's also significantly faster than a
       typical WordPress install out of the box. For clients who have a
       specific reason to stay on WordPress, I can work with that too.
+  - q: When would you use Astro instead of Webflow?
+    a: >-
+      When speed and control matter most. Astro publishes the site as plain,
+      pre-built HTML, so pages load very fast and there is no plugin stack to
+      maintain. It suits sites that need custom functionality, the best
+      possible Core Web Vitals, or full ownership of the code. Content stays
+      editable through a CMS such as Keystatic. This site is built on Astro.
   - q: Do you do design or just development?
     a: >-
       Both. I handle the full process from information architecture through
-      visual design to the live Webflow build. If you have an existing brand
+      visual design to the live build. If you have an existing brand
       identity I'll work within it; if not, I'll develop the visual direction
       as part of the project.
   - q: Can you improve our existing site without rebuilding it?
