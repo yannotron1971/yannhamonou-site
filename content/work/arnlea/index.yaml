@@ -1,38 +1,40 @@
 client: Arnlea
 order: 1
 year: "2025"
-descriptor: Inbound Growth
+descriptor: Webflow rebuild & SEO
 stat: 3×
 statSub: first-page Google rankings in six months
 summary: >-
-  Three ATEX inspection guides took Arnlea from 96 to 275 first-page Google
-  rankings in six months, and made Nexar the first name Google's AI answer
-  gives for Ex inspection software.
+  Rebuilt Arnlea's website from the ground up in Webflow, SEO first, then
+  added the content that took them from 96 to 275 first-page Google rankings
+  in six months. Google's AI answer now names Nexar first for Ex inspection
+  software.
 image: /work/Arnlea-H.avif
 imageAlt: "Offshore worker in hi-vis holding a rugged handheld running the Nexar inspection app, shoreline behind."
 imageFocus: center
 logo: arnlea
 challenge: >-
-  Arnlea Systems, a specialist supplier of safety-critical industrial
-  equipment, had almost no organic search presence despite 30+ years of
-  trading. They were losing leads to newer competitors who had invested in
-  digital and needed to establish authority in a competitive technical niche.
+  Arnlea Systems, in Aberdeen, makes Nexar: software for Ex and ATEX
+  inspection in hazardous areas. The old website could not carry that. It
+  gave buyers no clear route from first question to demo request, and gave
+  search engines no structure to read a specialist product from. Patching it
+  would have kept both problems, so the whole site had to be rebuilt.
 approach:
   - >-
-    Technical SEO audit — fixed crawl errors, consolidated duplicate pages,
-    improved site speed to pass Core Web Vitals
+    Full rebuild in Webflow, SEO first — site structure and navigation planned
+    for search engines as much as for buyers, before any design
   - >-
-    Keyword and intent mapping — identified 40+ target terms across product
-    categories and buyer intent stages
+    Dedicated pages for each stage of the buyer's journey: awareness,
+    consideration and conversion
   - >-
-    Content strategy — created authoritative product pages, technical guides,
-    and local landing pages for Aberdeen and North Sea market
+    Technical and on-page SEO built in from launch, with every old URL
+    redirected to its new home so no ranking was lost in the move
   - >-
-    Local SEO — fully optimised Google Business Profile, Bing Places, and
-    built consistent NAP citations
+    Measurement and lead capture wired in: Google Analytics, Tag Manager,
+    Microsoft Clarity, LinkedIn Insight and ActiveCampaign demo forms
   - >-
-    GEO setup — structured data and FAQ schema to capture AI-powered search
-    visibility
+    Then the content: three ATEX inspection guides, and a rewrite of the
+    Nexar page for the AI assistants buyers now ask first
 results:
   - >-
     First-page Google rankings, excluding the brand name, up from 96 to 275
