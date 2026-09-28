@@ -52,7 +52,7 @@ already done.
 
 ## Before any DNS is touched
 
-- `astro.config.mjs` still has `site: 'https://yannhamonou.pages.dev'`. Every
+- `astro.config.mjs` still has `site: 'https://yannhamonou-site.pages.dev'`. Every
   canonical tag and every sitemap `<loc>` uses it. This has to become
   `https://www.yannhamonou.com` at cutover — and that exact origin is what the
   verified Search Console property covers, so serving non-www would silently
