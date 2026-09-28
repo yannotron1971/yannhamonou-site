@@ -51,12 +51,12 @@ export const logos = {
 export const ticker = [
   '100% lead generation growth',
   '20+ years B2B experience',
-  '#1 Google rank in 4 weeks',
+  '3× first-page rankings',
   'Aberdeen · Scotland · Remote',
   'SEO & GEO specialist',
   'Free 30-min strategy review',
   'B2B focused',
-  '100+ qualified leads/month',
+  'Top 2 in UK Google in 3 months',
 ];
 
 

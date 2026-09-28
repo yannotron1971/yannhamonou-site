@@ -1,0 +1,43 @@
+client: Incident Insight
+order: 4
+year: "2026"
+descriptor: SEO & AI search
+stat: 20 → 2
+statSub: UK Google position, June to September
+summary: >-
+  Took Incident Insight from page two to the top two in the UK for
+  "incident investigation software" in three months, with Google's AI answer
+  naming it above the results.
+image: ""
+imageAlt: ""
+imageFocus: center
+logo: incidentInsight
+challenge: >-
+  Incident Insight is incident investigation software from Salus. In June 2026
+  it sat on page two of Google for its own category term, "incident
+  investigation software", behind listicles and the larger EHS suites. Its
+  titles and descriptions restated the query rather than the product, and a
+  cluster of help pages was competing with the product site in Google's index.
+approach:
+  - >-
+    Full SEO audit, then every page title and meta description rewritten
+    around what the product does that competitors do not
+  - >-
+    Structured data deployed across the site, including a fix to the 5 Whys
+    guide
+  - >-
+    Internal links from the three strongest guides into the homepage and
+    product page
+  - The documentation cluster taken out of Google's index
+  - >-
+    Live inspection of the UK and US results pages, to see what sits above
+    the listing and why
+results:
+  - >-
+    UK average Google position for "incident investigation software": 20.6 in
+    June 2026, 2.0 in September
+  - 'US average position for the same term: 30.1 to 5.8 over the same months'
+  - >-
+    Google's UK AI Overview names Incident Insight and links to it, describing
+    its visual barrier failure diagrams
+  - Positions 1–2 across the 5 Whys root-cause vocabulary

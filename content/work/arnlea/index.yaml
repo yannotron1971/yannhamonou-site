@@ -2,11 +2,12 @@ client: Arnlea
 order: 1
 year: "2025"
 descriptor: Inbound Growth
-stat: "#1 Rank"
-statSub: 500% organic traffic growth
+stat: 3×
+statSub: first-page Google rankings in six months
 summary: >-
-  Took Arnlea from invisible in search to #1 for their primary term in four
-  weeks, and 100+ qualified organic visits a month.
+  Three ATEX inspection guides took Arnlea from 96 to 275 first-page Google
+  rankings in six months, and made Nexar the first name Google's AI answer
+  gives for Ex inspection software.
 image: /work/Arnlea-H.avif
 imageAlt: "Offshore worker in hi-vis holding a rugged handheld running the Nexar inspection app, shoreline behind."
 imageFocus: center
@@ -33,7 +34,11 @@ approach:
     GEO setup — structured data and FAQ schema to capture AI-powered search
     visibility
 results:
-  - "#3 Google ranking for primary commercial terms within 4 weeks of launch"
-  - 500% increase in organic traffic within 6 months
-  - 100+ qualified organic visits per month, up from near-zero
-  - First-page visibility for 25+ target keywords
+  - >-
+    First-page Google rankings, excluding the brand name, up from 96 to 275
+    (Feb–Jul 2026 against the six months before)
+  - Top-three rankings up from 33 to 146
+  - Times shown in Google up 216%, visits from search up 30%
+  - >-
+    Google's AI answer for Ex inspection software names "Nexar by Arnlea"
+    first, and ChatGPT lists Arnlea first

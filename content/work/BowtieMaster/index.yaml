@@ -1,16 +1,24 @@
 client: BowtieMaster
 order: 3
 year: "2026"
-descriptor: SEO & PPC for lead gen
-stat: 7×
-statSub: leads per month
+descriptor: SEO & paid search
+stat: 6 of 6
+statSub: core template terms held at #1
 summary: >-
-  Audited the BowtieMaster site and Google Ads account, then rebuilt both
-  around lead generation — seven times the monthly leads.
+  Audited the Bowtie Master site and Google Ads account, then worked through
+  the SEO fixes across all 59 pages. The template page holds first place on
+  all six core terms, and Google's AI answer now cites Bowtie Master.
 image: ""
 imageAlt: ""
 imageFocus: center
 logo: bowtiemaster
 challenge: ""
 approach: []
-results: []
+results:
+  - Position 1 on Google for all six core bowtie template terms (August 2026)
+  - >-
+    Google's AI Overview for "bowtie risk assessment" cites Bowtie Master, and
+    that page gained clicks in August
+  - >-
+    Schema, headings, redirects and internal linking fixed and verified
+    across all 59 sitemap pages
