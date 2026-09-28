@@ -32,20 +32,27 @@ const cases = await getCases();
             class="edge-case-row"
           >
             <div>
-              {c.logo && (
-                <img
-                  src={c.logo.src}
-                  alt=""
-                  width={c.logo.w}
-                  height={c.logo.h}
-                  class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                  loading="lazy"
-                />
-              )}
+              {/* The mark is the name here. It carries the client as its alt,
+                  since nothing else on the row says who the work was for; the
+                  written name only returns for a case that has no logo. */}
+              {c.logo
+                ? (
+                  <img
+                    src={c.logo.src}
+                    alt={c.client}
+                    width={c.logo.w}
+                    height={c.logo.h}
+                    class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                    loading="lazy"
+                  />
+                )
+                : (
+                  <h2 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
+                    {c.client}
+                  </h2>
+                )
+              }
               <div class="edge-label" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
-              <h2 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
-                {c.client}
-              </h2>
               <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute)">{c.summary}</p>
             </div>
             <div class="edge-case-fig">
