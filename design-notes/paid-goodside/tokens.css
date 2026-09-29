@@ -1,0 +1,31 @@
+/* Portable starting aliases for paid-goodside; see DESIGN.md for provenance.
+   Import ONE system. Font names do not load fonts or grant asset rights.
+   Spacing, readable type defaults, and motion aliases are proposed adaptations. */
+:root {
+  --color-ink: #02261A;
+  --color-accent: #B2E659;
+  --color-background: #F2F2ED;
+  --color-surface: #FFFFFF;
+  --color-muted: #57675C;
+  --color-border: #D8DDD3;
+  --font-body: "Geist", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-data: ui-monospace, monospace;
+  --text-body: 1rem;
+  --text-label: .875rem;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --container-max: 1280px;
+  --radius-control: 0px;
+  --motion-fast: 150ms;
+  --motion-state: 300ms;
+  --motion-enter: 600ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}

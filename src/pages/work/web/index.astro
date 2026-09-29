@@ -1,0 +1,178 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import EdgeField from '../../../components/EdgeField.astro';
+import { logos } from '../../../data/index';
+
+/* Only builds there is evidence for. The Arnlea rebuild is on file (the
+   Feb 2025 proposal, the Aug 2025 redirect check); this site is its own
+   evidence; Sparehand is labelled a concept everywhere it appears. */
+const builds = [
+  {
+    name: 'Arnlea Systems',
+    logo: logos.arnlea,
+    meta: '2025 · Client site',
+    platform: 'Webflow',
+    summary:
+      'A full rebuild, SEO first: site structure planned for search engines and buyers before any design, a page for each stage of the buying journey, every old URL redirected, and analytics and demo forms wired in from launch.',
+    stack: ['Webflow CMS', 'Technical SEO', 'GA4 + Tag Manager', 'ActiveCampaign forms'],
+    links: [
+      { label: 'Case study', href: '/work/arnlea' },
+      { label: 'Live site ↗', href: 'https://www.arnlea.com/', external: true },
+    ],
+  },
+  {
+    name: 'Yann Hamonou',
+    meta: '2026 · This site',
+    platform: 'Astro',
+    summary:
+      'Built from scratch in Astro: pre-rendered pages, a Git-based CMS for editing, a live WebGL field in the hero, and scroll motion that runs off the main thread with no JavaScript.',
+    stack: ['Astro', 'Keystatic CMS', 'Cloudflare Pages', 'WebGL'],
+    links: [{ label: 'You are on it', href: '/' }],
+  },
+  {
+    name: 'Sparehand',
+    meta: '2026 · Concept',
+    platform: 'Concept',
+    summary:
+      'A landing page for a fictional stores and spares product for offshore sites. The product explains itself through its own screens, with working tabs, a workflow you can run, a calculator and an FAQ, and it all reads fine on a phone.',
+    stack: ['Astro', 'Hand-written CSS', 'Minimal JavaScript', 'Reduced-motion aware'],
+    links: [{ label: 'Open the concept ↗', href: '/work/web/sparehand' }],
+  },
+];
+---
+
+<Layout
+  title="Web Development Work — Yann Hamonou"
+  description="Websites and landing pages designed and built by Yann Hamonou, in Webflow and Astro, with SEO built in from the start."
+>
+  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
+    <EdgeField contained />
+    <div class="edge-wrap">
+      <div class="edge-label" style="margin-bottom:20px">Web development</div>
+      <h1 class="edge-h2" style="margin-bottom:24px">Web Work</h1>
+      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
+        Sites and landing pages I have designed and built, in Webflow and in Astro. Search is part of the build, not a job for afterwards.
+      </p>
+    </div>
+  </section>
+
+  <div class="edge-sheet">
+
+  <section class="edge-block edge-block--white">
+    <div class="edge-wrap">
+      <ul class="web-builds" role="list">
+        {builds.map(b => (
+          <li class="edge-case-row web-build">
+            <div>
+              {b.logo
+                ? (
+                  <img
+                    src={b.logo.src}
+                    alt={b.name}
+                    width={b.logo.w}
+                    height={b.logo.h}
+                    class={`v4-client-logo v4-case-row__logo${b.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                    loading="lazy"
+                  />
+                )
+                : (
+                  <h2 class="web-build__name">{b.name}</h2>
+                )
+              }
+              <div class="edge-label" style="margin-bottom:10px">{b.meta}</div>
+              <p class="web-build__summary">{b.summary}</p>
+              <ul class="web-build__stack" role="list">
+                {b.stack.map(s => <li>{s}</li>)}
+              </ul>
+              <div class="web-build__links">
+                {b.links.map(l => (
+                  <a
+                    href={l.href}
+                    class="edge-btn"
+                    {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+                  >{l.label}</a>
+                ))}
+              </div>
+            </div>
+            <div class="edge-case-fig">
+              <span class="edge-case-fig__n web-build__platform">{b.platform}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="edge-block edge-block--dark edge-block--pitch">
+    <div class="edge-wrap" style="max-width:640px;text-align:center">
+      <h2 class="edge-h2" style="margin-bottom:16px">Need a Site<br/>That Earns Its Keep?</h2>
+      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
+        Book the free 30-minute review. We will look at what your site has to do, and whether it needs a rebuild at all.
+      </p>
+      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
+        Book the free review →
+      </a>
+    </div>
+  </section>
+</div>
+</Layout>
+
+<style>
+  .web-builds {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border: 1px solid var(--v4-line-soft);
+    overflow: hidden;
+  }
+  .web-build { align-items: start; }
+  .web-build__name {
+    font-family: var(--v4-display);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 40px);
+    letter-spacing: -0.015em;
+    color: var(--v4-ink);
+    margin-bottom: 8px;
+  }
+  .web-build__summary {
+    font-size: var(--v4-text-body);
+    color: var(--v4-ink-mute);
+    line-height: 1.65;
+    max-width: 640px;
+  }
+  .web-build__stack {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .web-build__stack li {
+    font-family: var(--v4-mono);
+    font-size: var(--v4-text-label);
+    letter-spacing: 0.04em;
+    color: var(--v4-ink-mute);
+    border: 1px solid var(--v4-line-soft);
+    padding: 4px 10px;
+  }
+  .web-build__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .web-build__links .edge-btn {
+    height: 40px;
+    padding: 0 20px;
+    font-size: var(--v4-text-small);
+  }
+  /* The platform stands where the case studies put their figure, a step
+     smaller: it is a word, and "Concept" has to fit a phone. */
+  .web-build__platform { font-size: clamp(32px, 5vw, 72px); }
+
+  @media (max-width: 700px) {
+    .web-build { grid-template-columns: 1fr; }
+    .web-build .edge-case-fig { text-align: left; order: -1; }
+  }
+</style>

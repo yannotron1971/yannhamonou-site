@@ -1,0 +1,869 @@
+---
+/* Sparehand — a concept landing page, built to show web work.
+
+   Sparehand is fictional. It is set in a market none of the clients on this
+   site sell into (stores and spares for offshore and energy sites), so it
+   cannot read as a disguised client pitch. Every figure in the product
+   illustrations is labelled illustrative.
+
+   Standalone on purpose: no site Layout, so none of the site's nav, styles,
+   analytics or JSON-LD. The design follows the Paid-inspired "Goodside"
+   system kept in design-notes/paid-goodside/ — forest and lime, square
+   geometry, product demonstrations as the imagery.
+
+   The resting state is the finished state. Entrances are CSS animations that
+   end visible, every tab panel is in the HTML, and the typed summary is
+   server-rendered in full; the script only takes things away to animate them
+   back, and does nothing under reduced motion. */
+const title = 'Sparehand — Know what’s on the shelf before you need it';
+const description =
+  'A concept landing page by Yann Hamonou for Sparehand, a fictional stores and spares product for offshore and energy sites.';
+
+const tabs = [
+  {
+    id: 'stock',
+    n: '01',
+    name: 'Live stock',
+    label: 'Everything in view',
+    title: ['One list.', 'Every location.'],
+    body: 'Warehouse, platform stores, laydown yards and the part on the back of a supply boat, counted in one place. Search a part number once and see where every unit is.',
+    link: 'See the stock view',
+    head: ['Part', 'Location', 'Qty'],
+    rows: [
+      ['Mech. seal, 50 mm', 'Platform', '1', ''],
+      ['Mech. seal, 50 mm', 'Dyce', '4', 'green'],
+      ['Mech. seal, 50 mm', 'On vessel', '2', ''],
+    ],
+    foot: 'Seven units. Three places. One search.',
+  },
+  {
+    id: 'requisitions',
+    n: '02',
+    name: 'Requisitions',
+    label: 'From request to rig',
+    title: ['No more', 'email chains.'],
+    body: 'Raise a request from the field app, route it for approval by cost and criticality, and follow it through picking, packing and the boat.',
+    link: 'Follow a requisition',
+    head: ['Request', 'Owner', 'Status'],
+    rows: [
+      ['REQ-2231 · Valve kit', 'Morag', 'Approved', 'green'],
+      ['REQ-2232 · Filters ×12', 'Ali', 'Picking', ''],
+      ['REQ-2233 · Detector head', 'Dan', 'On vessel', ''],
+    ],
+    foot: 'Every request has an owner and a next step.',
+  },
+  {
+    id: 'critical',
+    n: '03',
+    name: 'Critical spares',
+    label: 'The parts you can’t wait for',
+    title: ['Watched before', 'they run out.'],
+    body: 'Flag the spares that stop production. Sparehand warns you before stock drops below the minimum, using real lead times rather than a guess.',
+    link: 'Set a minimum',
+    head: ['Spare', 'Lead time', 'Status'],
+    rows: [
+      ['Mech. seal, 50 mm', '9 days', 'Below min', ''],
+      ['ESD actuator kit', '21 days', 'Reorder soon', ''],
+      ['Gas detector head', '5 days', 'Healthy', 'green'],
+    ],
+    foot: 'Warnings arrive while there is still time to act.',
+  },
+  {
+    id: 'reports',
+    n: '04',
+    name: 'Reports',
+    label: 'Stock you can justify',
+    title: ['Numbers for the', 'budget meeting.'],
+    body: 'See what is slow-moving, what is duplicated between sites and what has sat untouched since the last shutdown, before anyone asks.',
+    link: 'Open a report',
+    head: ['Finding', 'Lines', 'Action'],
+    rows: [
+      ['Slow-moving stock', '212', 'Review', ''],
+      ['Duplicated across sites', '37', 'Transfer', ''],
+      ['Untouched 24 months', '118', 'Dispose', ''],
+    ],
+    foot: 'Illustrative data for a fictional product.',
+  },
+];
+
+const steps = [
+  { icon: '↙', k: 'When this happens', h: 'A pump seal fails', p: 'P-101A, on the platform' },
+  { icon: '⌕', k: 'Check the stock', h: 'Find the nearest spare', p: '4 at Dyce, 0 offshore' },
+  { icon: '✓', k: 'Move it', h: 'Raise and approve', p: 'REQ-2234 · on tomorrow’s boat' },
+  { icon: '↻', k: 'Close the loop', h: 'Reorder and record', p: 'Minimum stock restored' },
+];
+
+const summary =
+  'Three critical spares fell below minimum this week. Two are already on order. The ESD actuator kit needs approval before Friday’s boat, or the next chance is ten days away.';
+
+const faq = [
+  {
+    q: 'What is Sparehand?',
+    a: 'A fictional stores and spares product, made up for this page. Nothing here is a real product, customer or result, and there is nothing to sign up for.',
+  },
+  {
+    q: 'Why build a page for a product that does not exist?',
+    a: 'To show what a product landing page can be when it is designed and built properly: the product explains itself through its own screens, every section works on a phone, and nothing depends on animation to be read.',
+  },
+  {
+    q: 'Who designed and built it?',
+    a: 'Yann Hamonou. It is built in Astro and sits inside this site, with no page builder and no plugins, and it uses a small amount of JavaScript for the tabs, the workflow and the calculator.',
+  },
+  {
+    q: 'Are the numbers real?',
+    a: 'No. Stock levels, lead times, requisitions and the calculator’s assumption are all illustrative, chosen to make the product legible rather than to claim a result.',
+  },
+  {
+    q: 'Can you build a page like this for my product?',
+    a: 'Yes. Book the free 30-minute review and bring the product. We will look at what the page has to prove, and to whom, before anything is designed.',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%2302261a'/%3E%3Cpath d='M12 11h16v6H18v3h10v9H12v-6h10v-3H12z' fill='%23b2e659'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="concept-bar">
+    <span>Concept site by Yann Hamonou. Sparehand is a fictional product.</span>
+    <a href="/work/web/">← Web work</a>
+  </div>
+
+  <header>
+    <div class="nav wrap">
+      <a class="brand" href="#main" aria-label="Sparehand, back to top"><span class="brandmark" aria-hidden="true">s</span>sparehand</a>
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="#platform">Platform</a>
+        <a href="#field">Field app</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#reports">Reports</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="button nav-cta" href="#tour">Book a walkthrough <span aria-hidden="true">↗</span></a>
+      <button class="menu" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero wrap grid-paper">
+      <div class="hero-copy">
+        <div class="tag"><span class="dot"></span> Stores and spares for offshore and energy sites</div>
+        <h1><span>Know what’s</span> <span>on the shelf</span> <span>before you need it.</span></h1>
+        <p>Sparehand keeps every critical spare in view, from the warehouse onshore to the stores on the platform, so a failed pump is a two-hour job instead of a two-week wait.</p>
+        <div class="actions">
+          <a class="button" href="#platform">See the stores view <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#workflows">How it works <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hero-note">Built for storemen, planners and maintenance leads.</p>
+      </div>
+
+      <div class="hero-art" role="img" aria-label="Illustrative Sparehand workspace listing critical spares across sites, with a suggested reorder">
+        <div class="app" aria-hidden="true">
+          <div class="app-head">
+            <span class="mini-brand">◧ sparehand</span>
+            <span class="muted">Stores / Critical spares</span>
+            <span class="avatar">RM</span>
+          </div>
+          <div class="app-grid">
+            <div class="app-side">
+              <b>▣ &nbsp;Critical spares <small>14</small></b>
+              <span>⇄ &nbsp;Requisitions</span>
+              <span>⛴ &nbsp;In transit</span>
+              <span>⌂ &nbsp;Sites</span>
+              <span>▥ &nbsp;Reports</span>
+              <div class="side-foot"><span class="dot"></span> Stock synced 2 min ago</div>
+            </div>
+            <div class="app-main">
+              <div class="flex"><b>Critical spares, all sites</b><span>⌕</span></div>
+              <div class="line selected">
+                <span class="sq">P</span>
+                <div><b>Mech. seal, 50 mm</b><small>Pump P-101A · platform stores</small></div>
+                <span class="pill warn">1 · below min</span>
+              </div>
+              <div class="line">
+                <span class="sq">G</span>
+                <div><b>Gas detector head</b><small>Onshore warehouse</small></div>
+                <span class="pill green">6 · healthy</span>
+              </div>
+              <div class="line">
+                <span class="sq">E</span>
+                <div><b>ESD actuator kit</b><small>On supply vessel</small></div>
+                <span class="pill">ETA Thu</span>
+              </div>
+              <div class="draft">
+                <span>✧ Suggested reorder</span>
+                <p>Order 2 × mechanical seal now. Lead time is 9 days, and P-101B uses the same part.</p>
+                <div><span>✓ Based on usage and lead times</span><b>↗</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="float-dark" aria-hidden="true"><span class="dot"></span> Requisition approved. On tomorrow’s boat. <span class="check">✓</span></div>
+        <div class="float-lime" aria-hidden="true">
+          <span>Critical spares in stock</span>
+          <strong>96<span>%</span></strong>
+          <small>Illustrative figure</small>
+          <div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="art-caption" aria-hidden="true">Illustrative workspace · fictional data</div>
+      </div>
+    </section>
+
+    <!-- Platform tabs -->
+    <section class="intro wrap" id="platform">
+      <div class="section-intro">
+        <h2>Every spare.<br />Every site. One list.</h2>
+        <p>Most stores run on a spreadsheet per site and a phone call to find out what is really there. Sparehand puts the whole picture in one place.</p>
+      </div>
+      <div class="tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Explore the platform">
+          {tabs.map((t, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${t.id}`}
+              aria-controls={`panel-${t.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+            >{t.n} &nbsp; {t.name}</button>
+          ))}
+        </div>
+        {tabs.map((t) => (
+          <div class="panel" role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`} tabindex="0">
+            <div>
+              <span class="label">{t.label}</span>
+              <h3>{t.title[0]}<br />{t.title[1]}</h3>
+              <p>{t.body}</p>
+              <a class="text-link" href="#tour">{t.link} <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="queue">
+              <div class="flex"><b>{t.name}</b><span class="status">● Live</span></div>
+              <div class="queue-row queue-head"><span>{t.head[0]}</span><span>{t.head[1]}</span><span>{t.head[2]}</span></div>
+              {t.rows.map((r) => (
+                <div class="queue-row">
+                  <span><b>{r[0]}</b></span><span>{r[1]}</span><span class={`pill ${r[3]}`}>{r[2]}</span>
+                </div>
+              ))}
+              <div class="queue-foot"><span class="dot"></span> {t.foot}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Field app -->
+    <section class="feature wrap" id="field">
+      <div class="visual grid-paper">
+        <div class="device">
+          <div class="flex"><b>▣ Receive delivery</b><span class="status">Offline</span></div>
+          <div class="scan"><span class="scan-frame" aria-hidden="true"></span><small>Scan a label or type a part number</small></div>
+          <ul class="scan-list">
+            <li><span>Filter element ×12</span><b class="pill green">Received</b></li>
+            <li><span>Mech. seal, 50 mm ×2</span><b class="pill green">Received</b></li>
+            <li><span>Gasket set</span><b class="pill warn">Damaged · photo added</b></li>
+          </ul>
+          <div class="sync"><span class="dot"></span> 3 movements queued. They sync when the link is back.</div>
+        </div>
+        <div class="visual-foot">WORKS WHERE THE WIFI DOESN’T.</div>
+      </div>
+      <div class="feature-copy">
+        <span class="tag">▣ Built for the stores, not the office</span>
+        <h2>Scan it in.<br />Even offshore.</h2>
+        <p>Deliveries, issues and transfers get recorded where they happen, on a rugged handheld, instead of on paper that gets typed up at the end of the trip.</p>
+        <ul class="check-list">
+          <li>Works without a connection and syncs later</li>
+          <li>Barcode and QR scanning on the devices you already use</li>
+          <li>A photo and a note on every damaged delivery</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="workflow dark" id="workflows">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2>Less chasing.<br />More fixing.</h2>
+          <div>
+            <p>When something breaks, the part search, the approval and the reorder happen in one flow instead of four phone calls.</p>
+            <button class="button lime" type="button" data-run-workflow>Run this workflow <span aria-hidden="true">▶</span></button>
+          </div>
+        </div>
+        <ol class="track" data-track>
+          {steps.map((s, i) => (
+            <li class="step">
+              <span class="step-icon" aria-hidden="true">{s.icon}</span>
+              <small>{s.k}</small>
+              <h3>{s.h}</h3>
+              <p>{s.p}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="workflow-status" role="status" data-workflow-status>A failed seal, from fault to reorder. Run the example above.</p>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section class="feature reverse wrap" id="reports">
+      <div class="analytics">
+        <div class="flex"><b>Stores at a glance</b><span class="pill">Last 90 days</span></div>
+        <div class="numbers">
+          <div><small>Critical spares in stock</small><strong>96<em>%</em></strong><span>↗ 7 points</span></div>
+          <div><small>Average lead time</small><strong>9<em>days</em></strong><span>↘ 2 days</span></div>
+          <div><small>Emergency freight</small><strong>3<em>trips</em></strong><span>↘ from 11</span></div>
+        </div>
+        <div class="chart" data-chart role="img" aria-label="Illustrative chart: emergency orders falling month by month">
+          <div style="--bar:88%"><i></i><span>Jan</span></div>
+          <div style="--bar:74%"><i></i><span>Feb</span></div>
+          <div style="--bar:70%"><i></i><span>Mar</span></div>
+          <div style="--bar:52%"><i></i><span>Apr</span></div>
+          <div style="--bar:44%"><i></i><span>May</span></div>
+          <div style="--bar:30%"><i></i><span>Jun</span></div>
+        </div>
+        <div class="chart-legend"><span><i></i> Emergency orders</span><small>Illustrative data</small></div>
+
+        <div class="summary" data-summary>
+          <div class="flex"><b>✧ Weekly stores summary</b><button class="replay" type="button" data-replay hidden>Replay</button></div>
+          <p class="sr-only">{summary}</p>
+          <div class="summary-text" aria-hidden="true">
+            <span class="reserve">{summary}</span>
+            <span class="typed" data-typed>{summary}</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <span class="tag">▥ The story behind the stock</span>
+        <h2>Fewer boats<br />for one part.</h2>
+        <p>Emergency freight is where a stores budget quietly disappears. Sparehand shows which failures caught you short, and what to hold so they don’t next time.</p>
+        <a class="text-link" href="#calculator">Estimate the time back <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calculator wrap" id="calculator">
+      <div>
+        <span class="tag">Make room for the real work</span>
+        <h2>How long does your team<br />spend chasing parts?</h2>
+        <p>Move the slider to your monthly requisitions and see the hours a single flow could hand back.</p>
+        <label for="volume">Requisitions a month <output id="volume-output" for="volume">300</output></label>
+        <input id="volume" type="range" min="50" max="1000" step="10" value="300" />
+        <div class="range-labels"><span>50</span><span>1,000</span></div>
+        <small>Assumes 20 minutes saved per requisition on searching, approvals and follow-up. A planning estimate for a fictional product, not a performance claim.</small>
+      </div>
+      <div class="calc-result">
+        <span>TIME BACK, EVERY MONTH</span>
+        <div><output id="hours-output" for="volume">100</output><span>hours</span></div>
+        <p>For planned maintenance.<br />For the stock take nobody gets to.<br />For going home on time.</p>
+        <a class="button lime" href="#tour">See it on your stock <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq wrap" id="faq">
+      <div>
+        <span class="tag">A few straight answers</span>
+        <h2>Fair questions.</h2>
+        <p>Start here. The last one is the one that matters.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}<span aria-hidden="true">+</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Final CTA: the one real action on the page -->
+    <section class="final-cta dark" id="tour">
+      <div class="wrap">
+        <span class="tag">A concept by Yann Hamonou</span>
+        <h2>Want a page<br />like this one?</h2>
+        <p>I design and build landing pages for B2B products: fast, accessible and built to rank.</p>
+        <a class="button lime" href="/contact">Talk to Yann <span aria-hidden="true">↗</span></a>
+        <small>Built in Astro. No page builder, no plugins.</small>
+      </div>
+      <span class="cta-mark" aria-hidden="true">s</span>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="#main"><span class="brandmark" aria-hidden="true">s</span>sparehand</a>
+        <p>Every spare in its place.</p>
+      </div>
+      <div>
+        <b>Product</b>
+        <a href="#platform">Live stock</a>
+        <a href="#field">Field app</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#reports">Reports</a>
+      </div>
+      <div>
+        <b>Explore</b>
+        <a href="#calculator">Time calculator</a>
+        <a href="#faq">Questions</a>
+        <a href="#tour">Walkthrough</a>
+      </div>
+      <div>
+        <b>About this concept</b>
+        <a href="/work/web/">Web work</a>
+        <a href="/services/web">Web &amp; CRO service</a>
+        <a href="/">Yann Hamonou</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Sparehand is a fictional product and brand. Concept, design and build by Yann Hamonou, 2026.</span>
+      <span>Design system after Paid, adapted.</span>
+    </div>
+  </footer>
+
+  <script>
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Mobile menu */
+    const menu = document.querySelector<HTMLButtonElement>('.menu');
+    const nav = document.getElementById('navigation');
+    if (menu && nav) {
+      const set = (open: boolean) => {
+        menu.setAttribute('aria-expanded', String(open));
+        menu.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        nav.classList.toggle('open', open);
+      };
+      menu.addEventListener('click', () => set(menu.getAttribute('aria-expanded') !== 'true'));
+      nav.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
+    }
+
+    /* Tabs. Every panel is in the HTML; this only hides the inactive ones. */
+    document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+      const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')!)!);
+      const select = (i: number, focus = false) => {
+        tabs.forEach((t, j) => {
+          const on = i === j;
+          t.setAttribute('aria-selected', String(on));
+          t.tabIndex = on ? 0 : -1;
+          panels[j].hidden = !on;
+        });
+        if (focus) tabs[i].focus();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(i));
+        t.addEventListener('keydown', (e) => {
+          const k = e.key;
+          const n = tabs.length;
+          if (k === 'ArrowRight' || k === 'ArrowDown') { e.preventDefault(); select((i + 1) % n, true); }
+          if (k === 'ArrowLeft' || k === 'ArrowUp') { e.preventDefault(); select((i - 1 + n) % n, true); }
+          if (k === 'Home') { e.preventDefault(); select(0, true); }
+          if (k === 'End') { e.preventDefault(); select(n - 1, true); }
+        });
+      });
+      select(0);
+    });
+
+    /* Workflow: four steps at 650 ms, user-triggered only. */
+    const run = document.querySelector<HTMLButtonElement>('[data-run-workflow]');
+    const track = document.querySelector<HTMLElement>('[data-track]');
+    const status = document.querySelector<HTMLElement>('[data-workflow-status]');
+    if (run && track && status) {
+      const steps = [...track.querySelectorAll<HTMLElement>('.step')];
+      run.addEventListener('click', () => {
+        run.disabled = true;
+        steps.forEach((s) => s.classList.remove('active'));
+        const done = () => {
+          status.textContent = 'Seal found onshore, approved, on tomorrow’s boat, and reordered. Four steps, one flow.';
+          run.disabled = false;
+        };
+        if (reduced) { steps.forEach((s) => s.classList.add('active')); done(); return; }
+        status.textContent = 'Running the example…';
+        steps.forEach((s, i) => setTimeout(() => {
+          steps.forEach((x) => x.classList.remove('current'));
+          s.classList.add('active', 'current');
+          if (i === steps.length - 1) done();
+        }, 650 * (i + 1)));
+      });
+    }
+
+    /* Calculator */
+    const volume = document.getElementById('volume') as HTMLInputElement | null;
+    const vOut = document.getElementById('volume-output');
+    const hOut = document.getElementById('hours-output');
+    if (volume && vOut && hOut) {
+      const update = () => {
+        const v = Number(volume.value);
+        vOut.textContent = v.toLocaleString('en-GB');
+        hOut.textContent = Math.round((v * 20) / 60).toLocaleString('en-GB');
+      };
+      volume.addEventListener('input', update);
+      update();
+    }
+
+    /* Chart bars grow on first entry — only if the chart starts offscreen,
+       so nothing already on screen is ever hidden. */
+    const chart = document.querySelector<HTMLElement>('[data-chart]');
+    if (chart && !reduced && 'IntersectionObserver' in window && chart.getBoundingClientRect().top > window.innerHeight) {
+      chart.classList.add('waiting');
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { chart.classList.remove('waiting'); io.disconnect(); }
+      }, { threshold: 0.4 });
+      io.observe(chart);
+    }
+
+    /* Weekly summary types itself on first entry. The full text stays in the
+       sr-only copy and in the reserve span that holds the height; the typing
+       pauses offscreen and in a hidden tab, and never runs under reduced
+       motion. */
+    const box = document.querySelector<HTMLElement>('[data-summary]');
+    const typed = box?.querySelector<HTMLElement>('[data-typed]');
+    const replay = box?.querySelector<HTMLButtonElement>('[data-replay]');
+    if (box && typed && replay && !reduced && 'IntersectionObserver' in window) {
+      const full = typed.textContent ?? '';
+      let pos = 0;
+      let timer = 0;
+      let visible = false;
+      let started = false;
+      const tick = () => {
+        if (!visible || document.hidden) { timer = 0; return; }
+        pos = Math.min(full.length, pos + 2);
+        typed.textContent = full.slice(0, pos);
+        if (pos < full.length) { timer = window.setTimeout(tick, 32); }
+        else { timer = 0; box.classList.remove('typing'); replay.hidden = false; }
+      };
+      const start = () => {
+        clearTimeout(timer);
+        pos = 0;
+        typed.textContent = '';
+        box.classList.add('typing');
+        replay.hidden = true;
+        timer = window.setTimeout(tick, 900);
+      };
+      const resume = () => { if (started && !timer && pos < full.length) timer = window.setTimeout(tick, 32); };
+      new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        if (visible && !started) { started = true; start(); }
+        else resume();
+      }, { threshold: 0.5 }).observe(box);
+      document.addEventListener('visibilitychange', resume);
+      replay.addEventListener('click', start);
+    }
+  </script>
+
+  <style is:global>
+    :root {
+      --color-ink: #02261a;
+      --color-accent: #b2e659;
+      --color-background: #f2f2ed;
+      --color-surface: #ffffff;
+      --color-muted: #57675c;
+      --color-border: #d8ddd3;
+      --color-focus: #528420;
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      font-family: Geist, Arial, sans-serif;
+      color: var(--color-ink);
+      background: var(--color-background);
+      font-synthesis: none;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body { margin: 0; font-size: 16px; line-height: 1.6; background: var(--color-background); }
+    h1, h2, h3, p, ul, ol { margin: 0; }
+    button, input { font: inherit; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+    a, button { transition: background .15s, color .15s, filter .15s; -webkit-tap-highlight-color: transparent; }
+    :is(a, button, input, summary, [tabindex]):focus-visible { outline: 3px solid var(--color-focus); outline-offset: 4px; }
+    .dark :is(a, button):focus-visible { outline-color: var(--color-accent); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .wrap { width: min(1280px, calc(100% - 80px)); margin-inline: auto; }
+    .skip { position: absolute; top: -100px; left: 0; }
+    .skip:focus { top: 0; background: var(--color-accent); padding: 16px 20px; z-index: 100; }
+    .muted { color: var(--color-muted); }
+    .flex { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    p { color: var(--color-muted); }
+    h2 { font-size: clamp(32px, 3.35vw, 46px); line-height: 1.13; letter-spacing: -.035em; font-weight: 500; }
+    h3 { font-weight: 500; letter-spacing: -.02em; line-height: 1.3; }
+    .label { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+    .dot { width: 6px; height: 6px; display: inline-block; background: #638b32; border-radius: 50%; flex-shrink: 0; }
+    .tag { font-size: 14px; display: inline-flex; align-items: center; gap: 8px; line-height: 1.4; margin-bottom: 24px; }
+
+    /* Concept bar and header */
+    .concept-bar { background: var(--color-ink); color: #e5efdf; font-size: 13px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; padding: 10px 20px; text-align: center; }
+    .concept-bar a { color: var(--color-accent); font-weight: 500; }
+    header { position: sticky; top: 0; z-index: 20; background: var(--color-background); border-bottom: 1px solid var(--color-border); }
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .brand { display: inline-flex; align-items: center; gap: 9px; font-size: 27px; font-weight: 600; letter-spacing: -1px; line-height: 1; }
+    .brandmark { width: 31px; height: 31px; background: var(--color-ink); color: var(--color-accent); display: inline-grid; place-items: center; font-size: 26px; font-weight: 500; padding-bottom: 4px; }
+    nav { display: flex; gap: 26px; font-size: 14px; font-weight: 500; }
+    nav a { padding: 12px 0; }
+    nav a:hover { color: #4e751d; }
+    .menu { display: none; background: none; border: 0; font-size: 24px; min-width: 44px; min-height: 44px; }
+
+    /* Buttons and links */
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 48px; padding: 12px 20px; background: var(--color-ink); color: var(--color-accent); border: 1px solid var(--color-ink); font-weight: 600; font-size: 14px; line-height: 1.4; }
+    .button:hover { filter: brightness(1.18); }
+    .button:active { transform: translateY(1px); }
+    .button:disabled { filter: saturate(.5); cursor: default; }
+    .button.lime { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-ink); }
+    .nav-cta { min-height: 42px; font-size: 13px; }
+    .text-link { font-size: 14px; font-weight: 600; display: inline-flex; gap: 18px; align-items: center; padding: 12px 0; }
+    .text-link:hover { color: #4e751d; }
+    .button span, .text-link span { transition: transform .2s var(--ease-out); }
+    .button:hover span, .text-link:hover span { transform: translate(2px, -2px); }
+
+    /* Hero */
+    .grid-paper { background-image: radial-gradient(#02261a16 .7px, transparent .7px); background-size: 16px 16px; }
+    .hero { display: grid; grid-template-columns: 1fr 1.12fr; gap: 32px; align-items: center; min-height: 680px; padding: 72px 0; }
+    .hero-copy { position: relative; z-index: 2; background: var(--color-background); padding: 8px 8px 8px 0; }
+    .hero .dot { background: var(--color-ink); box-shadow: 0 0 0 3px #80a14b30; }
+    .hero h1 { font-size: clamp(44px, 4.6vw, 66px); line-height: 1.04; font-weight: 500; letter-spacing: -.04em; margin-bottom: 26px; max-width: 560px; }
+    .hero h1 span { display: block; animation: enter .6s var(--ease-out) both; }
+    .hero h1 span:nth-child(2) { animation-delay: .06s; }
+    .hero h1 span:nth-child(3) { animation-delay: .12s; }
+    .hero-copy > p { font-size: 17px; line-height: 1.65; max-width: 450px; margin-bottom: 28px; animation: enter .6s .6s var(--ease-out) both; }
+    .actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; animation: enter .6s .75s var(--ease-out) both; }
+    .hero-copy > .hero-note { font-size: 14px; margin: 28px 0 0; animation-delay: .8s; }
+    .hero-art { position: relative; height: 480px; min-width: 0; }
+    .app { position: absolute; inset: 34px 0 auto 0; background: var(--color-surface); border: 1px solid var(--color-border); animation: enter .8s .25s var(--ease-out) both; }
+    .app-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--color-border); font-size: 12px; }
+    .mini-brand { font-weight: 600; font-size: 15px; letter-spacing: -.4px; }
+    .avatar { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #dee7cc; font-size: 10px; font-weight: 600; }
+    .app-grid { display: grid; grid-template-columns: 150px 1fr; min-height: 340px; }
+    .app-side { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 16px 10px; background: #f9faf7; font-size: 12px; }
+    .app-side b { background: #e7eddc; padding: 8px; font-weight: 500; }
+    .app-side small { float: right; }
+    .side-foot { position: absolute; bottom: 14px; left: 10px; right: 10px; font-size: 11px; display: flex; gap: 6px; align-items: center; }
+    .app-main { padding: 16px 14px; font-size: 12px; min-width: 0; }
+    .line { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #e5e8e1; }
+    .line.selected { background: linear-gradient(90deg, #f0f4e9, transparent); }
+    .line div { flex: 1; min-width: 0; }
+    .line b { display: block; font-weight: 500; }
+    .line small { display: block; color: var(--color-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sq { width: 28px; height: 28px; display: grid; place-items: center; background: #e9eddf; font-weight: 600; font-size: 11px; flex-shrink: 0; }
+    .pill { font-size: 11px; background: #edf0e8; padding: 4px 8px; white-space: nowrap; font-weight: 500; }
+    .pill.green { background: #dfefc6; }
+    .pill.warn { background: #f3e2c7; }
+    .draft { background: #f0f4e9; margin-top: 14px; padding: 12px; }
+    .draft > span { font-weight: 600; }
+    .draft p { color: var(--color-ink); margin: 6px 0; line-height: 1.5; }
+    .draft > div { display: flex; justify-content: space-between; font-size: 11px; color: var(--color-muted); }
+    .float-dark { position: absolute; top: 0; right: 20px; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--color-ink); color: #fff; font-size: 13px; animation: enter .8s .45s var(--ease-out) both; }
+    .float-dark .dot { background: var(--color-accent); }
+    .check { color: var(--color-accent); font-size: 18px; margin-left: 8px; }
+    .float-lime { position: absolute; bottom: 0; left: -26px; width: 230px; background: var(--color-accent); padding: 18px 22px; animation: enter .8s .6s var(--ease-out) both; }
+    .float-lime > span { font-size: 12px; font-weight: 500; }
+    .float-lime strong { display: block; font-size: 42px; line-height: 1.15; letter-spacing: -1px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .float-lime strong span { font-size: 23px; }
+    .float-lime small { font-size: 11px; }
+    .mini-bars { display: flex; align-items: flex-end; gap: 5px; height: 36px; margin-top: 10px; }
+    .mini-bars i { display: block; width: 18px; height: 40%; background: #02261a33; transform-origin: bottom; animation: bar-in 1s .8s var(--ease-out) both; }
+    .mini-bars i:nth-child(2n) { height: 60%; }
+    .mini-bars i:nth-child(3n) { height: 78%; }
+    .mini-bars i:last-child { height: 100%; background: var(--color-ink); }
+    .art-caption { position: absolute; bottom: -24px; right: 0; font-size: 11px; color: var(--color-muted); }
+
+    /* Sections */
+    .section-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 48px; margin-bottom: 42px; }
+    .section-intro > p, .section-intro > div { max-width: 420px; }
+    .section-intro p { font-size: 16px; line-height: 1.7; }
+    .intro { padding: 100px 0 70px; border-top: 1px solid var(--color-border); }
+
+    /* Tabs */
+    .tablist { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--color-border); }
+    .tablist button { background: transparent; border: 0; border-right: 1px solid var(--color-border); padding: 18px 14px; text-align: left; font-size: 14px; min-height: 56px; }
+    .tablist button:last-child { border-right: 0; }
+    .tablist button:hover { background: #dde7cf; }
+    .tablist button[aria-selected=true] { background: var(--color-ink); color: var(--color-accent); }
+    .panel { display: grid; grid-template-columns: .85fr 1.15fr; gap: 64px; align-items: center; min-height: 365px; padding: 48px; background: var(--color-surface); border: 1px solid var(--color-border); border-top: 0; }
+    .panel[hidden] { display: none; }
+    .panel h3 { font-size: 29px; margin: 14px 0; }
+    .panel p { font-size: 15px; line-height: 1.75; max-width: 380px; margin-bottom: 12px; }
+    .queue { border: 1px solid var(--color-border); font-size: 13px; min-width: 0; }
+    .queue > .flex { padding: 16px; }
+    .status { font-size: 12px; color: #51722e; }
+    .queue-row { display: grid; grid-template-columns: 1fr 90px 110px; gap: 8px; align-items: center; padding: 12px 16px; border-top: 1px solid #e6e9e2; }
+    .queue-row b { font-weight: 500; }
+    .queue-row .pill { justify-self: start; }
+    .queue-head { font-size: 12px; color: var(--color-muted); background: #fafbf7; }
+    .queue-foot { display: flex; align-items: center; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--color-border); font-size: 13px; }
+
+    /* Feature splits */
+    .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 70px 0; }
+    .feature.reverse > :first-child { order: 2; }
+    .feature-copy > p { font-size: 16px; line-height: 1.75; margin: 22px 0; max-width: 450px; }
+    .feature-copy .tag { border: 1px solid var(--color-border); background: var(--color-surface); padding: 7px 10px; font-size: 13px; margin-bottom: 22px; }
+    .check-list { list-style: none; padding: 0; margin: 26px 0; font-size: 15px; }
+    .check-list li { display: flex; gap: 12px; padding: 7px 0; }
+    .check-list li::before { content: '✓'; color: #4d741d; }
+    .visual { position: relative; min-height: 420px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 36px; background-color: #e9eddf; }
+    .visual-foot { font-size: 11px; letter-spacing: .06em; margin-top: 22px; }
+    .device { width: 100%; max-width: 360px; background: var(--color-surface); border: 1px solid var(--color-border); padding: 20px; font-size: 13px; }
+    .scan { margin: 18px 0; height: 120px; background: #f1f2ec; display: grid; place-items: center; align-content: center; gap: 10px; }
+    .scan-frame { width: 120px; height: 56px; border: 2px solid var(--color-ink); border-style: dashed; }
+    .scan small { font-size: 12px; color: var(--color-muted); }
+    .scan-list { list-style: none; padding: 0; }
+    .scan-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid #e6e9e2; }
+    .sync { display: flex; gap: 8px; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--color-border); font-size: 12px; }
+
+    /* Workflow */
+    .dark { background: var(--color-ink); color: var(--color-background); }
+    .dark p { color: #bccabf; }
+    .dark h2 { color: var(--color-background); }
+    .workflow { margin: 60px 0; padding: 84px 0; }
+    .workflow h2 { color: var(--color-accent); }
+    .workflow .button { margin-top: 24px; }
+    .track { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; }
+    .step { position: relative; border: 1px solid #365044; padding: 24px 20px; transition: background .3s, border-color .3s; }
+    .step + .step::before { content: '→'; position: absolute; left: -14px; top: 30px; color: var(--color-accent); font-size: 14px; }
+    .step.active { background: #143a27; border-color: var(--color-accent); }
+    .step-icon { width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: 30px; background: #214631; color: var(--color-accent); font-size: 20px; }
+    .step small { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #c4d0c2; }
+    .step h3 { font-size: 17px; margin: 8px 0; color: var(--color-background); }
+    .step p { font-size: 13px; }
+    .workflow-status { font-size: 14px; margin-top: 26px; min-height: 22px; }
+
+    /* Reports */
+    .analytics { background: var(--color-surface); border: 1px solid var(--color-border); padding: 28px; }
+    .numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 26px 0; }
+    .numbers small { display: block; font-size: 12px; color: var(--color-muted); }
+    .numbers strong { display: block; font-size: 32px; font-weight: 500; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+    .numbers em { font-size: 15px; font-style: normal; margin-left: 4px; }
+    .numbers span { font-size: 12px; color: #4b7222; }
+    .chart { height: 160px; display: flex; gap: 14px; border-bottom: 1px solid var(--color-border); background: repeating-linear-gradient(to top, transparent 0 39px, #e7e9e2 39px 40px); }
+    .chart > div { flex: 1; position: relative; display: flex; align-items: flex-end; height: 100%; }
+    .chart i { width: 100%; height: var(--bar); background: #92b565; transform-origin: bottom; transition: transform .9s var(--ease-out); }
+    .chart > div:last-child i { background: var(--color-ink); }
+    .chart.waiting i { transform: scaleY(.12); }
+    .chart span { position: absolute; bottom: -24px; left: 0; font-size: 11px; color: var(--color-muted); }
+    .chart-legend { display: flex; justify-content: space-between; margin-top: 38px; font-size: 12px; color: var(--color-muted); }
+    .chart-legend i { display: inline-block; width: 7px; height: 7px; margin-right: 5px; background: #92b565; }
+    .summary { margin-top: 24px; padding: 16px; background: #f0f4e9; font-size: 13px; }
+    .replay { background: none; border: 1px solid var(--color-ink); padding: 4px 10px; font-size: 12px; min-height: 32px; }
+    .summary-text { display: grid; margin-top: 8px; color: var(--color-ink); line-height: 1.6; font-size: 14px; }
+    .summary-text > span { grid-area: 1 / 1; }
+    .reserve { visibility: hidden; }
+    .typing .typed::after { content: ''; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--color-ink); animation: caret 1s steps(1) infinite; }
+
+    /* Calculator */
+    .calculator { display: grid; grid-template-columns: 1.1fr .9fr; gap: 110px; align-items: center; padding: 100px 0; }
+    .calculator p { font-size: 16px; max-width: 460px; margin-top: 18px; }
+    .calculator label { display: flex; justify-content: space-between; margin-top: 30px; font-size: 15px; font-weight: 500; }
+    .calculator output { font-variant-numeric: tabular-nums; }
+    .calculator input { width: 100%; margin-top: 16px; accent-color: var(--color-ink); min-height: 32px; }
+    .range-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-muted); }
+    .calculator small { display: block; max-width: 460px; margin-top: 20px; font-size: 13px; line-height: 1.7; color: var(--color-muted); }
+    .calc-result { background: var(--color-ink); color: var(--color-accent); padding: 40px; }
+    .calc-result > span { font-size: 12px; letter-spacing: .09em; }
+    .calc-result > div { display: flex; align-items: baseline; gap: 12px; margin-top: 18px; }
+    .calc-result output { font-size: 90px; line-height: 1.15; font-weight: 500; letter-spacing: -.04em; }
+    .calc-result p { color: #d7e3d7; font-size: 18px; line-height: 1.65; margin: 20px 0 32px; }
+
+    /* FAQ */
+    .faq { display: grid; grid-template-columns: .85fr 1.15fr; gap: 90px; padding: 40px 0 90px; }
+    .faq > div > p { font-size: 15px; max-width: 300px; margin-top: 16px; }
+    .faq-list details { border-top: 1px solid var(--color-border); }
+    .faq-list details:last-child { border-bottom: 1px solid var(--color-border); }
+    summary { display: flex; justify-content: space-between; gap: 24px; padding: 22px 0; font-size: 16px; font-weight: 500; cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary > span { font-size: 22px; line-height: 1; transition: transform .2s; }
+    details[open] summary > span { transform: rotate(45deg); }
+    .faq-list details p { margin: 0 0 24px; font-size: 15px; line-height: 1.8; }
+
+    /* Final CTA */
+    .final-cta { position: relative; overflow: hidden; padding: 80px 0; }
+    .final-cta .wrap { position: relative; z-index: 1; }
+    .final-cta .tag { color: #becdbf; }
+    .final-cta h2 { font-size: clamp(40px, 4.7vw, 64px); color: var(--color-accent); }
+    .final-cta p { font-size: 19px; margin: 18px 0 30px; }
+    .final-cta small { display: block; margin-top: 18px; font-size: 13px; color: #bacbbc; }
+    .cta-mark { position: absolute; right: 100px; top: -150px; font-size: 640px; line-height: 1; font-weight: 500; color: #21432d; user-select: none; }
+
+    /* Footer */
+    .footer-top { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.2fr; gap: 48px; padding: 60px 0; }
+    .footer-top > div { display: flex; flex-direction: column; align-items: flex-start; }
+    .footer-top p { font-size: 14px; margin-top: 22px; }
+    .footer-top b { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .footer-top a:not(.brand) { font-size: 14px; color: var(--color-muted); padding: 6px 0; }
+    .footer-top a:not(.brand):hover { color: var(--color-ink); text-decoration: underline; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 24px; padding: 22px 0; border-top: 1px solid var(--color-border); font-size: 12px; color: var(--color-muted); }
+
+    @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @keyframes bar-in { from { transform: scaleY(.12); } to { transform: scaleY(1); } }
+    @keyframes caret { 50% { opacity: 0; } }
+
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; min-height: 0; gap: 56px; }
+      .hero-art { height: 470px; }
+      .float-lime { left: 0; }
+      .feature, .calculator, .faq { gap: 50px; }
+      .panel { gap: 36px; padding: 36px; }
+    }
+    @media (max-width: 860px) {
+      nav { display: none; position: absolute; top: 76px; left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px 40px 20px; background: var(--color-background); border-bottom: 1px solid var(--color-border); }
+      nav.open { display: flex; }
+      nav a { padding: 12px 0; border-bottom: 1px solid var(--color-border); }
+      .menu { display: inline-grid; place-items: center; }
+      .nav-cta { display: none; }
+      .section-intro { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .tablist { grid-template-columns: 1fr 1fr; }
+      .tablist button:nth-child(2) { border-right: 0; }
+      .tablist button:nth-child(-n+2) { border-bottom: 1px solid var(--color-border); }
+      .panel { grid-template-columns: 1fr; }
+      .feature { grid-template-columns: 1fr; }
+      .feature.reverse > :first-child { order: 0; }
+      .track { grid-template-columns: 1fr 1fr; }
+      .step:nth-child(3)::before { display: none; }
+      .calculator, .faq { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-top > div:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 32px); }
+      nav { padding-inline: 16px; }
+      .brand { font-size: 23px; }
+      .hero { padding: 48px 0 64px; }
+      .hero h1 { font-size: 40px; }
+      .hero-art { height: auto; display: flex; flex-direction: column; gap: 12px; }
+      .app, .float-dark, .float-lime, .art-caption { position: static; }
+      .float-lime { width: auto; }
+      .app-grid { grid-template-columns: 1fr; }
+      .app-side { display: none; }
+      .intro { padding: 64px 0 40px; }
+      .tablist button { font-size: 13px; padding: 14px 10px; }
+      .panel { padding: 24px 18px; }
+      .queue-row { grid-template-columns: 1fr auto; }
+      .queue-row > span:nth-child(2) { display: none; }
+      .feature { padding: 48px 0; }
+      .visual { padding: 20px; min-height: 0; }
+      .track { grid-template-columns: 1fr; }
+      .step::before { display: none; }
+      .numbers { grid-template-columns: 1fr 1fr; }
+      .numbers > div:last-child { grid-column: 1 / -1; }
+      .calculator { padding: 64px 0; }
+      .calc-result { padding: 28px; }
+      .calc-result output { font-size: 72px; }
+      .final-cta { padding: 56px 0; }
+      .cta-mark { font-size: 360px; top: 60px; right: -60px; opacity: .5; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</body>
+</html>

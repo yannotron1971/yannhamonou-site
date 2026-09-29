@@ -11,7 +11,10 @@ export default defineConfig({
   // builds and returns 200, then dies at render with NoMatchingRenderer — the
   // CMS looked installed and was unusable. React is here for that UI only;
   // no page component on the site uses it.
-  integrations: [react(), keystatic(), sitemap()],
+  integrations: [react(), keystatic(), sitemap({
+    // The Sparehand concept is noindex; a sitemap should not list it.
+    filter: (page) => !page.includes('/work/web/sparehand'),
+  })],
   site: 'https://yannhamonou-site.pages.dev',
   vite: {
     plugins: [tailwindcss()],

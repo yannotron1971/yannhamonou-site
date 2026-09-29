@@ -79,6 +79,10 @@ const s = service as any;
               </li>
             ))}
           </ul>
+          {/* The web service is the one whose work is itself the proof. */}
+          {s.slug === 'web' && (
+            <a href="/work/web/" class="edge-btn" style="margin-top:24px;height:36px;font-size:var(--v4-text-small)">See the web work →</a>
+          )}
         </div>
         )}
       </div>
