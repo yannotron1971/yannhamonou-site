@@ -124,7 +124,7 @@ const faq = [
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">FOR ENGINEERING CONTRACTORS</p>
-          <h1 id="hero-title">Get paid<br />for every<br /><em>day on site.</em></h1>
+          <h1 id="hero-title"><span class="line">Get paid</span> <span class="line">for every</span> <span class="line"><em>day on site.</em></span></h1>
           <p class="hero-description">Job costs, day-rate invoicing and cash flow in one clear view, so the work you finished last week turns into money this month.</p>
           <a class="button primary" href="#platform">See how it works <span aria-hidden="true">↗</span></a>
           <p class="hero-note">Less chasing. More contracting.</p>
@@ -135,7 +135,7 @@ const faq = [
           <div class="dashboard" role="img" aria-label="Illustrative Keelson cash dashboard: a cash position of £412,380 rising from April to September, with money in and money out for the month">
             <div class="dashboard-heading" aria-hidden="true"><span class="mini-logo">keelson.</span><span class="account-name">North Dee Engineering <span class="avatar">N</span></span></div>
             <div class="balance-heading" aria-hidden="true"><span>Cash position</span><span class="sample-label">ILLUSTRATIVE</span></div>
-            <div class="balance" aria-hidden="true">£412,380<span>.00</span></div>
+            <div class="balance" aria-hidden="true">£<span class="count" data-count="412380">412,380</span><span>.00</span></div>
             <div class="growth" aria-hidden="true">↗ £38,120 <span>this month</span></div>
             <div class="chart" aria-hidden="true">
               <div class="chart-grid"><span>£450k</span><span>£350k</span><span>£250k</span></div>
@@ -143,11 +143,12 @@ const faq = [
                 <path class="chart-area" d="M0 150L22 154L44 140L66 146L88 128L110 134L132 118L154 124L176 104L198 112L220 90L242 98L264 80L286 86L308 70L330 76L352 56L374 64L396 44L418 50L440 30L462 36L484 18L500 14V175H0Z" />
                 <path class="chart-line" d="M0 150L22 154L44 140L66 146L88 128L110 134L132 118L154 124L176 104L198 112L220 90L242 98L264 80L286 86L308 70L330 76L352 56L374 64L396 44L418 50L440 30L462 36L484 18L500 14" />
               </svg>
+              <span class="chart-end" aria-hidden="true"></span>
             </div>
             <div class="chart-months" aria-hidden="true"><span>APR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span></div>
             <div class="cash-summary" aria-hidden="true">
-              <div><span>Invoiced <b>↙</b></span><strong>£126,400</strong></div>
-              <div><span>Paid out <b>↗</b></span><strong>£88,280</strong></div>
+              <div><span>Invoiced <b>↙</b></span><strong>£<span class="count" data-count="126400">126,400</span></strong></div>
+              <div><span>Paid out <b>↗</b></span><strong>£<span class="count" data-count="88280">88,280</span></strong></div>
             </div>
           </div>
           <div class="specimen-bottom"><span>EVERY JOB. EVERY INVOICE. ONE VIEW.</span><span>Fictional company and figures</span></div>
@@ -319,6 +320,26 @@ const faq = [
       select(0);
     });
 
+    /* Hero figures count up once, from about 94% of their value, so the
+       digits settle rather than spin. The final value is server-rendered and
+       tabular figures keep the width fixed, so nothing shifts. */
+    if (!reduced.matches) {
+      document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+        const end = Number(el.dataset.count);
+        const start = Math.round(end * 0.94);
+        const t0 = performance.now() + 350;
+        const fmt = (n: number) => n.toLocaleString('en-GB');
+        el.textContent = fmt(start);
+        const step = (t: number) => {
+          const k = Math.min(1, Math.max(0, (t - t0) / 1400));
+          const eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = fmt(Math.round(start + (end - start) * eased));
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }
+
     /* Scroll layer, after Folio's: entrance classes on first sight only.
        Everything is visible before, without, and after it. */
     if ('IntersectionObserver' in window) {
@@ -328,6 +349,13 @@ const faq = [
       reg('.stages', 'scroll-preview');
       reg('.plan ul', 'scroll-details');
       reg('.chart', 'scroll-chart');
+      reg('.capabilities', 'scroll-strip');
+      reg('.plan', 'scroll-rule');
+      if (!reduced.matches) document.querySelectorAll('.plan').forEach((el) => {
+        if (el.getBoundingClientRect().top > window.innerHeight) el.classList.add('rule-wait');
+      });
+      reg('.why-copy > p:first-child', 'scroll-type');
+      reg('.price', 'scroll-type');
       let io: IntersectionObserver | undefined;
       const sync = () => {
         io?.disconnect();
@@ -335,6 +363,7 @@ const faq = [
         io = new IntersectionObserver((entries) => {
           for (const entry of entries) {
             if (!entry.isIntersecting) continue;
+            entry.target.classList.remove('rule-wait');
             entry.target.classList.add(targets.get(entry.target)!);
             io!.unobserve(entry.target);
           }
@@ -359,6 +388,7 @@ const faq = [
       --font-body: Inter, Arial, sans-serif;
       --ease-out: cubic-bezier(.22, 1, .36, 1);
       --ease-settle: cubic-bezier(.16, 1, .3, 1);
+      --tilt: -2deg;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 24px; }
@@ -415,7 +445,7 @@ const faq = [
     .specimen { min-width: 0; margin-top: 20px; }
     .specimen-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 23px; font-size: 15px; }
     .tiny-symbol { font-size: 32px; line-height: 1; }
-    .dashboard { background: var(--color-background); border-radius: 6px; padding: 26px 28px 0; transform: rotate(-2deg); transition: transform .6s var(--ease-settle); }
+    .dashboard { background: var(--color-background); border-radius: 6px; padding: 26px 28px 0; transform: rotate(var(--tilt)); transition: transform .6s var(--ease-settle); }
     .specimen:hover .dashboard { transform: rotate(0); }
     .dashboard-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid #15245a20; }
     .mini-logo { font-size: 26px; font-weight: 600; letter-spacing: -1.5px; }
@@ -424,7 +454,7 @@ const faq = [
     .balance-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; font-size: 13px; }
     .sample-label { font-size: 11px; letter-spacing: .05em; }
     .balance { margin-top: 8px; font-size: clamp(2rem, 3.4vw, 3.2rem); font-weight: 500; line-height: 1.25; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-    .balance > span { color: var(--color-muted); }
+    .balance > span:last-child { color: var(--color-muted); }
     .growth { margin-top: 8px; font-size: 13px; color: var(--color-muted); }
     .growth > span { color: var(--color-ink); margin-left: 6px; }
     .chart { position: relative; height: 171px; margin: 30px 40px 0 0; }
@@ -486,7 +516,13 @@ const faq = [
     .pricing-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; }
     .pricing-heading > p { margin: 0 10% 5px 0; font-size: 16px; }
     .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 8%; margin-top: 65px; }
-    .plan { padding-top: 23px; border-top: 1px solid var(--color-ink); }
+    .plan { position: relative; padding-top: 23px; }
+    /* The rule is drawn by a pseudo-element so it can draw in from the left
+       with a transform; at rest it is simply a 1px line. */
+    .plan::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--color-ink); transform-origin: left; }
+    .chart-end { position: absolute; right: 0; top: 8%; width: 9px; height: 9px; margin: -4px -4px 0 0; border-radius: 50%; background: var(--color-muted); }
+    .chart-end::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid var(--color-muted); opacity: 0; }
+    .count { font-variant-numeric: tabular-nums; }
     .plan-name { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .plan-name h3 { font-size: 24px; font-weight: 500; letter-spacing: -.03em; }
     .plan-name span { font-size: 14px; }
@@ -520,10 +556,41 @@ const faq = [
     .wordmark.small .brand-mark { font-size: 36px; }
 
     /* Entrances: visible by default, enhanced on first sight. */
-    .hero-copy { animation: arrive .9s var(--ease-settle) both; }
+    .hero h1 .line { display: block; }
     .specimen { animation: arrive 1.2s var(--ease-settle) both; }
     .section-intro h2 em, .why h2 em, .pricing-heading h2 em, .questions h2 em, .footer-top h2 em { display: inline-block; }
     @media (prefers-reduced-motion: no-preference) {
+      /* Hero: the proposition arrives a line at a time, then its support. */
+      .hero h1 .line { animation: type-in 760ms var(--ease-out) both; }
+      .hero h1 .line:nth-child(2) { animation-delay: 80ms; }
+      .hero h1 .line:nth-child(3) { animation-delay: 160ms; }
+      .eyebrow { animation: fade-in 600ms var(--ease-out) both; }
+      .hero-description { animation: type-in 760ms 320ms var(--ease-out) both; }
+      .hero .button { animation: type-in 760ms 420ms var(--ease-out) both; }
+      .hero-note { animation: fade-in 600ms 560ms var(--ease-out) both; }
+      /* The dashboard settles into its tilt rather than arriving flat. */
+      .dashboard { animation: settle 1.2s 150ms var(--ease-settle) backwards; }
+      .chart-end { animation: fade-in 400ms 1.5s var(--ease-out) both; }
+      .chart-end::after { animation: ping 1.6s 1.7s var(--ease-out) 2; }
+      /* The symbol turns a quarter when the dashboard is looked at. */
+      .tiny-symbol { transition: transform .9s var(--ease-settle); }
+      .specimen:hover .tiny-symbol { transform: rotate(90deg); }
+      /* Capabilities read left to right on first sight. */
+      .scroll-strip > * { animation: detail-in 650ms var(--ease-out) backwards; }
+      .scroll-strip > :nth-child(2) { animation-delay: 60ms; }
+      .scroll-strip > :nth-child(3) { animation-delay: 120ms; }
+      .scroll-strip > :nth-child(4) { animation-delay: 180ms; }
+      .scroll-strip > :nth-child(5) { animation-delay: 240ms; }
+      .scroll-strip > :nth-child(6) { animation-delay: 300ms; }
+      /* Plan rules draw in, then the list follows. */
+      .rule-wait::before { transform: scaleX(0); }
+      .scroll-rule::before { animation: rule-in 900ms var(--ease-out) backwards; }
+      .plan + .plan.scroll-rule::before { animation-delay: 120ms; }
+      /* Opening a tab or a question eases its text in. */
+      .product-tab[aria-selected=true] small { animation: detail-in 500ms var(--ease-out); }
+      details[open] > p { animation: detail-in 450ms var(--ease-out); }
+      .tab-symbol { display: inline-block; transition: transform .3s var(--ease-out); }
+      .product-tab[aria-selected=true] .tab-symbol { transform: rotate(180deg); }
       .scroll-type { animation: type-in 760ms var(--ease-out); }
       .scroll-preview { animation: preview-in 850ms var(--ease-out); }
       .scroll-preview .account-row { animation: detail-in 650ms var(--ease-out) backwards; }
@@ -541,6 +608,10 @@ const faq = [
     @keyframes detail-in { from { opacity: .65; transform: translateY(7px); } to { opacity: 1; transform: none; } }
     @keyframes ink-in { from { opacity: .35; } to { opacity: 1; } }
     @keyframes draw { from { stroke-dashoffset: 850; } to { stroke-dashoffset: 0; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes settle { from { opacity: .6; transform: rotate(calc(var(--tilt) * 2)); } to { opacity: 1; transform: rotate(var(--tilt)); } }
+    @keyframes ping { from { opacity: .7; transform: scale(.6); } to { opacity: 0; transform: scale(1.6); } }
+    @keyframes rule-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
     @media (max-width: 1050px) {
       .wrap { width: calc(100% - 64px); }
@@ -570,7 +641,8 @@ const faq = [
       .hero-description { max-width: 420px; margin-top: 24px; }
       .eyebrow { font-size: 12px; }
       .specimen { width: min(100%, 510px); margin: 22px auto 0; }
-      .dashboard { padding: 22px 18px 0; transform: rotate(-1deg); }
+      .dashboard { padding: 22px 18px 0; }
+      :root { --tilt: -1deg; }
       .account-name { font-size: 12px; }
       .balance { font-size: 2.3rem; }
       .chart { height: 150px; margin-right: 36px; }
