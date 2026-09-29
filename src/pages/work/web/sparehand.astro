@@ -637,8 +637,8 @@ const faq = [
     .hero-copy > p { font-size: 17px; line-height: 1.65; max-width: 450px; margin-bottom: 28px; animation: enter .6s .6s var(--ease-out) both; }
     .actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; animation: enter .6s .75s var(--ease-out) both; }
     .hero-copy > .hero-note { font-size: 14px; margin: 28px 0 0; animation-delay: .8s; }
-    .hero-art { position: relative; height: 480px; min-width: 0; }
-    .app { position: absolute; inset: 34px 0 auto 0; background: var(--color-surface); border: 1px solid var(--color-border); animation: enter .8s .25s var(--ease-out) both; }
+    .hero-art { position: relative; height: 560px; min-width: 0; }
+    .app { position: absolute; inset: 50px 0 auto 0; background: var(--color-surface); border: 1px solid var(--color-border); animation: enter .8s .25s var(--ease-out) both; }
     .app-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--color-border); font-size: 12px; }
     .mini-brand { font-weight: 600; font-size: 15px; letter-spacing: -.4px; }
     .avatar { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #dee7cc; font-size: 10px; font-weight: 600; }
@@ -664,7 +664,7 @@ const faq = [
     .float-dark { position: absolute; top: 0; right: 20px; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--color-ink); color: #fff; font-size: 13px; animation: enter .8s .45s var(--ease-out) both; }
     .float-dark .dot { background: var(--color-accent); }
     .check { color: var(--color-accent); font-size: 18px; margin-left: 8px; }
-    .float-lime { position: absolute; bottom: 0; left: -26px; width: 230px; background: var(--color-accent); padding: 18px 22px; animation: enter .8s .6s var(--ease-out) both; }
+    .float-lime { position: absolute; bottom: 0; left: -26px; width: 196px; background: var(--color-accent); padding: 18px 22px; animation: enter .8s .6s var(--ease-out) both; }
     .float-lime > span { font-size: 12px; font-weight: 500; }
     .float-lime strong { display: block; font-size: 42px; line-height: 1.15; letter-spacing: -1px; font-weight: 500; font-variant-numeric: tabular-nums; }
     .float-lime strong span { font-size: 23px; }
@@ -807,7 +807,7 @@ const faq = [
 
     @media (max-width: 1100px) {
       .hero { grid-template-columns: 1fr; min-height: 0; gap: 56px; }
-      .hero-art { height: 470px; }
+      .hero-art { height: 560px; }
       .float-lime { left: 0; }
       .feature, .calculator, .faq { gap: 50px; }
       .panel { gap: 36px; padding: 36px; }
@@ -845,8 +845,7 @@ const faq = [
       .intro { padding: 64px 0 40px; }
       .tablist button { font-size: 13px; padding: 14px 10px; }
       .panel { padding: 24px 18px; }
-      .queue-row { grid-template-columns: 1fr auto; }
-      .queue-row > span:nth-child(2) { display: none; }
+      .queue-row { grid-template-columns: 1fr 72px auto; padding-inline: 12px; font-size: 12px; }
       .feature { padding: 48px 0; }
       .visual { padding: 20px; min-height: 0; }
       .track { grid-template-columns: 1fr; }
