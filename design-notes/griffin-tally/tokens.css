@@ -1,0 +1,14 @@
+/* Griffin-derived colours; adaptation spacing, motion and accessible font stacks.
+   Source observed 2026-09-29. Cambon and Sohne are not bundled or licensed here. */
+:root {
+ --color-background:#0c0c0b; --color-surface:#1a1918; --color-ink:#f9f5ef;
+ --color-muted:#aaa59e; --color-border:#35332f; --color-accent:#c2d9bd;
+ --color-button:#e6e1d9; --font-display:"Baskerville","Palatino Linotype",Georgia,serif;
+ --font-body:Arial,Helvetica,sans-serif; --font-data:"Courier New",ui-monospace,monospace;
+ --text-body:1rem; --text-label:.75rem; --container-max:1280px;
+ --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem;
+ --space-6:1.5rem; --space-8:2rem; --space-12:3rem; --space-16:4rem; --space-24:6rem;
+ --radius-control:999px; --radius-panel:8px;
+ --motion-fast:160ms; --motion-state:240ms; --motion-enter:700ms;
+ --ease-out:cubic-bezier(.22,1,.36,1);
+}

@@ -13,7 +13,7 @@ export default defineConfig({
   // no page component on the site uses it.
   integrations: [react(), keystatic(), sitemap({
     // The concept pages are noindex; a sitemap should not list them.
-    filter: (page) => !/\/work\/web\/(sparehand|keelson)/.test(page),
+    filter: (page) => !/\/work\/web\/(sparehand|keelson|emberline)/.test(page),
   })],
   site: 'https://yannhamonou-site.pages.dev',
   vite: {
