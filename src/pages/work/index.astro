@@ -18,51 +18,80 @@ const cases = await getCases();
       <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
         A handful of the projects that best represent the work. Numbers are real; context is everything.
       </p>
+      <div class="work-hero-links">
+        <a href="#cases" class="edge-btn">Case studies ↓</a>
+        <a href="/work/web/" class="edge-btn">Web development work →</a>
+      </div>
     </div>
   </section>
 
   <div class="edge-sheet">
 
-  <section class="edge-block edge-block--white">
+  <section class="edge-block edge-block--white" id="cases">
     <div class="edge-wrap">
-      <div style="display:flex;flex-direction:column;gap:2px;border-radius:0;overflow:hidden;border:1px solid var(--v4-line-soft)">
+      <ul class="work-cards" role="list">
         {cases.map(c => (
-          <a
-            href={`/work/${c.slug}`}
-            class="edge-case-row"
-          >
-            <div>
-              {/* The mark is the name here. It carries the client as its alt,
-                  since nothing else on the row says who the work was for; the
-                  written name only returns for a case that has no logo. */}
-              {c.logo
+          <li>
+            <a href={`/work/${c.slug}`} class="work-card">
+              {/* The plate: the photograph where the case has one with a
+                  description, otherwise its headline figure set large. */}
+              {c.image && c.imageAlt
                 ? (
-                  <img
-                    src={c.logo.src}
-                    alt={c.client}
-                    width={c.logo.w}
-                    height={c.logo.h}
-                    class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                    loading="lazy"
-                  />
+                  <div class="work-card__plate">
+                    <img src={c.image} alt={c.imageAlt} loading="lazy" decoding="async" style={`object-position:${c.imageFocus};`} />
+                  </div>
                 )
                 : (
-                  <h2 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
-                    {c.client}
-                  </h2>
+                  <div class="work-card__plate work-card__plate--figure" aria-hidden="true">
+                    <span class="work-card__plate-n">{c.stat}</span>
+                    <span class="work-card__plate-u">{c.statSub}</span>
+                  </div>
                 )
               }
-              <div class="edge-label" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
-              <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute)">{c.summary}</p>
-            </div>
-            <div class="edge-case-fig">
-              <span class="edge-case-fig__n">{c.stat}</span>
-              <span class="edge-case-fig__u">{c.statSub}</span>
-            </div>
-          </a>
+              <div class="work-card__body">
+                {/* The mark is the name here, carrying the client as its alt;
+                    the written name returns only for a case without a logo. */}
+                {c.logo
+                  ? (
+                    <img
+                      src={c.logo.src}
+                      alt={c.client}
+                      width={c.logo.w}
+                      height={c.logo.h}
+                      class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
+                      style={c.logo.scale ? `--logo-scale:${c.logo.scale}` : undefined}
+                      loading="lazy"
+                    />
+                  )
+                  : <h2 class="work-card__name">{c.client}</h2>
+                }
+                <div class="edge-label">{c.year} · {c.descriptor}</div>
+                <p class="work-card__summary">{c.summary}</p>
+                <div class="work-card__foot">
+                  <span class="work-card__stat"><b>{c.stat}</b> {c.statSub}</span>
+                  <span class="work-card__go">Case study →</span>
+                </div>
+              </div>
+            </a>
+          </li>
         ))}
-      </div>
-      <a href="/work/web/" class="edge-more">Web development work →</a>
+      </ul>
+
+      {/* Web work gets a card of its own, previews and all, so it reads as
+          a second body of work rather than a footnote to the first. */}
+      <a href="/work/web/" class="web-work-card">
+        <div class="web-work-card__copy">
+          <div class="edge-label">Web development</div>
+          <h2 class="web-work-card__title">Sites and landing pages, designed and built.</h2>
+          <p>A client rebuild in Webflow, this site in Astro, and three concept landing pages in three different design systems.</p>
+          <span class="edge-btn web-work-card__btn">See the web work →</span>
+        </div>
+        <div class="web-work-card__thumbs" aria-hidden="true">
+          <img src="/work/web/arnlea.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
+          <img src="/work/web/keelson.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
+          <img src="/work/web/emberline.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
+        </div>
+      </a>
     </div>
   </section>
 
@@ -79,3 +108,148 @@ const cases = await getCases();
   </section>
 </div>
 </Layout>
+
+<style>
+  .work-hero-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .work-hero-links .edge-btn { height: 44px; padding: 0 22px; font-size: var(--v4-text-small); }
+
+  /* Case cards */
+  .work-cards {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+  }
+  .work-cards > li { display: flex; }
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--v4-panel);
+    border: 1px solid var(--v4-line-soft);
+    transition: background 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
+  }
+  .work-card:hover,
+  .work-card:focus-visible { background: var(--v4-panel-3); border-color: var(--v4-ink-dim); }
+  .work-card__plate {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--v4-panel-2);
+    border-bottom: 1px solid var(--v4-line-soft);
+  }
+  .work-card__plate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--v4-ease-roll);
+  }
+  .work-card__plate--figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(20px, 3vw, 32px);
+  }
+  .work-card__plate-n {
+    font-family: var(--v4-display);
+    font-weight: 300;
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    color: var(--v4-ink);
+  }
+  .work-card__plate-u {
+    margin-top: 12px;
+    font-family: var(--v4-mono);
+    font-size: var(--v4-text-label);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--v4-ink-dim);
+  }
+  .work-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    padding: clamp(20px, 3vw, 32px);
+  }
+  .work-card__name {
+    font-family: var(--v4-display);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: -0.015em;
+    color: var(--v4-ink);
+  }
+  .work-card__summary { font-size: var(--v4-text-body); line-height: 1.6; color: var(--v4-ink-mute); }
+  .work-card__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--v4-line-soft);
+    font-family: var(--v4-mono);
+    font-size: var(--v4-text-label);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--v4-ink-dim);
+  }
+  .work-card__stat b { font-weight: 500; color: var(--v4-ink); }
+  .work-card__go { flex-shrink: 0; color: var(--v4-ink); }
+
+  /* Web work card */
+  .web-work-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+    margin-top: clamp(16px, 2vw, 28px);
+    padding: clamp(24px, 4vw, 48px);
+    background: var(--v4-panel);
+    border: 1px solid var(--v4-line-soft);
+    transition: background 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
+  }
+  .web-work-card:hover,
+  .web-work-card:focus-visible { background: var(--v4-panel-3); border-color: var(--v4-ink-dim); }
+  .web-work-card__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .web-work-card__title {
+    font-family: var(--v4-display);
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--v4-ink);
+  }
+  .web-work-card__copy p { font-size: var(--v4-text-body); line-height: 1.6; color: var(--v4-ink-mute); max-width: 460px; }
+  .web-work-card__btn { margin-top: 8px; height: 44px; padding: 0 22px; font-size: var(--v4-text-small); }
+  .web-work-card__thumbs { position: relative; aspect-ratio: 16 / 11; }
+  .web-work-card__thumbs img {
+    position: absolute;
+    width: 72%;
+    height: auto;
+    border: 1px solid var(--v4-line-soft);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
+    transition: transform 0.6s var(--v4-ease-roll);
+  }
+  .web-work-card__thumbs img:nth-child(1) { left: 0; top: 0; }
+  .web-work-card__thumbs img:nth-child(2) { left: 14%; top: 14%; }
+  .web-work-card__thumbs img:nth-child(3) { left: 28%; top: 28%; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .work-card:hover .work-card__plate img { transform: scale(1.03); }
+    .web-work-card:hover .web-work-card__thumbs img:nth-child(1) { transform: translate(-6px, -6px); }
+    .web-work-card:hover .web-work-card__thumbs img:nth-child(3) { transform: translate(6px, 6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .work-card__plate img, .web-work-card__thumbs img { transition: none; }
+  }
+  @media (max-width: 800px) {
+    .work-cards { grid-template-columns: 1fr; }
+    .web-work-card { grid-template-columns: 1fr; }
+    .web-work-card__thumbs { order: -1; }
+  }
+</style>
