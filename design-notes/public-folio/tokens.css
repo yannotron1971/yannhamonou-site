@@ -1,0 +1,31 @@
+/* Portable starting aliases for public-folio; see DESIGN.md for provenance.
+   Import ONE system. Font names do not load fonts or grant asset rights.
+   Spacing, readable type defaults, and motion aliases are proposed adaptations. */
+:root {
+  --color-ink: #15245A;
+  --color-accent: #EE6040;
+  --color-background: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-muted: #44599E;
+  --color-border: rgba(21,36,90,.25);
+  --font-body: Inter, Arial, sans-serif;
+  --font-display: Denton, Georgia, serif;
+  --font-data: ui-monospace, monospace;
+  --text-body: 1rem;
+  --text-label: .875rem;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --container-max: 1328px;
+  --radius-control: 4px;
+  --motion-fast: 150ms;
+  --motion-state: 300ms;
+  --motion-enter: 600ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}

@@ -1,0 +1,618 @@
+---
+/* Keelson — a second concept landing page, built to show web work.
+
+   Keelson is fictional: cash flow, job costing and day-rate invoicing for
+   engineering contractors. No client on this site sells into that market.
+   Every figure in the specimens is marked illustrative.
+
+   The design follows the Public-inspired "Folio" system kept in
+   design-notes/public-folio/: coral fields, navy ink, sage stages, an
+   expressive serif over an efficient sans, and a finance dashboard as the
+   hero image. Folio's own fonts (Denton, Invest Pro) are commercial and
+   unlicensed here, so Fraunces stands in for the display serif and Inter
+   carries the interface, keeping the serif/sans contrast the system is
+   built on.
+
+   Standalone, like Sparehand: no site Layout, nav, styles or analytics.
+   Content is visible by default. Every tab panel is in the HTML; the script
+   only hides the inactive ones. The scroll layer adds entrance classes on
+   first sight and does nothing under reduced motion. */
+const title = 'Keelson — Get paid for every day on site';
+const description =
+  'A concept landing page by Yann Hamonou for Keelson, a fictional cash flow and invoicing product for engineering contractors.';
+
+const views = [
+  {
+    id: 'jobs',
+    tab: 'Jobs, costed.',
+    blurb: 'Labour, kit hire and materials land against the job they belong to, so you know what every contract is really making while it is still running.',
+    title: 'Every job, in the black or not.',
+    caption: 'Margin by contract, updated as costs arrive.',
+    rows: [
+      ['◆', 'Pipework shutdown · Site A', '14 days in · 3 crew', '+18% margin'],
+      ['◇', 'Valve overhaul · Site B', '6 days in · 2 crew', '+11% margin'],
+      ['✳', 'Survey support · Site C', 'Kit hire over budget', '−2% margin'],
+    ],
+  },
+  {
+    id: 'invoicing',
+    tab: 'Timesheets, invoiced.',
+    blurb: 'Approved timesheets become day-rate invoices the same afternoon, with the client’s PO number, rates and site codes already on them.',
+    title: 'From timesheet to invoice, same day.',
+    caption: 'No retyping. No invoice waiting on a Friday.',
+    rows: [
+      ['↗', 'INV-3107 · Site A', 'Week 38 · 15 days', '£11,250'],
+      ['↗', 'INV-3106 · Site B', 'Week 38 · 8 days', '£5,440'],
+      ['◷', 'INV-3105 · Site C', 'Awaiting PO', 'Draft'],
+    ],
+  },
+  {
+    id: 'cash',
+    tab: 'Cash, forecast.',
+    blurb: 'See what lands when, across every client’s payment terms, and spot the month the payroll arrives before the money does.',
+    title: 'Know the thin month before it comes.',
+    caption: 'Forecast built from real terms, not averages.',
+    rows: [
+      ['↙', 'October', 'Expected in · 60-day terms', '£96,300'],
+      ['↗', 'October', 'Payroll and hire out', '£84,900'],
+      ['!', 'November', 'Gap before client payments land', '−£12,400'],
+    ],
+  },
+];
+
+const faq = [
+  {
+    q: 'What is Keelson?',
+    a: 'A fictional cash flow and invoicing product for engineering contractors, made up for this page. There is no real product, customer or result behind it.',
+  },
+  {
+    q: 'Are the figures real?',
+    a: 'No. Balances, margins, invoices and prices are illustrative, chosen so the product explains itself. None of it describes a real business.',
+  },
+  {
+    q: 'Why does it look so different from Sparehand?',
+    a: 'Because it follows a different design system on purpose: an editorial serif, coral and navy, and a finance dashboard as the hero. A landing page should look like the product it sells, not like the last page its designer built.',
+  },
+  {
+    q: 'Who built it, and how?',
+    a: 'Yann Hamonou, in Astro, with hand-written CSS and a small script for the tabs and scroll motion. No page builder, no plugins.',
+  },
+  {
+    q: 'Can you build a page like this for my product?',
+    a: 'Yes. Book the free 30-minute review and bring the product. We start with what the page has to prove, and to whom.',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ee6040" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ee6040'/%3E%3Ctext x='16' y='50' font-size='52' font-style='italic' font-family='Georgia' fill='%2315245a'%3Ek%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..400;1,9..144,300..400&family=Inter:wght@400..600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="concept-bar">
+    <span>Concept site by Yann Hamonou. Keelson is a fictional product.</span>
+    <a href="/work/web/">← Web work</a>
+  </div>
+
+  <div class="coral-shell">
+    <header class="nav wrap">
+      <a class="wordmark" href="#main" aria-label="Keelson, back to top"><span class="brand-mark" aria-hidden="true">k</span>keelson<span class="logo-period">.</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#platform">Platform</a>
+        <a href="#why">Why Keelson</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <a class="nav-cta" href="#cta">Talk to us <span aria-hidden="true">↗</span></a>
+    </header>
+  </div>
+
+  <main id="main">
+    <div class="coral-shell">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">FOR ENGINEERING CONTRACTORS</p>
+          <h1 id="hero-title">Get paid<br />for every<br /><em>day on site.</em></h1>
+          <p class="hero-description">Job costs, day-rate invoicing and cash flow in one clear view, so the work you finished last week turns into money this month.</p>
+          <a class="button primary" href="#platform">See how it works <span aria-hidden="true">↗</span></a>
+          <p class="hero-note">Less chasing. More contracting.</p>
+        </div>
+
+        <div class="specimen">
+          <div class="specimen-top"><span>Where the money is, every morning.</span><span class="tiny-symbol" aria-hidden="true">✳</span></div>
+          <div class="dashboard" role="img" aria-label="Illustrative Keelson cash dashboard: a cash position of £412,380 rising from April to September, with money in and money out for the month">
+            <div class="dashboard-heading" aria-hidden="true"><span class="mini-logo">keelson.</span><span class="account-name">North Dee Engineering <span class="avatar">N</span></span></div>
+            <div class="balance-heading" aria-hidden="true"><span>Cash position</span><span class="sample-label">ILLUSTRATIVE</span></div>
+            <div class="balance" aria-hidden="true">£412,380<span>.00</span></div>
+            <div class="growth" aria-hidden="true">↗ £38,120 <span>this month</span></div>
+            <div class="chart" aria-hidden="true">
+              <div class="chart-grid"><span>£450k</span><span>£350k</span><span>£250k</span></div>
+              <svg viewBox="0 0 500 175" preserveAspectRatio="none">
+                <path class="chart-area" d="M0 150L22 154L44 140L66 146L88 128L110 134L132 118L154 124L176 104L198 112L220 90L242 98L264 80L286 86L308 70L330 76L352 56L374 64L396 44L418 50L440 30L462 36L484 18L500 14V175H0Z" />
+                <path class="chart-line" d="M0 150L22 154L44 140L66 146L88 128L110 134L132 118L154 124L176 104L198 112L220 90L242 98L264 80L286 86L308 70L330 76L352 56L374 64L396 44L418 50L440 30L462 36L484 18L500 14" />
+              </svg>
+            </div>
+            <div class="chart-months" aria-hidden="true"><span>APR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span></div>
+            <div class="cash-summary" aria-hidden="true">
+              <div><span>Invoiced <b>↙</b></span><strong>£126,400</strong></div>
+              <div><span>Paid out <b>↗</b></span><strong>£88,280</strong></div>
+            </div>
+          </div>
+          <div class="specimen-bottom"><span>EVERY JOB. EVERY INVOICE. ONE VIEW.</span><span>Fictional company and figures</span></div>
+        </div>
+      </section>
+
+      <div class="capabilities wrap" aria-label="Keelson capabilities">
+        <span>Built for the way<br />contracting moves.</span>
+        <p>Job costing</p><span class="asterisk" aria-hidden="true">✳</span>
+        <p>Day-rate invoicing</p><span class="asterisk" aria-hidden="true">✳</span>
+        <p>Cash forecasting</p>
+      </div>
+    </div>
+
+    <section class="platform" id="platform" aria-labelledby="platform-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="platform-title">Plenty on site.<br /><em>Less on your desk.</em></h2>
+          <p>From the first timesheet to the last payment, keep the money side of every contract in step with the work.</p>
+        </div>
+        <div class="product-layout" data-tabs>
+          <div class="product-controls" role="tablist" aria-label="Explore the platform" aria-orientation="vertical">
+            {views.map((v, i) => (
+              <button
+                type="button"
+                class="product-tab"
+                role="tab"
+                id={`tab-${v.id}`}
+                aria-controls={`panel-${v.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >
+                <span>{v.tab}</span>
+                <span class="tab-symbol" aria-hidden="true">{i === 0 ? '−' : '+'}</span>
+                <small>{v.blurb}</small>
+              </button>
+            ))}
+          </div>
+          <div class="stages">
+            {views.map((v) => (
+              <div class="product-stage" role="tabpanel" id={`panel-${v.id}`} aria-labelledby={`tab-${v.id}`} tabindex="0">
+                <div class="stage-top"><span>{v.title}</span><span class="sample-label">ILLUSTRATIVE DATA</span></div>
+                <div>
+                  {v.rows.map((r) => (
+                    <div class="account-row">
+                      <span class="account-icon" aria-hidden="true">{r[0]}</span>
+                      <div><h3>{r[1]}</h3><small>{r[2]}</small></div>
+                      <strong>{r[3]}</strong>
+                    </div>
+                  ))}
+                </div>
+                <p>{v.caption}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why wrap" id="why" aria-labelledby="why-title">
+      <div>
+        <p class="section-label">More cash. Less paperwork.</p>
+        <h2 id="why-title">Built around<br /><em>the next invoice.</em></h2>
+      </div>
+      <div class="why-copy">
+        <p>You finish the job in September, invoice in October and get paid in December. Payroll does not wait that long.</p>
+        <p>Keelson closes the gap between the work and the money. Timesheets turn into invoices the day they are approved, costs land against the right job, and the forecast shows the thin month while there is still time to do something about it.</p>
+        <a class="text-link" href="#pricing">Find your fit <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="wrap">
+        <div class="pricing-heading">
+          <h2 id="pricing-title">Priced like<br /><em>a day rate.</em></h2>
+          <p>Start with one crew.<br />Grow into the rest.</p>
+        </div>
+        <div class="plans">
+          <article class="plan">
+            <div class="plan-name"><h3>Crew</h3><span>For a single team</span></div>
+            <p class="price">£39<span> / month</span></p>
+            <ul>
+              <li>Job costing for up to 10 live jobs</li>
+              <li>Timesheet to invoice, same day</li>
+              <li>Up to 5 users</li>
+            </ul>
+            <a class="button outline" href="#cta">Explore Crew <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="plan">
+            <div class="plan-name"><h3>Contractor</h3><span>For several sites at once</span></div>
+            <p class="price">£99<span> / month</span></p>
+            <ul>
+              <li>Everything in Crew</li>
+              <li>Cash forecast across payment terms</li>
+              <li>Unlimited jobs, up to 25 users</li>
+            </ul>
+            <a class="button primary" href="#cta">Explore Contractor <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <p class="pricing-note">Illustrative plans for a fictional product. Nothing here can be bought.</p>
+      </div>
+    </section>
+
+    <section class="questions wrap" aria-labelledby="faq-title">
+      <h2 id="faq-title">Straight{' '}<br /><em>answers.</em></h2>
+      <div class="faq-list">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}<span aria-hidden="true">+</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <!-- The one real action on the page. -->
+  <footer id="cta">
+    <div class="wrap footer-top">
+      <div>
+        <p class="footer-kicker">A concept by Yann Hamonou</p>
+        <h2>Want a page<br /><em>like this one?</em></h2>
+      </div>
+      <a class="button light-button" href="/contact">Talk to Yann <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="wrap footer-bottom">
+      <a class="wordmark small" href="#main"><span class="brand-mark" aria-hidden="true">k</span>keelson.</a>
+      <p>Keelson is a fictional product and brand. Concept, design and build by Yann Hamonou, 2026.</p>
+      <a href="/work/web/">← Web work</a>
+    </div>
+  </footer>
+
+  <script>
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* Vertical tabs. Every panel is in the HTML; this only hides the
+       inactive ones and flips the +/− symbol. */
+    document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+      const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')!)!);
+      const select = (i: number, focus = false) => {
+        tabs.forEach((t, j) => {
+          const on = i === j;
+          t.setAttribute('aria-selected', String(on));
+          t.tabIndex = on ? 0 : -1;
+          const sym = t.querySelector('.tab-symbol');
+          if (sym) sym.textContent = on ? '−' : '+';
+          panels[j].hidden = !on;
+          if (on && !reduced.matches) {
+            panels[j].classList.remove('scroll-preview');
+            void panels[j].offsetWidth;
+            panels[j].classList.add('scroll-preview');
+          }
+        });
+        if (focus) tabs[i].focus();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(i));
+        t.addEventListener('keydown', (e) => {
+          const n = tabs.length;
+          let next = -1;
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (i + 1) % n;
+          if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (i - 1 + n) % n;
+          if (e.key === 'Home') next = 0;
+          if (e.key === 'End') next = n - 1;
+          if (next > -1) { e.preventDefault(); select(next, true); }
+        });
+      });
+      select(0);
+    });
+
+    /* Scroll layer, after Folio's: entrance classes on first sight only.
+       Everything is visible before, without, and after it. */
+    if ('IntersectionObserver' in window) {
+      const targets = new Map<Element, string>();
+      const reg = (sel: string, cls: string) => document.querySelectorAll(sel).forEach((el) => targets.set(el, cls));
+      reg('.section-intro h2 em, .why h2 em, .pricing-heading h2 em, .questions h2 em, .footer-top h2 em', 'scroll-type');
+      reg('.stages', 'scroll-preview');
+      reg('.plan ul', 'scroll-details');
+      reg('.chart', 'scroll-chart');
+      let io: IntersectionObserver | undefined;
+      const sync = () => {
+        io?.disconnect();
+        if (reduced.matches) { targets.forEach((cls, el) => el.classList.remove(cls)); return; }
+        io = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add(targets.get(entry.target)!);
+            io!.unobserve(entry.target);
+          }
+        }, { threshold: 0.16, rootMargin: '0px 0px -32px 0px' });
+        targets.forEach((_, el) => io!.observe(el));
+      };
+      reduced.addEventListener('change', sync);
+      sync();
+    }
+  </script>
+
+  <style is:global>
+    :root {
+      --color-ink: #15245a;
+      --color-accent: #ee6040;
+      --color-background: #f7f8fa;
+      --color-blue: #819ade;
+      --color-muted: #44599e;
+      --color-sage: #cad3b7;
+      --color-border: rgba(21, 36, 90, .25);
+      --font-display: Fraunces, Georgia, 'Times New Roman', serif;
+      --font-body: Inter, Arial, sans-serif;
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --ease-settle: cubic-bezier(.16, 1, .3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body { margin: 0; background: var(--color-background); color: var(--color-ink); font: 16px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    a, button, summary { -webkit-tap-highlight-color: transparent; }
+    :is(a, button, summary, [tabindex]):focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2 { font-family: var(--font-display); font-weight: 300; font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0; letter-spacing: -.025em; word-spacing: .08em; text-wrap: balance; }
+    /* Folio sets Denton at -.035 to -.04em. Fraunces runs its words together
+       at that tracking, so it opens a step and the word gaps widen. */
+    em { font-weight: 300; }
+    h2 { font-size: clamp(2.6rem, 5.1vw, 4.6rem); line-height: 1.06; }
+    p { text-wrap: pretty; }
+    .wrap { width: min(1328px, calc(100% - 112px)); margin-inline: auto; }
+    .skip { position: fixed; top: -80px; left: 10px; z-index: 20; background: var(--color-ink); color: #fff; padding: 15px; }
+    .skip:focus { top: 10px; }
+
+    .concept-bar { background: var(--color-ink); color: #dfe5f6; font-size: 13px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; padding: 10px 20px; text-align: center; }
+    .concept-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Coral shell */
+    /* Navy on this coral measures 4.46:1, a hair under AA for body text.
+       Text on the coral takes a slightly deeper navy (4.71:1); the brand
+       navy stays everywhere else. The dashboard keeps its own ink. */
+    .coral-shell { background: var(--color-accent); color: #122052; }
+    .coral-shell .dashboard { color: var(--color-ink); }
+    .nav { height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--color-border); }
+    .wordmark { display: inline-flex; align-items: center; gap: 6px; font-size: 34px; font-weight: 600; letter-spacing: -2px; line-height: 1; }
+    .brand-mark { font: italic 400 48px/.8 var(--font-display); margin-right: 4px; }
+    .logo-period { margin-left: -6px; }
+    .nav nav { display: flex; gap: 35px; font-size: 15px; }
+    .nav nav a { position: relative; padding: 8px 0; }
+    .nav nav a::after { content: ''; position: absolute; bottom: 2px; left: 0; right: 100%; height: 1px; background: currentColor; transition: right .25s; }
+    .nav nav a:hover::after { right: 0; }
+    .nav-cta { display: inline-flex; align-items: center; gap: 30px; min-height: 48px; padding: 12px 20px; border: 1px solid var(--color-ink); border-radius: 4px; font-size: 15px; transition: background .22s, color .22s; }
+    .nav-cta:hover { background: var(--color-ink); color: var(--color-accent); }
+
+    .hero { display: grid; grid-template-columns: 1fr 1.02fr; gap: 7%; align-items: center; padding: 68px 0 74px; }
+    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; margin-bottom: 24px; }
+    h1 { font-size: clamp(4.4rem, 7.5vw, 6rem); line-height: .98; letter-spacing: -.03em; }
+    .hero-description { max-width: 380px; margin-top: 30px; font-size: 17px; line-height: 1.6; }
+    .hero .button { margin-top: 30px; }
+    .hero-note { margin-top: 14px; font-size: 14px; }
+    .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 52px; padding: 15px 23px; border: 0; border-radius: 4px; font-size: 15px; font-weight: 500; transition: transform .22s, background .22s, color .22s; }
+    .button:hover { transform: translateY(-3px); }
+    .button span { font-size: 21px; line-height: 1; transition: transform .22s; }
+    .button:hover span { transform: translate(2px, -2px); }
+    .primary { background: var(--color-ink); color: var(--color-background); }
+    .outline { background: transparent; border: 1px solid var(--color-ink); }
+    .light-button { background: var(--color-sage); color: var(--color-ink); }
+
+    .specimen { min-width: 0; margin-top: 20px; }
+    .specimen-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 23px; font-size: 15px; }
+    .tiny-symbol { font-size: 32px; line-height: 1; }
+    .dashboard { background: var(--color-background); border-radius: 6px; padding: 26px 28px 0; transform: rotate(-2deg); transition: transform .6s var(--ease-settle); }
+    .specimen:hover .dashboard { transform: rotate(0); }
+    .dashboard-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid #15245a20; }
+    .mini-logo { font-size: 26px; font-weight: 600; letter-spacing: -1.5px; }
+    .account-name { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .avatar { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--color-sage); font-size: 11px; }
+    .balance-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; font-size: 13px; }
+    .sample-label { font-size: 11px; letter-spacing: .05em; }
+    .balance { margin-top: 8px; font-size: clamp(2rem, 3.4vw, 3.2rem); font-weight: 500; line-height: 1.25; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .balance > span { color: var(--color-muted); }
+    .growth { margin-top: 8px; font-size: 13px; color: var(--color-muted); }
+    .growth > span { color: var(--color-ink); margin-left: 6px; }
+    .chart { position: relative; height: 171px; margin: 30px 40px 0 0; }
+    .chart-grid { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; transform: translateY(-5px); }
+    .chart-grid span { width: 0; padding-left: 100%; box-sizing: content-box; border-bottom: 1px solid #15245a15; text-align: right; white-space: nowrap; }
+    .chart svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .chart-area { fill: #819ade26; }
+    .chart-line { fill: none; stroke: var(--color-muted); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 850; stroke-dashoffset: 0; }
+    .chart-months { display: flex; justify-content: space-between; margin: 16px 40px 22px 0; font-size: 11px; color: var(--color-muted); }
+    .cash-summary { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #15245a20; }
+    .cash-summary > div { padding: 18px 0 22px; }
+    .cash-summary > div + div { border-left: 1px solid #15245a20; padding-left: 24px; }
+    .cash-summary > div > span { display: flex; justify-content: space-between; max-width: 150px; font-size: 12px; }
+    .cash-summary b { font-size: 15px; font-weight: 400; }
+    .cash-summary strong { display: block; margin-top: 3px; font-size: 22px; font-weight: 500; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .specimen-bottom { display: flex; justify-content: space-between; gap: 20px; margin-top: 29px; font-size: 12px; }
+    .specimen-bottom > span:first-child { letter-spacing: .04em; }
+
+    .capabilities { display: flex; justify-content: space-between; align-items: center; gap: 22px; min-height: 126px; border-top: 1px solid var(--color-border); }
+    .capabilities > span:first-child { font-size: 13px; line-height: 1.5; }
+    .capabilities p { font-family: var(--font-display); font-weight: 300; font-size: 26px; letter-spacing: -.02em; }
+    .asterisk { font-size: 20px; }
+
+    /* Platform */
+    .platform { background: var(--color-ink); color: var(--color-background); padding: 105px 0 110px; }
+    .section-intro { display: flex; justify-content: space-between; align-items: end; gap: 60px; }
+    .section-intro > p { max-width: 350px; margin-bottom: 5px; font-size: 16px; line-height: 1.7; color: #d4dcf1; }
+    .product-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 10%; align-items: center; margin-top: 70px; }
+    .product-controls { min-width: 0; }
+    .product-tab { display: grid; grid-template-columns: 1fr auto; width: 100%; padding: 25px 0; background: transparent; border: 0; border-top: 1px solid #ffffff35; color: #c7d1ed; text-align: left; font-size: 24px; letter-spacing: -.035em; }
+    .product-tab:last-child { border-bottom: 1px solid #ffffff35; }
+    .product-tab small { display: none; grid-column: 1 / -1; max-width: 340px; padding-top: 16px; font-size: 15px; line-height: 1.7; letter-spacing: 0; color: #d4dcf1; }
+    .product-tab[aria-selected=true] { color: #fff; }
+    .product-tab[aria-selected=true] small { display: block; }
+    .product-tab:hover { color: #fff; }
+    .tab-symbol { font-size: 22px; }
+    .product-stage { min-height: 345px; padding: 30px; border-radius: 6px; background: var(--color-sage); color: var(--color-ink); }
+    .product-stage[hidden] { display: none; }
+    .stages .product-stage + .product-stage { margin-top: 16px; }
+    .stages .product-stage[hidden] + .product-stage, .stages .product-stage + .product-stage:not([hidden]) { margin-top: 0; }
+    .stage-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 28px; font-size: 16px; font-weight: 500; }
+    .account-row { display: flex; align-items: center; gap: 14px; padding: 17px 0; border-top: 1px solid #15245a25; }
+    .account-icon { display: grid; place-items: center; flex-shrink: 0; width: 38px; height: 38px; border: 1px solid #15245a40; border-radius: 50%; font-size: 18px; }
+    .account-row h3 { font-size: 15px; font-weight: 500; letter-spacing: 0; }
+    .account-row small { font-size: 13px; }
+    .account-row strong { margin-left: auto; font-size: 17px; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .product-stage > p { margin-top: 22px; font-size: 14px; }
+
+    /* Why */
+    .why { display: grid; grid-template-columns: 1.15fr .85fr; gap: 9%; padding-block: 110px; }
+    .section-label { margin-bottom: 24px; font-size: 13px; }
+    .why-copy { padding-top: 45px; }
+    .why-copy > p:first-child { margin-bottom: 22px; font-size: 24px; line-height: 1.45; letter-spacing: -.035em; }
+    .why-copy > p + p { max-width: 440px; font-size: 16px; line-height: 1.75; }
+    .text-link { display: inline-flex; justify-content: space-between; gap: 65px; margin-top: 28px; padding-bottom: 7px; border-bottom: 1px solid var(--color-ink); font-size: 15px; }
+
+    /* Pricing */
+    .pricing { background: var(--color-sage); padding: 90px 0; }
+    .pricing-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; }
+    .pricing-heading > p { margin: 0 10% 5px 0; font-size: 16px; }
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 8%; margin-top: 65px; }
+    .plan { padding-top: 23px; border-top: 1px solid var(--color-ink); }
+    .plan-name { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .plan-name h3 { font-size: 24px; font-weight: 500; letter-spacing: -.03em; }
+    .plan-name span { font-size: 14px; }
+    .price { margin-top: 23px; font-family: var(--font-display); font-weight: 300; font-size: 65px; letter-spacing: -.04em; }
+    .price > span { font-family: var(--font-body); font-size: 15px; letter-spacing: 0; }
+    .plan ul { list-style: none; padding: 0; margin: 24px 0 30px; font-size: 15px; }
+    .plan li { padding: 8px 0; }
+    .plan li::before { content: '✓'; margin-right: 13px; }
+    .plan .button { width: 100%; }
+    .pricing-note { margin-top: 30px; font-size: 14px; }
+
+    /* FAQ */
+    .questions { display: grid; grid-template-columns: 1fr 1.25fr; gap: 8%; padding-block: 95px; }
+    .questions h2 { font-size: clamp(2.8rem, 4vw, 3.7rem); }
+    details { padding: 23px 0; border-top: 1px solid var(--color-border); }
+    details:last-child { border-bottom: 1px solid var(--color-border); }
+    summary { display: flex; justify-content: space-between; gap: 20px; font-size: 17px; cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary span { transition: transform .2s; }
+    details[open] summary span { transform: rotate(45deg); }
+    details p { max-width: 520px; margin-top: 16px; font-size: 15px; line-height: 1.7; }
+
+    /* Footer CTA */
+    footer { background: var(--color-ink); color: var(--color-background); padding-top: 75px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding-bottom: 75px; }
+    .footer-kicker { margin-bottom: 18px; font-size: 13px; color: #c7d1ed; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 32px; border-top: 1px solid #ffffff30; }
+    .footer-bottom p, .footer-bottom > a:last-child { font-size: 13px; }
+    .footer-bottom > a:last-child { text-decoration: underline; text-underline-offset: 3px; }
+    .wordmark.small { font-size: 26px; }
+    .wordmark.small .brand-mark { font-size: 36px; }
+
+    /* Entrances: visible by default, enhanced on first sight. */
+    .hero-copy { animation: arrive .9s var(--ease-settle) both; }
+    .specimen { animation: arrive 1.2s var(--ease-settle) both; }
+    .section-intro h2 em, .why h2 em, .pricing-heading h2 em, .questions h2 em, .footer-top h2 em { display: inline-block; }
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-type { animation: type-in 760ms var(--ease-out); }
+      .scroll-preview { animation: preview-in 850ms var(--ease-out); }
+      .scroll-preview .account-row { animation: detail-in 650ms var(--ease-out) backwards; }
+      .scroll-preview .account-row:nth-child(2) { animation-delay: 70ms; }
+      .scroll-preview .account-row:nth-child(3) { animation-delay: 140ms; }
+      .scroll-details li { animation: detail-in 650ms var(--ease-out) backwards; }
+      .scroll-details li:nth-child(2) { animation-delay: 65ms; }
+      .scroll-details li:nth-child(3) { animation-delay: 130ms; }
+      .scroll-chart .chart-line { animation: draw 1600ms var(--ease-out); }
+      .scroll-chart .chart-area { animation: ink-in 1100ms ease-out; }
+    }
+    @keyframes arrive { from { transform: translateY(18px); opacity: .5; } to { transform: none; opacity: 1; } }
+    @keyframes type-in { from { opacity: .65; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @keyframes preview-in { from { opacity: .8; transform: translateY(14px) scale(.988); } to { opacity: 1; transform: none; } }
+    @keyframes detail-in { from { opacity: .65; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+    @keyframes ink-in { from { opacity: .35; } to { opacity: 1; } }
+    @keyframes draw { from { stroke-dashoffset: 850; } to { stroke-dashoffset: 0; } }
+
+    @media (max-width: 1050px) {
+      .wrap { width: calc(100% - 64px); }
+      .hero { gap: 5%; padding-top: 55px; }
+      h1 { font-size: 5rem; }
+      .dashboard { padding: 22px 20px 0; }
+      .balance { font-size: 2.5rem; }
+      .specimen-bottom > span:last-child { display: none; }
+      .capabilities p { font-size: 21px; }
+      .section-intro { gap: 35px; }
+      .product-layout { grid-template-columns: .9fr 1.1fr; gap: 6%; }
+      .product-stage { padding: 23px; }
+      .product-tab { font-size: 22px; }
+      .why { gap: 6%; }
+      .plan-name { flex-direction: column; align-items: start; gap: 5px; }
+    }
+    @media (max-width: 760px) {
+      .wrap { width: calc(100% - 32px); }
+      .nav { height: 80px; }
+      .wordmark { font-size: 28px; }
+      .brand-mark { font-size: 40px; }
+      .nav nav { gap: 16px; font-size: 14px; }
+      .nav nav a:nth-child(2), .nav nav a:nth-child(3) { display: none; }
+      .nav-cta { gap: 12px; padding: 10px 14px; font-size: 14px; }
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 42px 0 44px; }
+      h1 { font-size: clamp(3.6rem, 15vw, 5.4rem); }
+      .hero-description { max-width: 420px; margin-top: 24px; }
+      .eyebrow { font-size: 12px; }
+      .specimen { width: min(100%, 510px); margin: 22px auto 0; }
+      .dashboard { padding: 22px 18px 0; transform: rotate(-1deg); }
+      .account-name { font-size: 12px; }
+      .balance { font-size: 2.3rem; }
+      .chart { height: 150px; margin-right: 36px; }
+      .chart-months { margin-right: 36px; }
+      .cash-summary > div + div { padding-left: 14px; }
+      .cash-summary strong { font-size: 19px; }
+      .specimen-bottom > span:last-child { display: inline; }
+      .specimen-bottom { flex-direction: column; gap: 4px; }
+      .capabilities { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-block: 26px; }
+      .capabilities > span:first-child { font-size: 13px; }
+      .capabilities p { font-size: 20px; }
+      .asterisk { display: none; }
+      .platform { padding-block: 66px; }
+      .section-intro { display: block; }
+      .section-intro > p { max-width: 440px; margin-top: 24px; }
+      .product-layout { grid-template-columns: 1fr; gap: 30px; margin-top: 35px; }
+      .product-tab { padding: 20px 0; font-size: 21px; }
+      .product-tab[aria-selected=true] small { max-width: 100%; padding-top: 10px; }
+      .product-stage { min-height: 0; padding: 20px; }
+      .stage-top { flex-direction: column; align-items: start; gap: 6px; }
+      .account-row { gap: 10px; }
+      .account-row strong { font-size: 15px; }
+      .why { grid-template-columns: 1fr; gap: 25px; padding-block: 65px; }
+      .why-copy { padding-top: 0; }
+      .why-copy > p:first-child { font-size: 22px; }
+      .pricing { padding-block: 65px; }
+      .pricing-heading { display: block; }
+      .pricing-heading > p { margin: 22px 0 0; }
+      .plans { grid-template-columns: 1fr; gap: 45px; margin-top: 35px; }
+      .plan-name { flex-direction: row; align-items: center; }
+      .questions { grid-template-columns: 1fr; gap: 36px; padding-block: 60px; }
+      .questions h2 br { display: none; }
+      footer { padding-top: 55px; }
+      .footer-top { flex-direction: column; align-items: start; padding-bottom: 50px; }
+      .footer-bottom { flex-wrap: wrap; }
+      .footer-bottom .wordmark { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .dashboard, .specimen:hover .dashboard { transform: none; }
+    }
+  </style>
+</body>
+</html>

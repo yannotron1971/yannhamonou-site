@@ -12,8 +12,8 @@ export default defineConfig({
   // CMS looked installed and was unusable. React is here for that UI only;
   // no page component on the site uses it.
   integrations: [react(), keystatic(), sitemap({
-    // The Sparehand concept is noindex; a sitemap should not list it.
-    filter: (page) => !page.includes('/work/web/sparehand'),
+    // The concept pages are noindex; a sitemap should not list them.
+    filter: (page) => !/\/work\/web\/(sparehand|keelson)/.test(page),
   })],
   site: 'https://yannhamonou-site.pages.dev',
   vite: {
