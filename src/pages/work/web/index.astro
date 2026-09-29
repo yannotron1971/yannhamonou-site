@@ -12,6 +12,7 @@ const builds = [
     logo: logos.arnlea,
     meta: '2025 · Client site',
     platform: 'Webflow',
+    preview: { src: '/work/web/arnlea.webp', href: 'https://www.arnlea.com/', alt: 'Arnlea homepage, built in Webflow', external: true },
     summary:
       'A full rebuild, SEO first: site structure planned for search engines and buyers before any design, a page for each stage of the buying journey, every old URL redirected, and analytics and demo forms wired in from launch.',
     stack: ['Webflow CMS', 'Technical SEO', 'GA4 + Tag Manager', 'ActiveCampaign forms'],
@@ -24,6 +25,7 @@ const builds = [
     name: 'Yann Hamonou',
     meta: '2026 · This site',
     platform: 'Astro',
+    preview: { src: '/work/web/yann.webp', href: '/', alt: 'This site’s homepage' },
     summary:
       'Built from scratch in Astro: pre-rendered pages, a Git-based CMS for editing, a live WebGL field in the hero, and scroll motion that runs off the main thread with no JavaScript.',
     stack: ['Astro', 'Keystatic CMS', 'Cloudflare Pages', 'WebGL'],
@@ -37,6 +39,7 @@ const builds = [
       'A landing page for a fictional stores and spares product for offshore sites. The product explains itself through its own screens, with working tabs, a workflow you can run, a calculator and an FAQ, and it all reads fine on a phone.',
     stack: ['Astro', 'Hand-written CSS', 'Minimal JavaScript', 'Reduced-motion aware'],
     links: [{ label: 'Open the concept ↗', href: '/work/web/sparehand' }],
+    preview: { src: '/work/web/sparehand.webp', href: '/work/web/sparehand', alt: 'Sparehand concept landing page' },
   },
   {
     name: 'Keelson',
@@ -46,6 +49,7 @@ const builds = [
       'A landing page for a fictional cash flow and invoicing product for engineering contractors. A different design system on purpose: an editorial serif over coral and navy, a finance dashboard as the hero, and tabs that show the product at work.',
     stack: ['Astro', 'Hand-written CSS', 'Scroll-triggered motion', 'AA contrast checked'],
     links: [{ label: 'Open the concept ↗', href: '/work/web/keelson' }],
+    preview: { src: '/work/web/keelson.webp', href: '/work/web/keelson', alt: 'Keelson concept landing page' },
   },
   {
     name: 'Emberline',
@@ -55,6 +59,7 @@ const builds = [
       'A landing page for a fictional energy and emissions data product for industrial sites. A third design system: near-black, a quiet serif, data as the only imagery, and a working explorer that switches between chart, table and SQL.',
     stack: ['Astro', 'System fonts', 'Server-rendered data explorer', 'Native dialog'],
     links: [{ label: 'Open the concept ↗', href: '/work/web/emberline' }],
+    preview: { src: '/work/web/emberline.webp', href: '/work/web/emberline', alt: 'Emberline concept landing page' },
   },
 ];
 ---
@@ -112,9 +117,17 @@ const builds = [
                 ))}
               </div>
             </div>
-            <div class="edge-case-fig">
-              <span class="edge-case-fig__n web-build__platform">{b.platform}</span>
-            </div>
+            {/* The preview is the build's own first screen, captured at
+                1440×900 and linked to the thing itself. */}
+            <figure class="web-build__preview">
+              <a
+                href={b.preview.href}
+                {...(b.preview.external ? { target: '_blank', rel: 'noopener' } : {})}
+              >
+                <img src={b.preview.src} alt={b.preview.alt} width="1200" height="750" loading="lazy" decoding="async" />
+              </a>
+              <figcaption class="edge-label">{b.platform}</figcaption>
+            </figure>
           </li>
         ))}
       </ul>
@@ -185,12 +198,38 @@ const builds = [
     padding: 0 20px;
     font-size: var(--v4-text-small);
   }
-  /* The platform stands where the case studies put their figure, a step
-     smaller: it is a word, and "Concept" has to fit a phone. */
-  .web-build__platform { font-size: clamp(32px, 5vw, 72px); }
+  .web-build {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+  }
+  .web-build__preview { margin: 0; }
+  .web-build__preview a {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--v4-line-soft);
+    background: var(--v4-panel-2);
+  }
+  .web-build__preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s var(--v4-ease-roll);
+  }
+  .web-build__preview figcaption { margin-top: 12px; text-align: right; }
+  @media (hover: hover) and (pointer: fine) {
+    .web-build__preview a:hover img { transform: scale(1.02); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .web-build__preview img { transition: none; }
+  }
 
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     .web-build { grid-template-columns: 1fr; }
-    .web-build .edge-case-fig { text-align: left; order: -1; }
+    .web-build__preview { order: -1; }
+    .web-build__preview figcaption { text-align: left; }
   }
 </style>
