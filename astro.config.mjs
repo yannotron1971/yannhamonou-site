@@ -18,5 +18,8 @@ export default defineConfig({
   site: 'https://yannhamonou-site.pages.dev',
   vite: {
     plugins: [tailwindcss()],
+    // Keystatic's API route imports the virtual:keystatic-config module, which
+    // only Astro's Vite plugin can resolve. Pre-bundling it with esbuild fails.
+    optimizeDeps: { exclude: ['@keystatic/astro'] },
   },
 });
