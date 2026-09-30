@@ -26,8 +26,10 @@ import PageHero from '../components/PageHero.astro';
             action="https://formspree.io/f/xkoabzbd"
             method="POST"
             class="v4-contact-form"
+            id="contact-form"
           >
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="v4-hp" />
+            <div class="v4-contact-row">
               <div class="v4-field">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name" />
@@ -53,6 +55,7 @@ import PageHero from '../components/PageHero.astro';
                 Send →
               </button>
             </div>
+            <p id="form-status" class="v4-form-status" role="status" aria-live="polite" hidden></p>
           </form>
 
           <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--v4-line-soft)">
@@ -148,9 +151,64 @@ import PageHero from '../components/PageHero.astro';
       padding-top: 40px;
     }
   }
-  @media (max-width: 560px) {
-    div[style*="1fr 1fr"] {
-      grid-template-columns: 1fr !important;
-    }
+  .v4-contact-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
+  @media (max-width: 560px) {
+    .v4-contact-row { grid-template-columns: 1fr; }
+  }
+  .v4-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .v4-form-status {
+    margin-top: 16px;
+    font-size: var(--v4-text-body);
+    line-height: 1.5;
+    color: var(--v4-ink);
+  }
+  .v4-form-status[data-state="error"] { color: var(--v4-ink); }
+  #contact-form[data-sent="true"] .v4-field,
+  #contact-form[data-sent="true"] .v4-contact-row,
+  #contact-form[data-sent="true"] button { display: none; }
 </style>
+
+<script>
+  // Progressive enhancement: without JS the form still posts to Formspree.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  if (form && status) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.hidden = true;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.dataset.sent = 'true';
+        status.dataset.state = 'ok';
+        status.textContent = "Thanks, that's with me. I read every enquiry personally and will reply within one working day, usually sooner.";
+        status.hidden = false;
+        status.focus?.();
+      } catch {
+        btn.disabled = false;
+        btn.textContent = label;
+        status.dataset.state = 'error';
+        status.textContent = 'That did not send. Try again, or call +44 7853 455 816.';
+        status.hidden = false;
+      }
+    });
+  }
+</script>
