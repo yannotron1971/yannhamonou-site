@@ -20,10 +20,10 @@ import PageHero from '../components/PageHero.astro';
   <!-- STORY -->
   <section class="edge-block edge-block--white">
     <div class="edge-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
+      <div class="about-split">
         <div>
           <div class="edge-label" style="margin-bottom:20px">The background</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.65">
+          <div class="about-prose">
             <p>
               I've spent two decades working in B2B marketing — from early-stage SaaS companies to established industrial and professional services firms across the UK and Europe.
             </p>
@@ -41,7 +41,7 @@ import PageHero from '../components/PageHero.astro';
 
         <div>
           <div class="edge-label" style="margin-bottom:20px">By the numbers</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div class="about-stats">
             {numbers.map(n => (
               <div class="v4-stat">
                 <div class="v4-stat__num">{n.num}</div>
@@ -50,11 +50,11 @@ import PageHero from '../components/PageHero.astro';
             ))}
           </div>
 
-          <div style="margin-top:40px;padding:24px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft)">
+          <div class="about-tags">
             <div class="edge-label" style="margin-bottom:12px">Specialist in</div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <div class="about-tags__list">
               {['Strategy', 'Positioning', 'SEO & GEO', 'Organic & Paid Media', 'Web & CRO', 'Marketing Leadership', 'B2B Lead Generation', 'Aberdeen & Scotland'].map(tag => (
-                <span style="padding:6px 12px;background:var(--v4-panel-2);border-radius:0;font-size:var(--v4-text-label);color:var(--v4-ink-mute);font-family:var(--v4-mono);letter-spacing:0.04em">
+                <span>
                   {tag}
                 </span>
               ))}
@@ -66,22 +66,22 @@ import PageHero from '../components/PageHero.astro';
   </section>
 
   <!-- HOW I WORK -->
-  <section class="edge-block edge-block--paper">
+  <section class="edge-block edge-block--paper about-method">
     <div class="edge-wrap">
       <div class="edge-label" style="margin-bottom:20px">How it works</div>
-      <h2 class="edge-h2" style="margin-bottom:48px">The Method</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+      <h2 class="edge-h2 about-method__title">The Method</h2>
+      <div class="about-steps">
         {[
           { num: '01', title: 'Diagnose', body: 'We start with an honest audit of where you are: what\'s working, what\'s leaking, and where the real opportunity is. No assumptions.' },
           { num: '02', title: 'Prioritise', body: 'From the audit I build a clear 90-day priority list — the highest-leverage actions that will move the needle fastest for your specific situation.' },
           { num: '03', title: 'Execute', body: 'Strategy without execution is a document. I either deliver the work myself or manage the right specialists — with clear ownership and measurable goals.' },
         ].map(step => (
-          <div style="border-top:2px solid var(--v4-line);padding-top:24px">
+          <div class="about-step">
             <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
-            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(22px,2.5vw,30px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
+            <h3>
               {step.title}
             </h3>
-            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
+            <p>{step.body}</p>
           </div>
         ))}
       </div>
@@ -104,10 +104,28 @@ import PageHero from '../components/PageHero.astro';
 </Layout>
 
 <style>
+.about-split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,5vw,80px); align-items:start; }
+.about-prose { display:flex; flex-direction:column; gap:20px; color:var(--v4-ink-mute); font-size:var(--v4-text-body); line-height:1.65; max-width:65ch; }
+.about-prose p { text-wrap:pretty; }
+.about-stats { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.about-tags { margin-top:40px; padding:24px; background:var(--v4-panel); border:1px solid var(--v4-line-soft); }
+.about-tags__list { display:flex; flex-wrap:wrap; gap:8px; }
+.about-tags__list span { padding:6px 12px; background:var(--v4-panel-2); font-size:var(--v4-text-label); color:var(--v4-ink-mute); font-family:var(--v4-mono); letter-spacing:0.04em; }
+.about-method__title { margin-bottom:48px; }
+.about-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+.about-step { border-top:2px solid var(--v4-line); padding-top:24px; }
+.about-step h3 { font-family:var(--v4-display); font-weight:400; font-size:clamp(22px,2.5vw,30px); letter-spacing:-0.01em; color:var(--v4-ink); margin-bottom:12px; }
+.about-step p { font-size:var(--v4-text-body); color:var(--v4-ink-mute); line-height:1.6; text-wrap:pretty; }
+
 @media (max-width: 760px) {
-  section .v4-wrap > div[style*="1fr 1fr"],
-  section .v4-wrap > div[style*="repeat(3"] {
-    grid-template-columns: 1fr !important;
-  }
+  .about-split { grid-template-columns:1fr; gap:48px; }
+  .about-prose { font-size:17px; }
+  .about-stats .v4-stat__num { font-size:clamp(36px,11vw,48px); }
+  .about-stats .v4-stat__label { font-size:14px; }
+  .about-tags__list span { font-size:12px; }
+  .about-method { padding-bottom:clamp(96px,16vh,140px); }
+  .about-method__title { margin-bottom:32px; }
+  .about-steps { grid-template-columns:1fr; gap:40px; }
+  .about-step p { font-size:16px; }
 }
 </style>
