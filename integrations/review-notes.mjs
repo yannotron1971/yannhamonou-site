@@ -46,10 +46,19 @@ export default function reviewNotes() {
                notes are read later as Yann's feedback. Cross-site fetches send
                Sec-Fetch-Site / Origin; requiring JSON on POST forces a CORS
                preflight this endpoint never answers. */
+            // Host and Origin must both be a loopback name: comparing Origin to
+            // Host alone would pass a DNS-rebinding page whose own domain now
+            // resolves to 127.0.0.1.
+            const LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+            if (!LOCAL.test(String(req.headers.host ?? ''))) return send(res, 403, { error: 'host refused' });
             const site = req.headers['sec-fetch-site'];
             if (site && site !== 'same-origin') return send(res, 403, { error: 'cross-site request refused' });
             const origin = req.headers.origin;
-            if (origin && new URL(origin).host !== req.headers.host) return send(res, 403, { error: 'origin mismatch' });
+            if (origin) {
+              let originHost = '';
+              try { originHost = new URL(origin).host; } catch { /* malformed */ }
+              if (!LOCAL.test(originHost) || originHost !== req.headers.host) return send(res, 403, { error: 'origin refused' });
+            }
             if (req.method === 'POST' && !String(req.headers['content-type'] ?? '').startsWith('application/json')) {
               return send(res, 415, { error: 'JSON only' });
             }
