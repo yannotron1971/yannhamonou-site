@@ -59,6 +59,10 @@ already done.
   canonical tag and every sitemap `<loc>` uses it. This has to become
   `https://www.yannhamonou.com` at cutover — and that exact origin is what the
   verified Search Console property covers, so serving non-www would silently
-  stop the data.
+  stop the data. The same switch opens `robots.txt` (src/pages/robots.txt.ts):
+  on any other `site` it disallows everything, on www.yannhamonou.com it
+  allows crawling with `Content-Signal: ai-train=no, search=yes, ai-input=yes`.
+  `/llms.txt` and `/llms-full.txt` are generated from Keystatic
+  (src/lib/llms.ts) and pick up the new origin automatically.
 - GA4 fires on production builds with no consent banner. Harmless while nothing
   is deployed; not harmless the day it is.

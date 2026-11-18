@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /
-
-Sitemap: https://yannhamonou-site.pages.dev/sitemap-index.xml
