@@ -39,6 +39,9 @@ const title = rawTitle
   : `${brand} — B2B Marketing Consultant, Aberdeen`;
 
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
+/* Schema @ids follow `site` in astro.config.mjs, so they move to the live
+   domain at cutover with the canonicals instead of pointing at the preview. */
+const siteOrigin = new URL('/', Astro.site).origin;
 const ogImageUrl = ogImage
   ? new URL(ogImage, Astro.site).href
   : new URL('/og-default.png', Astro.site).href;
@@ -141,16 +144,16 @@ const ogImageUrl = ogImage
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://yannhamonou-site.pages.dev/#website",
-          "url": "https://yannhamonou-site.pages.dev",
+          "@id": `${siteOrigin}/#website`,
+          "url": siteOrigin,
           "name": brand,
         },
         {
           "@type": "Person",
-          "@id": "https://yannhamonou-site.pages.dev/#person",
+          "@id": `${siteOrigin}/#person`,
           "name": brand,
           "jobTitle": "B2B Marketing Consultant",
-          "url": "https://yannhamonou-site.pages.dev",
+          "url": siteOrigin,
           "sameAs": [
             "https://www.linkedin.com/in/yannhamonou",
             "https://yannhamonou.com",
@@ -166,13 +169,13 @@ const ogImageUrl = ogImage
         },
         {
           "@type": ["ProfessionalService", "LocalBusiness"],
-          "@id": "https://yannhamonou-site.pages.dev/#business",
+          "@id": `${siteOrigin}/#business`,
           "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen",
           "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and conversion-focused websites for SMEs.",
-          "url": "https://yannhamonou-site.pages.dev",
+          "url": siteOrigin,
           "telephone": "+447853455816",
           "email": "yanndaman@googlemail.com",
-          "founder": { "@id": "https://yannhamonou-site.pages.dev/#person" },
+          "founder": { "@id": `${siteOrigin}/#person` },
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "34 Bernham Avenue",
@@ -205,7 +208,7 @@ const ogImageUrl = ogImage
           "headline": title,
           "description": description,
           "url": canonical,
-          "author": { "@id": "https://yannhamonou-site.pages.dev/#person" },
+          "author": { "@id": `${siteOrigin}/#person` },
           ...(publishedTime ? { "datePublished": publishedTime } : {}),
           ...((modifiedTime ?? publishedTime) ? { "dateModified": modifiedTime ?? publishedTime } : {}),
         }] : []),
