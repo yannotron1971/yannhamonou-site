@@ -76,5 +76,5 @@
 # exists here, and the second is the one with the traffic.
 /post/b2b-saas-growth-playbook---lessons-from-base44s-80-m-exit   /journal/b2b-saas-growth-playbook---lessons-from-base44s-80m-exit   301
 /post/why-every-sme-need-a-marketing-plan      /journal/free-b2b-marketing-plan-template-for-smes        301
-/post/b2b-sme-growth-marketing-automation      /journal/b2b-sme-growth-marketing-automation              301
+/post/b2b-sme-growth-marketing-automation      /journal                                                  301
 /post/*                                        /journal/:splat                                           301
