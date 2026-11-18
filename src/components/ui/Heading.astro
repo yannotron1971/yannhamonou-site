@@ -1,0 +1,29 @@
+---
+/* Archivo heavy, slightly wide headline, sentence case always.
+   size: display (hero h1, once per page) · xl (statement / price bands)
+         lg (section h2, default) · md (row and card titles) · sm (small titles)
+   tone: primary (ink) · inverse (paper) · accent (orange, display sizes only) · onAccent (ink on orange)
+   Pass data-m="split" for the line-by-line rise on scroll. */
+interface Props {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
+  size?: 'display' | 'xl' | 'lg' | 'md' | 'sm';
+  tone?: 'primary' | 'inverse' | 'accent' | 'onAccent';
+  class?: string;
+  [key: string]: unknown;
+}
+const { as: Tag = 'h2', size = 'lg', tone = 'primary', class: className, ...rest } = Astro.props;
+const sizes = {
+  display: 'text-8xl',
+  xl: 'text-7xl',
+  lg: 'text-5xl',
+  md: 'text-3xl !tracking-tight !leading-[1.05]',
+  sm: 'text-2xl !tracking-tight !leading-[1.1]',
+};
+const tones = {
+  primary: 'text-ink',
+  inverse: 'text-paper',
+  accent: 'text-signal',
+  onAccent: 'text-ink',
+};
+---
+<Tag class:list={['t-heading', sizes[size], tones[tone], className]} {...rest}><slot /></Tag>

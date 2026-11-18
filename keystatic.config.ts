@@ -141,6 +141,10 @@ export default config({
         description: fields.text({ label: 'Description', multiline: true }),
         publishedDate: fields.date({ label: 'Published Date' }),
         modifiedDate: fields.date({ label: 'Modified Date' }),
+        /* Path under /public, e.g. /images/signal/post-ai-search.webp. Shown
+           greyscale on cards and returns to colour on hover. */
+        coverImage: fields.text({ label: 'Cover image path (optional)' }),
+        coverAlt: fields.text({ label: 'Cover image description' }),
         category: fields.select({
           label: 'Category',
           options: [
@@ -158,10 +162,11 @@ export default config({
   },
 
   singletons: {
-    /* Everything the homepage says, in the order the page says it. The
-       headings are here too, not just the body copy: "Where it goes wrong"
-       and "Proof" are arguments, and an argument you cannot change without a
-       developer is not really yours. */
+    /* Everything the homepage says, in the order the page says it (Signal
+       Poster layout, Nov 2026). Headings are here too, not just body copy: an
+       argument you cannot change without a developer is not really yours.
+       Services, case studies, testimonials, FAQ and posts come from their own
+       collections and settings, so they are not repeated here. */
     homepage: singleton({
       label: 'Homepage',
       path: 'content/homepage/',
@@ -170,79 +175,77 @@ export default config({
         metaDescription: fields.text({ label: 'Search description', multiline: true }),
 
         hero: fields.object({
-          kicker: fields.text({ label: 'Kicker' }),
-          /* Line breaks are the design here — the headline is set to break
-             where it is written, so this is a text area rather than one line
-             with markup in it. */
-          headline: fields.text({ label: 'Headline (one line per line break)', multiline: true }),
-          sub: fields.text({ label: 'Sub-line' }),
+          headline: fields.text({ label: 'Headline (h1)', multiline: true }),
+          sub: fields.text({ label: 'One line under the headline', multiline: true }),
           ctaLabel: fields.text({ label: 'Button label' }),
-          where: fields.text({ label: 'Location line' }),
+          place: fields.text({ label: 'Place caption, top right (one line per line break)', multiline: true }),
         }, { label: 'Hero' }),
 
-        proposition: fields.object({
-          label: fields.text({ label: 'Section label' }),
-          text: fields.text({ label: 'Paragraph', multiline: true }),
-        }, { label: 'Proposition' }),
+        clientsLabel: fields.text({ label: 'Client logos caption' }),
 
-        problems: fields.object({
-          label: fields.text({ label: 'Section label' }),
+        challenges: fields.object({
           heading: fields.text({ label: 'Heading' }),
-          items: fields.array(
-            fields.object({
-              symptom: fields.text({ label: 'Symptom' }),
-              cost: fields.text({ label: 'What it costs', multiline: true }),
-              /* Each mark is drawn for its own claim, so the pairing is
-                 chosen here rather than by position in the list. */
-              mark: fields.select({
-                label: 'Mark',
-                options: [
-                  { label: 'Split — half measured, half not', value: 'split' },
-                  { label: 'Spike — one event, then flat', value: 'spike' },
-                  { label: 'Rank — you are last', value: 'rank' },
-                  { label: 'Ratio — no denominator', value: 'ratio' },
-                ],
-                defaultValue: 'split',
-              }),
-            }),
-            { label: 'Symptoms', itemLabel: (p) => p.fields.symptom.value }
-          ),
-        }, { label: 'Where it goes wrong' }),
-
-        clientsLabel: fields.text({ label: 'Clients section label' }),
-
-        results: fields.object({
-          label: fields.text({ label: 'Section label' }),
-          heading: fields.text({ label: 'Heading' }),
-          moreLabel: fields.text({ label: 'Link label' }),
-        }, { label: 'Results' }),
+          intro: fields.text({ label: 'One line under the heading', multiline: true }),
+          items: fields.array(fields.text({ label: 'Pain point' }), {
+            label: 'Pain points (four read best)',
+            itemLabel: (p) => p.value,
+          }),
+        }, { label: 'Challenges' }),
 
         servicesIntro: fields.object({
-          label: fields.text({ label: 'Section label' }),
           heading: fields.text({ label: 'Heading' }),
+          intro: fields.text({ label: 'Intro', multiline: true }),
         }, { label: 'Services' }),
 
+        senior: fields.object({
+          heading: fields.text({ label: 'Statement heading' }),
+          body: fields.text({ label: 'Body (blank line between paragraphs)', multiline: true }),
+          facts: fields.array(fields.text({ label: 'Fact' }), { label: 'Short fact list', itemLabel: (p) => p.value }),
+        }, { label: 'Senior marketing band' }),
+
         proof: fields.object({
-          label: fields.text({ label: 'Section label' }),
-          heading: fields.text({ label: 'Heading' }),
+          statValue: fields.text({ label: 'Big number (digits only, counts up)' }),
+          statSuffix: fields.text({ label: 'After the number, e.g. %' }),
+          statLabel: fields.text({ label: 'What the number means', multiline: true }),
+          casesLabel: fields.text({ label: 'Case studies caption' }),
         }, { label: 'Proof' }),
 
-        faqIntro: fields.object({
-          label: fields.text({ label: 'Section label' }),
+        process: fields.object({
           heading: fields.text({ label: 'Heading' }),
-        }, { label: 'FAQ' }),
+          steps: fields.array(
+            fields.object({
+              title: fields.text({ label: 'Step title' }),
+              body: fields.text({ label: 'Step body', multiline: true }),
+            }),
+            { label: 'Steps (three)', itemLabel: (p) => p.fields.title.value }
+          ),
+        }, { label: 'How we work' }),
+
+        pricing: fields.object({
+          heading: fields.text({ label: 'Price line' }),
+          body: fields.text({ label: 'Explanation', multiline: true }),
+          facts: fields.array(fields.text({ label: 'Fact' }), { label: 'Short fact list', itemLabel: (p) => p.value }),
+        }, { label: 'Pricing band' }),
+
+        about: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          body: fields.text({ label: 'Body (blank line between paragraphs)', multiline: true }),
+        }, { label: 'About' }),
 
         journal: fields.object({
-          label: fields.text({ label: 'Section label' }),
           heading: fields.text({ label: 'Heading' }),
           moreLabel: fields.text({ label: 'Link label' }),
         }, { label: 'Journal' }),
 
+        faqIntro: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+        }, { label: 'FAQ' }),
+
         cta: fields.object({
-          heading: fields.text({ label: 'Heading (one line per line break)', multiline: true }),
+          heading: fields.text({ label: 'Heading' }),
           body: fields.text({ label: 'Body', multiline: true }),
-          buttonLabel: fields.text({ label: 'Button label' }),
-        }, { label: 'Closing call to action' }),
+          buttonLabel: fields.text({ label: 'Form button label' }),
+        }, { label: 'Closing band' }),
       },
     }),
 

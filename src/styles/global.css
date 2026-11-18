@@ -1,2553 +1,322 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   BASE RESET
+   SIGNAL POSTER
+   A type-led Swiss poster on light paper: heavy Archivo headlines,
+   one signal-orange accent, black-and-white photography, sharp
+   corners and 1px ink hairlines. Ported from the Ploy build
+   (Nov 2026). The Edge v4 stylesheet this replaced is kept in
+   _Archive/edge-v4/src/global.css.
+
+   Colour rules, so nobody has to rediscover them:
+   - Ink on orange (5.7:1) is the only text that goes on orange.
+   - Orange on paper (3.1:1) is display size only, never body copy.
+   - No gradients, no shadows, no second accent.
 ───────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  /* scroll-behavior lives in the reduced-motion query near the foot of this
-     file. Setting it here as well took it away from anyone who asked their
-     system for less motion, since nothing turned it back off. */
-  -webkit-text-size-adjust: 100%;
-  /* The ground lives here, not on body: a fixed canvas at z-index:-1 paints
-     above the root background and beneath all content. If body kept a
-     background it would propagate to the root and bury the canvas. */
-  /* White: the field canvas paints the near-black ground for the hero and
-     fades out, revealing this as the sheet takes over. */
-  background-color: #ffffff;
-}
-img, video { display: block; max-width: 100%; }
-button { cursor: pointer; background: none; border: none; font: inherit; }
-/* Every link answers on the same curve, including any that never got a rule
-   of their own. Properties are named rather than `all`, so this cannot start
-   easing a layout property by accident. */
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.28s var(--v4-ease-roll),
-              opacity 0.28s var(--v4-ease-roll),
-              background-color 0.28s var(--v4-ease-roll),
-              border-color 0.28s var(--v4-ease-roll);
+
+@theme {
+  /* Core palette */
+  --color-paper: #fafaf7;
+  --color-stone: #f0efea;
+  --color-ink: #111111;
+  --color-muted: #4a4a46;           /* secondary text, 8.5:1 on paper */
+  --color-signal: #ff4f1a;
+  --color-inverse-muted: #c9c8c2;   /* muted text on ink */
+  --color-inverse-line: rgb(250 250 247 / 0.25);
+  --color-error: #b42318;
+
+  /* Neutral scale */
+  --color-neutral-50: #ffffff;
+  --color-neutral-100: #fafaf7;
+  --color-neutral-200: #f0efea;
+  --color-neutral-300: #e6e5df;
+  --color-neutral-400: #d6d5ce;
+  --color-neutral-500: #bdbcb5;
+  --color-neutral-600: #8f8f89;
+  --color-neutral-700: #6b6b66;
+  --color-neutral-800: #4a4a46;
+  --color-neutral-900: #2a2a28;
+  --color-neutral-950: #111111;
+
+  /* Signal orange scale */
+  --color-signal-50: #fff3ee;
+  --color-signal-100: #ffe2d6;
+  --color-signal-200: #ffc2a9;
+  --color-signal-300: #ff9a73;
+  --color-signal-400: #ff7243;
+  --color-signal-500: #ff4f1a;
+  --color-signal-600: #e83a06;
+  --color-signal-700: #c02d04;
+  --color-signal-800: #98260b;
+  --color-signal-900: #7b230d;
+  --color-signal-950: #430e03;
+
+  /* Type */
+  --font-heading: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* Type scale: fluid at the display end, mobile → desktop */
+  --text-9xl: clamp(4rem, 10vw, 9rem);
+  --text-8xl: clamp(3.25rem, 7.6vw, 7rem);
+  --text-7xl: clamp(2.75rem, 6.2vw, 5.75rem);
+  --text-6xl: clamp(2.5rem, 5vw, 4.5rem);
+  --text-5xl: clamp(2.125rem, 4vw, 3.5rem);
+  --text-4xl: clamp(1.75rem, 3vw, 2.5rem);
+  --text-3xl: clamp(1.5rem, 2.4vw, 2rem);
+  --text-2xl: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-lg: 1.0625rem;
+  --text-base: 0.9375rem;
+  --text-sm: 0.8125rem;
+  --text-xs: 0.75rem;
+
+  /* Motion */
+  --ease-out-poster: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   DARK THEME TOKENS (default — body.v4, no extra class)
+   BASE
 ───────────────────────────────────────────────────────────── */
-body.v4 {
-  --v4-bg:          #151515;
-  --v4-bg-2:        #191919;
-  --v4-panel:       oklch(0.146 0.000 0);
-  --v4-panel-2:     oklch(0.170 0.000 0);
-  --v4-panel-3:     oklch(0.193 0.000 0);
-  --v4-line:        rgba(255 255 255 / 0.10);
-  --v4-line-soft:   rgba(255 255 255 / 0.06);
-  --v4-ink:         oklch(0.954 0.003 75);
-  /* Measured, not eyeballed. Against the #151515 ground these carry 11-15px
-     text, so they need 4.5:1, and the old pair missed: mute at 0.591 came to
-     4.45 and dim at 0.52 to 3.33. */
-  --v4-ink-mute:    oklch(0.70 0.004 75);  /* 6.84:1 on the ground */
-  --v4-ink-dim:     oklch(0.60 0.003 75);  /* 4.63:1 */
-  --v4-accent:      oklch(0.954 0.003 75);
-  --v4-accent-warm: oklch(0.910 0.025 75);
-  --v4-smoke-rgb:   255 255 255;
-  --v4-nav-bg:      rgba(21 21 21 / 0.72);
+@layer base {
+  *, *::before, *::after { border-color: var(--color-ink); }
 
-  --v4-display: 'Space Grotesk', system-ui, sans-serif;
-  --v4-sans:    'Inter', system-ui, sans-serif;
-  --v4-mono:    'Space Mono', ui-monospace, monospace;
-
-  /* ── The Edge ground ladder ──
-     One monochrome ladder: warm off-whites, cool off-whites, three depths of
-     near-black. Tokens rather than literals in the page, so a ground can be
-     reused off the homepage and retuned in one place. */
-  --edge-white: #ffffff;
-  --edge-bone:  #f7f6f3;
-  --edge-paper: #f3f2ee;
-  --edge-mist:  #eceeee;
-  --edge-sand:  #e8e4dc;
-  --edge-slate: #22262a;
-  --edge-ink:   #151515;
-  --edge-pitch: #0b0c0c;
-
-  --v4-maxw:    1320px;
-  --v4-gutter:  clamp(20px, 4vw, 56px);
-
-  /* Decel curve for the index roll. Chosen over the near-expo ease the
-     reference uses: that one holds still, then snaps, which reads as a cut.
-     This moves immediately and settles, which is the register of the rest
-     of this concept. */
-  --v4-ease-roll: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Link hovers share the index roll's curve. At 0.15s a cubic-bezier is
-     imperceptible — the eye reads duration, not shape, below about a fifth of
-     a second — so these lengthen to 0.28s, which is where the settle starts to
-     register without the link feeling slow to answer. */
-
-  /* Three steps under the display scale, not eight. The measured set ran
-     10, 11, 12, 13, 14, 15, 16 and 17px across ~117 declarations — eight ways
-     to set a label on a site whose references use four type steps in total,
-     and whose own brief says the restraint is the design. 11 and 15 already
-     did most of the work; the other six collapse into them. */
-  --v4-text-label: 11px;  /* mono labels, eyebrows, meta, captions */
-  --v4-text-small: 13px;  /* secondary body, row descriptors */
-  --v4-text-body:  15px;  /* body prose */
-
-  background-color: transparent;
-  color: var(--v4-ink);
-  font-family: var(--v4-sans);
-  font-size: var(--v4-text-body);
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   LIGHT WARM
-───────────────────────────────────────────────────────────── */
-body.v4.is-light.tone-warm {
-  --v4-bg:          oklch(0.955 0.015 75);
-  --v4-bg-2:        oklch(0.920 0.018 75);
-  --v4-panel:       oklch(0.985 0.008 75);
-  --v4-panel-2:     oklch(0.963 0.014 75);
-  --v4-panel-3:     oklch(0.940 0.016 75);
-  --v4-line:        rgba(20 18 12 / 0.14);
-  --v4-line-soft:   rgba(20 18 12 / 0.08);
-  --v4-ink:         oklch(0.161 0.008 75);
-  --v4-ink-mute:    oklch(0.463 0.012 75);
-  --v4-ink-dim:     oklch(0.672 0.010 75);
-  --v4-accent:      oklch(0.161 0.008 75);
-  --v4-accent-warm: oklch(0.207 0.010 75);
-  --v4-smoke-rgb:   80 60 20;
-  --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   LIGHT COOL
-───────────────────────────────────────────────────────────── */
-body.v4.is-light.tone-cool {
-  --v4-bg:          oklch(0.940 0.008 240);
-  --v4-bg-2:        oklch(0.905 0.010 240);
-  --v4-panel:       oklch(0.981 0.004 240);
-  --v4-panel-2:     oklch(0.950 0.008 240);
-  --v4-panel-3:     oklch(0.925 0.010 240);
-  --v4-line:        rgba(15 20 30 / 0.14);
-  --v4-line-soft:   rgba(15 20 30 / 0.08);
-  --v4-ink:         oklch(0.148 0.008 240);
-  --v4-ink-mute:    oklch(0.429 0.010 240);
-  --v4-ink-dim:     oklch(0.650 0.008 240);
-  --v4-accent:      oklch(0.148 0.008 240);
-  --v4-accent-warm: oklch(0.191 0.010 240);
-  --v4-smoke-rgb:   20 30 60;
-  --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   LIGHT BRIGHT
-───────────────────────────────────────────────────────────── */
-body.v4.is-light.tone-bright {
-  --v4-bg:          oklch(1.000 0.000 0);
-  --v4-bg-2:        oklch(0.960 0.000 0);
-  --v4-panel:       oklch(0.980 0.000 0);
-  --v4-panel-2:     oklch(0.965 0.000 0);
-  --v4-panel-3:     oklch(0.945 0.000 0);
-  --v4-line:        rgba(0 0 0 / 0.13);
-  --v4-line-soft:   rgba(0 0 0 / 0.07);
-  --v4-ink:         oklch(0.130 0.000 0);
-  --v4-ink-mute:    oklch(0.440 0.003 75);
-  --v4-ink-dim:     oklch(0.680 0.003 75);
-  --v4-accent:      oklch(0.130 0.000 0);
-  --v4-accent-warm: oklch(0.161 0.000 0);
-  --v4-smoke-rgb:   0 0 0;
-  --v4-nav-bg:      color-mix(in srgb, var(--v4-bg) 82%, transparent);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   LAYOUT UTILITIES
-───────────────────────────────────────────────────────────── */
-.v4-wrap {
-  max-width: var(--v4-maxw);
-  margin-inline: auto;
-  padding-inline: var(--v4-gutter);
-}
-
-/* Section rhythm, opened up to the homepage's. The Edge gives a section room
-   to be one idea; 64px of air did not read as the same page. Full viewports
-   are a homepage device and stay there — a services page, a case study or a
-   post is a document, and one screen per section would fight the reading. */
-.v4-block {
-  padding-block: clamp(80px, 12vh, 180px);
-}
-
-.v4-block.tight {
-  padding-block: clamp(56px, 8vh, 110px);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TYPOGRAPHY
-───────────────────────────────────────────────────────────── */
-/* ── The display voice ──
-   Every rule below used to ask for weight 700-900 at font-stretch 75%. That
-   was written for Archivo; Space Grotesk has neither an 800 nor a width axis,
-   so browsers were synthesising both — a smeared, faux-bold, faux-condensed
-   version of a face whose whole point on this concept is that it is light and
-   wide open. Uppercase went with it for the same reason: at 300 the face wants
-   sentence case, which is what the homepage sets. */
-.v4-display {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  letter-spacing: -0.025em;
-}
-
-/* Matches .edge-label on the homepage — same size, same tracking, same
-   colour. A near-miss would read worse than an obvious difference. */
-.v4-eyebrow {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-.v4-hero-h {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(44px, min(9vw, 12vh), 132px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-  color: var(--v4-ink);
-}
-
-@media (max-width: 760px) {
-  .v4-hero-h { font-size: clamp(30px, 8.6vw, 48px); }
-}
-
-.v4-section-h {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(36px, 5vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  /* Even line lengths, rather than a full first line and one orphan word. */
-  text-wrap: balance;
-  color: var(--v4-ink);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   NAVIGATION
-───────────────────────────────────────────────────────────── */
-.v4-nav {
-  position: sticky;
-  top: 0;
-  /* Above the drawer (500), not below it: when the index is open the bar
-     keeps the wordmark and the toggle on screen and drops everything else. */
-  z-index: 600;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  background: var(--v4-nav-bg);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--v4-line-soft);
-}
-
-/* Once the white sheet is under it, the nav flips to light. Rebinding tokens
-   rather than restyling children keeps every nav rule working unchanged.
-
-   The blur also comes off here. Over the hero it is doing real work — there is
-   a live shader behind the bar and the blur softens it under the links. Over
-   the sheet there is a flat ground behind it for most of the page, where a
-   blur repaints a wide translucent strip every frame to produce an image
-   identical to the one it started with. The translucency stays, so the bar
-   still takes its tone from the section beneath it. */
-body.sheet-active .v4-nav {
-  backdrop-filter: none;
-  --v4-ink: #151515;
-  /* Kept flipped with the rest of the set. The ink-on-bg pill this was
-     written for is gone with the bar's links, so nothing in the nav reads
-     --v4-bg today; it stays bound so the group cannot drift apart if
-     something ink-on-bg lands back in here. */
-  --v4-bg: #ffffff;
-  --v4-ink-mute: #55585a;
-  --v4-ink-dim: #7a7d7f;
-  --v4-line-soft: rgba(0, 0, 0, 0.09);
-  /* 0.78 with the blur switched off let a 104px heading read straight through
-     the bar — crisp, not frosted, so it looked like a mistake rather than a
-     layer. Near-opaque instead. Every ground on the sheet is within a few
-     points of white (paper #f3f2ee, mist #eceeee, sand #e8e4dc, bone #f7f6f3),
-     so the seam this leaves is not visible while the read-through was. */
-  background: rgba(255 255 255 / 0.96);
-  color: #151515;
-}
-
-.v4-nav,
-.v4-nav * {
-  transition: background-color 0.35s var(--v4-ease-roll), color 0.35s var(--v4-ease-roll), border-color 0.35s var(--v4-ease-roll);
-}
-
-.v4-nav__inner {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  width: 100%;
-}
-
-/* The bar now holds the wordmark and the toggle and nothing else, so the
-   wordmark is the only voice in it — and it was the only 700 weight on a site
-   whose display face runs at 300 and whose labels run at 400. Bold tracked
-   mono read as a logo bolted to a document. At 400 in the display face it is
-   the same voice as the page, quietly. */
-.v4-nav__brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--v4-display);
-  font-size: var(--v4-text-body);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--v4-ink);
-  flex-shrink: 0;
-}
-
-.v4-nav__brand-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--v4-ink-mute);
-}
-
-.v4-nav__right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-left: auto;
-}
-
-
-
-/* ── Bar, with the index open ──
-   The bar loses its own ground: over the drawer's blur, a second translucent
-   strip reads as a seam across the index rather than as a header. Only the
-   wordmark and the toggle remain, and they sit directly on the field. */
-/* The second selector is not redundant: body.sheet-active .v4-nav (0,2,1)
-   outranks .v4-nav.is-drawer-open (0,2,0), so on any page scrolled into the
-   white sheet the bar kept its light ground and its dark ink — a white strip
-   across a dark index, with the wordmark on the wrong side of the contrast.
-   The index is always dark, so the open bar always takes the dark set. */
-.v4-nav.is-drawer-open,
-body.sheet-active .v4-nav.is-drawer-open {
-  background: transparent;
-  backdrop-filter: none;
-  border-bottom-color: transparent;
-  --v4-ink: #f2f1ec;
-  --v4-ink-mute: #a2a5a3;
-  --v4-ink-dim: #909391;
-  color: #f2f1ec;
-}
-
-/* The bar's only job now is the wordmark and the toggle, so the toggle needs
-   the far edge to itself. */
-.v4-nav__right { margin-left: auto; }
-
-/* No-JS fallback: the index cannot open, so the bar shows the destinations
-   as plain links in the mono voice the bar already used. */
-.v4-nav__nojs {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
-  margin-left: auto;
-}
-
-.v4-nav__nojs a {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--v4-ink-mute);
-}
-
-.v4-nav__nojs a:hover { color: var(--v4-ink); }
-
-/* Below 760px the links move into the drawer, and the CTA with them — the
-   drawer carries Contact in its list. This was an inline display:none plus a one-shot
-   width check in script, which meant no JS, no call to action on desktop, and
-   none at all for anyone who widened the window after load. It is the page's
-   single next step; it does not get to depend on JavaScript. */
-/* The bar no longer holds links or a CTA at any width — the index holds
-   them, and it is reachable from every width now. */
-
-/* ─────────────────────────────────────────────────────────────
-   THEME TOGGLE
-───────────────────────────────────────────────────────────── */
-.v4-theme-toggle {
-  display: flex;
-  align-items: center;
-  height: 28px;
-  padding: 0 4px;
-  border: 1px solid var(--v4-line);
-  border-radius: 0;
-  gap: 2px;
-  background: var(--v4-panel);
-}
-
-.v4-theme-toggle__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  color: var(--v4-ink-dim);
-  transition: background 0.15s ease, color 0.15s ease;
-  font-size: var(--v4-text-label);
-}
-
-.v4-theme-toggle__btn:hover,
-.v4-theme-toggle__btn.is-active {
-  background: var(--v4-panel-3);
-  color: var(--v4-ink);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   HAMBURGER
-───────────────────────────────────────────────────────────── */
-.v4-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  width: 24px;
-  padding: 4px 0;
-}
-
-.v4-hamburger span {
-  display: block;
-  height: 1.5px;
-  background: var(--v4-ink);
-  border-radius: 1px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.v4-hamburger.is-open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
-.v4-hamburger.is-open span:nth-child(2) { opacity: 0; }
-.v4-hamburger.is-open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
-
-/* The index is not a mobile fallback: it is the site's table of contents, and
-   it reads at display scale on every width. The bar keeps its own links and
-   CTA above 760px — the two coexist, they do not substitute for each other. */
-.v4-hamburger { display: flex; }
-
-/* ─────────────────────────────────────────────────────────────
-   MOBILE DRAWER
-───────────────────────────────────────────────────────────── */
-.v4-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: color-mix(in srgb, var(--v4-bg) 92%, transparent);
-  backdrop-filter: blur(24px);
-  display: flex;
-  flex-direction: column;
-  padding: 80px var(--v4-gutter) 48px;
-  /* At 104px the five lines plus the rail run ~710px. That clears an 800px
-     viewport, but not a short one — without this the last line is unreachable
-     rather than merely cropped. */
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.28s var(--v4-ease-roll);
-}
-
-.v4-drawer.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.v4-drawer__links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Space Grotesk has neither an 800 weight nor a width axis — the 800/75%
-   pair was written for Archivo and browsers were synthesising both. This is
-   the display face as it actually exists on this concept: light and large. */
-/* ── The roll ──
-   Two copies of a label inside a one-line mask: the first in flow, the second
-   parked one line below. Hover slides both up by one line, so the first
-   leaves as the second arrives. No JavaScript — two transforms.
-
-   The hover target is the enclosing link, not the mask, so this works whether
-   the link *is* the roll (the index) or merely contains it (a row where the
-   name is one cell of a grid).
-
-   The .v4-roll__b copy is a duplicate and carries aria-hidden in the markup,
-   so the label is announced once. */
-.v4-roll {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.v4-roll > span {
-  display: block;
-  transition: transform 0.62s var(--v4-ease-roll),
-              color 0.62s var(--v4-ease-roll);
-}
-
-.v4-roll__b {
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  transform: translateY(100%);
-  /* No colour here. It used to force var(--v4-ink), which is the index's
-     "arriving copy lands brighter" — and on a button that fills on hover,
-     near-white ink on a near-white fill made the label disappear entirely.
-     Inheriting means the arriving copy is whatever the link's own hover
-     state says it should be. */
-}
-
-/* The index and the service rows keep the brightening, where the ground is
-   dark and does not invert. */
-.v4-drawer__links .v4-roll__b,
-.edge-row--service .v4-roll__b {
-  color: var(--v4-ink);
-}
-
-/* The roll at label size, applied at runtime by link-roll.js.
-   inline-block because overflow:hidden does nothing to an inline box, and a
-   little leading because the mask is one line tall and these labels have
-   descenders — the index gets away with .95 only because none of its five
-   words has one. */
-.v4-roll--inline {
-  display: inline-block;
-  vertical-align: bottom;
-  line-height: 1.45;
-}
-
-a:hover .v4-roll__a,
-a:focus-visible .v4-roll__a { transform: translateY(-100%); }
-
-a:hover .v4-roll__b,
-a:focus-visible .v4-roll__b { transform: translateY(0); }
-
-/* Reduced motion swaps rather than slides — the label still changes, it just
-   does not travel. */
-@media (prefers-reduced-motion: reduce) {
-  .v4-roll > span { transition-duration: 0.01ms; }
-}
-
-/* Keyboard users get the same affordance as the pointer. */
-.v4-drawer__links a:focus-visible,
-.edge-row--service:focus-visible { outline: 1px solid var(--v4-ink-dim); outline-offset: 6px; }
-
-.v4-drawer__links a {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  /* 56px is a phone size: on a laptop it reads as a list rather than as the
-     index. .95 leading tightens the stack and makes the mask exactly one
-     line, which is what the roll measures itself against. */
-  font-size: clamp(40px, 9vw, 104px);
-  letter-spacing: -0.02em;
-  color: var(--v4-ink-mute);
-  line-height: 0.95;
-}
-
-/* Variant B: the six services stay one click away, in the mono voice, as a
-   rail beneath the five index lines rather than nested inside one of them. */
-.v4-drawer__rail {
-  list-style: none;
-  margin-top: clamp(20px, 3vw, 32px);
-  padding-top: clamp(16px, 2vw, 22px);
-  border-top: 1px solid var(--v4-line-soft);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-}
-
-.v4-drawer__rail a {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  text-decoration: none;
-  transition: color 0.28s var(--v4-ease-roll);
-}
-
-.v4-drawer__rail a:hover,
-.v4-drawer__rail a:focus-visible { color: var(--v4-ink); }
-
-/* The hamburger now sits above the drawer and already animates into an X,
-   so the drawer's own close button would be a second X in the same corner.
-   It stays in the DOM for anyone who reaches it before the bar renders, but
-   it is not painted. */
-.v4-drawer__close {
-  display: none;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   SMOKE WISPS
-───────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  .v4-smoke {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.5;
-    pointer-events: none;
-    user-select: none;
+  html {
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--color-paper);
   }
 
-  body.v4:not(.is-light) .v4-smoke {
-    mix-blend-mode: screen;
-    background: rgba(var(--v4-smoke-rgb) / 0.18);
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  body.v4.is-light .v4-smoke {
-    mix-blend-mode: multiply;
-    background: rgba(var(--v4-smoke-rgb) / 0.12);
+  img, video { display: block; max-width: 100%; }
+
+  ::selection { background: var(--color-signal); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .v4-smoke { display: none; }
-}
-
 /* ─────────────────────────────────────────────────────────────
-   HERO
+   TYPE ROLES
+   Heading.astro and Text.astro apply these; templates that need a
+   heading without the component can use the same classes.
 ───────────────────────────────────────────────────────────── */
-.v4-hero {
-  position: relative;
-  overflow: hidden;
-  min-height: calc(100svh - 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-block-start: clamp(48px, 8vw, 120px);
-  padding-block-end: clamp(80px, 12vh, 160px);
-}
-
-.v4-hero__content {
-  position: relative;
-  z-index: 2;
-}
-
-.v4-hero__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center right;
-  opacity: 0.09;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: luminosity;
-}
-
-.is-light .v4-hero__bg {
-  opacity: 0.07;
-  mix-blend-mode: multiply;
-}
-
-.v4-hero__headline {
-  display: grid;
-  gap: 0;
-}
-
-.v4-hero__line {
-  display: flex;
-  align-items: baseline;
-  gap: 0.3em;
-}
-
-.v4-hero__dash {
-  flex-shrink: 0;
-  width: 0.35em;
-  height: 2px;
-  background: var(--v4-ink-dim);
-  margin-bottom: 0.18em;
-  margin-right: 0.1em;
-}
-
-.v4-hero__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: clamp(32px, 4vw, 64px);
-  padding-top: 24px;
-  border-top: 1px solid var(--v4-line-soft);
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.v4-hero__location {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-.v4-hero__scroll {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.28s var(--v4-ease-roll);
-}
-
-.v4-hero__scroll:hover { color: var(--v4-ink-mute); }
-
-/* ─────────────────────────────────────────────────────────────
-   INTRO SECTION
-───────────────────────────────────────────────────────────── */
-.v4-intro {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 5vw, 80px);
-  align-items: start;
-}
-
-@media (max-width: 760px) {
-  .v4-intro { grid-template-columns: 1fr; }
-}
-
-.v4-intro__lead {
-  font-size: clamp(17px, 2vw, 22px);
-  font-weight: 300;
-  line-height: 1.5;
-  color: var(--v4-ink-mute);
-}
-
-.v4-intro__lead strong {
-  color: var(--v4-ink);
-  font-weight: 500;
-}
-
-.v4-intro__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.v4-stat {
-  border-top: 1px solid var(--v4-line);
-  padding-top: 16px;
-}
-
-.v4-stat__num {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(32px, 4vw, 52px);
-  line-height: 1;
-  color: var(--v4-ink);
-  letter-spacing: -0.02em;
-}
-
-.v4-stat__label {
-  font-size: var(--v4-text-small);
-  color: var(--v4-ink-mute);
-  margin-top: 4px;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   WORKS RAIL
-───────────────────────────────────────────────────────────── */
-.v4-works-rail {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-}
-
-.v4-works-rail::-webkit-scrollbar { display: none; }
-
-.v4-work-card {
-  flex: 0 0 clamp(260px, 36vw, 420px);
-  scroll-snap-align: start;
-  border-radius: 0;
-  overflow: hidden;
-  background: var(--v4-panel);
-  position: relative;
-  aspect-ratio: 4/5;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.v4-work-card:hover { transform: translateY(-4px); }
-
-.v4-work-card__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.v4-work-card__foot {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 20px 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-  color: oklch(0.965 0.014 75);
-}
-
-.v4-work-card__client {
-  font-family: var(--v4-display);
-  font-weight: 400;
-  font-size: 24px;
-  letter-spacing: -0.015em;
-}
-
-.v4-work-card__meta {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.7;
-  margin-top: 4px;
-}
-
-.v4-work-card__stat {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: 38px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin-top: 8px;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   SERVICES GRID
-───────────────────────────────────────────────────────────── */
-.v4-services {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1px;
-  border: 1px solid var(--v4-line);
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.v4-service-card {
-  background: var(--v4-panel);
-  padding: clamp(24px, 3vw, 40px);
-  transition: background 0.28s var(--v4-ease-roll);
-  cursor: pointer;
-}
-
-.v4-service-card:hover { background: var(--v4-panel-3); }
-
-.v4-service-card__num {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  color: var(--v4-ink-dim);
-  margin-bottom: 20px;
-}
-
-.v4-service-card__title {
-  font-family: var(--v4-display);
-  font-weight: 400;
-  font-size: clamp(20px, 2.2vw, 28px);
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  color: var(--v4-ink);
-  margin-bottom: 12px;
-}
-
-.v4-service-card__desc {
-  font-size: var(--v4-text-small);
-  color: var(--v4-ink-mute);
-  line-height: 1.5;
-}
-
-.v4-service-card__arrow {
-  margin-top: 24px;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.28s var(--v4-ease-roll), gap 0.28s var(--v4-ease-roll);
-}
-
-.v4-service-card:hover .v4-service-card__arrow {
-  color: var(--v4-ink);
-  gap: 10px;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   PARTNERS MARQUEE
-───────────────────────────────────────────────────────────── */
-.v4-marquee-wrap {
-  overflow: hidden;
-  border-top: 1px solid var(--v4-line-soft);
-  border-bottom: 1px solid var(--v4-line-soft);
-  padding-block: 20px;
-}
-
-.v4-marquee {
-  display: flex;
-  gap: 96px;
-  width: max-content;
-  animation: v4-scroll 30s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .v4-marquee { animation: none; }
-}
-
-@keyframes v4-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.v4-marquee__item {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.v4-marquee__item img,
-img.v4-marquee__item {
-  height: 3rem;
-  max-height: 3rem;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-/* ── Client marks ──────────────────────────────────────────────
-   Sizing and treatment live here, not in a page's scoped styles, because the
-   marks are rendered by ClientLogo.astro. Astro's scope attribute lands on the
-   elements a page writes itself, so a page-scoped `.edge-quote__logo` rule
-   never matched the component's img at all — the marks shipped unsized and
-   unfiltered, at their natural resolution.
-
-   The policy is one line: monochrome at rest, colour under the pointer. Four
-   brand palettes side by side read as a jumble; desaturated they line up as
-   one set, and the colour coming back on hover gives each mark the affordance
-   of the link it now is.
-
-   Two contexts cannot honour the hover, and say so through --logo-hover: a
-   dark-ink mark on a dark ground and a white-ink mark on a light one are both
-   silhouettes, and a silhouette has no colour to return to. Those lift their
-   opacity instead. */
-.edge-client-logo,
-.edge-quote__logo,
-.edge-row__logo,
-.v4-client-logo {
-  --logo-rest: grayscale(1);
-  --logo-hover: none;
-  filter: var(--logo-rest);
-  transition: filter 0.28s var(--v4-ease-roll), opacity 0.28s var(--v4-ease-roll);
-}
-
-/* On a dark band pale marks are lifted; on the light sheet they stay as they
-   are. Specificity is equal between this and the silhouette rule below, so
-   source order decides — the silhouette has to come second. */
-.edge-block--dark .edge-client-logo,
-.edge-block--dark .edge-quote__logo,
-.edge-block--dark .edge-row__logo {
-  --logo-rest: grayscale(1) brightness(1.9);
-}
-
-/* Dark-ink artwork on a dark ground. brightness(0) first, so a coloured dark
-   mark does not invert to a random hue. */
-.edge-block--dark .logo-dark-invert,
-body.v4:not(.is-light) .v4-client-logo.logo-dark-invert {
-  --logo-rest: brightness(0) invert(1);
-  --logo-hover: brightness(0) invert(1);
-}
-
-/* Except where the dark ink is a colour rather than black. Arnlea's mark
-   averages a warm brown, so there is a hue under the silhouette — it just sits
-   too close to the ground to read unlifted. Dropping the filter entirely would
-   put a brown mark on a near-black band; the lift brings the hue up to where it
-   reads, which is the same promise the coloured marks make on hover. */
-.edge-block--dark .logo-colour-on-dark,
-body.v4:not(.is-light) .v4-client-logo.logo-colour-on-dark {
-  --logo-hover: brightness(2.1);
-}
-
-/* Arnlea's lockup is two inks: orange bars, near-navy wordmark. One filter
-   across the pair lifts the navy into a blue-grey that is in neither half, so
-   the artwork is drawn twice and clipped. On hover the bars drop their filter
-   and come back as the orange they are; the wordmark holds the white
-   silhouette it already had, which is what the eye expects of a wordmark
-   sitting in a line of white type.
-
-   Both halves carry .logo-colour-on-dark, so these follow the rule above and
-   override only the hover. */
-.edge-block--dark .logo-colour-on-dark.logo-split__mark,
-body.v4 .edge-block--dark .v4-client-logo.logo-colour-on-dark.logo-split__mark {
-  --logo-hover: none;
-}
-.edge-block--dark .logo-colour-on-dark.logo-split__word,
-body.v4 .edge-block--dark .v4-client-logo.logo-colour-on-dark.logo-split__word {
-  --logo-hover: brightness(0) invert(1);
-}
-
-/* The work rows stay monochrome, hover included. Yann's call, and it is the
-   right one: those marks sit inside a link to the case study, in a list where
-   the eye is meant to travel down the results column. Four marks lighting up
-   one at a time as the pointer passes turns a quiet list into a fairground.
-   The row still answers — it dims, and the mark holds at full opacity while it
-   does — so the affordance survives without the colour.
-
-   --logo-hover resolves per element, so pointing it at --logo-rest keeps
-   whatever treatment that ground already chose: silhouette on ink, desaturated
-   elsewhere. Placed after the rules above, which it deliberately overrides for
-   this one placement. */
-.edge-block--dark .edge-row__logo,
-.edge-block .edge-row__logo {
-  --logo-hover: var(--logo-rest);
-}
-
-/* White-ink artwork on a light ground. */
-.is-light .logo-light-ink,
-.edge-block:not(.edge-block--dark) .logo-light-ink {
-  --logo-rest: brightness(0) grayscale(1);
-  --logo-hover: brightness(0) grayscale(1);
-}
-
-/* Dark-ink artwork on a light ground needs no flip — the sheet is light, and
-   the mark is drawn dark. */
-.is-light .logo-dark-invert,
-.edge-block:not(.edge-block--dark) .logo-dark-invert {
-  --logo-rest: grayscale(1);
-  --logo-hover: none;
-}
-
-/* The `body.v4` rules above were written when a page was one dark ground from
-   top to bottom. The Edge puts a light sheet on every page, so a mark can now
-   sit on a light ground inside a body that still carries `.v4` — and the
-   body-scoped selector outranks the ground-scoped one it ought to defer to.
-   On the work index that showed as white silhouettes on a white panel: the
-   marks were invisible until a hover repainted them.
-
-   Restated here at a specificity that wins. Ground decides, not body. */
-body.v4 .edge-block:not(.edge-block--dark) .v4-client-logo.logo-dark-invert {
-  --logo-rest: grayscale(1);
-  --logo-hover: none;
-}
-
-/* Any link that contains a mark, not just the one that points at the client's
-   own site: a case-study row picks its logo back up on hover too, or the same
-   mark would behave differently depending on where it sits. */
-a:hover .edge-client-logo,
-a:hover .edge-quote__logo,
-a:hover .edge-row__logo,
-a:hover .v4-client-logo,
-a:focus-visible .edge-client-logo,
-a:focus-visible .edge-quote__logo,
-a:focus-visible .edge-row__logo,
-a:focus-visible .v4-client-logo {
-  filter: var(--logo-hover);
-  opacity: 1;
-}
-
-/* ── Sizing ──
-   Height, never width: the marks run from 2.2:1 to 5:1, so a fixed width
-   squashes the wide ones. The current-projects row caps width as well, or a
-   5:1 wordmark towers over a 2:1 one.
-
-   Height alone is not enough on its own, either. A stacked lockup at the same
-   height as a wordmark reads as half the size, because half of its height goes
-   on the mark above the type — hence --logo-scale, set per logo in the data for
-   the ones that need correcting. */
-.edge-client-logo {
-  height: calc(clamp(30px, 4.2vw, 56px) * var(--logo-scale, 1));
-  width: auto;
-  max-width: min(100%, 260px);
-  object-fit: contain;
-  opacity: 0.62;
-}
-
-.edge-quote__logo {
-  height: calc(22px * var(--logo-scale, 1));
-  width: auto;
-  max-width: 130px;
-  object-fit: contain;
-  object-position: left center;
-  opacity: 0.6;
-  margin-bottom: 24px;
-}
-
-.edge-row__logo {
-  height: calc(22px * var(--logo-scale, 1));
-  width: auto;
-  max-width: 130px;
-  object-fit: contain;
-  object-position: left center;
-  opacity: 0.75;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   CLIENT LOGOS (outside the marquee)
-───────────────────────────────────────────────────────────── */
-
-/* Shared sizing for client logos surfaced on case cards, testimonials and
-   case-study heroes. Constrain height, never width — the marks range from
-   2.2:1 to 5:1, so a fixed width squashes the wide ones. */
-.v4-client-logo {
-  height: calc(26px * var(--logo-scale, 1));
-  width: auto;
-  max-width: 160px;
-  object-fit: contain;
-  object-position: left center;
-  display: block;
-}
-
-.v4-client-logo--lg { height: calc(40px * var(--logo-scale, 1)); max-width: 240px; }
-
-/* The case-study hero uses the client's own mark as the page title, so it is
-   sized against the display type it replaces rather than against the small
-   marks in cards — and it gets its own line. `.client-logo-link` is
-   inline-flex, which otherwise lets the mark ride up beside the "All work"
-   link above it. */
-.edge-case-hero__mark {
-  display: block;
-  margin-top: 32px;
-  margin-bottom: 24px;
-}
-.edge-case-hero__mark .client-logo-link { display: flex; }
-.v4-client-logo--hero {
-  height: calc(clamp(52px, 7vw, 92px) * var(--logo-scale, 1));
-  max-width: min(440px, 100%);
-}
-
-/* Present to a screen reader, absent to the eye. Used where the visible
-   element already carries the meaning — a client's mark standing in for the
-   page's h1. */
-.u-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Fixed-height slot so testimonial cards stay aligned even when a client
-   has no logo on file. */
-.v4-testimonial__logo {
-  height: 26px;
-  margin-bottom: 22px;
-  display: flex;
-  align-items: center;
-}
-
-/* Case-list rows put the logo above the client name. */
-.v4-case-row__logo { margin-bottom: 14px; }
-
-/* ── The figure is the row ──
-   These numbers are the most valuable content on the work page and they were
-   set at 64px, near enough the client name beside them to read as an
-   annotation of it. At this size the relationship inverts: the figure is what
-   the row is about, and the name and summary become its caption.
-
-   Monolog's move, without its crop — type doing structural work rather than
-   decorative work. */
-/* Was three inline declarations plus onmouseover/onmouseout attributes
-   writing style strings. The hover is a state, so it belongs in a selector —
-   and inline handlers are the one thing on this page a CSP would reject. */
-.edge-case-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  align-items: center;
-  background: var(--v4-panel);
-  padding: clamp(24px, 3vw, 40px);
-  transition: background 0.28s var(--v4-ease-roll);
-}
-
-.edge-case-row:hover,
-.edge-case-row:focus-visible { background: var(--v4-panel-3); }
-
-.edge-case-fig {
-  text-align: right;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.edge-case-fig__n {
-  display: block;
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(56px, 9vw, 124px);
-  line-height: 0.9;
-  letter-spacing: -0.035em;
-  color: var(--v4-ink);
-}
-
-.edge-case-fig__u {
-  display: block;
-  margin-top: 12px;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-/* Below this the figure stops sharing a line with the copy and sits under it,
-   where a right edge it no longer has would strand it. */
-@media (max-width: 52rem) {
-  .edge-case-row {
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 20px;
+@layer components {
+  .t-heading {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    font-stretch: 110%;
+    text-wrap: balance;
   }
-
-  .edge-case-fig { text-align: left; }
-}
-
-/* Work cards sit over imagery, so the logo gets its own light chip and keeps
-   its real brand colour rather than being inverted. */
-.v4-work-card__badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 0;
-  background: oklch(1 0 0 / 0.92);
-  box-shadow: 0 2px 10px oklch(0 0 0 / 0.18);
-}
-
-.v4-work-card__badge img {
-  height: 20px;
-  width: auto;
-  max-width: 120px;
-  object-fit: contain;
-  display: block;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TESTIMONIALS
-───────────────────────────────────────────────────────────── */
-.v4-testimonials {
-  display: grid;
-  gap: 24px;
-}
-
-.v4-testimonial {
-  background: var(--v4-panel);
-  border-radius: 0;
-  padding: clamp(24px, 3vw, 40px);
-  border: 1px solid var(--v4-line-soft);
-}
-
-.v4-testimonial__quote {
-  font-size: clamp(15px, 1.6vw, 18px);
-  line-height: 1.6;
-  color: var(--v4-ink-mute);
-  font-weight: 300;
-}
-
-.v4-testimonial__quote strong {
-  color: var(--v4-ink);
-  font-weight: 500;
-}
-
-.v4-testimonial__attr {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.v4-testimonial__name {
-  font-size: var(--v4-text-small);
-  font-weight: 600;
-  color: var(--v4-ink);
-}
-
-.v4-testimonial__role {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.04em;
-  color: var(--v4-ink-dim);
-  margin-top: 2px;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   JOURNAL / BLOG CARDS
-───────────────────────────────────────────────────────────── */
-.v4-posts {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.v4-post-card {
-  background: var(--v4-panel);
-  border-radius: 0;
-  overflow: hidden;
-  border: 1px solid var(--v4-line-soft);
-  transition: background 0.28s var(--v4-ease-roll), transform 0.28s var(--v4-ease-roll);
-  cursor: pointer;
-}
-
-.v4-post-card:hover {
-  background: var(--v4-panel-3);
-  transform: translateY(-2px);
-}
-
-.v4-post-card__body {
-  padding: 24px;
-}
-
-.v4-post-card__cat {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  margin-bottom: 10px;
-}
-
-.v4-post-card__title {
-  font-size: var(--v4-text-body);
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--v4-ink);
-}
-
-.v4-post-card__desc {
-  font-size: var(--v4-text-small);
-  color: var(--v4-ink-mute);
-  line-height: 1.5;
-  margin-top: 8px;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.v4-post-card__date {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  color: var(--v4-ink-dim);
-  margin-top: 16px;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   CONTACT / CLOSER
-───────────────────────────────────────────────────────────── */
-.v4-closer {
-  background: var(--v4-panel);
-  border-radius: 0;
-  padding: clamp(40px, 5vw, 80px);
-  border: 1px solid var(--v4-line-soft);
-  text-align: center;
-}
-
-.v4-contact-form {
-  background: var(--v4-panel);
-  border-radius: 0;
-  padding: clamp(32px, 4vw, 56px);
-  border: 1px solid var(--v4-line-soft);
-  max-width: 640px;
-  margin-inline: auto;
-}
-
-.v4-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.v4-field label {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-.v4-field input,
-.v4-field textarea,
-.v4-field select {
-  background: var(--v4-panel-2);
-  border: 1px solid var(--v4-line);
-  border-radius: 0;
-  padding: 12px 14px;
-  font-family: var(--v4-sans);
-  font-size: var(--v4-text-body);
-  color: var(--v4-ink);
-  width: 100%;
-  transition: border-color 0.28s var(--v4-ease-roll);
-  outline: none;
-}
-
-/* The browser default is the field's own colour at 50% alpha, which measured
-   3.89:1 on the light sheet. A placeholder is text a user has to read to know
-   what the field wants, so it takes the same 4.5:1 as any other. */
-.v4-field input::placeholder,
-.v4-field textarea::placeholder {
-  color: var(--v4-ink-mute);
-  opacity: 1;
-}
-
-.v4-field input:focus,
-.v4-field textarea:focus {
-  border-color: var(--v4-ink-mute);
-}
-
-.v4-field textarea { min-height: 120px; resize: vertical; }
-
-/* ─────────────────────────────────────────────────────────────
-   BUTTONS
-───────────────────────────────────────────────────────────── */
-.v4-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 46px;
-  padding: 0 26px;
-  border-radius: 0;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.v4-btn:hover { opacity: 0.82; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .v4-btn:hover { transform: translateY(-1px); }
-  .v4-btn:active { transform: translateY(0) scale(0.98); transition-duration: 0.08s; }
-}
-
-.v4-btn--primary {
-  background: var(--v4-ink);
-  color: var(--v4-bg);
-}
-
-.v4-btn--outline {
-  background: transparent;
-  border: 1px solid var(--v4-line);
-  color: var(--v4-ink);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   FOOTER
-───────────────────────────────────────────────────────────── */
-/* The footer is the last band of the page and declares its ground like any
-   other: pitch, the same close the CTA sits on, so the page ends on ink rather
-   than trailing off whatever section happened to come last. */
-.v4-footer {
-  background: var(--edge-pitch);
-  --v4-ink: #f2f1ec;
-  --v4-ink-mute: #a2a5a3;
-  --v4-ink-dim: #909391;
-  --v4-line: rgba(255, 255, 255, 0.16);
-  --v4-line-soft: rgba(255, 255, 255, 0.09);
-  color: var(--v4-ink);
-  border-top: 1px solid var(--v4-line-soft);
-  padding-block: clamp(56px, 7vw, 96px);
-}
-
-/* ── Footer, as an index ──
-   The four-column grid and its PAGES / SERVICES / JOURNAL / CONSULT headings
-   are gone. What is left is the shape the rest of the site uses: facts in the
-   corners, then one flat list in the mono voice. */
-.edge-footer__top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(24px, 4vw, 64px);
-  align-items: start;
-}
-
-.edge-footer__contact {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: right;
-}
-
-.edge-footer__contact a {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  transition: color 0.28s var(--v4-ease-roll);
-}
-
-.edge-footer__contact a:hover,
-.edge-footer__contact a:focus-visible { color: var(--v4-ink); }
-
-/* One list, wrapping. Thirteen destinations still crawlable, with none of the
-   column chrome that made this look like every other B2B footer. */
-.edge-footer__index {
-  margin-top: clamp(36px, 6vh, 64px);
-  padding-top: clamp(20px, 3vh, 28px);
-  border-top: 1px solid var(--v4-line-soft);
-}
-
-.edge-footer__index ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px clamp(18px, 2.5vw, 34px);
-}
-
-.edge-footer__index a {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--v4-ink-mute);
-  transition: color 0.28s var(--v4-ease-roll);
-  white-space: nowrap;
-}
-
-.edge-footer__index a:hover,
-.edge-footer__index a:focus-visible { color: var(--v4-ink); }
-
-@media (max-width: 46rem) {
-  .edge-footer__top { grid-template-columns: 1fr; }
-  .edge-footer__contact { text-align: left; flex-direction: row; gap: 20px; }
-}
-
-.v4-footer__brand {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-small);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--v4-ink);
-  margin-bottom: 12px;
-}
-
-.v4-footer__tagline {
-  font-size: var(--v4-text-small);
-  color: var(--v4-ink-dim);
-  line-height: 1.5;
-  max-width: 260px;
-}
-
-/* .v4-footer__col-title and .v4-footer__col-links went with the columns. */
-
-.edge-footer__where { flex: 1 1 auto; text-align: center; }
-
-@media (max-width: 46rem) {
-  .edge-footer__where { text-align: left; }
-}
-
-.v4-footer__legal {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--v4-line-soft);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.v4-footer__copy {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  color: var(--v4-ink-dim);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   PROSE (blog post body)
-───────────────────────────────────────────────────────────── */
-.v4-prose {
-  max-width: 680px;
-  margin-inline: auto;
-  color: var(--v4-ink-mute);
-  font-size: var(--v4-text-body);
-  line-height: 1.65;
-}
-
-.v4-prose h2 {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(26px, 3.2vw, 40px);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  text-wrap: balance;
-  color: var(--v4-ink);
-  margin-top: 56px;
-  margin-bottom: 20px;
-}
-
-.v4-prose h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--v4-ink);
-  margin-top: 36px;
-  margin-bottom: 12px;
-}
-
-.v4-prose p { margin-bottom: 20px; }
-
-.v4-prose strong { color: var(--v4-ink); font-weight: 600; }
-
-.v4-prose ul,
-.v4-prose ol {
-  margin-bottom: 20px;
-  padding-left: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.v4-prose blockquote {
-  border-left: 3px solid var(--v4-ink-dim);
-  padding-left: 20px;
-  font-style: italic;
-  color: var(--v4-ink);
-  margin-block: 32px;
-}
-
-.v4-prose code {
-  background: var(--v4-panel-2);
-  border-radius: 0;
-  padding: 2px 6px;
-  font-family: var(--v4-mono);
-  font-size: 0.875em;
-}
-
-.v4-prose a {
-  color: var(--v4-ink);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: opacity 0.28s var(--v4-ease-roll);
-}
-
-.v4-prose a:hover { opacity: 0.7; }
-
-/* Table wrapper — injected by JS for proper overflow + rounded corners on desktop */
-.v4-table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 28px;
-  border-radius: 0;
-  border: 1px solid var(--v4-line-soft);
-}
-
-.v4-prose table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--v4-text-small);
-}
-
-.v4-prose thead tr { background: var(--v4-panel-2); }
-
-.v4-prose th {
-  padding: 12px 16px;
-  text-align: left;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  border-bottom: 1px solid var(--v4-line-soft);
-  white-space: nowrap;
-}
-
-.v4-prose td {
-  padding: 12px 16px;
-  color: var(--v4-ink-mute);
-  vertical-align: top;
-  line-height: 1.5;
-  border-bottom: 1px solid var(--v4-line-soft);
-}
-
-.v4-prose td strong { color: var(--v4-ink); }
-.v4-prose tbody tr:last-child td { border-bottom: none; }
-.v4-prose tbody tr:hover td { background: var(--v4-panel); transition: background 0.12s ease; }
-
-/* ── Mobile: collapse columns into stacked label/value rows ── */
-@media (max-width: 640px) {
-  .v4-table-wrap {
-    overflow-x: visible;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
+  .t-body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+    text-wrap: pretty;
   }
-
-  .v4-prose thead { display: none; }
-
-  .v4-prose tbody tr {
-    display: block;
-    border-bottom: 2px solid var(--v4-line-soft);
-    padding: 4px 0;
-  }
-
-  .v4-prose tbody tr:last-child { border-bottom: none; }
-
-  .v4-prose td {
-    display: block;
-    text-align: right;
-    border-bottom: 1px solid var(--v4-line-soft);
-    position: relative;
-    padding: 10px 16px 10px 48%;
-  }
-
-  .v4-prose td:last-child { border-bottom: none; }
-
-  /* Column header injected via JS as data-label, displayed via ::before */
-  .v4-prose td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 16px;
-    top: 10px;
-    width: 42%;
-    font-family: var(--v4-mono);
-    font-size: var(--v4-text-label);
+  .t-eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--v4-ink-dim);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
+    letter-spacing: 0.04em;
     line-height: 1.5;
+    text-transform: uppercase;
   }
 
-  .v4-prose tbody tr:hover td { background: transparent; }
-}
-
-/* ─────────────────────────────────────────────────────────────
-   DIVIDER / SECTION HEAD
-───────────────────────────────────────────────────────────── */
-.v4-section-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: clamp(32px, 4vw, 56px);
-  flex-wrap: wrap;
-}
-
-.v4-divider {
-  height: 1px;
-  background: var(--v4-line-soft);
-  margin-block: 0;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   FOCUS RING (accessibility)
-───────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--v4-ink-mute);
-  outline-offset: 3px;
-  border-radius: 3px;
-}
-
-/* Skip link — the nav carries a dropdown of six services before the content
-   starts, which is a long way to tab past on every page. Off-screen until it
-   takes focus, rather than display:none, which would take it out of the tab
-   order and defeat the point. */
-.v4-skip {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 200;
-  transform: translateY(-200%);
-  padding: 12px 18px;
-  background: var(--v4-ink);
-  color: var(--v4-bg);
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.v4-skip:focus-visible {
-  transform: translateY(0);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   MICRO-MOTION (gated behind reduced-motion preference)
-───────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  /* Kept for pages that load no motion, but note that it does nothing where
-     ScrollTrigger runs: it writes `scroll-behavior: auto` inline on <html> on
-     init, because native smooth scrolling desynchronises its measurements, and
-     inline style wins. Anchor glide is done in scripts/smooth-anchors.js. */
-  html { scroll-behavior: smooth; }
-
-  details.v4-faq-item[open] > p {
-    animation: v4FaqIn 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Inline mono link: 1px underline that thickens on hover */
+  .text-link {
+    font-family: var(--font-body);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-thickness 200ms;
   }
+  .text-link:hover { text-decoration-thickness: 2px; }
 
-  @keyframes v4FaqIn {
-    from { opacity: 0; transform: translateY(-4px); }
+  /* Nav-style link: orange 2px underline on hover */
+  .nav-link {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    text-decoration-line: none;
+    text-decoration-color: var(--color-signal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .nav-link:hover,
+  .nav-link[aria-current="page"] { text-decoration-line: underline; }
+
+  /* Form fields */
+  .field {
+    width: 100%;
+    border: 1px solid var(--color-ink);
+    background: var(--color-paper);
+    padding-inline: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    border-radius: 0;
+  }
+  .field::placeholder { color: var(--color-muted); }
+  .field:focus { outline: 2px solid var(--color-ink); outline-offset: 0; }
+  input.field, select.field { height: 3rem; }
+  textarea.field { min-height: 8rem; padding-block: 0.75rem; resize: vertical; }
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
   }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   THE EDGE
-   Lifted out of the homepage's scoped styles so every page can speak it.
-   Scoped styles only match the elements the page that wrote them renders,
-   which is also why the client marks broke when they moved into a component.
+   LONG-FORM COPY (journal posts, service and case-study bodies)
+   Markdoc renders plain elements; this sets them in the system.
 ───────────────────────────────────────────────────────────── */
-/* ─────────────────────────────────────────────────────────────
-   THE EDGE — a near-black ground, one enormous light line, and
-   mono micro-labels as the only second voice. The restraint is
-   the design; the field behind it is ambience, not the subject.
-───────────────────────────────────────────────────────────── */
-
-.edge-wrap {
-  width: min(100% - clamp(24px, 6vw, 96px), 1440px);
-  margin-inline: auto;
+.prose-signal {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  max-width: 68ch;
 }
-.edge-wrap--narrow { max-width: 780px; }
-
-/* The section rhythm every Edge page shares. */
-.edge-block {
-  padding-block: clamp(80px, 12vh, 180px);
-}
-
-/* One screen per section is a homepage device — a page of eight statements,
-   each given the viewport. A services page, a case study or a journal post is
-   a document, and a screen per section would fight the reading, so they use
-   the rhythm above instead.
-
-   min-height, not height: a phone, a short laptop or a long FAQ grows past it
-   rather than clipping. svh, so mobile browser chrome cannot push the last
-   line under the fold. */
-.edge-block--full {
-  min-height: 100vh;
-  min-height: 100svh;
-  display: grid;
-  align-content: center;
-  padding-block: clamp(72px, 12vh, 160px);
-}
-
-/* ── Micro-labels: the Space Mono voice ── */
-.edge-label,
-.edge-kicker {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-/* ── Hero ── */
-.edge-hero {
-  /* Sticky, not fixed: it holds while .edge-sheet scrolls up over it, then
-     releases with the document. z-index 0 keeps it under the sheet. */
-  position: sticky;
-  top: 0;
-  z-index: 0;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding-block: clamp(120px, 18vh, 200px) clamp(60px, 10vh, 100px);
-}
-.edge-kicker { margin-bottom: clamp(32px, 6vh, 64px); }
-
-.edge-h1 {
-  font-family: var(--v4-display);
-  /* Light weight at enormous size is the whole trick — at 600 this reads as
-     a poster, at 300 it reads as air. */
-  font-weight: 300;
-  font-size: clamp(52px, 11.5vw, 220px);
-  line-height: 0.88;
+.prose-signal > * + * { margin-top: 1.25em; }
+.prose-signal h2,
+.prose-signal h3,
+.prose-signal h4 {
+  font-family: var(--font-heading);
+  font-weight: 800;
   letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-stretch: 110%;
   text-wrap: balance;
-  color: var(--v4-ink);
-  margin: 0;
 }
-.edge-h1__sub {
-  display: block;
-  font-family: var(--v4-mono);
-  font-size: clamp(11px, 1.1vw, 13px);
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  line-height: 1.5;
-  margin-top: clamp(28px, 4vh, 48px);
+.prose-signal h2 { font-size: var(--text-4xl); margin-top: 2em; }
+.prose-signal h3 { font-size: var(--text-2xl); margin-top: 1.75em; }
+.prose-signal h4 { font-size: var(--text-xl); margin-top: 1.5em; }
+.prose-signal a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
-
-.edge-hero__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: clamp(48px, 8vh, 88px);
-}
-.edge-hero__where {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-.edge-btn {
-  display: inline-flex;
-  align-items: center;
-  height: 46px;
-  padding-inline: 26px;
-  border: 1px solid var(--v4-line);
-  /* Square, like everything else. Every reference this design was studied
-     against measures a radius scale of exactly [0]; the buttons were the only
-     rounded thing on the site, and they appear on every page. */
-  border-radius: 0;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--v4-ink);
-  transition: background-color 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
-}
-.edge-btn:hover {
-  background: var(--v4-ink);
-  border-color: var(--v4-ink);
-  color: #151515;
-}
-
-/* ── The sheet ──
-   Carries the light token set; the background belongs to each block so
-   sections can differ. The sheet itself is transparent, which is what lets
-   an --clear block show the field through. Every direct child must therefore
-   declare a ground, or the hero shows through it. */
-.edge-sheet {
-  position: relative;
-  z-index: 1;
-  background: transparent;
-  --v4-ink: #151515;
-  /* Both carry 11-12px text — section labels, row descriptors, captions —
-     so both need 4.5:1 against the palest and the deepest light ground.
-     Measured on sand (#e8e4dc), the worst case: mute 7.27, dim 4.70. The
-     old pair read 5.65 and 2.78, so every label on the page failed AA. */
-  --v4-ink-mute: #45484a;
-  --v4-ink-dim: #616467;
-  --v4-line: rgba(0, 0, 0, 0.14);
-  --v4-line-soft: rgba(0, 0, 0, 0.08);
-  /* The inner pages are inline-styled against these, so rebinding them here is
-     what carries that markup onto a light ground unchanged. */
-  --v4-bg: #ffffff;
-  --v4-panel: rgba(0, 0, 0, 0.025);
-  --v4-panel-2: rgba(0, 0, 0, 0.05);
-  --v4-panel-3: rgba(0, 0, 0, 0.075);
-  color: var(--v4-ink);
-}
-
-/* ── Per-section grounds ──
-   One ladder, no hues: warm off-whites, cool off-whites, and three depths of
-   near-black. A monochrome page can give every section its own ground and
-   still read as one material — colour would not. Swap the modifier on any
-   section; --clear lets the hero field show through instead. */
-/* ── Reveal band ──
-   A photograph that grows, centred on white, as it scrolls into view.
-
-   Width and height together, which is one transform rather than two layout
-   properties: the frame is laid out at its final size and scaled down to
-   start, so the box it occupies never changes and nothing below it reflows.
-   adcker.com writes `height` on every scroll frame instead — and
-   edge-motion.js rules that out in writing, because this page already carries
-   a live WebGL field and a blurred sticky nav and "the GPU it has to run on
-   has no headroom to spare".
-
-   Driven by animation-timeline, so it runs off the main thread with no scroll
-   listener and no JavaScript. */
-.edge-reveal {
-  background: var(--edge-white);
-  padding-block: clamp(56px, 10vh, 120px);
-  overflow: hidden;
-}
-
-.edge-reveal__frame {
-  width: min(1240px, 100% - 2 * var(--v4-gutter));
-  margin-inline: auto;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  /* The resting state is the finished state: anything that cannot run the
-     animation — an older browser, reduced motion — gets the photograph at
-     full size. */
-  transform: scale(1);
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.edge-reveal__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 58%;
-  display: block;
-  /* Hueless, like the interface. The case study plates are where colour is
-     allowed to live — those carry the client's own world. This one is a
-     location, and in grey it reads as part of the ground ladder rather than
-     as the one warm thing on a page that has no other warm thing.
-     A little contrast back, because removing the colour flattens the
-     separation between the wall, the grass and the sea. */
-  filter: grayscale(1) contrast(1.08);
-}
-
-.edge-reveal__cap {
-  width: min(1240px, 100% - 2 * var(--v4-gutter));
-  margin: clamp(12px, 2vh, 18px) auto 0;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-@keyframes edgeRevealGrow {
-  from { transform: scale(0.42); }
-  to   { transform: scale(1); }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Named on the band and referenced by the frame. With view() on the frame
-       itself it measured its own progress, which barely changes while it is
-       being scaled — the growth stalled partway. */
-    .edge-reveal {
-      view-timeline-name: --edge-reveal;
-      view-timeline-axis: block;
-    }
-
-    .edge-reveal__frame {
-      animation: edgeRevealGrow linear both;
-      animation-timeline: --edge-reveal;
-      /* Full size a little before it centres, so it is whole while it is
-         being looked at rather than still arriving. */
-      animation-range: entry 5% cover 42%;
-    }
-  }
-}
-
-/* ── Proof plate ──
-   One image per case study. The slot holds the final aspect ratio while the
-   asset is outstanding, so the page does not move when it lands, and it says
-   plainly that it is unfinished rather than looking like a broken image. */
-.edge-plate { margin: 0; }
-
-/* Originals are square and portrait; the page wants one ratio across the
-   three case studies, so the box fixes 16:9 and the crop focus decides which
-   part of the frame survives. */
-.edge-plate__img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-}
-
-.edge-plate__slot {
-  aspect-ratio: 16 / 9;
-  display: grid;
-  place-content: center;
-  gap: 10px;
-  text-align: center;
-  border: 1px dashed var(--v4-line-soft);
-  background: color-mix(in srgb, var(--v4-ink) 3%, transparent);
-}
-
-.edge-plate__state,
-.edge-plate__spec,
-.edge-plate__cap {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-}
-
-.edge-plate__state { color: var(--v4-ink-mute); }
-
-.edge-plate__cap {
-  display: block;
-  margin-top: 16px;
-  text-transform: none;
-  letter-spacing: 0.02em;
-}
-
-.edge-block--white { background: var(--edge-white); }        /* 01 proposition */
-.edge-block--paper { background: var(--edge-paper); } /* current projects */
-.edge-block--ink   { background: var(--edge-ink); }   /* 02 work */
-.edge-block--mist  { background: var(--edge-mist); }  /* 03 services */
-.edge-block--slate { background: var(--edge-slate); } /* 04 proof */
-.edge-block--sand  { background: var(--edge-sand); }  /* 05 faq */
-.edge-block--bone  { background: var(--edge-bone); }  /* 06 journal */
-.edge-block--pitch { background: var(--edge-pitch); } /* the close */
-.edge-block--clear { background: transparent; }
-
-/* Any dark ground rebinds the ink tokens, so every rule written for the
-   light sheet works on it unchanged — no duplicate styles per section. */
-.edge-block--dark {
-  --v4-ink: #f2f1ec;
-  /* Slate is the palest of the three dark grounds and so the hard case:
-     mute 6.13, dim 4.91. Dim was 3.76 there. */
-  --v4-ink-mute: #a2a5a3;
-  --v4-ink-dim: #909391;
-  --v4-line: rgba(255, 255, 255, 0.16);
-  --v4-line-soft: rgba(255, 255, 255, 0.09);
-  color: var(--v4-ink);
-}
-
-.edge-sheet .edge-btn:hover {
-  background: #151515;
-  border-color: #151515;
-  color: #fff;
-}
-/* Ink on ink is invisible: on a dark ground the fill inverts. */
-.edge-block--dark .edge-btn:hover {
-  background: #f2f1ec;
-  border-color: #f2f1ec;
-  color: #151515;
-}
-
-/* ── Section heads ── */
-.edge-head { margin-bottom: clamp(40px, 6vh, 72px); }
-.edge-h2 {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(38px, 6vw, 96px);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  margin-top: 14px;
-}
-
-/* ── Lede ── */
-.edge-lede__text {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(22px, 3.2vw, 46px);
-  line-height: 1.25;
-  letter-spacing: -0.015em;
-  max-width: 20ch;
-  margin-top: 20px;
-}
-.edge-figures {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(28px, 5vw, 80px);
-  margin-top: clamp(48px, 8vh, 88px);
-  padding-top: 32px;
-  border-top: 1px solid var(--v4-line-soft);
-}
-.edge-figure { display: flex; flex-direction: column; gap: 6px; }
-.edge-figure__num {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(30px, 4vw, 56px);
-  line-height: 1;
+.prose-signal a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--color-signal); }
+.prose-signal strong { font-weight: 600; }
+.prose-signal ul, .prose-signal ol { padding-left: 1.25em; }
+.prose-signal ul { list-style: square; }
+.prose-signal ol { list-style: decimal; }
+.prose-signal li + li { margin-top: 0.4em; }
+.prose-signal li::marker { color: var(--color-signal); }
+.prose-signal blockquote {
+  border-left: 2px solid var(--color-signal);
+  padding-left: 1.25em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
-.edge-figure__label {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  max-width: 15ch;
+.prose-signal hr { border: 0; border-top: 1px solid var(--color-ink); margin-block: 2.5em; }
+.prose-signal img { width: 100%; height: auto; }
+.prose-signal code {
+  background: var(--color-stone);
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
 }
+.prose-signal pre { background: var(--color-stone); padding: 1.25em; overflow-x: auto; font-size: var(--text-sm); }
+.prose-signal pre code { background: none; padding: 0; }
+.prose-signal table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.prose-signal th, .prose-signal td { border-top: 1px solid var(--color-ink); padding: 0.75em 0.75em 0.75em 0; text-align: left; vertical-align: top; }
+.prose-signal th { font-weight: 600; }
+.table-wrap { overflow-x: auto; }
 
-/* ── The problem ──
-   Two columns at desktop, which keeps four symptoms on one screen and stops
-   the list reading as a specification. The symptom carries the display face
-   because it is the line a reader recognises themselves in; the cost sits
-   under it in body copy, doing the arguing. */
-.edge-problems {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(36px, 5vw, 72px) clamp(40px, 6vw, 96px);
-  list-style: none;
-}
-
-/* Two columns, not auto-fit. There are four symptoms, and auto-fit gave three
-   across on a wide screen — which leaves the fourth sitting alone in a row
-   looking like an afterthought. Two-up fills exactly. */
-@media (min-width: 761px) {
-  .edge-problems { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* The mark sits above its claim, at the size of the mono voice rather than
-   the display one — it labels the row, it does not announce it. A hairline
-   rule runs from it to the column edge, so four marks read as a set of
-   readouts on one instrument rather than as four decorations. */
-.edge-problem__mark {
-  /* 32px read as a speck beside a 30px claim. At 44 the mark is legible as a
-     diagram without competing with the line it labels. */
-  width: 44px;
-  height: 44px;
-  display: block;
-  color: var(--v4-ink-mute);
-  margin-bottom: 20px;
-  overflow: visible;
-}
-
-.edge-problems li {
-  border-top: 1px solid var(--v4-line-soft);
-  padding-top: clamp(20px, 3vh, 28px);
-}
-
-.edge-problem__symptom {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(21px, 2.2vw, 30px);
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-  margin-bottom: 14px;
-}
-
-.edge-problem__cost {
-  font-size: var(--v4-text-body);
-  line-height: 1.7;
-  color: var(--v4-ink-mute);
-  max-width: 46ch;
-  text-wrap: pretty;
-}
-
-/* ── Clients ── */
-/* Auto-fit rather than flex-wrap: at full height the four marks should sit
-   on one even row and break to a tidy grid, not trail a widow. */
-.edge-clients {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  align-items: center;
-  justify-items: center;
-  gap: clamp(48px, 7vw, 96px);
-  margin-top: clamp(48px, 8vh, 96px);
-  list-style: none;
-}
-/* ── Rows: work, services, journal all share one rhythm ── */
-.edge-rows { list-style: none; border-top: 1px solid var(--v4-line-soft); }
-.edge-rows li { border-bottom: 1px solid var(--v4-line-soft); }
-
-/* Work rows: mark, descriptor, number. The client name is gone — the logo
-   says it, and printing both made the row say everything twice. That puts
-   the alt text to work: it is the only place the name is now written. */
-.edge-row {
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(20px, 4vw, 60px);
-  padding-block: clamp(28px, 4.5vh, 56px);
-  transition: opacity 0.28s var(--v4-ease-roll);
-}
-.edge-row--service { grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr); }
-.edge-row--post { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
-
-/* A case with no logo on file still needs a name. */
-.edge-row__client--fallback { align-self: center; }
-.edge-rows li:hover .edge-row { opacity: 0.62; }
-
-/* ── Services, at index scale ──
-   These rows already carried the index grammar — number, name, mono
-   descriptor — at a third of the size. Set at display scale they say the
-   same thing the menu says, which is the point: the flagship page and the
-   way into it speak one language rather than two.
-
-   The row-wide dim is switched off here. It was the whole hover signal when
-   the name was 34px; against the roll it fights, because the arriving copy
-   brightens while the row beneath it fades. */
-.edge-rows li:hover .edge-row--service { opacity: 1; }
-
-/* The mask is one line tall wherever this runs, so the leading has to clear a
-   descender at any size — Positioning, Strategy and Organic all have one. */
-.edge-row--service .edge-row__client { line-height: 1.18; }
-
-/* Index scale belongs to the document pages. The homepage runs these rows
-   inside an .edge-block--full, where the section is an overview the reader
-   scans on the way past; at 76px the six names ran 1,571px against 1,181px
-   before, which is a third more scrolling to say the same thing. The /services
-   page is the document, and that is where the names get to be the subject. */
-.edge-block:not(.edge-block--full) .edge-row--service .edge-row__client {
-  font-size: clamp(34px, 5.6vw, 76px);
-  letter-spacing: -0.025em;
-  color: var(--v4-ink-mute);
-}
-
-/* At 76px the name needs the room the descriptor was holding; the descriptor
-   drops to a label on the far margin, which is where it was acting anyway. */
-@media (min-width: 861px) {
-  .edge-row--service {
-    grid-template-columns: 60px minmax(0, 1.9fr) minmax(0, 1fr);
-    align-items: baseline;
+/* ─────────────────────────────────────────────────────────────
+   MOTION
+   Elements carry data-m="fade|rise|scale|split|frame" inside a
+   [data-group]. They start hidden only when JS has marked the page
+   with .js-motion, and the inline head script removes that class
+   after 2.5s if the motion script never arrived, so nothing can be
+   stranded invisible. Opacity and transform only, one pass.
+───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion [data-m="fade"],
+  .js-motion [data-m="rise"],
+  .js-motion [data-m="scale"],
+  .js-motion [data-m="split"],
+  .js-motion [data-m="frame"] {
+    opacity: 0;
   }
-
-  .edge-row--service .edge-row__desc { justify-self: end; text-align: right; }
 }
-
-.edge-row__num,
-.edge-row__desc {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.08em;
-  color: var(--v4-ink-dim);
-  text-transform: uppercase;
+.split-line-mask {
+  padding: 0.2em 0.12em;
+  margin: -0.2em -0.12em;
 }
-/* Overrides the label treatment above: the descriptor is prose, and it is the
-   middle column of the work row, so it reads from the left edge of its own
-   track rather than floating in the middle of the row. */
-.edge-row__desc {
-  text-transform: none;
-  letter-spacing: 0.02em;
-  font-size: var(--v4-text-label);
-  line-height: 1.6;
-  text-align: left;
-  justify-self: start;
-}
-.edge-row__client {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(20px, 2.4vw, 34px);
-  letter-spacing: -0.015em;
-  line-height: 1.15;
-}
-/* The homepage's figures, raised to match the work page's treatment — the
-   number is the subject of the row, not an annotation of the logo beside it.
-   Capped at 80px rather than /work's 124px: measured at 1280x900 the Results
-   section holds at exactly one screen up to 80px and spills past it at 96px,
-   and this is the one section on the page whose whole job is to be taken in
-   at a glance. */
-.edge-row__stat {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(44px, 6vw, 80px);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
-}
-
-/* Insights: the description sits alongside a much larger title, so the two
-   are aligned on their first baseline rather than centred against each
-   other. Below 860px the row is a single column and there is nothing to
-   align to. */
-@media (min-width: 861px) {
-  .edge-row--post { align-items: baseline; }
-}
-
-.edge-more {
-  display: inline-block;
-  margin-top: 32px;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  transition: color 0.28s var(--v4-ease-roll);
-}
-.edge-more:hover { color: var(--v4-ink); }
-
-/* ── Quotes ── */
-.edge-quotes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(32px, 5vw, 72px);
-}
-.edge-quote { display: flex; flex-direction: column; }
-.edge-quote blockquote {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(16px, 1.5vw, 20px);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--v4-ink);
-}
-.edge-quote figcaption {
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  margin-top: 20px;
-}
-
-/* ── FAQ ── */
-.edge-faq { border-top: 1px solid var(--v4-line-soft); }
-.edge-faq__item { border-bottom: 1px solid var(--v4-line-soft); }
-.edge-faq__item summary {
+[data-m="split"]:has(> .split-line-mask) {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  padding-block: 24px;
-  cursor: pointer;
-  list-style: none;
-  font-family: var(--v4-display);
-  font-weight: 300;
-  font-size: clamp(16px, 1.7vw, 22px);
-  letter-spacing: -0.01em;
-}
-.edge-faq__item summary::-webkit-details-marker { display: none; }
-.edge-faq__item summary span { color: var(--v4-ink-dim); flex-shrink: 0; }
-.edge-faq__item[open] summary span { transform: rotate(45deg); }
-.edge-faq__item p {
-  padding-bottom: 26px;
-  max-width: 62ch;
-  color: var(--v4-ink-mute);
-  font-size: var(--v4-text-small);
-  line-height: 1.7;
+  flex-direction: column;
 }
 
-/* ── CTA ── */
-.edge-cta { text-align: center; }
-.edge-cta__h { margin-top: 0; }
-.edge-cta__p {
-  color: var(--v4-ink-mute);
-  font-size: var(--v4-text-body);
-  line-height: 1.7;
-  max-width: 42ch;
-  margin: 24px auto 40px;
-}
-
-/* ── Narrow ── */
-@media (max-width: 860px) {
-  .edge-row,
-  .edge-row--service,
-  .edge-row--post {
-    grid-template-columns: 1fr;
-    gap: 10px;
+/* Hero entrance: CSS, so it plays from the first frame */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-in {
+    animation: hero-in 0.7s var(--ease-out-poster) var(--hero-at, 0s) both;
   }
-  .edge-row__stat { margin-top: 4px; }
-  .edge-hero__foot { flex-direction: column; align-items: flex-start; }
+  h1.hero-in { animation-name: hero-rise; }
+  .hero-sun {
+    animation: hero-sun 1.1s var(--ease-settle) 0.15s both;
+  }
+  .hero-settle {
+    animation: hero-settle 1.2s var(--ease-out-poster) 0.35s both;
+  }
+}
+@keyframes hero-rise {
+  from { opacity: 0.01; transform: translateY(0.35em); }
+}
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(16px); }
+}
+@keyframes hero-sun {
+  from { transform: translateY(18%) scale(0.86); }
+}
+@keyframes hero-settle {
+  from { transform: translateY(6%); }
 }
 
-/* ── The inner-page hero ──
-   The homepage handover in miniature: a near-black opening, then the sheet.
-   Not sticky and not a full screen — the homepage hero earns that because it
-   is the argument of the page. This one says what the document is and gets out
-   of the way. align-content: end so the title sits on the fold rather than
-   floating in the middle of an empty band. */
-/* position/overflow so the contained field has something to fill and cannot
-   spill past the hero; the wrap is lifted above it. The near-black background
-   stays underneath, so a browser with no WebGL gets a flat ground rather than
-   a hole. */
-.edge-page-hero {
-  position: relative;
-  overflow: hidden;
-  min-height: 58svh;
-  display: grid;
-  /* The wrap is now a full-height grid that pushes its own corners apart, so
-     the block no longer needs a tall top padding to drive content downward. */
-  align-content: stretch;
-  padding-block: clamp(56px, 9vh, 96px) clamp(40px, 6vh, 72px);
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
-.edge-page-hero > .edge-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-/* ── Corners hold the facts, the middle holds the argument ── */
-.edge-page-hero__grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto 1fr auto;
-  gap: clamp(28px, 5vh, 56px) 24px;
-  align-items: start;
-  /* No width here: .edge-wrap makes its gutter out of `width`, not padding,
-     so setting width:100% on the same element silently removes it. */
-}
-
-.edge-page-hero__tl { grid-column: 1; grid-row: 1; }
-
-.edge-page-hero__mid {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  align-self: center;
-}
-
-.edge-page-hero__bl { grid-column: 1; grid-row: 3; align-self: end; }
-
-.edge-page-hero__br {
-  grid-column: 2;
-  grid-row: 3;
-  align-self: end;
-  text-align: right;
-}
-
-.edge-page-hero__bl span,
-.edge-page-hero__br span {
-  display: block;
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--v4-ink-dim);
-  line-height: 1.9;
-}
-
-.edge-page-hero__bl .is-ink,
-.edge-page-hero__br .is-ink { color: var(--v4-ink-mute); }
-
-/* At phone width there are no opposing corners to anchor to: the four blocks
-   become one column and the baseline pair reads as a stacked colophon. */
-@media (max-width: 46rem) {
-  .edge-page-hero__grid { grid-template-columns: 1fr; }
-  .edge-page-hero__mid { grid-column: 1; }
-  .edge-page-hero__br {
-    grid-column: 1;
-    grid-row: auto;
-    text-align: left;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-.edge-page-hero__h {
-  font-family: var(--v4-display);
-  font-weight: 300;
-  /* Half the homepage's ceiling: 220px is a statement, and a page title that
-     shouts as loudly as the site's one line flattens the hierarchy between
-     them. */
-  font-size: clamp(40px, 6.5vw, 104px);
-  line-height: 0.96;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-  color: var(--v4-ink);
-  margin-top: clamp(20px, 3vh, 32px);
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
 }
-
-.edge-page-hero__lede {
-  margin-top: clamp(20px, 3vh, 30px);
-  max-width: 62ch;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.6;
-  font-weight: 300;
-  color: var(--v4-ink-mute);
-  text-wrap: pretty;
-}
+.skip-link:focus { top: 1rem; }

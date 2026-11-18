@@ -1,5 +1,4 @@
 ---
-import EdgeField from '../components/EdgeField.astro';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -16,8 +15,7 @@ interface Props {
   author?: string;
   tags?: string[];
   breadcrumbs?: { name: string; item: string }[];
-  /** Ambient background field. On only where the page is sparse enough to
-      carry it — the inner pages are still the v4 layout and go murky under it. */
+  /** Retired with the Edge design. Still accepted so no page breaks on it. */
   field?: boolean;
 }
 
@@ -31,7 +29,6 @@ const {
   publishedTime,
   modifiedTime,
   author = 'Yann Hamonou',
-  field = false,
   tags = [],
   breadcrumbs,
 } = Astro.props;
@@ -52,7 +49,19 @@ const ogImageUrl = ogImage
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#151515" />
+    <meta name="theme-color" content="#fafaf7" />
+
+    <!-- Motion gate: hidden entrance states apply only once JS marks the page,
+         and come off after 2.5s if the motion script never arrives, so a
+         failed script cannot leave content invisible. -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        d.classList.add('js-motion');
+        setTimeout(function () { if (!d.dataset.motionReady) d.classList.remove('js-motion'); }, 2500);
+      })();
+    </script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -83,19 +92,17 @@ const ogImageUrl = ogImage
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Archivo carries its width axis (62–125) so headings can set
+         font-stretch: 110%; JetBrains Mono is the body, button and label face. -->
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;600&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-
-    <!-- No season/theme script on this concept: the Edge language has a single
-         ground (#151515). Leaving the old localStorage reader in would flash
-         parchment before paint for anyone who last chose a light season. -->
 
     <!-- ── GA4 ──
          Same measurement ID the Webflow site uses, so the migration reads as
@@ -208,49 +215,27 @@ const ogImageUrl = ogImage
     })} />
   </head>
 
-  <body class="v4 edge">
-    {field && <EdgeField />}
-    <a class="v4-skip" href="#main">Skip to content</a>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <Nav />
     <main id="main">
       <slot />
     </main>
     <Footer />
 
-    <!-- GSAP motion (hero entrance, scroll reveals, stat count-ups) -->
+    <!-- GSAP motion: section entrances, split headings, count-ups, disc slides -->
     <script>
-      import '../scripts/motion.js';
-      /* The Edge homepage speaks a different markup vocabulary; this pass is a
-         no-op on the v4 inner pages, and motion.js is a no-op on the Edge. */
-      import '../scripts/edge-motion.js';
-      import '../scripts/smooth-anchors.js';
-      import '../scripts/link-roll.js';
-      import { initEdgeHandover } from '../scripts/edge-handover.js';
-      initEdgeHandover();
+      import '../scripts/signal-motion.ts';
     </script>
 
-    <!-- Single ground: tag the body for the stylesheet, no theme branch. -->
-    <script is:inline>
-      (function () { document.body.classList.add('v4', 'edge'); })();
-    </script>
-
-    <!-- Responsive tables: wrap for desktop overflow + stamp data-label for mobile column collapse -->
+    <!-- Long-form tables scroll sideways inside a wrapper rather than the page -->
     <script is:inline>
       (function () {
-        document.querySelectorAll('.v4-prose table').forEach(function (table) {
+        document.querySelectorAll('.prose-signal table').forEach(function (table) {
           var wrap = document.createElement('div');
-          wrap.className = 'v4-table-wrap';
+          wrap.className = 'table-wrap';
           table.parentNode.insertBefore(wrap, table);
           wrap.appendChild(table);
-
-          var headers = Array.from(table.querySelectorAll('thead th')).map(function (th) {
-            return th.textContent ? th.textContent.trim() : '';
-          });
-          table.querySelectorAll('tbody tr').forEach(function (row) {
-            Array.from(row.querySelectorAll('td')).forEach(function (td, i) {
-              if (headers[i]) td.setAttribute('data-label', headers[i]);
-            });
-          });
         });
       })();
     </script>

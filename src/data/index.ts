@@ -80,3 +80,31 @@ export type Testimonial = {
    its symptoms in content/homepage. Both were duplicated here until the two
    copies disagreed about who had said what. The Testimonial type above is
    still the shape the reader maps into. */
+
+/* ── Signal Poster photography ──
+   Black-and-white north-east Scotland, from the Ploy build (Nov 2026). Keyed
+   by service slug so each service keeps its picture wherever it is listed.
+   The orange disc beside each photo is drawn in CSS, never baked in. */
+export const serviceImages: Record<string, { src: string; alt: string; imgClass?: string }> = {
+  positioning:    { src: '/images/signal/service-dunnottar.webp',       alt: 'Dunnottar Castle on its cliff near Stonehaven' },
+  strategy:       { src: '/images/signal/service-rail-junction.webp',   alt: 'Railway tracks meeting at a junction' },
+  'seo-aberdeen': { src: '/images/signal/service-keyboard.webp',        alt: 'Hands typing on a laptop keyboard' },
+  media:          { src: '/images/signal/service-harbour.webp',         alt: 'A supply vessel moored in Aberdeen harbour' },
+  web:            { src: '/images/signal/service-granite-facade.webp',  alt: 'Granite facade with rows of sash windows' },
+  leadership:     { src: '/images/signal/service-lighthouse.webp',      alt: 'Girdle Ness lighthouse at the mouth of Aberdeen harbour', imgClass: 'scale-[1.06]' },
+};
+
+/* The homepage logo row: greyscale at rest, colour on hover. */
+export const homeClients = [
+  { name: 'BowtieMaster',     href: 'https://www.bowtiemaster.com/',  logo: '/images/signal/logo-bowtiemaster.webp' },
+  { name: 'Viewport3',        href: 'https://viewport3.com/',         logo: '/images/signal/logo-viewport3.webp' },
+  { name: 'Arnlea',           href: 'https://www.arnlea.com/',        logo: '/images/signal/logo-arnlea.webp' },
+  { name: 'Incident Insight', href: 'https://incident-insight.com/',  logo: '/images/signal/logo-incident-insight.webp' },
+  { name: 'McRoberts',        href: 'https://www.mcroberts.co.uk/',   logo: '/images/signal/logo-mcroberts.webp' },
+];
+
+export const signalImages = {
+  hero:     { src: '/images/signal/hero-marischal-college.webp', alt: "Marischal College, Aberdeen's granite landmark, in black and white" },
+  portrait: { src: '/images/signal/portrait-yann.webp',          alt: 'Portrait of Yann Hamonou' },
+  tendersDirect: { src: '/images/signal/logo-tenders-direct.webp', alt: 'Tenders Direct logo' },
+};

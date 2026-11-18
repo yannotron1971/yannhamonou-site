@@ -1,54 +1,61 @@
 ---
 /**
- * The page hero for everything that is not the homepage.
+ * The page hero for everything that is not the homepage, Signal Poster style.
  *
- * Same handover in miniature: a near-black opening, then the sheet. It carries
- * the field, contained within itself rather than fixed behind the page, and it
- * is not sticky — the homepage earns that because its hero is the whole first
- * screen and the argument of the page. An inner page is a document, so its hero
- * states what the document is and gets out of the way at a little over half a
- * screen.
+ * Paper band closed by an ink hairline. Poster headline and one mono lede on
+ * the left; on the right either a black-and-white circle photo meeting a flat
+ * orange disc (pass `image`), or the orange half-sun on the hairline when the
+ * page has no photograph of its own. A mono place caption with an orange dash
+ * sits top right. Entrance is CSS, so it plays from the first frame.
+ *
+ * `title` may carry <br /> where the headline should break; it is set with
+ * set:html, so only pass trusted template strings, never CMS text with markup.
  */
-import EdgeField from './EdgeField.astro';
+import Container from './ui/Container.astro';
+import Text from './ui/Text.astro';
+import Tag from './ui/Tag.astro';
+import CircleImage from './ui/CircleImage.astro';
 
 interface Props {
+  /** Short mono caption above the headline, e.g. "Services". */
   label?: string;
   title: string;
   lede?: string;
+  image?: { src: string; alt: string; imgClass?: string };
+  /** Size of the headline: xl for short titles, lg for long ones. */
+  size?: 'xl' | 'lg';
   class?: string;
-  /** The ambient field. On by default — it is what makes a hero a hero here. */
+  /** Retired with the Edge design; accepted and ignored. */
   field?: boolean;
 }
 
-const { label, title, lede, class: className = '', field = true } = Astro.props;
+const { label, title, lede, image, size = 'xl', class: className } = Astro.props;
 ---
 
-<section class={`edge-block edge-block--dark edge-block--ink edge-page-hero ${className}`}>
-  {field && <EdgeField contained />}
-  <div class="edge-wrap edge-page-hero__grid">
-    <!-- The corners carry what the document is; the middle carries what it
-         says. Aristide Benoist's fold, which pins its facts to the four
-         corners and leaves the centre to one thing — except that his centre
-         holds a photographic strip and these heroes carry no field by the
-         rule above, so the headline stays rather than stepping back. -->
-    {label && <p class="edge-label edge-page-hero__tl">{label}</p>}
-
-    <div class="edge-page-hero__mid">
-      <h1 class="edge-page-hero__h" set:html={title} />
-      {lede && <p class="edge-page-hero__lede">{lede}</p>}
-      <slot />
+<section class:list={['relative overflow-hidden border-b border-ink bg-paper', className]}>
+  <Container class="relative grid gap-10 py-14 md:py-20 lg:min-h-[28rem] lg:grid-cols-12 lg:gap-6 lg:py-24">
+    <div class="relative z-10 flex flex-col justify-center lg:col-span-7">
+      {label && <Text size="sm" tone="secondary" class="hero-in mb-6">{label}</Text>}
+      <h1
+        class:list={['t-heading hero-in max-w-[14ch]', size === 'xl' ? 'text-7xl' : 'text-5xl']}
+        set:html={title}
+      />
+      {lede && <Text size="lg" class="hero-in mt-8 max-w-xl [--hero-at:0.25s]">{lede}</Text>}
+      <div class="hero-in [--hero-at:0.4s]"><slot /></div>
     </div>
 
-    <!-- Facts already stated elsewhere on the site: the wordmark's role, and
-         the coordinates the homepage puts on its own baseline. Nothing here
-         is a new claim. -->
-    <p class="edge-page-hero__bl">
-      <span>Yann Hamonou</span>
-      <span class="is-ink">Marketing technologist</span>
-    </p>
-    <p class="edge-page-hero__br">
-      <span>Stonehaven · Aberdeenshire</span>
-      <span class="is-ink">Scotland</span>
-    </p>
-  </div>
+    <div class="relative lg:col-span-5">
+      {image ? (
+        <div class="relative mx-auto flex w-full max-w-xs items-center sm:max-w-sm lg:mr-0 lg:mt-10">
+          <CircleImage src={image.src} alt={image.alt} imgClass={image.imgClass} loading="eager" class="hero-settle relative z-0 w-[62%]" />
+          <div aria-hidden="true" class="hero-sun relative z-10 -ml-[24%] aspect-square w-[62%] rounded-full bg-signal mix-blend-multiply"></div>
+        </div>
+      ) : (
+        <div aria-hidden="true" class="hero-sun pointer-events-none absolute -bottom-14 right-0 hidden aspect-square w-[78%] translate-y-1/2 rounded-full bg-signal md:-bottom-20 lg:-bottom-24 lg:block"></div>
+      )}
+      <Tag align="right" class="hero-in absolute right-0 top-0 hidden lg:block [--hero-at:0.6s]">
+        Stonehaven<br />Aberdeenshire
+      </Tag>
+    </div>
+  </Container>
 </section>

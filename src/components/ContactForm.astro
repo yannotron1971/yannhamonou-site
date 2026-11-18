@@ -1,0 +1,80 @@
+---
+/* The consultation form, on paper. Used in the homepage's orange closing band
+   and on /contact. Posts to Formspree; without JavaScript it still submits
+   normally, with it the reply arrives inline. The _gotcha field is the
+   honeypot: hidden from people, filled by bots, discarded by Formspree. */
+import Button from './ui/Button.astro';
+
+interface Props {
+  buttonLabel?: string;
+  id?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { buttonLabel = 'Request my free review', id = 'contact-form', class: className, ...rest } = Astro.props;
+---
+<form
+  action="https://formspree.io/f/xkoabzbd"
+  method="POST"
+  id={id}
+  data-contact-form
+  class:list={['bg-paper p-6 text-ink sm:p-8', className]}
+  {...rest}
+>
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px opacity-0" />
+  <div class="grid gap-5 sm:grid-cols-2" data-fields>
+    <div>
+      <label class="field-label" for={`${id}-name`}>Name</label>
+      <input class="field" id={`${id}-name`} name="name" autocomplete="name" required />
+    </div>
+    <div>
+      <label class="field-label" for={`${id}-email`}>Email</label>
+      <input class="field" id={`${id}-email`} name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="sm:col-span-2">
+      <label class="field-label" for={`${id}-company`}>Company</label>
+      <input class="field" id={`${id}-company`} name="company" autocomplete="organization" />
+    </div>
+    <div class="sm:col-span-2">
+      <label class="field-label" for={`${id}-message`}>What would you like to grow?</label>
+      <textarea class="field" id={`${id}-message`} name="challenge" required></textarea>
+    </div>
+  </div>
+  <Button type="submit" variant="dark" size="lg" class="mt-6 w-full" data-submit>{buttonLabel}</Button>
+  <p aria-live="polite" role="status" class="mt-4 min-h-6 text-sm" data-status></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const button = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const label = button?.querySelector('span');
+    const original = label?.textContent ?? '';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status || !button) return;
+      button.disabled = true;
+      if (label) label.textContent = 'Sending...';
+      status.textContent = '';
+      status.classList.remove('text-error');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        form.querySelector<HTMLElement>('[data-fields]')!.hidden = true;
+        button.hidden = true;
+        status.textContent = "Thanks, your message is on its way. I'll be in touch soon.";
+      } catch {
+        status.textContent = 'Something went wrong. Please try again or call +44 (0) 785 3455816.';
+        status.classList.add('text-error');
+        button.disabled = false;
+        if (label) label.textContent = original;
+      }
+    });
+  });
+</script>

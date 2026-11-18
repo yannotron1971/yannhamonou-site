@@ -1,0 +1,26 @@
+---
+/* Full-width poster band.
+   tone:  paper (default) · stone (statement / pricing bands) · signal (orange closing band, ink text) · ink
+   space: sm 48/64 · md 64/96 (default) · lg 80/128 · none
+   rule:  1px ink hairline on top, used between consecutive bands */
+interface Props {
+  tone?: 'paper' | 'stone' | 'signal' | 'ink';
+  space?: 'none' | 'sm' | 'md' | 'lg';
+  rule?: boolean;
+  class?: string;
+  id?: string;
+  [key: string]: unknown;
+}
+const { tone = 'paper', space = 'md', rule = false, class: className, ...rest } = Astro.props;
+const tones = {
+  paper: 'bg-paper text-ink',
+  stone: 'bg-stone text-ink',
+  signal: 'bg-signal text-ink',
+  ink: 'bg-ink text-paper',
+};
+const spaces = { none: '', sm: 'py-12 md:py-16', md: 'py-16 md:py-24', lg: 'py-20 md:py-32' };
+---
+<section
+  class:list={['relative w-full', tones[tone], spaces[space], rule && 'border-t border-ink', className]}
+  {...rest}
+><slot /></section>

@@ -1,0 +1,11 @@
+---
+/* Page-width wrapper: max 1360px, 20px / 32px / 40px side padding.
+   Every block on the site aligns to this. */
+interface Props {
+  class?: string;
+  as?: 'div' | 'header' | 'footer' | 'nav';
+  [key: string]: unknown;
+}
+const { class: className, as: Tag = 'div', ...rest } = Astro.props;
+---
+<Tag class:list={['mx-auto w-full max-w-[1360px] px-5 sm:px-8 lg:px-10', className]} {...rest}><slot /></Tag>

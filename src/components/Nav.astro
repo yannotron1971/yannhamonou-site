@@ -1,188 +1,92 @@
 ---
-const navLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Work', href: '/work' },
+/* Sticky header: wordmark left, mono links right with an orange underline on
+   hover, small orange "Book a free call" button. A hairline appears under it
+   once the page scrolls. Below lg a 44px toggle opens a full-height paper
+   panel with Archivo links split by hairlines and a full-width orange CTA.
+
+   Labels follow the Signal Poster build; the URLs stay the live site's, so no
+   route is renamed by the reskin. */
+import Logo from './ui/Logo.astro';
+import Button from './ui/Button.astro';
+import Container from './ui/Container.astro';
+import Icon from './ui/Icon.astro';
+
+const links = [
+  { label: 'Services', href: '/services' },
+  { label: 'Case studies', href: '/work' },
+  { label: 'About me', href: '/about' },
   { label: 'Journal', href: '/journal' },
+  { label: 'Contact', href: '/contact' },
 ];
 
-const services = [
-  { label: 'Positioning', href: '/services/positioning' },
-  { label: 'Marketing Strategy', href: '/services/strategy' },
-  { label: 'SEO & GEO', href: '/services/seo-aberdeen' },
-  { label: 'Organic & Paid Media', href: '/services/media' },
-  { label: 'Web & CRO', href: '/services/web' },
-  { label: 'Marketing Leadership', href: '/services/leadership' },
-];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
 ---
 
-<nav class="v4-nav" aria-label="Main navigation">
-  <div class="v4-wrap v4-nav__inner">
-    <!-- Brand -->
-    <a href="/" class="v4-nav__brand" aria-label="Yann Hamonou — Home">
-      <span class="v4-nav__brand-dot" aria-hidden="true"></span>
-      Yann.Hamonou
+<header id="site-header" class="sticky top-0 z-50 w-full border-b border-transparent bg-paper transition-colors duration-300 data-[scrolled=true]:border-ink data-[open=true]:border-ink">
+  <Container class="flex h-16 items-center justify-between gap-6 md:h-20">
+    <a href="/" aria-label="Yann Hamonou, home" class="relative z-10">
+      <Logo class="text-lg md:text-xl" />
     </a>
 
-    <!-- The bar carries the wordmark and the toggle. Everything else lives
-         in the index: repeating the same five destinations at 11px in the
-         corner while they are set at 104px behind the toggle says it twice
-         and makes the index decorative. -->
+    <nav aria-label="Main" class="hidden items-center gap-8 lg:flex">
+      {links.map((l) => (
+        <a href={l.href} class="nav-link text-ink" aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
+      ))}
+      <Button href="/contact" size="sm">Book a free call</Button>
+    </nav>
 
-    <!-- Right cluster -->
-    <div class="v4-nav__right">
-      <!-- Hamburger -->
-      <button class="v4-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
+    <button
+      type="button"
+      id="menu-toggle"
+      class="relative z-10 -mr-2 inline-flex size-11 items-center justify-center lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+    >
+      <span data-icon="open"><Icon name="menu" class="size-6" /></span>
+      <span data-icon="close" hidden><Icon name="x" class="size-6" /></span>
+    </button>
+  </Container>
 
-    <!-- The toggle needs JavaScript to open the index, so without it the bar
-         would offer no way through the site at all. This is the same
-         principle the CTA rule already stated: the page's next step does not
-         get to depend on JS. -->
-    <noscript>
-      <ul class="v4-nav__nojs" role="list">
-        <li><a href="/services">Services</a></li>
-        {navLinks.map(link => (
-          <li><a href={link.href}>{link.label}</a></li>
+  <div id="mobile-menu" hidden class="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto overscroll-contain bg-paper lg:hidden">
+    <Container class="flex min-h-full flex-col py-6">
+      <nav aria-label="Mobile" class="flex flex-col">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            class="border-b border-ink py-5 font-heading text-4xl font-extrabold tracking-tight"
+            aria-current={isCurrent(l.href) ? 'page' : undefined}
+          >{l.label}</a>
         ))}
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </noscript>
+      </nav>
+      <Button href="/contact" size="lg" arrow class="mt-8 w-full">Book a free consultation</Button>
+    </Container>
   </div>
-</nav>
-
-<!-- Mobile drawer -->
-<!-- Not aria-modal: the control that closes this is the bar's toggle, which
-     sits outside it, and nothing traps focus here. Claiming modality would
-     tell assistive tech to ignore the one button that gets you out. -->
-<div class="v4-drawer" id="mobile-drawer" role="dialog" aria-label="Navigation">
-  <button class="v4-drawer__close" id="drawer-close" aria-label="Close menu">✕</button>
-  <!-- Five index lines, one level deep. Each carries its label twice: the
-       second copy is the one that rolls up into place on hover, and it is
-       hidden from assistive tech so the item is announced once. -->
-  <ul class="v4-drawer__links" role="list">
-    <li>
-      <a href="/services" class="v4-roll">
-        <span class="v4-roll__a">Services</span>
-        <span class="v4-roll__b" aria-hidden="true">Services</span>
-      </a>
-    </li>
-    {navLinks.map(link => (
-      <li>
-        <a href={link.href} class="v4-roll">
-          <span class="v4-roll__a">{link.label}</span>
-          <span class="v4-roll__b" aria-hidden="true">{link.label}</span>
-        </a>
-      </li>
-    ))}
-    <li>
-      <a href="/contact" class="v4-roll">
-        <span class="v4-roll__a">Contact</span>
-        <span class="v4-roll__b" aria-hidden="true">Contact</span>
-      </a>
-    </li>
-  </ul>
-
-  <!-- The six services, kept one click away in the mono voice rather than
-       nested under the Services line: eleven rows at this scale do not fit a
-       laptop viewport, and a sub-list breaks the index's single breath. -->
-  <ul class="v4-drawer__rail" role="list" aria-label="Services">
-    {services.map(s => (
-      <li><a href={s.href}>{s.label}</a></li>
-    ))}
-  </ul>
-</div>
+</header>
 
 <script>
-  // Season/theme toggle removed on this concept — the Edge language has one
-  // ground, so there is nothing to switch between.
-  import { gsap } from 'gsap';
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const panel = document.getElementById('mobile-menu');
 
-  // Mobile drawer
-  const hamburger = document.getElementById('hamburger');
-  const drawer = document.getElementById('mobile-drawer');
-  const drawerClose = document.getElementById('drawer-close');
-  // The bar reacts to the drawer: it keeps the wordmark and the toggle, and
-  // drops the links and the CTA that the index is already showing at scale.
-  const nav = document.querySelector('.v4-nav');
+  const onScroll = () => header?.setAttribute('data-scrolled', String(window.scrollY > 8));
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* The index arrives line by line behind the drawer's own 0.25s fade.
-     Everything else about the roll is CSS; this is the one part that is not,
-     because the trigger is an event rather than a state a selector can see.
-
-     The rows are what move, never the spans inside them — those carry the
-     hover roll, and a tween writing transform on the same element would
-     fight it. clearProps hands them back untouched when the stagger lands.
-
-     Under reduced motion the callback never runs and the drawer simply
-     fades, which is what it did before any of this. */
-  const indexRows = () => drawer?.querySelectorAll('.v4-drawer__links > li, .v4-drawer__rail') ?? [];
-  const mm = gsap.matchMedia();
-  let staggerIn = null;
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    staggerIn = () => {
-      const rows = indexRows();
-      gsap.killTweensOf(rows);
-      gsap.fromTo(
-        rows,
-        { yPercent: 12, autoAlpha: 0 },
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          duration: 0.55,
-          ease: 'power3.out',
-          stagger: 0.055,
-          delay: 0.08,
-          clearProps: 'all',
-        }
-      );
-    };
-  });
-
-  function openDrawer() {
-    drawer?.classList.add('is-open');
-    hamburger?.classList.add('is-open');
-    hamburger?.setAttribute('aria-expanded', 'true');
-    hamburger?.setAttribute('aria-label', 'Close menu');
-    nav?.classList.add('is-drawer-open');
-    document.body.style.overflow = 'hidden';
-    staggerIn?.();
+  function setOpen(open: boolean) {
+    if (!toggle || !panel || !header) return;
+    panel.hidden = !open;
+    header.dataset.open = String(open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    toggle.querySelector<HTMLElement>('[data-icon="open"]')!.hidden = open;
+    toggle.querySelector<HTMLElement>('[data-icon="close"]')!.hidden = !open;
+    document.documentElement.style.overflow = open ? 'hidden' : '';
   }
 
-  function closeDrawer() {
-    /* Closing part-way through the stagger would leave the unplayed rows at
-       autoAlpha:0, and the next open would start from a half-blank index. */
-    gsap.killTweensOf(indexRows());
-    gsap.set(indexRows(), { clearProps: 'all' });
-    drawer?.classList.remove('is-open');
-    hamburger?.classList.remove('is-open');
-    hamburger?.setAttribute('aria-expanded', 'false');
-    hamburger?.setAttribute('aria-label', 'Open menu');
-    nav?.classList.remove('is-drawer-open');
-    document.body.style.overflow = '';
-  }
-
-  hamburger?.addEventListener('click', () => {
-    drawer?.classList.contains('is-open') ? closeDrawer() : openDrawer();
-  });
-  drawerClose?.addEventListener('click', closeDrawer);
-
-  // Close on drawer link click
-  drawer?.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', closeDrawer);
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeDrawer();
-  });
-
+  toggle?.addEventListener('click', () => setOpen(panel?.hidden ?? true));
+  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
 </script>
-
-<style>
-  /* The drawer's services rail is styled in global.css beside the index
-     links it belongs to — .v4-drawer__sub is gone with the nesting. */
-</style>

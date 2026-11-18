@@ -1,75 +1,79 @@
 ---
-/**
- * The footer, as an index rather than a link farm.
- *
- * It held four columns under PAGES / SERVICES / JOURNAL / CONSULT headings —
- * the generic shape, and listing the same five destinations the menu now sets
- * at 104px. The headings are gone: on a site whose way in is an index, the way
- * out should be one too, in the mono voice at the other end of the scale.
- *
- * Every link stays. This is a search consultant's site, /services/seo-aberdeen
- * and /digital-marketing-aberdeen are landing pages that earn from internal
- * links, and stripping the footer to a reference site's two corners would be
- * design purity paid for out of the client's own product.
- */
+/* Footer on paper: wordmark and service area, then services, site links and
+   contact in columns split by vertical ink hairlines, then the legal row.
+
+   Every internal link from the Edge footer stays. /services/seo-aberdeen and
+   /digital-marketing-aberdeen are landing pages that earn from internal links,
+   and dropping them for a tidier footer would cost the site's own rankings. */
+import Logo from './ui/Logo.astro';
+import Container from './ui/Container.astro';
+import Text from './ui/Text.astro';
+import Icon from './ui/Icon.astro';
+
 const year = new Date().getFullYear();
 
-/* The site's order, not alphabetical: the five destinations the menu carries,
-   then the six services, then the two that hang off them. */
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/work', label: 'Work' },
-  { href: '/journal', label: 'Journal' },
-  { href: '/contact', label: 'Contact' },
+const services = [
   { href: '/services/positioning', label: 'Positioning' },
-  { href: '/services/strategy', label: 'Strategy' },
-  { href: '/services/seo-aberdeen', label: 'SEO Aberdeen & GEO' },
-  { href: '/services/media', label: 'Organic & Paid Media' },
-  { href: '/services/web', label: 'Web & CRO' },
-  { href: '/services/leadership', label: 'Marketing Leadership' },
-  { href: '/digital-marketing-aberdeen', label: 'Digital Marketing Aberdeen' },
+  { href: '/services/strategy', label: 'Marketing strategy' },
+  { href: '/services/seo-aberdeen', label: 'SEO Aberdeen and GEO' },
+  { href: '/services/media', label: 'Organic and paid media' },
+  { href: '/services/web', label: 'Web and CRO' },
+  { href: '/services/leadership', label: 'Marketing leadership' },
+];
+
+const site = [
+  { href: '/work', label: 'Case studies' },
+  { href: '/about', label: 'About me' },
+  { href: '/journal', label: 'Journal' },
+  { href: '/digital-marketing-aberdeen', label: 'Digital marketing Aberdeen' },
   { href: '/contact', label: 'Free 30-min review' },
+  { href: '/privacy', label: 'Privacy policy' },
 ];
 ---
 
-<footer class="v4-footer">
-  <div class="v4-wrap">
-    <div class="edge-footer__top">
-      <div>
-        <div class="v4-footer__brand">Yann.Hamonou</div>
-        <p class="v4-footer__tagline">
-          B2B marketing consultant based in Stonehaven, Scotland. Helping SMEs
-          get found, get known, and grow.
-        </p>
-      </div>
+<footer class="border-t border-ink bg-paper">
+  <Container class="grid gap-10 py-14 md:grid-cols-12 md:gap-0 md:py-16">
+    <div class="md:col-span-4 md:pr-8">
+      <a href="/" aria-label="Yann Hamonou, home"><Logo /></a>
+      <Text size="sm" class="mt-4 max-w-xs">
+        B2B marketing consultant based in Stonehaven, serving SMEs in Aberdeen, Aberdeenshire and Scotland.
+      </Text>
+    </div>
 
-      <!-- Corner-anchored, the way the inner-page heroes carry their facts.
-           The hover was two inline onmouseover/onmouseout handlers writing
-           style strings; it is a selector now, like the work rows. -->
-      <ul class="edge-footer__contact" role="list">
-        <li><a href="mailto:yanndaman@googlemail.com">Email ↗</a></li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/yannhamonou"
-            target="_blank"
-            rel="noopener noreferrer">LinkedIn ↗</a>
-        </li>
+    <div class="md:col-span-3 md:border-l md:border-ink md:px-8">
+      <Text size="sm" tone="secondary" class="mb-4">Services</Text>
+      <ul class="space-y-2">
+        {services.map((l) => <li><a href={l.href} class="nav-link text-ink">{l.label}</a></li>)}
       </ul>
     </div>
 
-    <nav class="edge-footer__index" aria-label="Footer">
-      <ul role="list">
-        {links.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+    <div class="md:col-span-2 md:border-l md:border-ink md:px-8">
+      <Text size="sm" tone="secondary" class="mb-4">Quick links</Text>
+      <ul class="space-y-2">
+        {site.map((l) => <li><a href={l.href} class="nav-link text-ink">{l.label}</a></li>)}
       </ul>
-    </nav>
-
-    <div class="v4-footer__legal">
-      <span class="v4-footer__copy">© {year} Yann Hamonou</span>
-      <span class="v4-footer__copy edge-footer__where">
-        Stonehaven · Aberdeenshire · Scotland
-      </span>
-      <a href="/privacy" class="v4-footer__copy">Privacy</a>
     </div>
-  </div>
+
+    <div class="md:col-span-3 md:border-l md:border-ink md:pl-8">
+      <Text size="sm" tone="secondary" class="mb-4">Get in touch</Text>
+      <Text size="sm">Based in Stonehaven, Scotland</Text>
+      <a href="tel:+447853455816" class="nav-link mt-2 inline-block text-ink">+44 (0) 785 3455816</a>
+      <br />
+      <a href="mailto:yanndaman@googlemail.com" class="nav-link mt-1 inline-block text-ink">Email me</a>
+      <a
+        href="https://www.linkedin.com/in/yannhamonou"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Yann Hamonou on LinkedIn"
+        class="mt-5 flex size-10 items-center justify-center border border-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
+      >
+        <Icon name="linkedin" class="size-4" />
+      </a>
+    </div>
+  </Container>
+
+  <Container class="flex flex-col gap-2 border-t border-ink py-6 sm:flex-row sm:justify-between">
+    <Text size="sm" tone="secondary">© {year} Yann Hamonou. All rights reserved.</Text>
+    <Text size="sm" tone="secondary">Stonehaven · Aberdeenshire · Scotland</Text>
+  </Container>
 </footer>

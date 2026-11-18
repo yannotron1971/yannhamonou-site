@@ -1,0 +1,23 @@
+---
+/* The signature crop: a black-and-white photo masked into a circle.
+   Width comes from the placement class. Pair it with a flat orange disc. */
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  imgClass?: string;
+  loading?: 'lazy' | 'eager';
+}
+const { src, alt, class: className, imgClass, loading = 'lazy' } = Astro.props;
+---
+<div class:list={['relative aspect-square overflow-hidden rounded-full', className]}>
+  <img
+    src={src}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    width="600"
+    height="600"
+    class:list={['absolute inset-0 h-full w-full object-cover grayscale', imgClass]}
+  />
+</div>

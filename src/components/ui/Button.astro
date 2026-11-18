@@ -1,0 +1,41 @@
+---
+/* Sharp, mono-label button. Renders <a> when href is set, else <button>.
+   variant: primary (orange, ink text; main CTA) · dark (ink) · light (paper, for the orange band) · outline
+   size:    sm 40px · md 48px (default) · lg 56px
+   arrow:   trailing arrow that nudges right on hover. Reserve for the page's main call to action. */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'dark' | 'light' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  arrow?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, variant = 'primary', size = 'md', arrow = false, type = 'button', class: className, ...rest } = Astro.props;
+const base =
+  'group inline-flex items-center justify-center gap-3 border font-body font-medium tracking-[-0.01em] leading-none whitespace-nowrap transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal disabled:opacity-60 disabled:pointer-events-none';
+const variants = {
+  primary: 'bg-signal text-ink border-signal hover:bg-ink hover:text-paper hover:border-ink',
+  dark: 'bg-ink text-paper border-ink hover:bg-paper hover:text-ink',
+  light: 'bg-paper text-ink border-paper hover:bg-ink hover:text-paper hover:border-ink',
+  outline: 'bg-transparent text-ink border-ink hover:bg-ink hover:text-paper',
+};
+const sizes = { sm: 'h-10 px-4 text-sm', md: 'h-12 px-6 text-base', lg: 'h-14 px-7 text-base' };
+const cls = [base, variants[variant], sizes[size], className];
+---
+{href ? (
+  <a href={href} class:list={cls} {...rest}>
+    <span class="inline-flex items-center gap-2"><slot /></span>
+    {arrow && (
+      <svg aria-hidden="true" class="size-4 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+    )}
+  </a>
+) : (
+  <button type={type} class:list={cls} {...rest}>
+    <span class="inline-flex items-center gap-2"><slot /></span>
+    {arrow && (
+      <svg aria-hidden="true" class="size-4 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+    )}
+  </button>
+)}

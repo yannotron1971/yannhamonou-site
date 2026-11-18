@@ -1,0 +1,18 @@
+---
+/* Mono uppercase caption with a 24×2px orange dash above it.
+   For real facts (place, terms, short lists), never as a generic section eyebrow.
+   align="right" moves the dash to the right edge. */
+interface Props {
+  tone?: 'primary' | 'inverse' | 'onAccent';
+  dash?: boolean;
+  align?: 'left' | 'right';
+  class?: string;
+  [key: string]: unknown;
+}
+const { tone = 'primary', dash = true, align = 'left', class: className, ...rest } = Astro.props;
+const tones = { primary: 'text-ink', inverse: 'text-paper', onAccent: 'text-ink' };
+---
+<div class:list={['t-eyebrow', tones[tone], align === 'right' && 'text-right', className]} {...rest}>
+  {dash && <span aria-hidden="true" class:list={['mb-3 block h-0.5 w-6', tone === 'onAccent' ? 'bg-ink' : 'bg-signal', align === 'right' && 'ml-auto']} />}
+  <slot />
+</div>

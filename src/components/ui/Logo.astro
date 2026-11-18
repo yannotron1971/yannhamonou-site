@@ -1,0 +1,16 @@
+---
+/* Wordmark: "Yann Hamonou" in Archivo extra-bold with an orange full stop.
+   tone: ink (on paper) · paper (on ink) · onAccent (ink dot on orange) */
+interface Props {
+  tone?: 'ink' | 'paper' | 'onAccent';
+  class?: string;
+}
+const { tone = 'ink', class: className } = Astro.props;
+---
+<span
+  class:list={[
+    'font-heading text-xl font-extrabold tracking-[-0.04em] [font-stretch:105%] whitespace-nowrap',
+    tone === 'paper' ? 'text-paper' : 'text-ink',
+    className,
+  ]}
+>Yann Hamonou<span aria-hidden="true" class={tone === 'onAccent' ? 'text-ink' : 'text-signal'}>.</span></span>

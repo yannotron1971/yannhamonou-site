@@ -1,0 +1,16 @@
+---
+/* Body copy in JetBrains Mono. Keep paragraphs near max-w-xl: mono runs wide.
+   size: lg (lead) · base (default) · sm
+   tone: primary · secondary (#4a4a46) · inverse · onAccent */
+interface Props {
+  as?: 'p' | 'span' | 'div' | 'li';
+  size?: 'lg' | 'base' | 'sm';
+  tone?: 'primary' | 'secondary' | 'inverse' | 'onAccent';
+  class?: string;
+  [key: string]: unknown;
+}
+const { as: Tag = 'p', size = 'base', tone = 'primary', class: className, ...rest } = Astro.props;
+const sizes = { lg: 'text-lg', base: 'text-base', sm: 'text-sm' };
+const tones = { primary: 'text-ink', secondary: 'text-muted', inverse: 'text-paper', onAccent: 'text-ink' };
+---
+<Tag class:list={['t-body', sizes[size], tones[tone], className]} {...rest}><slot /></Tag>
