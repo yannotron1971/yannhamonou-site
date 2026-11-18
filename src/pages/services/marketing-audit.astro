@@ -1,0 +1,303 @@
+---
+/* Marketing audit page. Copy from marketing-audit-page-copy-2026-11-05.md.
+
+   Draft until "Published" is ticked in Keystatic (Marketing audit page):
+   until then it is noindex, absent from the sitemap and llms.txt, and nothing
+   links to it. Price, VAT note and credit window come from the same
+   singleton, so the open questions are answered in one place. */
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import Button from '../../components/ui/Button.astro';
+import Tag from '../../components/ui/Tag.astro';
+import Icon from '../../components/ui/Icon.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { getMarketingAudit } from '../../lib/keystatic';
+import { serviceImages } from '../../data/index';
+
+const audit = await getMarketingAudit();
+const priceLine = `${audit.price}${audit.vatNote ? ` ${audit.vatNote}` : ''}`;
+const credit = `If you start a monthly retainer with me within ${audit.creditDays} days of the readout, I credit the full amount against your fees.`;
+const pageUrl = new URL('/services/marketing-audit', Astro.site).href;
+
+const areas = [
+  {
+    title: 'Positioning and message',
+    body: 'I compare your website and sales materials with three named competitors, then speak to two of your recent customers. You find out whether buyers can tell who you serve and why they should pick you.',
+  },
+  {
+    title: 'Website conversion',
+    body: 'I go through your five main landing pages, your calls to action and your forms, and I send a test enquiry on mobile and desktop. You see where visitors drop out.',
+  },
+  {
+    title: 'Measurement',
+    body: "I check your GA4 key events and Google Ads conversions, and whether you can trace an enquiry back to its source. If your numbers can't be trusted, you need to know that before you make decisions from them.",
+  },
+  {
+    title: 'Search and AI visibility',
+    body: 'I review your Search Console data, run a technical crawl and check your Google Business Profile. I also look at what AI answers say for 5 to 10 of your commercial queries.',
+  },
+  {
+    title: 'Enquiries and sales follow-up',
+    body: 'I trace your last 30 enquiries from the form to won or lost, and I call three to five prospects you lost. If you run Google Ads, I look for wasted spend too.',
+  },
+];
+
+const deliverables = [
+  { title: 'Findings report', body: '10 to 15 pages, with the evidence behind each finding.' },
+  { title: 'Ranked fix list', body: 'the top 10 fixes, each with the effort, the likely cost and who should do it.' },
+  { title: '90-day plan', body: 'what to do in what order, including what to stop.' },
+  { title: 'Readout', body: 'a 60-minute session with your decision-makers.' },
+  { title: 'Follow-up call', body: '30 minutes after 30 days to check progress.' },
+];
+
+const timeline = [
+  { title: 'Day 1', body: 'You give me access to your accounts, and we meet for a 60-minute kick-off.' },
+  { title: 'Days 2 to 8', body: 'I carry out the review and the customer calls.' },
+  { title: 'Days 9 and 10', body: 'I finish the report and take you through it.' },
+];
+
+const faq = [
+  {
+    q: 'How much does a marketing audit cost?',
+    a: `${priceLine}, as a fixed price. I credit the full amount if you start a monthly retainer within ${audit.creditDays} days of the readout.`,
+  },
+  {
+    q: 'How much of my time will it take?',
+    a: 'Plan on about three hours across two weeks: the kick-off, the readout and 30 minutes with whoever handles your enquiries. Someone also needs to set up account access and export your enquiry records.',
+  },
+  {
+    q: 'How is this different from your SEO audit?',
+    a: 'My SEO and GEO audits start at £500 and cover search performance and readiness for AI answers. The marketing audit includes search, then adds positioning, website conversion, measurement and what happens to enquiries once they reach you.',
+  },
+  {
+    q: 'What if the problem is in my sales process?',
+    a: "I'll say so in the report and show you the evidence, down to the stage where good-fit enquiries stopped. Some fixes may need a sales trainer or a change in how your team works, and the fix list names who should do each one.",
+  },
+  {
+    q: 'Do I need a CRM?',
+    a: 'No. I can work from your inbox and form notifications, with help from whoever handles your enquiries.',
+  },
+  {
+    q: 'Do I have to work with you afterwards?',
+    a: 'No. The report and plan are yours to use however you like.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': `${pageUrl}#service`,
+      name: 'Marketing Audit',
+      serviceType: 'Marketing audit',
+      description: 'A two-week review of positioning, website conversion, measurement, search visibility and enquiry follow-up for B2B firms.',
+      url: pageUrl,
+      provider: { '@id': new URL('/#person', Astro.site).href },
+      areaServed: [
+        { '@type': 'City', name: 'Aberdeen' },
+        { '@type': 'AdministrativeArea', name: 'Scotland' },
+      ],
+      offers: { '@type': 'Offer', price: audit.priceValue, priceCurrency: 'GBP', url: pageUrl },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+  ],
+};
+---
+
+<Layout
+  title="Marketing Audit for B2B Firms in Aberdeen | Yann Hamonou"
+  description={`A two-week marketing audit for B2B firms in Aberdeen and Scotland. I trace your enquiries from first click to won or lost. Fixed price: ${priceLine}.`}
+  noindex={!audit.published}
+  breadcrumbs={[
+    { name: 'Home', item: `${Astro.site}` },
+    { name: 'Services', item: `${Astro.site}services` },
+    { name: 'Marketing audit', item: pageUrl },
+  ]}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  {!audit.published && (
+    <div class="border-b border-ink bg-ink py-2 text-center">
+      <Text size="sm" tone="inverse">Draft: hidden from search engines, the sitemap and site navigation.</Text>
+    </div>
+  )}
+
+  <PageHero
+    label="Marketing audit"
+    title="Marketing audit for B2B firms in Aberdeen and Scotland"
+    size="lg"
+    lede="Find out why your marketing isn't bringing in enough qualified enquiries, and what to fix first."
+    image={serviceImages.web}
+  >
+    <div class="mt-8 flex flex-wrap items-center gap-6">
+      <Button href="#contact" size="lg" arrow>Ask about an audit</Button>
+      <Text class="font-semibold">Two weeks. {priceLine} fixed price.</Text>
+    </div>
+  </PageHero>
+
+  <!-- ═══ INTRO ═══ -->
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
+      <div class="space-y-5 lg:col-span-7" data-m="fade">
+        <Text size="lg">My marketing audit is a two-week review of how your business wins enquiries, from the first search to the signed order. You get a report with the evidence, a ranked list of 10 fixes, a 90-day plan and a 60-minute session to go through them with your decision-makers.</Text>
+        <Text size="lg">I follow your enquiries past the contact form. A website can do its job and you can still lose the sale to a shared inbox or a slow reply, so I check both.</Text>
+      </div>
+      <Tag class="lg:col-span-3 lg:col-start-10" data-m="fade">
+        <span class="block">Two weeks</span>
+        <span class="block">{priceLine} fixed</span>
+        <span class="block">10 ranked fixes</span>
+      </Tag>
+    </Container>
+  </section>
+
+  <!-- ═══ WHAT I REVIEW: numbered hairline rows ═══ -->
+  <section class="border-t border-ink bg-paper">
+    <Container data-group class="py-16 md:py-24">
+      <Heading size="lg" data-m="split">What I review</Heading>
+    </Container>
+    <ol>
+      {areas.map((a, i) => (
+        <li class="border-t border-ink">
+          <Container data-group class="grid grid-cols-[auto_1fr] gap-x-5 gap-y-3 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
+            <span aria-hidden="true" data-m="fade" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div data-m="rise" class="md:col-span-8">
+              <Heading as="h3" size="md">{a.title}</Heading>
+              <Text class="mt-3 max-w-xl">{a.body}</Text>
+            </div>
+          </Container>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ═══ MARKETING OR SALES: stone statement band ═══ -->
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group>
+      <Heading size="xl" data-m="split" class="max-w-[18ch]">How I tell a marketing problem from a sales problem</Heading>
+      <div class="mt-10 grid gap-8 md:mt-14 lg:grid-cols-12 lg:gap-6">
+        <div class="space-y-4 lg:col-span-7" data-m="fade">
+          <Text size="lg">I rate each enquiry for fit before I look at how it ended. If most of your enquiries were a poor fit, your targeting or message needs work, and faster follow-up won't change that.</Text>
+          <Text size="lg">If good-fit enquiries went quiet, the leak sits after the form. I then look at where they stopped: routing, reply speed, the first conversation or the proposal. If marketing isn't your main problem, I'll say so in the report.</Text>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9" data-m="fade">
+          <Text class="border-t border-ink pt-6">With 30 enquiries, percentages swing too much to mean anything, so I report counts, such as 9 of 14 good-fit enquiries getting a single reply.</Text>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ═══ WHAT YOU RECEIVE ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Heading size="lg" data-m="split">What you receive</Heading>
+      </div>
+      <div class="lg:col-span-7 lg:col-start-6">
+        <ul>
+          {deliverables.map((d) => (
+            <li data-m="rise" class="grid gap-2 border-t border-ink py-6 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-8">
+              <Heading as="h3" size="sm">{d.title}</Heading>
+              <Text>{d.body.charAt(0).toUpperCase() + d.body.slice(1)}</Text>
+            </li>
+          ))}
+        </ul>
+        <Text class="mt-8 max-w-xl" data-m="fade">
+          You can hand the fix list to your own team, to me or to another supplier. The <a href="/work/arnlea" class="text-link">Arnlea case study</a> shows how I set up measurement and a 90-day roadmap on a live project.
+        </Text>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ═══ TIMELINE: three columns, orange numbered circles ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Heading size="lg" data-m="split" class="max-w-[18ch]">How the two weeks run</Heading>
+      <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
+        {timeline.map((t, i) => (
+          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
+            <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{i + 1}</span>
+            <Heading as="h3" size="md" class="mt-6">{t.title}</Heading>
+            <Text class="mt-3 max-w-xs">{t.body}</Text>
+          </li>
+        ))}
+      </ol>
+      <Text tone="secondary" class="mt-12 max-w-2xl" data-m="fade">
+        I count working days from the day I have access. I'll need your GA4, Search Console, Google Business Profile and Google Ads access, a CRM or inbox export, and 30 minutes with whoever handles your enquiries.
+      </Text>
+    </Container>
+  </section>
+
+  <!-- ═══ WHO IT'S FOR ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="lg" data-m="split">Who the audit is for</Heading>
+        <Text size="lg" class="mt-6 max-w-xl" data-m="fade">
+          The audit suits B2B firms with 5 to 50 staff, a live website and at least six months of analytics or enquiry records. If you have less than that, I'll tell you and suggest a smaller piece of work.
+        </Text>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-m="rise">
+        <div class="border-t border-ink pt-6">
+          <Heading as="h3" size="sm">What isn't included</Heading>
+          <Text class="mt-4">I don't implement the fixes as part of the audit. A full positioning workshop, full keyword research and a content plan are separate pieces of work.</Text>
+          <Text class="mt-4">I don't guarantee leads or rankings, because I can't control your market, your pricing or your sales follow-up.</Text>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ═══ PRICE: stone band, poster-size ═══ -->
+  <section id="price" class="scroll-mt-20 border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-8">
+        <Heading size="xl" data-m="split">{priceLine}, fixed</Heading>
+        <Text size="lg" class="mt-6 max-w-lg" data-m="fade">{credit}</Text>
+      </div>
+      <Tag class="lg:col-span-3 lg:col-start-10" data-m="fade">
+        <span class="block">Two weeks</span>
+        <span class="block">Report and 90-day plan</span>
+        <span class="block">Follow-up after 30 days</span>
+      </Tag>
+    </Container>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Heading size="lg" data-m="split">Questions about the audit</Heading>
+      </div>
+      <dl class="lg:col-span-7 lg:col-start-6">
+        {faq.map((f) => (
+          <div data-m="rise" class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
+            <dt><Heading as="h3" size="sm">{f.q}</Heading></dt>
+            <dd><Text>{f.a}</Text></dd>
+          </div>
+        ))}
+      </dl>
+    </Container>
+  </section>
+
+  <!-- ═══ CLOSING: orange band, form on paper ═══ -->
+  <section id="contact" class="scroll-mt-20 bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[12ch]">Talk to me about your enquiries</Heading>
+        <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
+        <Text size="lg" tone="onAccent" class="mt-8 max-w-md lg:mt-4" data-m="fade">
+          Tell me what's happening with your enquiries and I'll tell you whether an audit is the right next step.
+        </Text>
+      </div>
+      <ContactForm id="audit-contact" buttonLabel="Ask about an audit" class="lg:col-span-5 lg:col-start-8 lg:self-start" data-m="rise" />
+    </Container>
+  </section>
+</Layout>

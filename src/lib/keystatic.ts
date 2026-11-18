@@ -116,3 +116,16 @@ export async function getCases() {
 
 export type Service = Awaited<ReturnType<typeof getServices>>[number];
 export type Case = Awaited<ReturnType<typeof getCases>>[number];
+
+/* ── Marketing audit page ──
+   The switch and the still-open terms for /services/marketing-audit. */
+export async function getMarketingAudit() {
+  const a = await reader.singletons.marketingAudit.read();
+  return {
+    published: a?.published ?? false,
+    price: a?.price || '£1,500',
+    priceValue: a?.priceValue || '1500',
+    vatNote: a?.vatNote?.trim() || '',
+    creditDays: a?.creditDays || '30',
+  };
+}

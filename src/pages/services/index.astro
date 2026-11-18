@@ -10,10 +10,12 @@ import Text from '../../components/ui/Text.astro';
 import Button from '../../components/ui/Button.astro';
 import CircleImage from '../../components/ui/CircleImage.astro';
 import Icon from '../../components/ui/Icon.astro';
-import { getServices } from '../../lib/keystatic';
+import { getServices, getMarketingAudit } from '../../lib/keystatic';
 import { serviceImages } from '../../data/index';
 
 const services = await getServices();
+// Listed here only once "Published" is ticked in Keystatic.
+const audit = await getMarketingAudit();
 ---
 
 <Layout
@@ -56,6 +58,26 @@ const services = await getServices();
       })}
     </ol>
   </section>
+
+  {audit.published && (
+    <!-- ═══ MARKETING AUDIT: fixed-price entry point, stone band ═══ -->
+    <section class="border-t border-ink bg-stone">
+      <a href="/services/marketing-audit" class="group block">
+        <Container data-group class="grid gap-6 py-14 md:grid-cols-12 md:items-end md:py-20">
+          <div class="md:col-span-7">
+            <Text size="sm" tone="secondary" data-m="fade">Not sure what to fix first?</Text>
+            <Heading as="h2" size="lg" class="mt-4 decoration-signal decoration-2 underline-offset-8 group-hover:underline" data-m="split">Marketing audit</Heading>
+            <Text size="lg" class="mt-6 max-w-xl" data-m="fade">
+              A two-week review of positioning, website conversion, measurement, search visibility and what happens to your enquiries. {audit.price}{audit.vatNote ? ` ${audit.vatNote}` : ''}, fixed.
+            </Text>
+          </div>
+          <div class="md:col-span-4 md:col-start-9 md:justify-self-end" data-m="fade">
+            <span class="text-link text-sm">See what the marketing audit covers</span>
+          </div>
+        </Container>
+      </a>
+    </section>
+  )}
 
   <!-- ═══ CLOSING: full orange band, thin arrow ═══ -->
   <section class="bg-signal py-20 text-ink md:py-28">

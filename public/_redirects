@@ -34,6 +34,8 @@
 /marketing-services/seo-aberdeen                          /services/seo-aberdeen   301
 /marketing-services/seo-agency-aberdeen                   /services/seo-aberdeen   301
 /marketing-services/digital-marketing                     /digital-marketing-aberdeen 301
+# The audit page's planned Webflow URL, in case it was shared before the move.
+/marketing-services/marketing-audit                       /services/marketing-audit 301
 /marketing-services/*                                     /services                301
 # Indexed without the trailing segment, so the wildcard above never sees them.
 /marketing-services                                       /services                301

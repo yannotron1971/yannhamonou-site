@@ -5,6 +5,14 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import reviewNotes from './integrations/review-notes.mjs';
+import { readFileSync } from 'node:fs';
+
+// The marketing audit page stays out of the sitemap until "Published" is
+// ticked in Keystatic (content/marketing-audit/index.yaml).
+const auditPublished = (() => {
+  try { return /^published:\s*true\s*$/m.test(readFileSync(new URL('./content/marketing-audit/index.yaml', import.meta.url), 'utf-8')); }
+  catch { return false; }
+})();
 
 export default defineConfig({
   adapter: cloudflare(),
@@ -14,7 +22,9 @@ export default defineConfig({
   // no page component on the site uses it.
   integrations: [react(), keystatic(), sitemap({
     // The concept pages are noindex; a sitemap should not list them.
-    filter: (page) => !/\/work\/web\/(sparehand|keelson|emberline)/.test(page),
+    filter: (page) =>
+      !/\/work\/web\/(sparehand|keelson|emberline)/.test(page) &&
+      (auditPublished || !/\/services\/marketing-audit\/?$/.test(page)),
   }),
   // Click-to-comment review notes. Dev server only; adds nothing to builds.
   reviewNotes()],

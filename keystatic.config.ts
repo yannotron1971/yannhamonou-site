@@ -249,6 +249,26 @@ export default config({
       },
     }),
 
+    /* The marketing audit page (src/pages/services/marketing-audit.astro).
+       The copy lives in the template; what is still being decided lives here.
+       While "published" is off the page is noindex, left out of the sitemap
+       and llms.txt, and not linked from anywhere. */
+    marketingAudit: singleton({
+      label: 'Marketing audit page',
+      path: 'content/marketing-audit/',
+      schema: {
+        published: fields.checkbox({
+          label: 'Published',
+          description: 'Off: the page works at its URL but search engines, the sitemap, llms.txt and the services list ignore it.',
+          defaultValue: false,
+        }),
+        price: fields.text({ label: 'Price as shown, e.g. £1,500' }),
+        priceValue: fields.text({ label: 'Price as a number for schema, e.g. 1500' }),
+        vatNote: fields.text({ label: 'VAT note after the price, e.g. plus VAT (leave empty for none)' }),
+        creditDays: fields.text({ label: 'Days after the readout to credit the fee against a retainer' }),
+      },
+    }),
+
     settings: singleton({
       label: 'Site Settings',
       /* The trailing slash is load-bearing. Without it Keystatic looks for a

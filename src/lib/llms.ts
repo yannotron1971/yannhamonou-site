@@ -9,21 +9,25 @@
    Google has said its AI features use the normal search index, not llms.txt,
    so this is a low-cost hedge for other assistants and agents, not an SEO
    lever. Facts only: no claims that are not already on the site. */
-import { reader, getSettings, getHomepage, getServices, getCases } from './keystatic';
+import { reader, getSettings, getHomepage, getServices, getCases, getMarketingAudit } from './keystatic';
 
 const clean = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
 const paras = (s: string) => s.split(/\r?\n\s*\r?\n/).map(clean).filter(Boolean);
 
 async function load(site: URL) {
   const url = (path: string) => new URL(path, site).href;
-  const [home, settings, services, cases, posts] = await Promise.all([
-    getHomepage(), getSettings(), getServices(), getCases(), reader.collections.posts.all(),
+  const [home, settings, services, cases, posts, audit] = await Promise.all([
+    getHomepage(), getSettings(), getServices(), getCases(), reader.collections.posts.all(), getMarketingAudit(),
   ]);
   const recent = posts
     .filter((p) => p.entry.publishedDate)
     .sort((a, b) => ((b.entry.publishedDate ?? '') > (a.entry.publishedDate ?? '') ? 1 : -1));
-  return { url, home, settings, services, cases, posts: recent };
+  return { url, home, settings, services, cases, posts: recent, audit };
 }
+
+/* Only listed once the page is published in Keystatic. */
+const auditLine = (d: Awaited<ReturnType<typeof load>>) =>
+  `- [Marketing audit](${d.url('/services/marketing-audit')}): A two-week review of positioning, website conversion, measurement, search visibility and enquiry follow-up for B2B firms. Fixed price ${d.audit.price}${d.audit.vatNote ? ` ${d.audit.vatNote}` : ''}.`;
 
 const SUMMARY =
   'Yann Hamonou is an independent B2B marketing consultant based in Stonehaven, Aberdeenshire, ' +
@@ -52,6 +56,7 @@ export async function buildLlmsTxt(site: URL) {
 
   out.push('## Services', '');
   for (const s of d.services) out.push(`- [${clean(s.title)}](${d.url(`/services/${s.slug}`)}): ${clean(s.desc)}`);
+  if (d.audit.published) out.push(auditLine(d));
   out.push(`- [Digital marketing Aberdeen](${d.url('/digital-marketing-aberdeen')}): How the services fit together for Aberdeen B2B companies.`);
   out.push('');
 
@@ -103,6 +108,10 @@ export async function buildLlmsFullTxt(site: URL) {
       out.push('');
     }
     for (const f of s.faq) out.push(`**${clean(f.q)}** ${clean(f.a)}`, '');
+  }
+
+  if (d.audit.published) {
+    out.push('### Marketing audit', '', auditLine(d).replace(/^- /, ''), '');
   }
 
   out.push('## Case studies', '');
