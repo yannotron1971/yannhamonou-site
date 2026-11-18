@@ -4,6 +4,7 @@ import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import reviewNotes from './integrations/review-notes.mjs';
 
 export default defineConfig({
   adapter: cloudflare(),
@@ -14,7 +15,9 @@ export default defineConfig({
   integrations: [react(), keystatic(), sitemap({
     // The concept pages are noindex; a sitemap should not list them.
     filter: (page) => !/\/work\/web\/(sparehand|keelson|emberline)/.test(page),
-  })],
+  }),
+  // Click-to-comment review notes. Dev server only; adds nothing to builds.
+  reviewNotes()],
   site: 'https://yannhamonou-site.pages.dev',
   vite: {
     plugins: [tailwindcss()],
