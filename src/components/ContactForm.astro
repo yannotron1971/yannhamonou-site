@@ -21,7 +21,10 @@ const { buttonLabel = 'Request my free review', id = 'contact-form', class: clas
   class:list={['bg-paper p-6 text-ink sm:p-8', className]}
   {...rest}
 >
-  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px opacity-0" />
+  <!-- Honeypot. display:none, as Formspree recommends: browsers never autofill
+       a display:none field. An off-screen field DOES get autofilled, which
+       filled _gotcha on a real enquiry and sent it to Formspree spam. -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
   <div class="grid gap-5 sm:grid-cols-2" data-fields>
     <div>
       <label class="field-label" for={`${id}-name`}>Name</label>
