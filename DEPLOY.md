@@ -46,7 +46,10 @@ already done.
    `.env.example`; values come from the GitHub App backing Keystatic.
 
 5. **Deploy to a preview URL and check it.** Contact form end to end (it posts
-   to Formspree and nobody has ever confirmed an email arrives), and the site on
+   to Formspree form xkoabzbd on Yann's personal Formspree account; delivery
+   confirmed 18 Nov 2026 after the _gotcha honeypot was changed to
+   display:none, because browser autofill had been filling it and Formspree
+   filed real enquiries as spam), and the site on
    a real phone — the WebGL field, the full-height sections and the sticky hero
    all behave differently there.
 

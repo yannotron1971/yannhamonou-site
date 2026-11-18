@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0A0A0A"/>
-  <circle cx="16" cy="16" r="4" fill="#E6DCC4"/>
+  <!-- Signal Poster mark: a paper "Y" and the orange full stop of the
+       Yann.Hamonou wordmark, on ink. Drawn as shapes so no font is needed. -->
+  <rect width="32" height="32" fill="#111111"/>
+  <path d="M3 5h6.6l3.9 7.2L17.4 5H24l-7.2 12v10h-6.6V17z" fill="#fafaf7"/>
+  <circle cx="26.6" cy="24" r="3.2" fill="#ff4f1a"/>
 </svg>
