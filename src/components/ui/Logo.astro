@@ -1,5 +1,6 @@
 ---
-/* Wordmark: "Yann Hamonou" in Archivo extra-bold with an orange full stop.
+/* Wordmark: "Yann.Hamonou" in Archivo extra-bold, the orange dot between the
+   first and last name. The accessible name stays "Yann Hamonou".
    tone: ink (on paper) · paper (on ink) · onAccent (ink dot on orange) */
 interface Props {
   tone?: 'ink' | 'paper' | 'onAccent';
@@ -13,4 +14,4 @@ const { tone = 'ink', class: className } = Astro.props;
     tone === 'paper' ? 'text-paper' : 'text-ink',
     className,
   ]}
->Yann Hamonou<span aria-hidden="true" class={tone === 'onAccent' ? 'text-ink' : 'text-signal'}>.</span></span>
+>Yann<span aria-hidden="true" class={tone === 'onAccent' ? 'text-ink' : 'text-signal'}>.</span><span class="sr-only">{' '}</span>Hamonou</span>
