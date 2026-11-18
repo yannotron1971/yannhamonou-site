@@ -1,8 +1,16 @@
 ---
+/* Service detail page, Signal Poster layout. Intro and deliverables, the
+   three-step process, proof, FAQ, the other services, orange closing band.
+   Copy comes from the Keystatic services collection. */
 import Layout from '../../layouts/Layout.astro';
-import EdgeField from '../../components/EdgeField.astro';
+import PageHero from '../../components/PageHero.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
 import { getServices } from '../../lib/keystatic';
-import ClientLogo from '../../components/ClientLogo.astro';
+import { serviceImages } from '../../data/index';
 
 /* The fetch belongs inside getStaticPaths: Astro calls it to discover the
    routes before the module's top-level await has settled, so a const above
@@ -21,6 +29,10 @@ export async function getStaticPaths() {
 const { service, otherServices } = Astro.props;
 
 const s = service as any;
+
+/* PageHero sets the title with set:html, so escape the ampersand in "Web & CRO". */
+const heroTitle = service.title.replace(/&/g, '&amp;');
+const heroImage = serviceImages[service.slug];
 ---
 
 <Layout
@@ -32,188 +44,152 @@ const s = service as any;
     { name: service.title, item: `${Astro.site}services/${service.slug}` },
   ]}
 >
-  <!-- Hero -->
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap">
-      <a href="/services" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.28s var(--v4-ease-roll)">
-        ← All services
-      </a>
-      <div class="edge-label" style="margin-top:24px;margin-bottom:20px">{service.num} · Service</div>
-      <h1
-        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
-      >
-        {service.title}
-      </h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
-        {s.headline ?? service.desc}
-      </p>
-    </div>
-  </section>
+  <PageHero
+    label={`${service.num} · Service`}
+    title={heroTitle}
+    lede={s.headline ?? service.desc}
+    image={heroImage}
+    size={service.title.length > 14 ? 'lg' : 'xl'}
+  >
+    <a href="/services" class="text-link mt-8 inline-block text-sm">← All services</a>
+  </PageHero>
 
-  <div class="edge-sheet">
-
-  <!-- Intro + deliverables -->
+  <!-- ═══ INTRO + DELIVERABLES ═══ -->
   {s.intro && (
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
-        <div>
-          <div class="edge-label" style="margin-bottom:20px">The challenge</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.7">
-            <p>{s.intro}</p>
-            {s.why && <p>{s.why}</p>}
-          </div>
-          <a href="/contact" class="edge-btn" style="margin-top:32px;display:inline-flex">
-            Discuss your situation →
-          </a>
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="lg" data-m="split">The challenge</Heading>
+        <div class="mt-8 space-y-5" data-m="fade">
+          <Text size="lg" class="max-w-xl">{s.intro}</Text>
+          {s.why && <Text size="lg" class="max-w-xl">{s.why}</Text>}
         </div>
+        <div class="mt-10" data-m="fade">
+          <Button href="/contact">Discuss your situation</Button>
+        </div>
+      </div>
 
-        {s.deliverables?.length > 0 && (
-        <div style="background:var(--v4-panel);border-radius:0;padding:32px;border:1px solid var(--v4-line-soft)">
-          <div class="edge-label" style="margin-bottom:16px">What's included</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
-            {s.deliverables.map((item: string) => (
-              <li style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);padding-left:16px;position:relative">
-                <span style="position:absolute;left:0;color:var(--v4-ink-dim)">→</span>{item}
-              </li>
-            ))}
-          </ul>
-          {/* The web service is the one whose work is itself the proof. */}
-          {s.slug === 'web' && (
-            <a href="/work/web/" class="edge-btn" style="margin-top:24px;height:36px;font-size:var(--v4-text-small)">See the web work →</a>
-          )}
-        </div>
+      {s.deliverables?.length > 0 && (
+      <div class="lg:col-span-4 lg:col-start-9" data-m="rise">
+        <Heading as="h2" size="sm">What's included</Heading>
+        <ul class="mt-6 border-b border-ink">
+          {s.deliverables.map((item: string) => (
+            <li class="border-t border-ink py-4"><Text size="sm">{item}</Text></li>
+          ))}
+        </ul>
+        {/* The web service is the one whose work is itself the proof. */}
+        {s.slug === 'web' && (
+          <div class="mt-8">
+            <Button href="/work/web/" variant="outline" size="sm">See the web work</Button>
+          </div>
         )}
       </div>
-    </div>
+      )}
+    </Container>
   </section>
   )}
 
-  <!-- Process -->
+  <!-- ═══ PROCESS: three columns, orange numbered circles ═══ -->
   {s.process?.length > 0 && (
-  <section class="edge-block edge-block--mist">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">How it works</div>
-      <h2 class="edge-h2" style="margin-bottom:48px">The Process</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Heading size="lg" data-m="split" class="max-w-[18ch]">The process</Heading>
+      <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
         {s.process.map((step: { num: string; title: string; body: string }) => (
-          <div style="border-top:2px solid var(--v4-line);padding-top:24px">
-            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
-            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
-              {step.title}
-            </h3>
-            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
+          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
+            <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{step.num}</span>
+            <Heading as="h3" size="md" class="mt-6">{step.title}</Heading>
+            <Text class="mt-3 max-w-xs">{step.body}</Text>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </section>
+  )}
+
+  <!-- ═══ PROOF: stone band, quote with hairline figcaption ═══ -->
+  {s.proof && (
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Heading size="lg" data-m="split">Results</Heading>
+        {s.proof.stat && (
+          <p class="mt-10 font-heading text-8xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]" data-m="fade">{s.proof.stat}</p>
+        )}
+        {s.proof.stat && s.proof.statLabel && (
+          <Text size="sm" class="mt-4 max-w-[16rem] uppercase" data-m="fade">{s.proof.statLabel}</Text>
+        )}
+      </div>
+      <figure class="lg:col-span-7 lg:col-start-6" data-m="rise">
+        {s.proof.logo && (
+          <img
+            src={s.proof.logo.src}
+            alt=""
+            width={s.proof.logo.w}
+            height={s.proof.logo.h}
+            loading="lazy"
+            class:list={['mb-8 h-8 w-auto max-w-[12rem] object-contain object-left grayscale transition-[filter] duration-300 hover:grayscale-0', s.proof.logo.lightInk && 'invert']}
+          />
+        )}
+        <blockquote><Text size="lg">“{s.proof.quote}”</Text></blockquote>
+        <figcaption class="mt-8 border-t border-ink pt-6">
+          <Text class="font-semibold">{s.proof.name}</Text>
+          <Text size="sm" tone="secondary">{s.proof.role}, {s.proof.company}</Text>
+        </figcaption>
+        {s.caseNote && (
+          <Text class="mt-8 max-w-xl">{s.caseNote}</Text>
+        )}
+      </figure>
+    </Container>
+  </section>
+  )}
+
+  <!-- ═══ FAQ: two-column hairline list ═══ -->
+  {s.faq?.length > 0 && (
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Heading size="lg" data-m="split">{service.title} — FAQ</Heading>
+      </div>
+      <dl class="lg:col-span-7 lg:col-start-6">
+        {s.faq.map((item: { q: string; a: string }) => (
+          <div data-m="rise" class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
+            <dt><Heading as="h3" size="sm">{item.q}</Heading></dt>
+            <dd><Text>{item.a}</Text></dd>
           </div>
         ))}
-      </div>
-    </div>
+      </dl>
+    </Container>
   </section>
   )}
 
-  <!-- Proof / testimonial -->
-  {s.proof && (
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Results</div>
-      <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
-        <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
-          <div>
-            {s.proof.logo && (
-              <ClientLogo
-                logo={s.proof.logo}
-                name={s.proof.company}
-                class="v4-client-logo"
-                style="margin-bottom:20px"
-                decorative
-              />
-            )}
-            <blockquote style="margin:0 0 24px">
-              <p style="font-size:clamp(16px,2vw,20px);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:16px">
-                "{s.proof.quote}"
-              </p>
-              <footer style="font-size:var(--v4-text-small);color:var(--v4-ink-dim)">
-                {s.proof.name} · {s.proof.role}, {s.proof.company}
-              </footer>
-            </blockquote>
-            {s.caseNote && (
-              <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.65;border-top:1px solid var(--v4-line-soft);padding-top:20px;margin-top:4px">
-                {s.caseNote}
-              </p>
-            )}
-          </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">{s.proof.stat}</div>
-            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;max-width:120px;margin-left:auto">{s.proof.statLabel}</div>
-          </div>
+  <!-- ═══ OTHER SERVICES ═══ -->
+  <section class="border-t border-ink bg-paper py-16 md:py-20">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">Also available</Text>
+      <ul class="mt-6 flex flex-wrap gap-3">
+        {otherServices.map((os) => (
+          <li data-m="rise"><Button href={`/services/${os.slug}`} variant="outline" size="sm">{os.title}</Button></li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- ═══ CLOSING: full orange band, thin arrow ═══ -->
+  <section class="bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Ready to talk?</Heading>
+        <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9" data-m="fade">
+        <Text size="lg" tone="onAccent" class="max-w-md">
+          Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
+        </Text>
+        <div class="mt-8">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
-    </div>
+    </Container>
   </section>
-  )}
-
-  <!-- FAQ -->
-  {s.faq?.length > 0 && (
-  <section class="edge-block edge-block--sand">
-    <div class="edge-wrap" style="max-width:800px">
-      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
-      <h2 class="edge-h2" style="margin-bottom:40px">{service.title} — FAQ</h2>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
-        {s.faq.map((item: { q: string; a: string }) => (
-          <details class="v4-faq-item" style="background:var(--v4-panel)">
-            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
-              {item.q}
-              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
-            </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6">{item.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
-  )}
-
-  <!-- Other services -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:16px">Also available</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px">
-        {otherServices.map(os => (
-          <a href={`/services/${os.slug}`} class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
-            {os.title}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Talk?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
-      </a>
-    </div>
-  </section>
-</div>
 </Layout>
-
-<style>
-  details.v4-faq-item summary::-webkit-details-marker { display: none; }
-  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
-  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
-  @media (max-width: 760px) {
-    div[style*="2fr 1fr"],
-    div[style*="1fr auto"],
-    div[style*="repeat(3"] {
-      grid-template-columns: 1fr !important;
-    }
-    div[style*="text-align: right"] {
-      text-align: left !important;
-    }
-  }
-</style>

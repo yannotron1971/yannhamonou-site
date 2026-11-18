@@ -1,6 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import EdgeField from '../../components/EdgeField.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import Button from '../../components/ui/Button.astro';
+import PageHero from '../../components/PageHero.astro';
 import { getCases } from '../../lib/keystatic';
 
 const cases = await getCases();
@@ -10,246 +14,121 @@ const cases = await getCases();
   title="Work & Case Studies — Yann Hamonou"
   description="B2B marketing case studies: real results from Aberdeen and Scottish SMEs. SEO growth, positioning, and lead generation."
 >
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Portfolio</div>
-      <h1 class="edge-h2" style="margin-bottom:24px">Selected Work</h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
-        A handful of the projects that best represent the work. Numbers are real; context is everything.
-      </p>
-      <div class="work-hero-links">
-        <a href="#cases" class="edge-btn">Case studies ↓</a>
-        <a href="/work/web/" class="edge-btn">Web development work →</a>
-      </div>
+  <PageHero
+    label="Portfolio"
+    title="Selected work"
+    lede="A handful of the projects that best represent the work. Numbers are real; context is everything."
+  >
+    <div class="mt-10 flex flex-wrap gap-4">
+      <Button href="#cases" variant="dark">Case studies ↓</Button>
+      <Button href="/work/web/" variant="outline" arrow>Web development work</Button>
     </div>
-  </section>
+  </PageHero>
 
-  <div class="edge-sheet">
-
-  <section class="edge-block edge-block--white" id="cases">
-    <div class="edge-wrap">
-      <ul class="work-cards" role="list">
-        {cases.map(c => (
-          <li>
-            <a href={`/work/${c.slug}`} class="work-card">
+  <section id="cases" class="scroll-mt-20 bg-paper py-20 md:py-28">
+    <Container data-group>
+      <ul class="grid border-t border-ink md:grid-cols-2" role="list">
+        {cases.map((c, i) => (
+          <li
+            data-m="rise"
+            class:list={[
+              'border-b border-ink py-10 md:py-12',
+              i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
+            ]}
+          >
+            <a href={`/work/${c.slug}`} class="group flex h-full flex-col">
               {/* The plate: the photograph where the case has one with a
                   description, otherwise its headline figure set large. */}
               {c.image && c.imageAlt
                 ? (
-                  <div class="work-card__plate">
-                    <img src={c.image} alt={c.imageAlt} loading="lazy" decoding="async" style={`object-position:${c.imageFocus};`} />
+                  <div class="relative aspect-[3/2] overflow-hidden bg-stone">
+                    <img
+                      src={c.image}
+                      alt={c.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                      style={`object-position:${c.imageFocus};`}
+                      class="absolute inset-0 h-full w-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+                    />
                   </div>
                 )
                 : (
-                  <div class="work-card__plate work-card__plate--figure" aria-hidden="true">
-                    <span class="work-card__plate-n">{c.stat}</span>
-                    <span class="work-card__plate-u">{c.statSub}</span>
+                  <div class="flex aspect-[3/2] flex-col justify-end bg-stone p-6 md:p-8" aria-hidden="true">
+                    <span class="font-heading text-6xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]">{c.stat}</span>
+                    <span class="t-eyebrow mt-4 max-w-[28ch] text-muted">{c.statSub}</span>
                   </div>
                 )
               }
-              <div class="work-card__body">
-                {/* The mark is the name here, carrying the client as its alt;
-                    the written name returns only for a case without a logo. */}
+
+              <div class="mt-6 flex flex-1 flex-col">
+                {/* The mark is the name where there is one; the client name
+                    stays in the heading outline for screen readers. */}
                 {c.logo
                   ? (
-                    <img
-                      src={c.logo.src}
-                      alt={c.client}
-                      width={c.logo.w}
-                      height={c.logo.h}
-                      class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                      style={c.logo.scale ? `--logo-scale:${c.logo.scale}` : undefined}
-                      loading="lazy"
-                    />
+                    <>
+                      <h2 class="sr-only">{c.client}</h2>
+                      <img
+                        src={c.logo.src}
+                        alt=""
+                        width={c.logo.w}
+                        height={c.logo.h}
+                        loading="lazy"
+                        class:list={['mb-1 h-8 w-auto max-w-[14rem] self-start object-contain object-left grayscale', c.logo.lightInk && 'invert']}
+                        style={c.logo.scale ? `height:${(2 * c.logo.scale).toFixed(2)}rem` : undefined}
+                      />
+                    </>
                   )
-                  : <h2 class="work-card__name">{c.client}</h2>
+                  : <Heading as="h2" size="md">{c.client}</Heading>
                 }
-                <div class="edge-label">{c.year} · {c.descriptor}</div>
-                <p class="work-card__summary">{c.summary}</p>
-                <div class="work-card__foot">
-                  <span class="work-card__stat"><b>{c.stat}</b> {c.statSub}</span>
-                  <span class="work-card__go">Case study →</span>
+                <Text size="sm" tone="secondary" class="mt-3">{c.year} · {c.descriptor}</Text>
+                <Text tone="secondary" class="mt-4 max-w-xl">{c.summary}</Text>
+                <div class="mt-auto flex items-baseline justify-between gap-6 pt-8">
+                  <Text size="sm" class="font-semibold"><b class="font-semibold">{c.stat}</b> {c.statSub}</Text>
+                  <span class="text-link shrink-0 text-sm group-hover:[text-decoration-thickness:2px]">Case study</span>
                 </div>
               </div>
             </a>
           </li>
         ))}
       </ul>
-
-      {/* Web work gets a card of its own, previews and all, so it reads as
-          a second body of work rather than a footnote to the first. */}
-      <a href="/work/web/" class="web-work-card">
-        <div class="web-work-card__copy">
-          <div class="edge-label">Web development</div>
-          <h2 class="web-work-card__title">Sites and landing pages, designed and built.</h2>
-          <p>A client rebuild in Webflow, this site in Astro, and three concept landing pages in three different design systems.</p>
-          <span class="edge-btn web-work-card__btn">See the web work →</span>
-        </div>
-        <div class="web-work-card__thumbs" aria-hidden="true">
-          <img src="/work/web/arnlea.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
-          <img src="/work/web/keelson.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
-          <img src="/work/web/emberline.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
-        </div>
-      </a>
-    </div>
+    </Container>
   </section>
 
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Your Results<br/>Could Be Here</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book the free 30-minute review. No commitment — just an honest look at where your biggest marketing opportunity is.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
+  {/* Web work gets a band of its own, previews and all, so it reads as
+      a second body of work rather than a footnote to the first. */}
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-6">
+      <div class="lg:col-span-5">
+        <Text size="sm" tone="secondary" data-m="fade">Web development</Text>
+        <Heading size="lg" data-m="split" class="mt-4 max-w-[14ch]">Sites and landing pages, designed and built.</Heading>
+        <Text tone="secondary" class="mt-6 max-w-md" data-m="fade">A client rebuild in Webflow, this site in Astro, and three concept landing pages in three different design systems.</Text>
+        <div class="mt-8" data-m="fade">
+          <Button href="/work/web/" variant="dark" arrow>See the web work</Button>
+        </div>
+      </div>
+      <a href="/work/web/" class="group block lg:col-span-6 lg:col-start-7" aria-label="See the web work" data-m="frame">
+        <div class="grid grid-cols-3 gap-3" aria-hidden="true">
+          <img src="/work/web/arnlea.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
+          <img src="/work/web/keelson.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
+          <img src="/work/web/emberline.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
+        </div>
       </a>
-    </div>
+    </Container>
   </section>
-</div>
+
+  <section class="border-t border-ink bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Your results could be here</Heading>
+      </div>
+      <div class="lg:col-span-5">
+        <Text size="lg" tone="onAccent" class="max-w-md" data-m="fade">
+          Book the free 30-minute review. No commitment — just an honest look at where your biggest marketing opportunity is.
+        </Text>
+        <div class="mt-8" data-m="fade">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+        </div>
+      </div>
+    </Container>
+  </section>
 </Layout>
-
-<style>
-  .work-hero-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-  .work-hero-links .edge-btn { height: 44px; padding: 0 22px; font-size: var(--v4-text-small); }
-
-  /* Case cards */
-  .work-cards {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 28px);
-  }
-  .work-cards > li { display: flex; }
-  .work-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background: var(--v4-panel);
-    border: 1px solid var(--v4-line-soft);
-    transition: background 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
-  }
-  .work-card:hover,
-  .work-card:focus-visible { background: var(--v4-panel-3); border-color: var(--v4-ink-dim); }
-  .work-card__plate {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: var(--v4-panel-2);
-    border-bottom: 1px solid var(--v4-line-soft);
-  }
-  .work-card__plate img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s var(--v4-ease-roll);
-  }
-  .work-card__plate--figure {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: clamp(20px, 3vw, 32px);
-  }
-  .work-card__plate-n {
-    font-family: var(--v4-display);
-    font-weight: 300;
-    font-size: clamp(56px, 7vw, 104px);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
-    color: var(--v4-ink);
-  }
-  .work-card__plate-u {
-    margin-top: 12px;
-    font-family: var(--v4-mono);
-    font-size: var(--v4-text-label);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--v4-ink-dim);
-  }
-  .work-card__body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    flex: 1;
-    padding: clamp(20px, 3vw, 32px);
-  }
-  .work-card__name {
-    font-family: var(--v4-display);
-    font-weight: 400;
-    font-size: clamp(24px, 3vw, 34px);
-    letter-spacing: -0.015em;
-    color: var(--v4-ink);
-  }
-  .work-card__summary { font-size: var(--v4-text-body); line-height: 1.6; color: var(--v4-ink-mute); }
-  .work-card__foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    width: 100%;
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid var(--v4-line-soft);
-    font-family: var(--v4-mono);
-    font-size: var(--v4-text-label);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--v4-ink-dim);
-  }
-  .work-card__stat b { font-weight: 500; color: var(--v4-ink); }
-  .work-card__go { flex-shrink: 0; color: var(--v4-ink); }
-
-  /* Web work card */
-  .web-work-card {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    gap: clamp(24px, 4vw, 56px);
-    align-items: center;
-    margin-top: clamp(16px, 2vw, 28px);
-    padding: clamp(24px, 4vw, 48px);
-    background: var(--v4-panel);
-    border: 1px solid var(--v4-line-soft);
-    transition: background 0.28s var(--v4-ease-roll), border-color 0.28s var(--v4-ease-roll);
-  }
-  .web-work-card:hover,
-  .web-work-card:focus-visible { background: var(--v4-panel-3); border-color: var(--v4-ink-dim); }
-  .web-work-card__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-  .web-work-card__title {
-    font-family: var(--v4-display);
-    font-weight: 400;
-    font-size: clamp(28px, 3.4vw, 48px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--v4-ink);
-  }
-  .web-work-card__copy p { font-size: var(--v4-text-body); line-height: 1.6; color: var(--v4-ink-mute); max-width: 460px; }
-  .web-work-card__btn { margin-top: 8px; height: 44px; padding: 0 22px; font-size: var(--v4-text-small); }
-  .web-work-card__thumbs { position: relative; aspect-ratio: 16 / 11; }
-  .web-work-card__thumbs img {
-    position: absolute;
-    width: 72%;
-    height: auto;
-    border: 1px solid var(--v4-line-soft);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
-    transition: transform 0.6s var(--v4-ease-roll);
-  }
-  .web-work-card__thumbs img:nth-child(1) { left: 0; top: 0; }
-  .web-work-card__thumbs img:nth-child(2) { left: 14%; top: 14%; }
-  .web-work-card__thumbs img:nth-child(3) { left: 28%; top: 28%; }
-
-  @media (hover: hover) and (pointer: fine) {
-    .work-card:hover .work-card__plate img { transform: scale(1.03); }
-    .web-work-card:hover .web-work-card__thumbs img:nth-child(1) { transform: translate(-6px, -6px); }
-    .web-work-card:hover .web-work-card__thumbs img:nth-child(3) { transform: translate(6px, 6px); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .work-card__plate img, .web-work-card__thumbs img { transition: none; }
-  }
-  @media (max-width: 800px) {
-    .work-cards { grid-template-columns: 1fr; }
-    .web-work-card { grid-template-columns: 1fr; }
-    .web-work-card__thumbs { order: -1; }
-  }
-</style>

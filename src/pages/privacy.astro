@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Container from '../components/ui/Container.astro';
 import PageHero from '../components/PageHero.astro';
 ---
 
@@ -8,12 +9,11 @@ import PageHero from '../components/PageHero.astro';
   description="Privacy policy for yannhamonou.com"
   noindex={true}
 >
-  <PageHero label="Legal" title="Privacy policy" />
+  <PageHero label="Legal" title="Privacy policy" size="lg" />
 
-  <div class="edge-sheet">
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap edge-wrap--narrow">
-      <div class="v4-prose" style="margin-inline:0">
+  <section class="bg-paper py-16 md:py-24">
+    <Container>
+      <div class="prose-signal">
         <p>This privacy policy explains how Yann Hamonou ("I", "me", "my") collects, uses, and protects personal information submitted through this website.</p>
 
         <h2>Data I collect</h2>
@@ -33,7 +33,6 @@ import PageHero from '../components/PageHero.astro';
         <p>Yann Hamonou, 34 Bernham Avenue, Stonehaven, Aberdeenshire, AB39 2WD, Scotland, UK.</p>
         <p>Email: <a href="mailto:yanndaman@googlemail.com">yanndaman@googlemail.com</a></p>
       </div>
-    </div>
+    </Container>
   </section>
-  </div>
 </Layout>

@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import EdgeField from '../../components/EdgeField.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import PageHero from '../../components/PageHero.astro';
 import { reader } from '../../lib/keystatic';
 
 const allPosts = await reader.collections.posts.all();
@@ -16,6 +19,8 @@ const labelMap: Record<string, string> = {
   all: 'All',
   strategy: 'Strategy',
   seo: 'SEO & GEO',
+  paid: 'Paid media',
+  content: 'Content',
   industry: 'Industry',
 };
 
@@ -29,108 +34,77 @@ function fmtDate(d: string | null) {
   title="Journal — B2B Marketing Insights · Yann Hamonou"
   description="Practical B2B marketing insights: SEO, strategy, paid media, positioning, and AI search. For Scottish and UK SMEs."
 >
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Writing</div>
-      <h1 class="edge-h2" style="margin-bottom:24px">Journal</h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:600px;line-height:1.6;font-weight:300">
-        Practical thinking on B2B marketing — what works, what's overhyped, and what Scottish SMEs should actually focus on.
-      </p>
-
-      <!-- Filter pills -->
-      <div class="v4-journal-filters" role="group" aria-label="Filter by topic" style="margin-top:32px;display:flex;flex-wrap:wrap;gap:8px">
-        {categories.map(cat => (
-          <button
-            class="v4-filter-btn"
-            data-filter={cat}
-            aria-pressed={cat === 'all' ? 'true' : 'false'}
-          >
-            {labelMap[cat] ?? cat}
-            {cat !== 'all' && (
-              <span class="v4-filter-btn__count">
-                {posts.filter(p => p.entry.category === cat).length}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
+  <PageHero
+    label="Writing"
+    title="Journal"
+    lede="Practical thinking on B2B marketing — what works, what's overhyped, and what Scottish SMEs should actually focus on."
+  >
+    <!-- Filter -->
+    <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Filter by topic">
+      {categories.map(cat => (
+        <button
+          type="button"
+          class="filter-btn inline-flex h-10 items-center gap-2 border border-ink bg-transparent px-4 font-body text-sm text-ink transition-colors duration-200 hover:bg-stone aria-pressed:bg-ink aria-pressed:text-paper"
+          data-filter={cat}
+          aria-pressed={cat === 'all' ? 'true' : 'false'}
+        >
+          {labelMap[cat] ?? cat}
+          {cat !== 'all' && (
+            <span class="text-xs opacity-70">
+              {posts.filter(p => p.entry.category === cat).length}
+            </span>
+          )}
+        </button>
+      ))}
     </div>
-  </section>
+  </PageHero>
 
-  <div class="edge-sheet">
-
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group>
       {posts.length === 0 ? (
-        <p style="color:var(--v4-ink-mute)">Posts coming soon.</p>
+        <Text tone="secondary">Posts coming soon.</Text>
       ) : (
         <>
-          <div class="v4-posts" id="posts-grid">
+          <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3" id="posts-grid" role="list">
             {posts.map(post => (
-              <a
-                href={`/journal/${post.slug}`}
-                class="v4-post-card"
-                data-category={post.entry.category}
-              >
-                <div class="v4-post-card__body">
-                  <div class="v4-post-card__cat">{post.entry.category}</div>
-                  <div class="v4-post-card__title">{post.entry.title}</div>
-                  <div class="v4-post-card__desc">{post.entry.description}</div>
-                  <div class="v4-post-card__date">{fmtDate(post.entry.publishedDate)}</div>
-                </div>
-              </a>
+              <li data-m="rise" class="post-card data-[hidden]:hidden" data-category={post.entry.category}>
+                <a href={`/journal/${post.slug}`} class="group block">
+                  <div class="relative aspect-[3/2] overflow-hidden bg-stone">
+                    {post.entry.coverImage ? (
+                      <img
+                        src={post.entry.coverImage}
+                        alt={post.entry.coverAlt ?? ''}
+                        loading="lazy"
+                        class="absolute inset-0 h-full w-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+                      />
+                    ) : (
+                      <div aria-hidden="true" class="absolute inset-0 flex items-end justify-between p-5">
+                        <span class="t-eyebrow">{labelMap[post.entry.category ?? ''] ?? 'Journal'}</span>
+                        <span class="size-16 rounded-full bg-signal transition-transform duration-500 group-hover:-translate-x-2"></span>
+                      </div>
+                    )}
+                  </div>
+                  <Text size="sm" tone="secondary" class="mt-5">
+                    {labelMap[post.entry.category ?? ''] ?? post.entry.category}{post.entry.publishedDate ? ` · ${fmtDate(post.entry.publishedDate)}` : ''}
+                  </Text>
+                  <Heading as="h2" size="sm" class="mt-2 decoration-signal decoration-2 underline-offset-4 group-hover:underline">{post.entry.title}</Heading>
+                  <Text size="sm" tone="secondary" class="mt-3 max-w-xl">{post.entry.description}</Text>
+                </a>
+              </li>
             ))}
-          </div>
-          <p id="no-results" style="display:none;color:var(--v4-ink-mute);padding:40px 0">
-            No posts in this category yet.
+          </ul>
+          <p id="no-results" class="hidden py-10">
+            <Text tone="secondary">No posts in this category yet.</Text>
           </p>
         </>
       )}
-    </div>
+    </Container>
   </section>
-</div>
 </Layout>
 
-<style>
-  .v4-filter-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    height: 34px;
-    padding: 0 14px;
-    border-radius: 999px;
-    border: 1px solid var(--v4-line-soft);
-    background: transparent;
-    color: var(--v4-ink-mute);
-    font-size:var(--v4-text-small);
-    font-family: var(--v4-body);
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  }
-  .v4-filter-btn:hover {
-    color: var(--v4-ink);
-    border-color: var(--v4-line);
-  }
-  .v4-filter-btn[aria-pressed="true"] {
-    background: var(--v4-ink);
-    color: var(--v4-bg);
-    border-color: var(--v4-ink);
-  }
-  .v4-filter-btn__count {
-    font-family: var(--v4-mono);
-    font-size:var(--v4-text-label);
-    opacity: 0.6;
-  }
-
-  .v4-post-card[data-hidden] {
-    display: none;
-  }
-</style>
-
 <script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.v4-filter-btn');
-  const cards = document.querySelectorAll<HTMLElement>('.v4-post-card');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.post-card');
   const noResults = document.getElementById('no-results');
 
   function filter(cat: string) {
@@ -145,7 +119,7 @@ function fmtDate(d: string | null) {
       if (show) visible++;
     });
 
-    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+    if (noResults) noResults.classList.toggle('hidden', visible !== 0);
 
     // Persist selection in URL hash without scrolling
     history.replaceState(null, '', cat === 'all' ? location.pathname : `#${cat}`);

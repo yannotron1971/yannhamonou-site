@@ -1,9 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Container from '../components/ui/Container.astro';
+import Heading from '../components/ui/Heading.astro';
+import Text from '../components/ui/Text.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import PageHero from '../components/PageHero.astro';
 import { getSettings } from '../lib/keystatic';
+import { signalImages } from '../data/index';
 
 const { figures: numbers } = await getSettings();
-import PageHero from '../components/PageHero.astro';
+
+/* Split "20+" into a count-up value and its suffix; anything that does not
+   start with a number is shown as written. */
+const countable = (num: string) => {
+  const m = /^(\d+)(\D*)$/.exec(num.trim());
+  return m ? { value: m[1], suffix: m[2] } : null;
+};
+
+const story = [
+  "I've spent two decades working in B2B marketing — from early-stage SaaS companies to established industrial and professional services firms across the UK and Europe.",
+  "That experience covers every channel and every budget. What I've learned: most marketing problems aren't channel problems. They're positioning problems, strategy problems, or measurement problems. Fix those first, and execution becomes straightforward.",
+  'I set up independently to work directly with business owners and directors who are serious about growth but frustrated by the gap between marketing spend and results.',
+  'Based in Stonehaven, I work with clients across Aberdeen, Aberdeenshire, and Scotland — and remotely with businesses across the UK.',
+];
+
+const specialisms = ['Strategy', 'Positioning', 'SEO & GEO', 'Organic & Paid Media', 'Web & CRO', 'Marketing Leadership', 'B2B Lead Generation', 'Aberdeen & Scotland'];
+
+const steps = [
+  { title: 'Diagnose', body: "We start with an honest audit of where you are: what's working, what's leaking, and where the real opportunity is. No assumptions." },
+  { title: 'Prioritise', body: 'From the audit I build a clear 90-day priority list — the highest-leverage actions that will move the needle fastest for your specific situation.' },
+  { title: 'Execute', body: 'Strategy without execution is a document. I either deliver the work myself or manage the right specialists — with clear ownership and measurable goals.' },
+];
 ---
 
 <Layout
@@ -14,118 +42,79 @@ import PageHero from '../components/PageHero.astro';
     label="About"
     title="Twenty years making<br />marketing work for<br />B2B SMEs"
     lede="I'm Yann Hamonou, a B2B marketing consultant based in Stonehaven, Aberdeenshire. I help Scottish and UK SMEs build marketing that generates real revenue — not vanity metrics."
+    image={{ src: signalImages.portrait.src, alt: signalImages.portrait.alt }}
+    size="lg"
   />
 
-  <div class="edge-sheet">
-  <!-- STORY -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="about-split">
-        <div>
-          <div class="edge-label" style="margin-bottom:20px">The background</div>
-          <div class="about-prose">
-            <p>
-              I've spent two decades working in B2B marketing — from early-stage SaaS companies to established industrial and professional services firms across the UK and Europe.
-            </p>
-            <p>
-              That experience covers every channel and every budget. What I've learned: most marketing problems aren't channel problems. They're positioning problems, strategy problems, or measurement problems. Fix those first, and execution becomes straightforward.
-            </p>
-            <p>
-              I set up independently to work directly with business owners and directors who are serious about growth but frustrated by the gap between marketing spend and results.
-            </p>
-            <p>
-              Based in Stonehaven, I work with clients across Aberdeen, Aberdeenshire, and Scotland — and remotely with businesses across the UK.
-            </p>
-          </div>
+  <!-- ═══ STORY: prose left, figures and specialisms right ═══ -->
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="lg" data-m="split" class="max-w-[12ch]">The background</Heading>
+        <div class="mt-8 space-y-4" data-m="fade">
+          {story.map((p) => <Text size="lg">{p}</Text>)}
         </div>
+      </div>
 
-        <div>
-          <div class="edge-label" style="margin-bottom:20px">By the numbers</div>
-          <div class="about-stats">
-            {numbers.map(n => (
-              <div class="v4-stat">
-                <div class="v4-stat__num">{n.num}</div>
-                <div class="v4-stat__label">{n.label}</div>
+      <div class="lg:col-span-5 lg:col-start-8 lg:border-l lg:border-ink lg:pl-10">
+        <Text size="sm" tone="secondary" data-m="fade">By the numbers</Text>
+        <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-10">
+          {numbers.map((n) => {
+            const c = countable(n.num);
+            return (
+              <div data-m="rise" class="border-t border-ink pt-5">
+                <dt class="sr-only">{n.label}</dt>
+                <dd>
+                  <span class="block font-heading text-5xl font-extrabold leading-none tracking-[-0.04em] [font-stretch:110%]">
+                    {c ? <span data-count={c.value} data-suffix={c.suffix}>{n.num}</span> : n.num}
+                  </span>
+                  <Text size="sm" tone="secondary" class="mt-3" aria-hidden="true">{n.label}</Text>
+                </dd>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </dl>
 
-          <div class="about-tags">
-            <div class="edge-label" style="margin-bottom:12px">Specialist in</div>
-            <div class="about-tags__list">
-              {['Strategy', 'Positioning', 'SEO & GEO', 'Organic & Paid Media', 'Web & CRO', 'Marketing Leadership', 'B2B Lead Generation', 'Aberdeen & Scotland'].map(tag => (
-                <span>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+        <Text size="sm" tone="secondary" class="mt-14" data-m="fade">Specialist in</Text>
+        <ul class="mt-4 grid border-t border-ink sm:grid-cols-2 sm:gap-x-6">
+          {specialisms.map((tag) => (
+            <li data-m="rise" class="border-b border-ink py-3 text-base">{tag}</li>
+          ))}
+        </ul>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ═══ METHOD: three columns, orange numbered circles ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">How it works</Text>
+      <Heading size="lg" data-m="split" class="mt-4 max-w-[18ch]">The method</Heading>
+      <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
+        {steps.map((s, i) => (
+          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
+            <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{i + 1}</span>
+            <Heading as="h3" size="md" class="mt-6">{s.title}</Heading>
+            <Text class="mt-3 max-w-xs">{s.body}</Text>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </section>
+
+  <!-- ═══ CLOSING: full orange band ═══ -->
+  <section class="bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Ready to talk?</Heading>
+        <Text size="lg" tone="onAccent" class="mt-8 max-w-md" data-m="fade">
+          Book a free 30-minute strategy review. I'll look at your current situation and tell you exactly what I'd change.
+        </Text>
+        <div class="mt-10" data-m="fade">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
-    </div>
+      <span data-m="fade" class="hidden lg:col-span-4 lg:col-start-9 lg:block"><Icon name="arrow-right" stroke={0.6} class="size-48" /></span>
+    </Container>
   </section>
-
-  <!-- HOW I WORK -->
-  <section class="edge-block edge-block--paper about-method">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">How it works</div>
-      <h2 class="edge-h2 about-method__title">The Method</h2>
-      <div class="about-steps">
-        {[
-          { num: '01', title: 'Diagnose', body: 'We start with an honest audit of where you are: what\'s working, what\'s leaking, and where the real opportunity is. No assumptions.' },
-          { num: '02', title: 'Prioritise', body: 'From the audit I build a clear 90-day priority list — the highest-leverage actions that will move the needle fastest for your specific situation.' },
-          { num: '03', title: 'Execute', body: 'Strategy without execution is a document. I either deliver the work myself or manage the right specialists — with clear ownership and measurable goals.' },
-        ].map(step => (
-          <div class="about-step">
-            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
-            <h3>
-              {step.title}
-            </h3>
-            <p>{step.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Talk?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book a free 30-minute strategy review. I'll look at your current situation and tell you exactly what I'd change.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
-      </a>
-    </div>
-  </section>
-  </div>
 </Layout>
-
-<style>
-.about-split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,5vw,80px); align-items:start; }
-.about-prose { display:flex; flex-direction:column; gap:20px; color:var(--v4-ink-mute); font-size:var(--v4-text-body); line-height:1.65; max-width:65ch; }
-.about-prose p { text-wrap:pretty; }
-.about-stats { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-.about-tags { margin-top:40px; padding:24px; background:var(--v4-panel); border:1px solid var(--v4-line-soft); }
-.about-tags__list { display:flex; flex-wrap:wrap; gap:8px; }
-.about-tags__list span { padding:6px 12px; background:var(--v4-panel-2); font-size:var(--v4-text-label); color:var(--v4-ink-mute); font-family:var(--v4-mono); letter-spacing:0.04em; }
-.about-method__title { margin-bottom:48px; }
-.about-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
-.about-step { border-top:2px solid var(--v4-line); padding-top:24px; }
-.about-step h3 { font-family:var(--v4-display); font-weight:400; font-size:clamp(22px,2.5vw,30px); letter-spacing:-0.01em; color:var(--v4-ink); margin-bottom:12px; }
-.about-step p { font-size:var(--v4-text-body); color:var(--v4-ink-mute); line-height:1.6; text-wrap:pretty; }
-
-@media (max-width: 760px) {
-  .about-split { grid-template-columns:1fr; gap:48px; }
-  .about-prose { font-size:17px; }
-  .about-stats .v4-stat__num { font-size:clamp(36px,11vw,48px); }
-  .about-stats .v4-stat__label { font-size:14px; }
-  .about-tags__list span { font-size:12px; }
-  .about-method { padding-bottom:clamp(96px,16vh,140px); }
-  .about-method__title { margin-bottom:32px; }
-  .about-steps { grid-template-columns:1fr; gap:40px; }
-  .about-step p { font-size:16px; }
-}
-</style>

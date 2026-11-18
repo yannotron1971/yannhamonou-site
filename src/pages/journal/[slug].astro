@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import EdgeField from '../../components/EdgeField.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import Button from '../../components/ui/Button.astro';
 import { reader } from '../../lib/keystatic';
 import Markdoc from '@markdoc/markdoc';
 
@@ -15,6 +18,10 @@ const { slug } = Astro.params;
 const post = await reader.collections.posts.read(slug!);
 
 if (!post) return Astro.redirect('/journal');
+
+const categoryLabels: Record<string, string> = {
+  strategy: 'Strategy', seo: 'SEO & GEO', paid: 'Paid media', content: 'Content', industry: 'Industry',
+};
 
 function fmtDate(d: string | null) {
   if (!d) return '';
@@ -40,81 +47,87 @@ const renderedContent = Markdoc.renderers.html(transformed);
   ]}
 >
   <!-- Post header -->
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap" style="max-width:760px">
-      <a href="/journal" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.28s var(--v4-ease-roll)">
-        ← All posts
-      </a>
-      <div style="margin-top:24px;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <span class="edge-label" style="padding:4px 10px;background:var(--v4-panel-2);border-radius:999px;color:var(--v4-ink-mute)">{post.category}</span>
-        <span class="edge-label">{fmtDate(post.publishedDate)}</span>
+  <header class="border-b border-ink bg-paper">
+    <Container class="py-14 md:py-20 lg:py-24">
+      <div class="max-w-3xl">
+        <a href="/journal" class="text-link hero-in text-sm">← All posts</a>
+        <Text size="sm" tone="secondary" class="hero-in mt-10 [--hero-at:0.1s]">
+          {categoryLabels[post.category] ?? post.category}{post.publishedDate ? ` · ${fmtDate(post.publishedDate)}` : ''}
+        </Text>
+        <Heading as="h1" size="lg" class="hero-in mt-5 [--hero-at:0.15s]">{post.title}</Heading>
+        {post.description && (
+          <Text size="lg" class="hero-in mt-8 max-w-xl [--hero-at:0.3s]">{post.description}</Text>
+        )}
+        <Text size="sm" tone="secondary" class="hero-in mt-8 [--hero-at:0.4s]">By Yann Hamonou</Text>
       </div>
-      <h1 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(32px,5vw,72px);line-height:1.02;letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:24px">
-        {post.title}
-      </h1>
-      {post.description && (
-        <p style="font-size:18px;color:var(--v4-ink-mute);line-height:1.6;font-weight:300">
-          {post.description}
-        </p>
+      {post.coverImage && (
+        <div class="hero-in mt-12 aspect-[3/2] max-w-4xl overflow-hidden bg-stone [--hero-at:0.5s] md:aspect-[16/9]">
+          <img
+            src={post.coverImage}
+            alt={post.coverAlt ?? ''}
+            loading="eager"
+            class="h-full w-full object-cover grayscale"
+          />
+        </div>
       )}
-      <div style="margin-top:24px;display:flex;align-items:center;gap:8px">
-        <span style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim)">By Yann Hamonou</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="edge-sheet">
+    </Container>
+  </header>
 
   <!-- Body -->
-  <section class="edge-block edge-block--white">
-    <div class="v4-prose" set:html={renderedContent} />
+  <section class="bg-paper py-16 md:py-24">
+    <Container>
+      <div class="prose-signal" set:html={renderedContent} />
+    </Container>
   </section>
 
   <!-- Email capture -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap" style="max-width:640px">
-      <div style="background:var(--v4-panel);border:1px solid var(--v4-line-soft);border-radius:0;padding:clamp(32px,5vw,48px)">
-        <div class="edge-label" style="margin-bottom:12px">Free B2B marketing insights</div>
-        <h2 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(24px,3vw,36px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:12px;line-height:1">
-          Get the Playbook
-        </h2>
-        <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6;margin-bottom:24px">
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Text size="sm" tone="secondary" data-m="fade">Free B2B marketing insights</Text>
+        <Heading size="lg" data-m="split" class="mt-4 max-w-[12ch]">Get the playbook</Heading>
+        <Text tone="secondary" class="mt-6 max-w-md" data-m="fade">
           Practical B2B marketing strategy — SEO, positioning, and lead gen — sent direct to your inbox. No fluff, no pitch. Unsubscribe any time.
-        </p>
-        <form
-          action="https://formspree.io/f/xdoqkgpr"
-          method="POST"
-          style="display:flex;gap:10px;flex-wrap:wrap"
-        >
-          <input type="hidden" name="_subject" value="Newsletter signup" />
+        </Text>
+      </div>
+      <form
+        action="https://formspree.io/f/xdoqkgpr"
+        method="POST"
+        class="lg:col-span-5 lg:col-start-8 lg:self-end"
+        data-m="rise"
+      >
+        <input type="hidden" name="_subject" value="Newsletter signup" />
+        <label for="newsletter-email" class="field-label">Email address</label>
+        <div class="flex flex-col gap-3 sm:flex-row">
           <input
+            id="newsletter-email"
             type="email"
             name="email"
             required
             placeholder="your@company.com"
             autocomplete="email"
-            style="flex:1;min-width:200px;height:44px;padding:0 16px;border-radius:0;border:1px solid var(--v4-line-soft);background:var(--v4-bg);color:var(--v4-ink);font-size:var(--v4-text-small);font-family:var(--v4-body)"
+            class="field min-w-0 flex-1"
           />
-          <button type="submit" class="edge-btn" style="height:44px;font-size:var(--v4-text-small);padding:0 24px;flex-shrink:0">
-            Subscribe →
-          </button>
-        </form>
-      </div>
-    </div>
+          <Button type="submit" variant="dark" class="shrink-0">Subscribe</Button>
+        </div>
+      </form>
+    </Container>
   </section>
 
   <!-- CTA -->
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Want This Applied<br/>To Your Business?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book a free 30-minute strategy review. We'll look at how these ideas apply specifically to your situation.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
-      </a>
-    </div>
+  <section class="border-t border-ink bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[12ch]">Want this applied to your business?</Heading>
+      </div>
+      <div class="lg:col-span-5">
+        <Text size="lg" tone="onAccent" class="max-w-md" data-m="fade">
+          Book a free 30-minute strategy review. We'll look at how these ideas apply specifically to your situation.
+        </Text>
+        <div class="mt-8" data-m="fade">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+        </div>
+      </div>
+    </Container>
   </section>
-</div>
 </Layout>

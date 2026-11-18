@@ -1,17 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import EdgeField from '../components/EdgeField.astro';
-import { getCases, getServices } from '../lib/keystatic';
+import Container from '../components/ui/Container.astro';
+import Heading from '../components/ui/Heading.astro';
+import Text from '../components/ui/Text.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import { getCases, getServices, getSettings } from '../lib/keystatic';
+import { homeClients, serviceImages, signalImages } from '../data/index';
 
 const cases = await getCases();
 const services = await getServices();
-import { getSettings } from '../lib/keystatic';
-import ClientLogo from '../components/ClientLogo.astro';
 
 /* The page-specific FAQ below stays in this file — those questions are about
    Aberdeen and belong to this page. The testimonials are the site's, so they
    come from the one editable source. */
 const { testimonials } = await getSettings();
+
+/* Greyscale client marks for case rows and quotes: match on the company name
+   against the homepage logo row, with Tenders Direct as the Proactis mark. */
+const logoFor = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes('proactis') || n.includes('tenders')) return signalImages.tendersDirect.src;
+  return homeClients.find((c) => n.includes(c.name.toLowerCase()))?.logo;
+};
 
 const faq = [
   {
@@ -35,258 +47,211 @@ const faq = [
     a: 'The free 30-minute strategy review is the right first step. No pitch, no agenda — I look at your current marketing situation, identify the biggest gap, and tell you exactly what I would prioritise. From there you decide whether to engage.',
   },
 ];
+
+const aberdeenContext = [
+  "Digital marketing in Aberdeen operates in a specific commercial environment. The city's economy is dominated by energy, professional services, and industrial supply — B2B markets where buying decisions are relationship-driven, sales cycles are long, and generic national campaigns rarely convert.",
+  "The businesses that grow consistently here do not chase trends. They build marketing systems with clear positioning, a visible search presence for the terms their buyers actually use, and paid campaigns sized to their sales cycle — not a media agency's billing target.",
+  'That is the kind of digital marketing I deliver: practical, accountable, and built around your specific situation rather than a template.',
+];
+
+const principles = [
+  {
+    title: 'Strategy before spend',
+    body: 'Every engagement starts with a clear picture of your market position, your buyer, and where the real opportunity is. Digital marketing without a strategy is just spend.',
+  },
+  {
+    title: 'Local SEO that actually ranks',
+    body: 'Aberdeen search is competitive but winnable. Technical foundations, Google Business Profile optimisation, and content built for how your buyers search — not generic keyword lists.',
+  },
+  {
+    title: 'Paid media without waste',
+    body: 'Google Ads, LinkedIn, and Meta campaigns built around your sales cycle. Every campaign includes conversion tracking, audience segmentation, and a feedback loop that improves week on week.',
+  },
+  {
+    title: 'Websites that convert',
+    body: 'Conversion-focused builds with technical SEO embedded from the start. Every page built around a single goal, and measured against it.',
+  },
+];
 ---
 
 <Layout
   title="Digital Marketing Aberdeen — B2B Marketing Consultant · Yann Hamonou"
   description="Digital marketing consultant based in Aberdeen and Stonehaven. Strategy, SEO, paid media, and web for Aberdeen and Scottish B2B SMEs. Free 30-min review."
 >
-  <!-- Hero -->
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">B2B Digital Marketing · Aberdeen</div>
-      <h1
-        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,7vw,110px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
-      >
-        Digital Marketing<br/>Aberdeen
-      </h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
-        B2B digital marketing strategy and execution for Aberdeen and Scottish SMEs. SEO, paid media, positioning, and websites — all pointed at the same goal: qualified leads and sustainable growth.
-      </p>
-      <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px">
-        <a href="/contact" class="edge-btn">Book a free 30-min review</a>
-        <a href="/services" class="edge-btn">See all services →</a>
-      </div>
+  <PageHero
+    label="B2B digital marketing · Aberdeen"
+    title="Digital marketing<br />Aberdeen"
+    lede="B2B digital marketing strategy and execution for Aberdeen and Scottish SMEs. SEO, paid media, positioning, and websites — all pointed at the same goal: qualified leads and sustainable growth."
+    image={serviceImages.media}
+  >
+    <div class="mt-10 flex flex-wrap gap-4">
+      <Button href="/contact" size="lg" arrow>Book a free 30-min review</Button>
+      <Button href="/services" variant="outline" size="lg">See all services</Button>
     </div>
-  </section>
+  </PageHero>
 
-  <div class="edge-sheet">
-
-  <!-- The Aberdeen context -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
-        <div>
-          <div class="edge-label" style="margin-bottom:20px">Why Aberdeen is different</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.7">
-            <p>
-              Digital marketing in Aberdeen operates in a specific commercial environment. The city's economy is dominated by energy, professional services, and industrial supply — B2B markets where buying decisions are relationship-driven, sales cycles are long, and generic national campaigns rarely convert.
-            </p>
-            <p>
-              The businesses that grow consistently here do not chase trends. They build marketing systems with clear positioning, a visible search presence for the terms their buyers actually use, and paid campaigns sized to their sales cycle — not a media agency's billing target.
-            </p>
-            <p>
-              That is the kind of digital marketing I deliver: practical, accountable, and built around your specific situation rather than a template.
-            </p>
-          </div>
+  <!-- ═══ ABERDEEN CONTEXT: prose left, service rows right ═══ -->
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="lg" data-m="split" class="max-w-[12ch]">Why Aberdeen is different</Heading>
+        <div class="mt-8 space-y-4" data-m="fade">
+          {aberdeenContext.map((p) => <Text size="lg">{p}</Text>)}
         </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="edge-label" style="margin-bottom:4px">Services for Aberdeen businesses</div>
-          {services.map(s => (
-            <a href={`/services/${s.slug}`} style="display:flex;gap:16px;align-items:start;padding:20px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft);transition:background 0.28s var(--v4-ease-roll);text-decoration:none"
-              onmouseover="this.style.background='var(--v4-panel-3)'"
-              onmouseout="this.style.background='var(--v4-panel)'"
-            >
-              <span style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);flex-shrink:0;padding-top:2px">{s.num}</span>
-              <div>
-                <div style="font-size:var(--v4-text-small);font-weight:600;color:var(--v4-ink);margin-bottom:4px">{s.title}</div>
-                <div style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.5">{s.desc}</div>
-              </div>
-            </a>
+      </div>
+
+      <div class="lg:col-span-5 lg:col-start-8">
+        <Text size="sm" tone="secondary" data-m="fade">Services for Aberdeen businesses</Text>
+        <ul class="mt-4 border-b border-ink">
+          {services.map((s) => (
+            <li data-m="rise" class="border-t border-ink">
+              <a href={`/services/${s.slug}`} class="group flex gap-5 py-6 transition-colors duration-200 hover:bg-stone">
+                <span aria-hidden="true" class="font-heading text-2xl font-extrabold leading-none tracking-[-0.04em] [font-stretch:110%]">{s.num}</span>
+                <div>
+                  <Heading as="h3" size="sm" class="decoration-signal decoration-2 underline-offset-4 group-hover:underline">{s.title}</Heading>
+                  <Text size="sm" tone="secondary" class="mt-2">{s.desc}</Text>
+                </div>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-    </div>
+    </Container>
   </section>
 
-  <!-- What good digital marketing looks like for Aberdeen SMEs -->
-  <section class="edge-block edge-block--paper">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">How I work</div>
-      <h2 class="edge-h2" style="margin-bottom:16px;max-width:700px">Digital Marketing That Connects<br/>to Revenue</h2>
-      <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:48px">
+  <!-- ═══ HOW I WORK: four columns on hairlines ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">How I work</Text>
+      <Heading size="lg" data-m="split" class="mt-4 max-w-[20ch]">Digital marketing that connects to revenue</Heading>
+      <Text tone="secondary" class="mt-6 max-w-xl" data-m="fade">
         Most Aberdeen SMEs have tried marketing that did not work — an agency campaign that generated clicks but no leads, an SEO retainer that produced reports but no rankings, a LinkedIn spend with nothing to show for it. The problem is almost never the channel. It is strategy, or positioning, or the wrong metrics.
-      </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
-        {[
-          {
-            title: 'Strategy before spend',
-            body: 'Every engagement starts with a clear picture of your market position, your buyer, and where the real opportunity is. Digital marketing without a strategy is just spend.',
-          },
-          {
-            title: 'Local SEO that actually ranks',
-            body: 'Aberdeen search is competitive but winnable. Technical foundations, Google Business Profile optimisation, and content built for how your buyers search — not generic keyword lists.',
-          },
-          {
-            title: 'Paid media without waste',
-            body: 'Google Ads, LinkedIn, and Meta campaigns built around your sales cycle. Every campaign includes conversion tracking, audience segmentation, and a feedback loop that improves week on week.',
-          },
-          {
-            title: 'Websites that convert',
-            body: 'Conversion-focused builds with technical SEO embedded from the start. Every page built around a single goal, and measured against it.',
-          },
-        ].map(item => (
-          <div style="padding:28px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft)">
-            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
-              {item.title}
-            </h3>
-            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
-          </div>
+      </Text>
+      <ul class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+        {principles.map((item) => (
+          <li data-m="rise" class="border-t border-ink pt-6 lg:px-6 lg:first:pl-0 lg:last:pr-0 lg:[&:not(:first-child)]:border-l">
+            <Heading as="h3" size="sm">{item.title}</Heading>
+            <Text size="sm" class="mt-4">{item.body}</Text>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </Container>
   </section>
 
-  <!-- SEO Aberdeen spotlight -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div style="background:var(--v4-panel);border-radius:0;padding:clamp(32px,4vw,56px);border:1px solid var(--v4-line-soft);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
-        <div>
-          <div class="edge-label" style="margin-bottom:16px">Most in-demand service</div>
-          <h2 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:16px;line-height:1">
-            SEO Aberdeen
-          </h2>
-          <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.65;max-width:520px;margin-bottom:24px">
-            The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" style="color:var(--v4-ink);text-decoration:underline;text-underline-offset:3px">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px">
-            <a href="/services/seo-aberdeen" class="edge-btn" style="height:40px;font-size:var(--v4-text-small);padding:0 20px">
-              SEO Aberdeen service →
-            </a>
-            <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:40px;font-size:var(--v4-text-small);padding:0 20px">
-              Read the Aberdeen SEO guide →
-            </a>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:20px;text-align:right;flex-shrink:0">
-          <div>
-            <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">3×</div>
-            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">First-page<br/>rankings</div>
-          </div>
-          <div>
-            <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">20 → 2</div>
-            <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">UK Google<br/>position</div>
-          </div>
+  <!-- ═══ SEO ABERDEEN SPOTLIGHT: stone statement band ═══ -->
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Text size="sm" tone="secondary" data-m="fade">Most in-demand service</Text>
+        <Heading size="xl" data-m="split" class="mt-4">SEO Aberdeen</Heading>
+        <Text size="lg" class="mt-8 max-w-xl" data-m="fade">
+          The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" class="text-link">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
+        </Text>
+        <div class="mt-10 flex flex-wrap gap-4" data-m="fade">
+          <Button href="/services/seo-aberdeen" variant="dark">SEO Aberdeen service</Button>
+          <Button href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" variant="outline">Read the Aberdeen SEO guide</Button>
         </div>
       </div>
-    </div>
+      <dl class="grid grid-cols-2 gap-6 lg:col-span-4 lg:col-start-9 lg:grid-cols-1 lg:gap-10">
+        <div data-m="rise" class="border-t border-ink pt-5">
+          <dd class="font-heading text-7xl font-black leading-[0.9] tracking-[-0.05em] [font-stretch:115%]"><span data-count="3" data-suffix="×">3×</span></dd>
+          <dt class="t-eyebrow mt-3">First-page<br />rankings</dt>
+        </div>
+        <div data-m="rise" class="border-t border-ink pt-5">
+          <dd class="font-heading text-7xl font-black leading-[0.9] tracking-[-0.05em] [font-stretch:115%]">20 → 2</dd>
+          <dt class="t-eyebrow mt-3">UK Google<br />position</dt>
+        </div>
+      </dl>
+    </Container>
   </section>
 
-  <!-- Results -->
-  <section class="edge-block edge-block--mist">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Aberdeen results</div>
-      <h2 class="edge-h2" style="margin-bottom:40px">What This Delivers</h2>
-      <div style="display:flex;flex-direction:column;gap:2px;border-radius:0;overflow:hidden;border:1px solid var(--v4-line-soft)">
-        {cases.map(c => (
-          <a
-            href={`/work/${c.slug}`}
-            style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--v4-panel);padding:clamp(24px,3vw,40px);transition:background 0.28s var(--v4-ease-roll);text-decoration:none"
-            onmouseover="this.style.background='var(--v4-panel-3)'"
-            onmouseout="this.style.background='var(--v4-panel)'"
-          >
-            <div>
-              {c.logo && (
-                <img
-                  src={c.logo.src}
-                  alt=""
-                  width={c.logo.w}
-                  height={c.logo.h}
-                  class={`v4-client-logo v4-case-row__logo${c.logo.darkInvert ? ' logo-dark-invert' : ''}`}
-                  loading="lazy"
-                />
-              )}
-              <div class="edge-label" style="margin-bottom:10px">{c.year} · {c.descriptor}</div>
-              <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(22px,3vw,36px);letter-spacing:-0.015em;color:var(--v4-ink);margin-bottom:8px">
-                {c.client}
-              </h3>
-              <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute)">{c.summary}</p>
-            </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
-                {c.stat}
-              </div>
-              <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">
-                {c.statSub}
-              </div>
-            </div>
-          </a>
-        ))}
+  <!-- ═══ RESULTS: case rows on hairlines ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">Aberdeen results</Text>
+      <Heading size="lg" data-m="split" class="mt-4">What this delivers</Heading>
+      <ul class="mt-12 border-b border-ink">
+        {cases.map((c) => {
+          const logo = logoFor(c.client);
+          return (
+            <li data-m="rise" class="border-t border-ink">
+              <a href={`/work/${c.slug}`} class="group grid gap-6 py-8 transition-colors duration-200 hover:bg-stone md:grid-cols-12 md:items-center md:gap-6 md:py-10">
+                <div class="md:col-span-8">
+                  {logo && <img src={logo} alt="" loading="lazy" class="mb-5 h-auto max-h-9 w-auto max-w-[150px] object-contain grayscale" />}
+                  <Text size="sm" tone="secondary">{c.year} · {c.descriptor}</Text>
+                  <Heading as="h3" size="md" class="mt-2 decoration-signal decoration-2 underline-offset-4 group-hover:underline">{c.client}</Heading>
+                  <Text tone="secondary" class="mt-3 max-w-xl">{c.summary}</Text>
+                </div>
+                <div class="md:col-span-4 md:text-right">
+                  <p class="font-heading text-5xl font-black leading-[0.95] tracking-[-0.04em] [font-stretch:112%]">{c.stat}</p>
+                  <p class="t-eyebrow mt-3">{c.statSub}</p>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- ═══ TESTIMONIALS ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">What clients say</Text>
+      <ul class="mt-8 grid gap-12 md:grid-cols-2 md:gap-0 lg:grid-cols-3">
+        {testimonials.map((t) => {
+          const logo = logoFor(t.company);
+          return (
+            <li data-m="rise" class="border-t border-ink pt-6 md:px-8 md:first:pl-0 md:[&:not(:first-child)]:border-l lg:[&:nth-child(3n+1)]:pl-0">
+              <figure class="flex h-full flex-col">
+                {logo && <img src={logo} alt="" loading="lazy" class="mb-6 h-auto max-h-9 w-auto max-w-[150px] object-contain grayscale" />}
+                <blockquote><Text>"{t.quote}"</Text></blockquote>
+                <figcaption class="mt-6">
+                  <Text class="font-semibold">{t.name}</Text>
+                  <Text size="sm" tone="secondary">{t.role} · {t.company}{t.location ? ` · ${t.location}` : ''}</Text>
+                </figcaption>
+              </figure>
+            </li>
+          );
+        })}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Text size="sm" tone="secondary" data-m="fade">Common questions</Text>
+        <Heading size="lg" data-m="split" class="mt-4">Digital marketing Aberdeen — FAQ</Heading>
       </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">What clients say</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
-        {testimonials.map(t => (
-          <div class="v4-testimonial">
-            <div class="v4-testimonial__logo">
-              {t.logo && (
-                <ClientLogo logo={t.logo} name={t.company} class="v4-client-logo" decorative />
-              )}
-            </div>
-            <p class="v4-testimonial__quote">"{t.quote}"</p>
-            <div class="v4-testimonial__attr">
-              <div>
-                <div class="v4-testimonial__name">{t.name}</div>
-                <div class="v4-testimonial__role">{t.role} · {t.company}{t.location ? ` · ${t.location}` : ''}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="edge-block edge-block--sand">
-    <div class="edge-wrap" style="max-width:800px">
-      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
-      <h2 class="edge-h2" style="margin-bottom:40px">Digital Marketing Aberdeen — FAQ</h2>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
-        {faq.map(item => (
-          <details class="v4-faq-item" style="background:var(--v4-panel)">
-            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
-              {item.q}
-              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
+      <div class="lg:col-span-7 lg:col-start-6">
+        {faq.map((item) => (
+          <details data-m="rise" class="group border-t border-ink last:border-b">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 marker:hidden [&::-webkit-details-marker]:hidden">
+              <Heading as="h3" size="sm">{item.q}</Heading>
+              <Icon name="plus" stroke={1.5} class="mt-0.5 size-6 shrink-0 transition-transform duration-200 group-open:rotate-45" />
             </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6">{item.a}</p>
+            <Text class="max-w-xl pb-8">{item.a}</Text>
           </details>
         ))}
       </div>
-    </div>
+    </Container>
   </section>
 
-  <!-- CTA -->
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Make Your<br/>Marketing Work?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
-      </a>
-    </div>
+  <!-- ═══ CLOSING: full orange band ═══ -->
+  <section class="bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[12ch]">Ready to make your marketing work?</Heading>
+        <Text size="lg" tone="onAccent" class="mt-8 max-w-md" data-m="fade">
+          Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
+        </Text>
+        <div class="mt-10" data-m="fade">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+        </div>
+      </div>
+      <span data-m="fade" class="hidden lg:col-span-4 lg:col-start-9 lg:block"><Icon name="arrow-right" stroke={0.6} class="size-48" /></span>
+    </Container>
   </section>
-</div>
 </Layout>
-
-<style>
-  details.v4-faq-item summary::-webkit-details-marker { display: none; }
-  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
-  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
-  @media (max-width: 760px) {
-    div[style*="1fr 1fr"],
-    div[style*="1fr auto"] {
-      grid-template-columns: 1fr !important;
-    }
-    div[style*="text-align: right"] {
-      text-align: left !important;
-    }
-  }
-</style>

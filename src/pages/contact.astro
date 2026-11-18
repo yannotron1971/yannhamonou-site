@@ -1,8 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { logos } from '../data/index';
-import ClientLogo from '../components/ClientLogo.astro';
+import Container from '../components/ui/Container.astro';
+import Heading from '../components/ui/Heading.astro';
+import Text from '../components/ui/Text.astro';
 import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { homeClients } from '../data/index';
+
+const viewport3 = homeClients.find((c) => c.name === 'Viewport3');
+
+const steps = [
+  { t: 'You send the form', b: "Takes 2 minutes. Tell me what you're working on and where it's breaking down." },
+  { t: 'I review your situation', b: "I'll look at your site, your positioning, and your marketing before we speak." },
+  { t: '30-min call, clear priorities', b: "You leave with a specific list of what I'd fix first — not a generic report." },
+];
 ---
 
 <Layout
@@ -15,200 +26,57 @@ import PageHero from '../components/PageHero.astro';
     lede="Tell me where you are and what's not working. I'll review your situation and share exactly what I'd prioritise. No pitch, no agenda — just a useful conversation."
   />
 
-  <div class="edge-sheet">
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="v4-contact-layout">
+  <section class="bg-paper py-16 md:py-24">
+    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+      <!-- Form and phone -->
+      <div class="lg:col-span-6">
+        <ContactForm id="contact-form" buttonLabel="Send" class="border border-ink" data-m="rise" />
 
-        <!-- LEFT: form -->
-        <div class="v4-contact-form-col">
-          <form
-            action="https://formspree.io/f/xkoabzbd"
-            method="POST"
-            class="v4-contact-form"
-            id="contact-form"
-          >
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="v4-hp" />
-            <div class="v4-contact-row">
-              <div class="v4-field">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name" />
-              </div>
-              <div class="v4-field">
-                <label for="company">Company</label>
-                <input type="text" id="company" name="company" placeholder="Your company" autocomplete="organization" />
-              </div>
-            </div>
-
-            <div class="v4-field">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="you@company.com" autocomplete="email" />
-            </div>
-
-            <div class="v4-field">
-              <label for="challenge">Biggest marketing challenge</label>
-              <textarea id="challenge" name="challenge" placeholder="What's not working? Where are you losing leads? What have you already tried?" rows="5"></textarea>
-            </div>
-
-            <div style="margin-top:8px">
-              <button type="submit" class="edge-btn" style="width:100%;justify-content:center;height:48px">
-                Send →
-              </button>
-            </div>
-            <p id="form-status" class="v4-form-status" role="status" aria-live="polite" hidden></p>
-          </form>
-
-          <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--v4-line-soft)">
-            <div class="edge-label" style="margin-bottom:12px">Prefer to call?</div>
-            <a href="tel:+447853455816" style="font-size:22px;font-weight:600;color:var(--v4-ink)">+44 7853 455 816</a>
-            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-dim);margin-top:4px">Mon–Fri, 9am–6pm GMT</p>
-          </div>
-        </div>
-
-        <!-- RIGHT: trust panel -->
-        <div class="v4-contact-trust">
-
-          <div class="v4-contact-trust__block">
-            <div class="edge-label" style="margin-bottom:16px">What to expect</div>
-            <ul style="list-style:none;display:flex;flex-direction:column;gap:14px">
-              {[
-                { n: '01', t: 'You send the form', b: 'Takes 2 minutes. Tell me what you\'re working on and where it\'s breaking down.' },
-                { n: '02', t: 'I review your situation', b: 'I\'ll look at your site, your positioning, and your marketing before we speak.' },
-                { n: '03', t: '30-min call, clear priorities', b: 'You leave with a specific list of what I\'d fix first — not a generic report.' },
-              ].map(step => (
-                <li style="display:flex;gap:14px;align-items:flex-start">
-                  <span style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.08em;padding-top:3px;flex-shrink:0">{step.n}</span>
-                  <div>
-                    <div style="font-weight:500;font-size:var(--v4-text-small);color:var(--v4-ink);margin-bottom:2px">{step.t}</div>
-                    <div style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.5">{step.b}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
-            <div class="edge-label" style="margin-bottom:16px">Typical response time</div>
-            <div style="font-family:var(--v4-display);font-weight:300;font-size:48px;line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">
-              &lt;4h
-            </div>
-            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);margin-top:8px;line-height:1.5">
-              During business hours. I read every enquiry personally and respond with something useful — not a templated reply.
-            </p>
-          </div>
-
-          <div class="v4-contact-trust__block" style="border-top:1px solid var(--v4-line-soft);padding-top:28px">
-            <div class="edge-label" style="margin-bottom:16px">What clients say</div>
-            <ClientLogo
-              logo={logos.viewport3}
-              name="Viewport3"
-              class="v4-client-logo"
-              style="margin-bottom:14px"
-              decorative
-            />
-            <blockquote style="margin:0">
-              <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.65;font-style:italic;margin-bottom:12px">
-                "Within three months we saw measurable results in both organic traffic and lead quality."
-              </p>
-              <footer style="font-size:var(--v4-text-label);color:var(--v4-ink-dim)">
-                Chris Harvey, CEO · Viewport3, Aberdeen
-              </footer>
-            </blockquote>
-          </div>
-
+        <div class="mt-12 border-t border-ink pt-8" data-m="fade">
+          <Text size="sm" tone="secondary">Prefer to call?</Text>
+          <a href="tel:+447853455816" class="mt-3 block font-heading text-4xl font-extrabold tracking-[-0.03em] [font-stretch:110%] decoration-signal decoration-2 underline-offset-4 hover:underline">+44 7853 455 816</a>
+          <Text size="sm" tone="secondary" class="mt-2">Mon–Fri, 9am–6pm GMT</Text>
         </div>
       </div>
-    </div>
+
+      <!-- What to expect, response time, client quote -->
+      <div class="space-y-12 lg:col-span-5 lg:col-start-8 lg:border-l lg:border-ink lg:pl-10">
+        <div data-m="fade">
+          <Heading as="h2" size="md">What to expect</Heading>
+          <ol class="mt-6">
+            {steps.map((s, i) => (
+              <li class="flex gap-4 border-t border-ink py-5">
+                <span aria-hidden="true" class="flex size-9 shrink-0 items-center justify-center rounded-full bg-signal font-body text-base font-semibold text-ink">{i + 1}</span>
+                <div>
+                  <Text class="font-semibold">{s.t}</Text>
+                  <Text size="sm" tone="secondary" class="mt-1">{s.b}</Text>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="border-t border-ink pt-8" data-m="fade">
+          <Text size="sm" tone="secondary">Typical response time</Text>
+          <p class="mt-3 font-heading text-7xl font-black leading-[0.9] tracking-[-0.05em] [font-stretch:115%]">&lt;4h</p>
+          <Text size="sm" tone="secondary" class="mt-4 max-w-sm">
+            During business hours. I read every enquiry personally and respond with something useful — not a templated reply.
+          </Text>
+        </div>
+
+        <figure class="border-t border-ink pt-8" data-m="fade">
+          <Text size="sm" tone="secondary">What clients say</Text>
+          {viewport3 && (
+            <img src={viewport3.logo} alt="" loading="lazy" class="mt-5 h-auto max-h-9 w-auto max-w-[150px] object-contain grayscale" />
+          )}
+          <blockquote class="mt-5">
+            <Text>"Within three months we saw measurable results in both organic traffic and lead quality."</Text>
+          </blockquote>
+          <figcaption class="mt-4">
+            <Text size="sm" tone="secondary">Chris Harvey, CEO · Viewport3, Aberdeen</Text>
+          </figcaption>
+        </figure>
+      </div>
+    </Container>
   </section>
-  </div>
 </Layout>
-
-<style>
-  .v4-contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: clamp(40px, 6vw, 100px);
-    align-items: start;
-  }
-  .v4-contact-trust {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    position: sticky;
-    top: 100px;
-  }
-  .v4-contact-trust__block {
-    display: flex;
-    flex-direction: column;
-  }
-  @media (max-width: 860px) {
-    .v4-contact-layout {
-      grid-template-columns: 1fr;
-    }
-    .v4-contact-trust {
-      position: static;
-      border-top: 1px solid var(--v4-line-soft);
-      padding-top: 40px;
-    }
-  }
-  .v4-contact-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  @media (max-width: 560px) {
-    .v4-contact-row { grid-template-columns: 1fr; }
-  }
-  .v4-hp {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-  }
-  .v4-form-status {
-    margin-top: 16px;
-    font-size: var(--v4-text-body);
-    line-height: 1.5;
-    color: var(--v4-ink);
-  }
-  .v4-form-status[data-state="error"] { color: var(--v4-ink); }
-  #contact-form[data-sent="true"] .v4-field,
-  #contact-form[data-sent="true"] .v4-contact-row,
-  #contact-form[data-sent="true"] button { display: none; }
-</style>
-
-<script>
-  // Progressive enhancement: without JS the form still posts to Formspree.
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('form-status');
-  if (form && status) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-      const label = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      status.hidden = true;
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' },
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        form.dataset.sent = 'true';
-        status.dataset.state = 'ok';
-        status.textContent = "Thanks, that's with me. I read every enquiry personally and will reply within one working day, usually sooner.";
-        status.hidden = false;
-        status.focus?.();
-      } catch {
-        btn.disabled = false;
-        btn.textContent = label;
-        status.dataset.state = 'error';
-        status.textContent = 'That did not send. Try again, or call +44 7853 455 816.';
-        status.hidden = false;
-      }
-    });
-  }
-</script>

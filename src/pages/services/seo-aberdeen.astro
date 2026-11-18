@@ -1,13 +1,18 @@
 ---
+/* SEO Aberdeen: the site's main SEO landing page, Signal Poster layout.
+   Copy, headings, FAQ, internal links and schema are unchanged from the
+   Edge v4 version; only markup and classes moved to the new system. */
 import Layout from '../../layouts/Layout.astro';
-import EdgeField from '../../components/EdgeField.astro';
-import { logos } from '../../data/index';
+import PageHero from '../../components/PageHero.astro';
+import Container from '../../components/ui/Container.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Text from '../../components/ui/Text.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { logos, serviceImages } from '../../data/index';
 import { getServices } from '../../lib/keystatic';
 
 const services = await getServices();
-import ClientLogo from '../../components/ClientLogo.astro';
-
-const service = services.find(s => s.slug === 'seo-aberdeen')!;
 const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
 
 const faq = [
@@ -74,80 +79,65 @@ const faq = [
     }
   })} />
 
-  <!-- Hero -->
-  <section class="edge-block edge-block--dark edge-block--ink edge-page-hero">
-    <EdgeField contained />
-    <div class="edge-wrap">
-      <a href="/services" class="edge-label" style="margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;color:var(--v4-ink-dim);transition:color 0.28s var(--v4-ease-roll)">
-        ← All services
-      </a>
-      <div class="edge-label" style="margin-top:24px;margin-bottom:20px">03 · Service</div>
-      <h1
-        style="font-family:var(--v4-display);font-weight:300;font-size:clamp(48px,8vw,120px);line-height:1.02;letter-spacing:-0.025em;color:var(--v4-ink);margin-bottom:24px"
-      >
-        SEO Aberdeen
-      </h1>
-      <p style="font-size:clamp(17px,2vw,22px);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;font-weight:300">
-        Search engine optimisation and AI visibility for Aberdeen and Scottish B2B businesses. Get found by buyers who are already looking for what you sell.
-      </p>
-    </div>
-  </section>
+  <!-- ═══ HERO ═══ -->
+  <PageHero
+    label="03 · Service"
+    title="SEO Aberdeen"
+    lede="Search engine optimisation and AI visibility for Aberdeen and Scottish B2B businesses. Get found by buyers who are already looking for what you sell."
+    image={serviceImages['seo-aberdeen']}
+  >
+    <a href="/services" class="text-link mt-8 inline-block text-sm">← All services</a>
+  </PageHero>
 
-  <div class="edge-sheet">
-
-  <!-- What SEO in Aberdeen actually requires -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:clamp(32px,5vw,80px);align-items:start">
-        <div>
-          <div class="edge-label" style="margin-bottom:20px">The Aberdeen context</div>
-          <div style="display:flex;flex-direction:column;gap:20px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.7">
-            <p>
-              Aberdeen search results are competitive in a specific way. National firms with large domain authority dominate generic terms. Local businesses win by being clearly the most relevant, most trusted, most geographically specific result for Aberdeen and Aberdeenshire buyers.
-            </p>
-            <p>
-              That means Aberdeen SEO is not the same as generic SEO. It requires a precise combination: technical foundations that Googlebot can actually crawl, local authority signals that the Maps algorithm weights heavily, content built around how Aberdeen buyers actually search, and increasingly, structured data that feeds the AI summaries taking over the top of the page.
-            </p>
-            <p>
-              I have delivered this specifically for Aberdeen and Scottish B2B companies — from industrial equipment suppliers serving the North Sea to professional services firms in the city centre. The work is practical, not theoretical.
-            </p>
-          </div>
-          <a href="/contact" class="edge-btn" style="margin-top:32px;display:inline-flex">
-            Discuss your SEO situation →
-          </a>
+  <!-- ═══ What SEO in Aberdeen actually requires ═══ -->
+  <section class="bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-7">
+        <Text size="sm" tone="secondary" data-m="fade">The Aberdeen context</Text>
+        <div class="mt-8 space-y-5" data-m="fade">
+          <Text size="lg" class="max-w-xl">
+            Aberdeen search results are competitive in a specific way. National firms with large domain authority dominate generic terms. Local businesses win by being clearly the most relevant, most trusted, most geographically specific result for Aberdeen and Aberdeenshire buyers.
+          </Text>
+          <Text size="lg" class="max-w-xl">
+            That means Aberdeen SEO is not the same as generic SEO. It requires a precise combination: technical foundations that Googlebot can actually crawl, local authority signals that the Maps algorithm weights heavily, content built around how Aberdeen buyers actually search, and increasingly, structured data that feeds the AI summaries taking over the top of the page.
+          </Text>
+          <Text size="lg" class="max-w-xl">
+            I have delivered this specifically for Aberdeen and Scottish B2B companies — from industrial equipment suppliers serving the North Sea to professional services firms in the city centre. The work is practical, not theoretical.
+          </Text>
         </div>
-
-        <div style="background:var(--v4-panel);border-radius:0;padding:32px;border:1px solid var(--v4-line-soft)">
-          <div class="edge-label" style="margin-bottom:16px">What's included</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
-            {[
-              'Technical SEO audit & fixes',
-              'Keyword & intent mapping',
-              'Local SEO & GBP optimisation',
-              'Content strategy & planning',
-              'On-page optimisation',
-              'GEO / AI visibility setup',
-              'Monthly reporting & recommendations',
-            ].map(item => (
-              <li style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);padding-left:16px;position:relative">
-                <span style="position:absolute;left:0;color:var(--v4-ink-dim)">→</span>{item}
-              </li>
-            ))}
-          </ul>
+        <div class="mt-10" data-m="fade">
+          <Button href="/contact">Discuss your SEO situation</Button>
         </div>
       </div>
-    </div>
+
+      <div class="lg:col-span-4 lg:col-start-9" data-m="rise">
+        <Text as="p" class="font-semibold">What's included</Text>
+        <ul class="mt-6 border-b border-ink">
+          {[
+            'Technical SEO audit & fixes',
+            'Keyword & intent mapping',
+            'Local SEO & GBP optimisation',
+            'Content strategy & planning',
+            'On-page optimisation',
+            'GEO / AI visibility setup',
+            'Monthly reporting & recommendations',
+          ].map(item => (
+            <li class="border-t border-ink py-4"><Text size="sm">{item}</Text></li>
+          ))}
+        </ul>
+      </div>
+    </Container>
   </section>
 
-  <!-- Aberdeen industries -->
-  <section class="edge-block edge-block--paper">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Who I work with in Aberdeen</div>
-      <h2 class="edge-h2" style="margin-bottom:16px;max-width:680px">Aberdeen's Economy Has<br/>Specific Search Behaviour</h2>
-      <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);max-width:680px;line-height:1.6;margin-bottom:40px">
+  <!-- ═══ Aberdeen industries ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">Who I work with in Aberdeen</Text>
+      <Heading size="lg" data-m="split" class="mt-6 max-w-3xl">Aberdeen's Economy Has<br />Specific Search Behaviour</Heading>
+      <Text tone="secondary" class="mt-8 max-w-xl" data-m="fade">
         Generic SEO strategies built for retail or national brands rarely work here. Aberdeen's B2B buyers search differently — longer queries, industry-specific terminology, and a strong preference for local providers with demonstrable sector experience.
-      </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      </Text>
+      <ul class="mt-12 grid border-t border-ink md:mt-16 md:grid-cols-2">
         {[
           {
             sector: 'Energy & Oil and Gas',
@@ -165,24 +155,25 @@ const faq = [
             sector: 'Technology & SaaS',
             body: 'Aberdeen\'s growing technology cluster includes software companies, digital agencies, and SaaS businesses targeting national and global markets. SEO and GEO give them visibility beyond word-of-mouth in a tight local network.',
           },
-        ].map(item => (
-          <div style="padding:28px;background:var(--v4-panel);border-radius:0;border:1px solid var(--v4-line-soft)">
-            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(16px,1.8vw,20px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
-              {item.sector}
-            </h3>
-            <p style="font-size:var(--v4-text-small);color:var(--v4-ink-mute);line-height:1.6">{item.body}</p>
-          </div>
+        ].map((item, i) => (
+          <li data-m="rise" class:list={[
+            'border-b border-ink py-8 md:py-10',
+            i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
+          ]}>
+            <Heading as="h3" size="md">{item.sector}</Heading>
+            <Text class="mt-4 max-w-md">{item.body}</Text>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </Container>
   </section>
 
-  <!-- Three pillars of Aberdeen SEO -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">How it works</div>
-      <h2 class="edge-h2" style="margin-bottom:48px">The Three Pillars</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+  <!-- ═══ Three pillars of Aberdeen SEO: orange numbered circles ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">How it works</Text>
+      <Heading size="lg" data-m="split" class="mt-6">The Three Pillars</Heading>
+      <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
         {[
           {
             num: '01',
@@ -200,139 +191,122 @@ const faq = [
             body: 'Content built around how Aberdeen buyers actually search — not generic keyword lists. Structured so that both Googlebot and AI systems (Google AI Overviews, Bing Copilot, ChatGPT) can extract, attribute, and cite your answers. GEO is not a separate discipline; it is built into every content decision.',
           },
         ].map(step => (
-          <div style="border-top:2px solid var(--v4-line);padding-top:24px">
-            <div class="edge-label" style="margin-bottom:16px">{step.num}</div>
-            <h3 style="font-family:var(--v4-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:-0.01em;color:var(--v4-ink);margin-bottom:12px">
-              {step.title}
-            </h3>
-            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.6">{step.body}</p>
-          </div>
+          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
+            <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{step.num}</span>
+            <Heading as="h3" size="md" class="mt-6">{step.title}</Heading>
+            <Text class="mt-3">{step.body}</Text>
+          </li>
         ))}
-      </div>
-    </div>
+      </ol>
+    </Container>
   </section>
 
-  <!-- Aberdeen SEO results (case study) -->
-  <section class="edge-block edge-block--mist">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:20px">Aberdeen SEO results</div>
-      <h2 class="edge-h2" style="margin-bottom:40px">What This Looks Like<br/>In Practice</h2>
-      <div style="background:var(--v4-panel);border-radius:0;padding:clamp(28px,4vw,56px);border:1px solid var(--v4-line-soft)">
-        <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
-          <div>
-            <ClientLogo
-              logo={logos.arnlea}
-              name="Arnlea Systems"
-              class="v4-client-logo"
-              style="margin-bottom:18px"
-              decorative
-            />
-            <div class="edge-label" style="margin-bottom:16px">Arnlea Systems — Aberdeen · Ex inspection software</div>
-            <h3 style="font-family:var(--v4-display);font-weight:300;font-size:clamp(28px,4vw,52px);letter-spacing:-0.02em;color:var(--v4-ink);margin-bottom:20px">
-              3× the First-Page Rankings
-            </h3>
-            <p style="font-size:var(--v4-text-body);color:var(--v4-ink-mute);line-height:1.7;max-width:560px">
-              Arnlea Systems is an Aberdeen software company whose product, Nexar, runs Ex and ATEX inspections in hazardous areas. I rebuilt their whole website in Webflow with an SEO-first structure, then added three inspection guides written for the questions their buyers actually search. That took them from 96 to 275 first-page Google rankings in six months and from 33 to 146 top-three positions. Google's AI answer for Ex inspection software now names Nexar first.
-            </p>
-            <a href="/work/arnlea" class="edge-btn" style="margin-top:24px;display:inline-flex;height:36px;font-size:var(--v4-text-small)">
-              Read the full case study →
-            </a>
+  <!-- ═══ Aberdeen SEO results (case study): stone band, poster figures ═══ -->
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">Aberdeen SEO results</Text>
+      <Heading size="lg" data-m="split" class="mt-6 max-w-3xl">What This Looks Like<br />In Practice</Heading>
+
+      <div class="mt-12 grid gap-12 md:mt-16 lg:grid-cols-12 lg:gap-6">
+        <div class="lg:col-span-7" data-m="rise">
+          <img
+            src={logos.arnlea.src}
+            alt=""
+            width={logos.arnlea.w}
+            height={logos.arnlea.h}
+            loading="lazy"
+            class="mb-8 h-8 w-auto max-w-[12rem] object-contain object-left grayscale transition-[filter] duration-300 hover:grayscale-0"
+          />
+          <Text size="sm" tone="secondary">Arnlea Systems — Aberdeen · Ex inspection software</Text>
+          <Heading as="h3" size="lg" class="mt-4">3× the First-Page Rankings</Heading>
+          <Text class="mt-6 max-w-xl">
+            Arnlea Systems is an Aberdeen software company whose product, Nexar, runs Ex and ATEX inspections in hazardous areas. I rebuilt their whole website in Webflow with an SEO-first structure, then added three inspection guides written for the questions their buyers actually search. That took them from 96 to 275 first-page Google rankings in six months and from 33 to 146 top-three positions. Google's AI answer for Ex inspection software now names Nexar first.
+          </Text>
+          <div class="mt-8">
+            <Button href="/work/arnlea" variant="dark" size="sm">Read the full case study</Button>
           </div>
-          <div style="display:flex;flex-direction:column;gap:24px;text-align:right">
-            <div>
-              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">3×</div>
-              <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">First-page rankings</div>
-            </div>
-            <div>
-              <div style="font-family:var(--v4-display);font-weight:300;font-size:clamp(40px,6vw,80px);line-height:1;letter-spacing:-0.02em;color:var(--v4-ink)">146</div>
-              <div style="font-family:var(--v4-mono);font-size:var(--v4-text-label);color:var(--v4-ink-dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Top-three rankings</div>
-            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 lg:col-span-4 lg:col-start-9 lg:grid-cols-1">
+          <div data-m="rise" class="border-t border-ink pt-6">
+            <p class="font-heading text-8xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]"><span data-count="3" data-suffix="×">3×</span></p>
+            <Text size="sm" class="mt-4 uppercase">First-page rankings</Text>
+          </div>
+          <div data-m="rise" class="border-t border-ink pt-6">
+            <p class="font-heading text-8xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]"><span data-count="146">146</span></p>
+            <Text size="sm" class="mt-4 uppercase">Top-three rankings</Text>
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   </section>
 
-  <!-- FAQ -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap" style="max-width:800px">
-      <div class="edge-label" style="margin-bottom:20px">Common questions</div>
-      <h2 class="edge-h2" style="margin-bottom:40px">SEO Aberdeen — FAQ</h2>
-      <div style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--v4-line-soft);border-radius:0;overflow:hidden">
+  <!-- ═══ FAQ: two-column hairline list. Questions are not headings, as before. ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Text size="sm" tone="secondary" data-m="fade">Common questions</Text>
+        <Heading size="lg" data-m="split" class="mt-6">SEO Aberdeen — FAQ</Heading>
+      </div>
+      <dl class="lg:col-span-7 lg:col-start-6">
         {faq.map(item => (
-          <details class="v4-faq-item" style="background:var(--v4-panel)">
-            <summary style="padding:24px 28px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:500;color:var(--v4-ink)">
-              {item.q}
-              <span aria-hidden="true" style="flex-shrink:0;color:var(--v4-ink-dim)">+</span>
-            </summary>
-            <p style="padding:0 28px 24px;color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6">{item.a}</p>
-          </details>
+          <div data-m="rise" class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
+            <dt><Heading as="p" size="sm">{item.q}</Heading></dt>
+            <dd><Text>{item.a}</Text></dd>
+          </div>
         ))}
-      </div>
-    </div>
+      </dl>
+    </Container>
   </section>
 
-  <!-- Related reading -->
-  <section class="edge-block edge-block--sand">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:16px">From the journal</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <a href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
-          SEO Aberdeen: The Basics That Still Win in 2025 →
-        </a>
-        <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails" class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
-          SEO in 2025: What Works, What's Hype, What Fails →
-        </a>
-        <a href="/journal/is-your-content-ready-for-the-ai-search-revolution" class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
-          Is Your Content Ready for AI Search? →
-        </a>
-      </div>
-    </div>
+  <!-- ═══ Related reading ═══ -->
+  <section class="border-t border-ink bg-paper py-16 md:py-20">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">From the journal</Text>
+      <ul class="mt-6 border-b border-ink">
+        {[
+          { href: '/journal/seo-aberdeen-the-basics-that-still-win-in-2025', label: 'SEO Aberdeen: The Basics That Still Win in 2025' },
+          { href: '/journal/seo-in-2025-what-works-whats-hype-what-fails', label: "SEO in 2025: What Works, What's Hype, What Fails" },
+          { href: '/journal/is-your-content-ready-for-the-ai-search-revolution', label: 'Is Your Content Ready for AI Search?' },
+        ].map(l => (
+          <li data-m="rise" class="border-t border-ink">
+            <a href={l.href} class="group flex items-center justify-between gap-6 py-5">
+              <span class="decoration-signal decoration-2 underline-offset-4 group-hover:underline">{l.label}</span>
+              <Icon name="arrow-right" stroke={1} class="size-8 shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Container>
   </section>
 
-  <!-- Other services -->
-  <section class="edge-block edge-block--white">
-    <div class="edge-wrap">
-      <div class="edge-label" style="margin-bottom:16px">Also available</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px">
+  <!-- ═══ Other services ═══ -->
+  <section class="border-t border-ink bg-paper py-16 md:py-20">
+    <Container data-group>
+      <Text size="sm" tone="secondary" data-m="fade">Also available</Text>
+      <ul class="mt-6 flex flex-wrap gap-3">
         {otherServices.map(s => (
-          <a href={`/services/${s.slug}`} class="edge-btn" style="height:36px;font-size:var(--v4-text-small)">
-            {s.title}
-          </a>
+          <li data-m="rise"><Button href={`/services/${s.slug}`} variant="outline" size="sm">{s.title}</Button></li>
         ))}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- ═══ CTA: full orange band, thin arrow ═══ -->
+  <section class="bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Ready to Rank<br />in Aberdeen?</Heading>
+        <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
       </div>
-    </div>
+      <div class="lg:col-span-4 lg:col-start-9" data-m="fade">
+        <Text size="lg" tone="onAccent" class="max-w-md">
+          Book the free 30-minute review. I'll look at your current search presence, identify the biggest gaps, and tell you exactly what I'd prioritise.
+        </Text>
+        <div class="mt-8">
+          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+        </div>
+      </div>
+    </Container>
   </section>
-
-  <!-- CTA -->
-  <section class="edge-block edge-block--dark edge-block--pitch">
-    <div class="edge-wrap" style="max-width:640px;text-align:center">
-      <h2 class="edge-h2" style="margin-bottom:16px">Ready to Rank<br/>in Aberdeen?</h2>
-      <p style="color:var(--v4-ink-mute);font-size:var(--v4-text-body);line-height:1.6;margin-bottom:32px">
-        Book the free 30-minute review. I'll look at your current search presence, identify the biggest gaps, and tell you exactly what I'd prioritise.
-      </p>
-      <a href="/contact" class="edge-btn" style="height:48px;font-size:var(--v4-text-body);padding:0 32px">
-        Book the free review →
-      </a>
-    </div>
-  </section>
-</div>
 </Layout>
-
-<style>
-  details.v4-faq-item summary::-webkit-details-marker { display: none; }
-  details.v4-faq-item[open] summary span { transform: rotate(45deg); }
-  details.v4-faq-item summary span { display: inline-block; transition: transform 0.2s ease; }
-  @media (max-width: 760px) {
-    div[style*="2fr 1fr"],
-    div[style*="1fr auto"],
-    div[style*="repeat(3"] {
-      grid-template-columns: 1fr !important;
-    }
-    div[style*="text-align: right"] {
-      text-align: left !important;
-      flex-direction: row !important;
-      gap: 32px !important;
-    }
-  }
-</style>
