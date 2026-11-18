@@ -1,278 +1,321 @@
 ---
-/* SEO Aberdeen: the site's main SEO landing page, Signal Poster layout.
-   Copy, headings, FAQ, internal links and schema are unchanged from the
-   Edge v4 version; only markup and classes moved to the new system. */
+/* SEO Aberdeen: the site's main SEO landing page (position ~15-17 for
+   "seo aberdeen" on the live site, Nov 2026).
+
+   Copy, title and description are ported from the live Webflow page
+   (www.yannhamonou.com/marketing-services/seo-aberdeen, 18 Nov 2026) so the
+   migration does not halve the page that ranks. Only typos were fixed.
+   Edit the copy here; keep the h1 "SEO Aberdeen". */
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
 import Container from '../../components/ui/Container.astro';
 import Heading from '../../components/ui/Heading.astro';
 import Text from '../../components/ui/Text.astro';
 import Button from '../../components/ui/Button.astro';
+import Tag from '../../components/ui/Tag.astro';
 import Icon from '../../components/ui/Icon.astro';
-import { logos, serviceImages } from '../../data/index';
+import ContactForm from '../../components/ContactForm.astro';
+import { serviceImages } from '../../data/index';
 import { getServices } from '../../lib/keystatic';
 
 const services = await getServices();
-const otherServices = services.filter(s => s.slug !== 'seo-aberdeen');
+const otherServices = services.filter((s) => s.slug !== 'seo-aberdeen');
+const origin = new URL('/', Astro.site).origin;
 
-const faq = [
+const results = [
   {
-    q: 'How long does SEO take to show results in Aberdeen?',
-    a: 'For most Aberdeen SMEs, you can expect meaningful movement in local rankings within 6–12 weeks of fixing technical issues and building on-page signals. Competitive commercial terms typically take 3–6 months to hold. Incident Insight went from page two to the top two in the UK for its category term in about three months.',
+    client: 'Arnlea Systems',
+    body: 'Aberdeen-based Arnlea Systems went from invisible on Google to ranking #2 and eventually #1 for "ATEX inspection software" and other related inquiries within weeks of a Webflow rebuild and SEO/GEO strategy.',
+    quote: '"Inbound enquiries are now a primary source of pipeline." Claire Matthew, Head of Business Development',
+    href: '/work/arnlea',
+    linkLabel: 'Read the Arnlea case study',
   },
   {
-    q: 'What is different about SEO for Aberdeen businesses?',
-    a: 'Aberdeen has a distinct search landscape shaped by the energy sector, professional services, and a tight geographic market. Competitors are often national firms with larger budgets, so local authority signals — Google Business Profile, Aberdeen-specific content, local backlinks from trade bodies and business groups — carry more weight here than in a generic national campaign.',
+    client: 'Bowtie Master from Salus-Technical',
+    body: 'A full SEO/GEO audit revealing flaws at the structural, technical and content level. Still ongoing but SEO visibility jumped from "nowhere to be seen" to rank 1 to 5 for targeted keywords a week into the project.',
+    href: '/work/BowtieMaster',
+    linkLabel: 'Read the BowtieMaster case study',
   },
   {
-    q: 'Do you cover GEO — AI-powered search visibility?',
-    a: 'Yes. GEO (Generative Engine Optimisation) is built into every engagement. As Google AI Overviews, Bing Copilot, and ChatGPT increasingly answer queries before a click, the businesses being cited are those with structured, authoritative, local content. The technical foundations of good SEO and GEO overlap significantly — strong SEO is the floor; chunk-level content quality is what gets you cited.',
-  },
-  {
-    q: 'Can you help with Google Business Profile for Aberdeen?',
-    a: 'Absolutely. GBP optimisation is a core part of any Aberdeen SEO engagement. That means completing every field, selecting the right categories, adding products and services, publishing regular posts, and building a review acquisition strategy — all of which affect prominence in the Aberdeen Maps pack.',
-  },
-  {
-    q: 'What does an SEO engagement with you cost?',
-    a: 'Engagements are scoped to your situation — there is no off-the-shelf package, and what a site needs after an audit varies more than any price list would suggest. The free 30-minute review is the right starting point: I will tell you where the biggest opportunity is, and what it would take, before you commit to anything.',
-  },
-  {
-    q: 'What is GEO and why does it matter for Aberdeen businesses?',
-    a: 'Generative Engine Optimisation (GEO) is the practice of structuring your content so that AI-powered search tools — ChatGPT, Perplexity, Google AI Overviews, Bing Copilot — cite your business in their generated answers. As more B2B buyers use these tools to research suppliers, businesses that are not optimised for AI search will lose visibility to competitors who are. This is particularly relevant in Aberdeen\'s professional services and energy sectors, where buyers increasingly ask AI tools for recommendations before contacting providers.',
+    client: 'Viewport3',
+    body: 'Here, I started with positioning to get a detailed understanding of the context and environment. This was extremely helpful to develop an SEO strategy that eventually delivered first places for the target keywords we selected. The company is now routinely mentioned in AI answers when the topic of dimensional assurance and subsea photogrammetry match the user requests.',
+    href: '/work/viewport3',
+    linkLabel: 'Read the Viewport3 case study',
   },
 ];
+
+const reasons = [
+  { title: 'Local and global knowledge', body: 'I understand the Aberdeen market (the energy transition, the growing tech sector, the competitive professional services market) and how local and global businesses compete for visibility online.' },
+  { title: 'Proven expertise', body: 'Years of experience in SEO, content strategy, and digital marketing. Demonstrated GEO results.' },
+  { title: 'Flexible and transparent', body: 'No cookie-cutter packages, just clear strategies that deliver.' },
+  { title: 'Future proofed for AI-search', body: "Whilst consultants and agencies still optimise for Google alone, I also optimise for how AI engines decide which businesses to cite and recommend, so your visibility doesn't disappear as search behaviour shifts." },
+];
+
+const offer = [
+  { title: 'Local & global SEO', body: 'Your business needs to appear when customers search for your services. I optimise Google Business Profiles, local citations, and content to drive visibility in local search results, and build the domain authority needed to compete nationally and internationally.' },
+  { title: 'Technical SEO', body: 'I audit your website to fix issues that stop you ranking. From site speed and indexing to structured data, I ensure search engines can crawl and understand your site.' },
+  { title: 'Content & On-Page SEO', body: 'Pages that rank and convert. I optimise copy, headings, metadata and internal linking around the terms your buyers actually search for, written so both search engines and AI models can pull out and cite what matters.' },
+  { title: 'Link Building & Authority', body: 'Through ethical outreach and local partnerships, I help build the authority your website needs to compete with bigger players.' },
+  { title: 'Generative Engine Optimisation (GEO)', body: "Google's AI Overviews and AI Mode, ChatGPT, Perplexity and Gemini are increasingly where your buyers start their research. Google builds its AI answers from its normal search index, so the groundwork is good SEO. On top of that, I structure each page to answer the follow-up questions these tools ask, in sections that still make sense when quoted on their own, and I work on getting your business named on the third-party sites AI answers draw from. I don't sell llms.txt files or \"AI schema\" as a fix: Google has said its AI features don't need them." },
+  { title: 'SEO & GEO audit', body: "A one-off assessment of your website's performance across both traditional search and AI answer engines. You get a detailed report with prioritised actions: technical fixes, content gaps, schema improvements, and GEO readiness scoring. A clear starting point, whether you work with me or implement independently." },
+];
+
+const different = [
+  { title: 'Answer-first content architecture.', body: "In CXL's analysis of 100 AI Overview citations, 55% of the quoted passages came from the first 30% of the page. I structure your pages so the most important information appears where both humans and machines look first." },
+  { title: 'Citation-ready formatting.', body: "AI models extract information more reliably from clear headings, structured lists, and concise factual statements. I design content that's easy for machines to quote accurately." },
+  { title: 'Verifiable trust signals.', body: "Google's quality guidelines centre on E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness), and Google's AI answers draw on the same ranking systems. I build these signals into your content with author attribution, original data, cited sources and named client results." },
+  { title: 'Technical AI readiness.', body: 'I check that AI crawlers can read your pages without running JavaScript and that nothing stops Google showing them in AI answers. I also make sure your Google Business Profile and directory listings match your site.' },
+];
+
+const sectors = ['Professional Services', 'Trade', 'Property', 'Tech & Engineering', 'SaaS', 'Healthcare', 'Legal'];
+
+const faq = [
+  { q: 'What makes local (Aberdeen) SEO different from general SEO?', a: "Local SEO requires understanding local search behaviour, specific sector terminology, and the B2B buying cycle typical of Scottish companies. Optimising your Google Business Profile, building local citations in Aberdeen, Scottish business directories or even global ones, and earning industry-specific backlinks all play a role. Aberdeen's economy has specific characteristics (the energy sector transition, a growing technology cluster, and a dense professional services market) that shape what works." },
+  { q: 'How long does SEO take to work?', a: 'Most Aberdeen businesses see measurable improvements in 3-4 months. Local SEO can show results faster (4-8 weeks) than national or global campaigns. Competitive keywords like "engineering services Aberdeen" may take 6-12 months. I have experienced instances where results can be achieved within weeks.' },
+  { q: 'What does an SEO & GEO audit include?', a: 'A one-off assessment of how your website performs in Google and in AI answer engines. It covers the technical issues that stop pages ranking, content gaps against the searches your buyers use, your Google Business Profile and local listings, and whether AI tools can read and cite your pages. You get a prioritised action list you can implement yourself or with me. Audits start at £500.' },
+  { q: 'Can you guarantee results?', a: 'No one can guarantee #1 rankings, but I use proven strategies that consistently improve visibility and traffic for your business.' },
+  { q: 'How much does SEO cost?', a: 'Pricing varies by scope. For local or global businesses, expect a minimum of £250 per month for ongoing SEO and GEO. One-off technical audits start at £500.' },
+  { q: 'Should I hire an SEO consultant or an agency in Aberdeen?', a: 'It depends on the amount of work, not on which sounds bigger. An agency suits large sites that need several people producing content every week. A consultant suits SMEs that need senior judgement from the person doing the work. With me, the person who audits your site is the one who writes the pages and reports the results, with no account manager in between and no agency overhead in the fee.' },
+  { q: 'How do I choose an SEO company in Aberdeen?', a: "Ask for named results: which clients, which searches, and what changed. Ask whether they looked at your Search Console data before quoting, because a plan built without it is a package. Ask how they handle AI search too. Anyone selling llms.txt files or special AI markup as the answer is selling something Google says its AI features don't need. Then ask to speak to a current client." },
+  { q: 'What is GEO and how does it affect business?', a: "Generative Engine Optimisation (GEO) is the practice of structuring your website content so that AI-powered search tools (ChatGPT, Perplexity, Claude, Google Gemini, Microsoft Copilot) cite your business in their generated answers. As more B2B buyers use these tools to research suppliers, businesses that aren't optimised for AI search will lose visibility to competitors who are. GEO is particularly relevant in professional services and technology sectors, where buyers increasingly ask AI tools for recommendations before contacting providers." },
+  { q: 'Do I need GEO if I already have SEO?', a: 'SEO and GEO are complementary, not competing. Good SEO gives you the foundation: fast site, clean structure, relevant content. GEO builds on that foundation by ensuring your content is formatted so AI engines can reliably extract and cite it. If your current SEO is solid, adding GEO optimisation is a relatively low-effort upgrade with significant upside as AI search adoption grows.' },
+  { q: 'How do you measure GEO success?', a: 'GEO performance is measured through three metrics: mention rate (how often AI engines reference your brand by name), citation rate (how often they include a clickable link to your site), and citation position (where your brand appears in the generated answer, whether first, middle, or last). I also track which specific queries trigger citations and how that changes over time. These metrics are still maturing across the industry, but early measurement is how you build an advantage.' },
+];
+
+const posts = [
+  { category: 'Industry insights', title: "What Google's Antitrust Trial Revealed About Ranking", href: '/journal/google-antitrust-documents-seo' },
+  { category: 'Digital marketing', title: 'The 2026 Blueprint to AI Agent Commerce: Getting Your Products Bought (instead of just discovered)', href: '/journal/the-2026-blueprint-to-ai-agent-commerce-getting-your-products-bought-instead-of-just-discovered' },
+  { category: 'Digital marketing', title: 'Is Your Content Ready for the AI Search Revolution?', href: '/journal/is-your-content-ready-for-the-ai-search-revolution' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'SEO Aberdeen: SEO and GEO services',
+      description: 'Traditional search engine optimisation combined with Generative Engine Optimisation (GEO) for businesses in Aberdeen and Scotland.',
+      provider: { '@type': 'Person', '@id': `${origin}/#person`, name: 'Yann Hamonou' },
+      areaServed: [
+        { '@type': 'City', name: 'Aberdeen' },
+        { '@type': 'AdministrativeArea', name: 'Aberdeenshire' },
+        { '@type': 'AdministrativeArea', name: 'Scotland' },
+      ],
+      serviceType: 'SEO Consultancy',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'SEO & GEO services',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO & GEO audit' }, price: '500', priceCurrency: 'GBP' },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Ongoing SEO & GEO' }, price: '250', priceCurrency: 'GBP' },
+        ],
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+  ],
+};
 ---
 
 <Layout
-  title="SEO Aberdeen — Search & AI Visibility for Scottish Businesses · Yann Hamonou"
-  description="SEO consultant based in Aberdeen and Stonehaven. Technical SEO, local SEO, content strategy, and GEO for Aberdeen and Scottish B2B businesses. Free 30-min review."
+  title="Aberdeen SEO | AEO/GEO Consultant for B2B companies in Scotland"
+  exactTitle
+  description="Aberdeen SEO consultant combining traditional SEO with AI search optimisation (GEO). Audits from £500, ongoing from £250–£2,000/month. Free consultation."
   breadcrumbs={[
     { name: 'Home', item: `${Astro.site}` },
     { name: 'Services', item: `${Astro.site}services` },
     { name: 'SEO Aberdeen', item: `${Astro.site}services/seo-aberdeen` },
   ]}
 >
-  <!-- Service schema -->
-  <script type="application/ld+json" is:inline set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "SEO Aberdeen — Search & AI Visibility",
-    "description": "Technical SEO, local SEO, content strategy, and Generative Engine Optimisation (GEO) for Aberdeen and Scottish B2B businesses.",
-    "provider": {
-      "@type": "Person",
-      "@id": `${new URL('/', Astro.site).origin}/#person`,
-      "name": "Yann Hamonou"
-    },
-    "areaServed": [
-      { "@type": "City", "name": "Aberdeen" },
-      { "@type": "AdministrativeArea", "name": "Aberdeenshire" },
-      { "@type": "AdministrativeArea", "name": "Scotland" }
-    ],
-    "serviceType": "SEO Consultancy",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "SEO & GEO services",
-      "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO & GEO audit" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ongoing SEO & GEO retainer" } }
-      ]
-    }
-  })} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
   <!-- ═══ HERO ═══ -->
   <PageHero
-    label="03 · Service"
+    label="SEO and GEO"
     title="SEO Aberdeen"
-    lede="Search engine optimisation and AI visibility for Aberdeen and Scottish B2B businesses. Get found by buyers who are already looking for what you sell."
+    lede="SEO services in Aberdeen for businesses that want more than rankings."
     image={serviceImages['seo-aberdeen']}
   >
-    <a href="/services" class="text-link mt-8 inline-block text-sm">← All services</a>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <Button href="#contact" size="lg" arrow>Book your SEO &amp; GEO audit</Button>
+      <Button href="tel:+447853455816" size="lg" variant="outline"><Icon name="phone" class="size-4" /> Call me</Button>
+    </div>
   </PageHero>
 
-  <!-- ═══ What SEO in Aberdeen actually requires ═══ -->
+  <!-- ═══ INTRO ═══ -->
   <section class="bg-paper py-20 md:py-28">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
-      <div class="lg:col-span-7">
-        <Text size="sm" tone="secondary" data-m="fade">The Aberdeen context</Text>
-        <div class="mt-8 space-y-5" data-m="fade">
-          <Text size="lg" class="max-w-xl">
-            Aberdeen search results are competitive in a specific way. National firms with large domain authority dominate generic terms. Local businesses win by being clearly the most relevant, most trusted, most geographically specific result for Aberdeen and Aberdeenshire buyers.
-          </Text>
-          <Text size="lg" class="max-w-xl">
-            That means Aberdeen SEO is not the same as generic SEO. It requires a precise combination: technical foundations that Googlebot can actually crawl, local authority signals that the Maps algorithm weights heavily, content built around how Aberdeen buyers actually search, and increasingly, structured data that feeds the AI summaries taking over the top of the page.
-          </Text>
-          <Text size="lg" class="max-w-xl">
-            I have delivered this specifically for Aberdeen and Scottish B2B companies — from industrial equipment suppliers serving the North Sea to professional services firms in the city centre. The work is practical, not theoretical.
-          </Text>
-        </div>
-        <div class="mt-10" data-m="fade">
-          <Button href="/contact">Discuss your SEO situation</Button>
-        </div>
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="lg" data-m="split" class="max-w-[18ch]">Rank in search engines and AI answers with expert SEO &amp; GEO services</Heading>
       </div>
-
-      <div class="lg:col-span-4 lg:col-start-9" data-m="rise">
-        <Text as="p" class="font-semibold">What's included</Text>
-        <ul class="mt-6 border-b border-ink">
-          {[
-            'Technical SEO audit & fixes',
-            'Keyword & intent mapping',
-            'Local SEO & GBP optimisation',
-            'Content strategy & planning',
-            'On-page optimisation',
-            'GEO / AI visibility setup',
-            'Monthly reporting & recommendations',
-          ].map(item => (
-            <li class="border-t border-ink py-4"><Text size="sm">{item}</Text></li>
-          ))}
-        </ul>
+      <div class="lg:col-span-6" data-m="fade">
+        <Text size="lg">
+          SEO services in Aberdeen for businesses that want more than rankings. I combine traditional search engine optimisation with Generative Engine Optimisation (GEO), the practice of structuring your content so that AI-powered search tools like ChatGPT, Gemini, and Perplexity cite your business in their answers. With 20+ years of senior marketing experience, I help businesses across Aberdeen and Scotland build visibility that works in both Google results and the AI-driven search landscape that's accompanying them.
+        </Text>
       </div>
     </Container>
   </section>
 
-  <!-- ═══ Aberdeen industries ═══ -->
+  <!-- ═══ RESULTS ═══ -->
   <section class="border-t border-ink bg-paper py-20 md:py-28">
     <Container data-group>
-      <Text size="sm" tone="secondary" data-m="fade">Who I work with in Aberdeen</Text>
-      <Heading size="lg" data-m="split" class="mt-6 max-w-3xl">Aberdeen's Economy Has<br />Specific Search Behaviour</Heading>
-      <Text tone="secondary" class="mt-8 max-w-xl" data-m="fade">
-        Generic SEO strategies built for retail or national brands rarely work here. Aberdeen's B2B buyers search differently — longer queries, industry-specific terminology, and a strong preference for local providers with demonstrable sector experience.
-      </Text>
-      <ul class="mt-12 grid border-t border-ink md:mt-16 md:grid-cols-2">
-        {[
-          {
-            sector: 'Energy & Oil and Gas',
-            body: 'Supply chain suppliers, decommissioning services, and energy transition companies serving operators and Tier 1 contractors. Buyers search by accreditation, certification, and specific service category — generic terms rarely convert.',
-          },
-          {
-            sector: 'Engineering & Industrial',
-            body: 'North Sea equipment suppliers, inspection services, and industrial contractors. Long buying cycles with multiple stakeholders. Content that answers technical questions and demonstrates sector credibility drives the leads that convert.',
-          },
-          {
-            sector: 'Professional Services',
-            body: 'Aberdeen law firms, accountancies, financial advisers, and management consultancies. Local trust signals — reviews, GBP prominence, named Aberdeen landing pages — are the primary differentiator against national firms.',
-          },
-          {
-            sector: 'Technology & SaaS',
-            body: 'Aberdeen\'s growing technology cluster includes software companies, digital agencies, and SaaS businesses targeting national and global markets. SEO and GEO give them visibility beyond word-of-mouth in a tight local network.',
-          },
-        ].map((item, i) => (
-          <li data-m="rise" class:list={[
-            'border-b border-ink py-8 md:py-10',
-            i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
-          ]}>
-            <Heading as="h3" size="md">{item.sector}</Heading>
-            <Text class="mt-4 max-w-md">{item.body}</Text>
+      <Text size="sm" tone="secondary" data-m="fade">Evidence</Text>
+      <Heading size="lg" data-m="split" class="mt-4 max-w-[16ch]">Aberdeen SEO results I've delivered</Heading>
+      <Text size="lg" class="mt-6" data-m="fade">SEO claims are easy to make. Here's what the data shows:</Text>
+      <ul class="mt-12">
+        {results.map((r) => (
+          <li data-m="rise" class="grid gap-4 border-t border-ink py-8 last:border-b md:grid-cols-12 md:gap-6">
+            <Heading as="h3" size="md" class="md:col-span-4">{r.client}</Heading>
+            <div class="md:col-span-7 md:col-start-6">
+              <Text>{r.body}</Text>
+              {r.quote && <Text class="mt-4 border-l-2 border-signal pl-4 font-semibold">{r.quote}</Text>}
+              <a href={r.href} class="text-link mt-4 inline-block text-sm">{r.linkLabel}</a>
+            </div>
           </li>
         ))}
       </ul>
     </Container>
   </section>
 
-  <!-- ═══ Three pillars of Aberdeen SEO: orange numbered circles ═══ -->
-  <section class="border-t border-ink bg-paper py-20 md:py-28">
-    <Container data-group>
-      <Text size="sm" tone="secondary" data-m="fade">How it works</Text>
-      <Heading size="lg" data-m="split" class="mt-6">The Three Pillars</Heading>
-      <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
-        {[
-          {
-            num: '01',
-            title: 'Technical foundation',
-            body: 'A site Googlebot cannot crawl cannot rank. I start with a full technical audit: Core Web Vitals, crawl errors, redirect chains, duplicate content, mobile rendering, and site architecture. Most Aberdeen SME sites have 4–8 fixable technical issues holding back their rankings.',
-          },
-          {
-            num: '02',
-            title: 'Local authority',
-            body: 'Google Business Profile, Bing Places, NAP consistency across citations, Aberdeen-specific landing pages, and a review acquisition strategy. These are the signals that determine whether you appear in the Aberdeen Maps pack — the most valuable real estate for local service businesses.',
-          },
-          {
-            num: '03',
-            title: 'Content & AI visibility',
-            body: 'Content built around how Aberdeen buyers actually search — not generic keyword lists. Structured so that both Googlebot and AI systems (Google AI Overviews, Bing Copilot, ChatGPT) can extract, attribute, and cite your answers. GEO is not a separate discipline; it is built into every content decision.',
-          },
-        ].map(step => (
-          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
-            <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{step.num}</span>
-            <Heading as="h3" size="md" class="mt-6">{step.title}</Heading>
-            <Text class="mt-3">{step.body}</Text>
-          </li>
-        ))}
-      </ol>
-    </Container>
-  </section>
-
-  <!-- ═══ Aberdeen SEO results (case study): stone band, poster figures ═══ -->
+  <!-- ═══ WHY ═══ -->
   <section class="border-t border-ink bg-stone py-20 md:py-28">
     <Container data-group>
-      <Text size="sm" tone="secondary" data-m="fade">Aberdeen SEO results</Text>
-      <Heading size="lg" data-m="split" class="mt-6 max-w-3xl">What This Looks Like<br />In Practice</Heading>
-
-      <div class="mt-12 grid gap-12 md:mt-16 lg:grid-cols-12 lg:gap-6">
-        <div class="lg:col-span-7" data-m="rise">
-          <img
-            src={logos.arnlea.src}
-            alt=""
-            width={logos.arnlea.w}
-            height={logos.arnlea.h}
-            loading="lazy"
-            class="mb-8 h-8 w-auto max-w-[12rem] object-contain object-left grayscale transition-[filter] duration-300 hover:grayscale-0"
-          />
-          <Text size="sm" tone="secondary">Arnlea Systems — Aberdeen · Ex inspection software</Text>
-          <Heading as="h3" size="lg" class="mt-4">3× the First-Page Rankings</Heading>
-          <Text class="mt-6 max-w-xl">
-            Arnlea Systems is an Aberdeen software company whose product, Nexar, runs Ex and ATEX inspections in hazardous areas. I rebuilt their whole website in Webflow with an SEO-first structure, then added three inspection guides written for the questions their buyers actually search. That took them from 96 to 275 first-page Google rankings in six months and from 33 to 146 top-three positions. Google's AI answer for Ex inspection software now names Nexar first.
-          </Text>
-          <div class="mt-8">
-            <Button href="/work/arnlea" variant="dark" size="sm">Read the full case study</Button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-8 lg:col-span-4 lg:col-start-9 lg:grid-cols-1">
-          <div data-m="rise" class="border-t border-ink pt-6">
-            <p class="font-heading text-8xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]"><span data-count="3" data-suffix="×">3×</span></p>
-            <Text size="sm" class="mt-4 uppercase">First-page rankings</Text>
-          </div>
-          <div data-m="rise" class="border-t border-ink pt-6">
-            <p class="font-heading text-8xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]"><span data-count="146">146</span></p>
-            <Text size="sm" class="mt-4 uppercase">Top-three rankings</Text>
-          </div>
-        </div>
-      </div>
+      <Text size="sm" tone="secondary" data-m="fade">Need convincing?</Text>
+      <Heading size="xl" data-m="split" class="mt-4 max-w-[18ch]">Why Aberdeen businesses pick my SEO services</Heading>
+      <Text size="lg" class="mt-8 max-w-2xl" data-m="fade">
+        Unlike larger agencies, I provide hands-on, senior-level expertise without the overheads. Every strategy is built around your business goals, grounded in data, and designed for the reality of how people search today, not how they searched five years ago. That means optimising for Google and for the AI engines that are reshaping how buyers find providers.
+      </Text>
+      <ul class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2">
+        {reasons.map((r) => (
+          <li data-m="rise" class="border-t border-ink pt-6">
+            <Heading as="h3" size="sm">{r.title}</Heading>
+            <Text class="mt-3 max-w-md">{r.body}</Text>
+          </li>
+        ))}
+      </ul>
     </Container>
   </section>
 
-  <!-- ═══ FAQ: two-column hairline list. Questions are not headings, as before. ═══ -->
+  <!-- ═══ SERVICES: numbered hairline rows ═══ -->
+  <section class="border-t border-ink bg-paper">
+    <Container data-group class="py-16 md:py-24">
+      <Text size="sm" tone="secondary" data-m="fade">Services</Text>
+      <Heading size="lg" data-m="split" class="mt-4">SEO services in Aberdeen</Heading>
+    </Container>
+    <ol>
+      {offer.map((o, i) => (
+        <li class="border-t border-ink">
+          <Container data-group class="grid grid-cols-[auto_1fr] gap-x-5 gap-y-3 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
+            <span aria-hidden="true" data-m="fade" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">{String(i + 1).padStart(2, '0')}</span>
+            <div data-m="rise" class="md:col-span-8">
+              <Heading as="h3" size="md">{o.title}</Heading>
+              <Text class="mt-3 max-w-2xl">{o.body}</Text>
+            </div>
+          </Container>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ═══ SEO vs GEO ═══ -->
   <section class="border-t border-ink bg-paper py-20 md:py-28">
     <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-5">
+        <Text size="sm" tone="secondary" data-m="fade">How search is changing</Text>
+        <Heading size="lg" data-m="split" class="mt-4">SEO vs GEO: why businesses need both</Heading>
+      </div>
+      <div class="space-y-5 lg:col-span-6 lg:col-start-7" data-m="fade">
+        <Text size="lg">Google still sends nearly 90% of search referrals, and its AI Overviews and AI Mode build their answers from the same search index. SEO remains the foundation. What has changed is which pages get cited. In an analysis of about 4 million AI Overview citations (Ahrefs, March 2026), only 38% of cited pages ranked in the top 10 for the original search. Ahrefs' explanation is that the AI runs several related searches behind the scenes and cites pages that rank for those.</Text>
+        <Text size="lg">GEO is the work of being one of those pages. In practice that means answering the specific questions your buyers ask, and being the business other sites already mention by name.</Text>
+        <Text size="lg">Most of that work also improves your normal Google rankings, so it isn't a separate budget line. It doesn't need special markup or llms.txt files either. Google's guidance is that its AI features need nothing beyond good SEO (Google Search Central). Anyone selling you more should be able to show the evidence.</Text>
+      </div>
+    </Container>
+
+    <Container data-group class="mt-20">
+      <Heading as="h3" size="md" data-m="fade">What I do differently</Heading>
+      <Text class="mt-4 max-w-2xl" data-m="fade">Most SEO consultants optimise for Google's algorithm. I optimise for how both search engines and AI models evaluate trust and relevance. In practice, that means:</Text>
+      <ul class="mt-10 grid gap-10 md:grid-cols-2 md:gap-x-8">
+        {different.map((d) => (
+          <li data-m="rise" class="border-t border-ink pt-6">
+            <Text><strong class="font-semibold">{d.title}</strong> {d.body}</Text>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+
+  <!-- ═══ WHO I WORK WITH ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-7">
+        <Heading size="lg" data-m="split">Who I work with</Heading>
+        <Text size="lg" class="mt-6 max-w-2xl" data-m="fade">
+          I work with Aberdeen companies across professional services, trades, property, and technology. These are businesses where the buyer's journey starts with a search, whether that's on Google or increasingly through an AI tool. Whether you need more local leads or want to compete nationally, I build SEO and GEO strategies around how your specific customers actually find and evaluate providers.
+        </Text>
+      </div>
+      <Tag class="lg:col-span-3 lg:col-start-10" data-m="fade">
+        {sectors.map((s) => <span class="block">{s}</span>)}
+      </Tag>
+    </Container>
+  </section>
+
+  <!-- ═══ CLIENT FEEDBACK ═══ -->
+  <section class="border-t border-ink bg-stone py-20 md:py-28">
+    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-4">
-        <Text size="sm" tone="secondary" data-m="fade">Common questions</Text>
-        <Heading size="lg" data-m="split" class="mt-6">SEO Aberdeen — FAQ</Heading>
+        <Heading size="lg" data-m="split">Client feedback</Heading>
+      </div>
+      <figure class="lg:col-span-7 lg:col-start-6" data-m="rise">
+        <blockquote class="space-y-4">
+          <Text size="lg">“Before working with Yann, we weren't generating enough inbound leads.</Text>
+          <Text size="lg">Now when I ask prospects how they found us, the answer is always one of two things: either they've used Arnlea before at a previous company, or they searched for Ex or ATEX inspection software and we came up at the top of the results. That search visibility is new and has increased the number of new enquiries we receive. I've already recommended Yann to other companies I think he could help.”</Text>
+        </blockquote>
+        <figcaption class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-ink pt-6">
+          <div>
+            <Text class="font-semibold">Claire Matthew</Text>
+            <Text size="sm" tone="secondary">Head of Business Development, Arnlea</Text>
+          </div>
+          <a href="/work/arnlea" class="text-link text-sm">Read the case study</a>
+        </figcaption>
+      </figure>
+    </Container>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-28">
+    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-4">
+        <Text size="sm" tone="secondary" data-m="fade">Some questions you might have</Text>
+        <Heading size="lg" data-m="split" class="mt-4">FAQs</Heading>
+        <Text class="mt-6 max-w-sm" data-m="fade">Things you need to know about my services. Can't find the answer you're looking for? <a href="#contact" class="text-link">Please reach out to me.</a></Text>
       </div>
       <dl class="lg:col-span-7 lg:col-start-6">
-        {faq.map(item => (
+        {faq.map((f) => (
           <div data-m="rise" class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
-            <dt><Heading as="p" size="sm">{item.q}</Heading></dt>
-            <dd><Text>{item.a}</Text></dd>
+            <dt><Heading as="h3" size="sm">{f.q}</Heading></dt>
+            <dd><Text>{f.a}</Text></dd>
           </div>
         ))}
       </dl>
     </Container>
   </section>
 
-  <!-- ═══ Related reading ═══ -->
-  <section class="border-t border-ink bg-paper py-16 md:py-20">
+  <!-- ═══ JOURNAL ═══ -->
+  <section class="border-t border-ink bg-paper py-20 md:py-28">
     <Container data-group>
-      <Text size="sm" tone="secondary" data-m="fade">From the journal</Text>
-      <ul class="mt-6 border-b border-ink">
-        {[
-          { href: '/journal/seo-aberdeen-the-basics-that-still-win-in-2025', label: 'SEO Aberdeen: The Basics That Still Win in 2025' },
-          { href: '/journal/seo-in-2025-what-works-whats-hype-what-fails', label: "SEO in 2025: What Works, What's Hype, What Fails" },
-          { href: '/journal/is-your-content-ready-for-the-ai-search-revolution', label: 'Is Your Content Ready for AI Search?' },
-        ].map(l => (
-          <li data-m="rise" class="border-t border-ink">
-            <a href={l.href} class="group flex items-center justify-between gap-6 py-5">
-              <span class="decoration-signal decoration-2 underline-offset-4 group-hover:underline">{l.label}</span>
-              <Icon name="arrow-right" stroke={1} class="size-8 shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Heading size="lg" data-m="split">Blogs</Heading>
+        <a href="/journal" class="text-link text-sm" data-m="fade">View all posts</a>
+      </div>
+      <ul class="mt-10">
+        {posts.map((p) => (
+          <li data-m="rise" class="border-t border-ink last:border-b">
+            <a href={p.href} class="group grid gap-2 py-6 md:grid-cols-12 md:items-center md:gap-6">
+              <Text size="sm" tone="secondary" class="md:col-span-3">{p.category}</Text>
+              <Heading as="h3" size="sm" class="decoration-signal decoration-2 underline-offset-4 group-hover:underline md:col-span-8">{p.title}</Heading>
+              <Icon name="arrow-right" stroke={1} class="hidden size-8 justify-self-end transition-transform duration-300 group-hover:translate-x-1 md:block" />
             </a>
           </li>
         ))}
@@ -280,33 +323,28 @@ const faq = [
     </Container>
   </section>
 
-  <!-- ═══ Other services ═══ -->
-  <section class="border-t border-ink bg-paper py-16 md:py-20">
-    <Container data-group>
-      <Text size="sm" tone="secondary" data-m="fade">Also available</Text>
-      <ul class="mt-6 flex flex-wrap gap-3">
-        {otherServices.map(s => (
-          <li data-m="rise"><Button href={`/services/${s.slug}`} variant="outline" size="sm">{s.title}</Button></li>
-        ))}
-      </ul>
+  <!-- ═══ OTHER SERVICES: internal links ═══ -->
+  <section class="border-t border-ink bg-paper py-14">
+    <Container data-group class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <Text size="sm" tone="secondary" data-m="fade">Other services</Text>
+      <div class="flex flex-wrap gap-3" data-m="fade">
+        {otherServices.map((s) => <Button href={`/services/${s.slug}`} variant="outline" size="sm">{s.title}</Button>)}
+      </div>
     </Container>
   </section>
 
-  <!-- ═══ CTA: full orange band, thin arrow ═══ -->
-  <section class="bg-signal py-20 text-ink md:py-28">
-    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
-      <div class="lg:col-span-7">
-        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Ready to Rank<br />in Aberdeen?</Heading>
+  <!-- ═══ CLOSING ═══ -->
+  <section id="contact" class="scroll-mt-20 bg-signal py-20 text-ink md:py-28">
+    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-6">
+        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[14ch]">SEO services in Aberdeen: get started today</Heading>
         <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
-      </div>
-      <div class="lg:col-span-4 lg:col-start-9" data-m="fade">
-        <Text size="lg" tone="onAccent" class="max-w-md">
-          Book the free 30-minute review. I'll look at your current search presence, identify the biggest gaps, and tell you exactly what I'd prioritise.
+        <Text size="lg" tone="onAccent" class="mt-8 max-w-md lg:mt-4" data-m="fade">
+          If you're ready to grow your business with an SEO and GEO strategy that's built for how search actually works today, let's talk. I offer a free initial consultation to assess your current visibility and identify the highest-impact opportunities.
         </Text>
-        <div class="mt-8">
-          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
-        </div>
+        <Text tone="onAccent" class="mt-8" data-m="fade"><a href="tel:+447853455816" class="underline underline-offset-4">Call today: +44 (0) 785 3455816</a></Text>
       </div>
+      <ContactForm id="seo-contact" buttonLabel="Book your SEO & GEO audit" class="lg:col-span-5 lg:col-start-8 lg:self-start" data-m="rise" />
     </Container>
   </section>
 </Layout>

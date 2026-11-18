@@ -10,6 +10,9 @@ interface Props {
   ogImage?: string;
   canonical?: string;
   noindex?: boolean;
+  /** Use the title exactly as given, without " — Yann Hamonou". For pages
+      whose ranking title was tuned on the live site and must not grow. */
+  exactTitle?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
@@ -21,6 +24,7 @@ interface Props {
 
 const {
   title: rawTitle,
+  exactTitle = false,
   description = 'B2B marketing consultant based in Stonehaven, Scotland. Strategy, SEO, paid media, positioning, and web for Scottish SMEs.',
   ogType = 'website',
   ogImage,
@@ -35,7 +39,7 @@ const {
 
 const brand = 'Yann Hamonou';
 const title = rawTitle
-  ? rawTitle.includes(brand) ? rawTitle : `${rawTitle} — ${brand}`
+  ? exactTitle || rawTitle.includes(brand) ? rawTitle : `${rawTitle} — ${brand}`
   : `${brand} — B2B Marketing Consultant, Aberdeen`;
 
 const canonical = canonicalOverride ?? new URL(Astro.url.pathname, Astro.site).href;
@@ -200,7 +204,13 @@ const ogImageUrl = ogImage
             "opens": "09:00",
             "closes": "18:00",
           },
-          "sameAs": ["https://www.linkedin.com/in/yannhamonou"],
+          // The Google Business Profile, so Google can tie this site to the
+          // listing behind the Aberdeen map pack (public again since 13 Nov 2026).
+          "hasMap": "https://www.google.com/maps?cid=3592033344975060462",
+          "sameAs": [
+            "https://www.linkedin.com/in/yannhamonou",
+            "https://www.google.com/maps?cid=3592033344975060462",
+          ],
           "priceRange": "££",
         },
         ...(ogType === 'article' ? [{

@@ -175,6 +175,9 @@ export default config({
         metaDescription: fields.text({ label: 'Search description', multiline: true }),
 
         hero: fields.object({
+          /* Small mono line set inside the h1, above the poster headline. It
+             carries the phrase the homepage ranks for, so keep it literal. */
+          kicker: fields.text({ label: 'Line above the headline (part of the h1, keep "marketing consultant" and "Aberdeen")' }),
           headline: fields.text({ label: 'Headline (h1)', multiline: true }),
           sub: fields.text({ label: 'One line under the headline', multiline: true }),
           ctaLabel: fields.text({ label: 'Button label' }),

@@ -1,0 +1,86 @@
+---
+title: "What Google's Antitrust Trial Revealed About Ranking"
+description: "Google's US antitrust trial put Navboost, click data and default deals on the record. Where to read the DOJ files, and what they mean for your SEO strategy."
+publishedDate: "2026-10-23"
+modifiedDate: "2026-10-30"
+category: industry
+coverImage: "/images/journal/google-antitrust-documents-seo.webp"
+coverAlt: ""
+---
+
+### 📌 TL;DR: what you need to know
+
+- **Google didn't publish these files itself.** A federal judge let the US Department of Justice post trial exhibits online over Google's objections, and the DOJ still hosts them.
+- **The court confirmed click data shapes rankings.** Judge Mehta's August 2024 opinion describes Navboost as a system that memorises user clicks, trained on 13 months of data.
+- **Scale is the moat.** The court found 13 months of Google data equals more than 17 years of Bing data.
+- **The remedies run until late 2031.** Google can't sign exclusive default deals for six years, and approved rivals can license parts of its index and results.
+
+## Why these documents exist
+
+In September 2023 the US Department of Justice and a group of states took Google to trial in Washington, DC, for monopolising general search. During the first week the DOJ posted admitted exhibits on its website. Google objected, the exhibits came down for a week, and Judge Amit Mehta then ruled the DOJ could publish them each evening, with Google and third parties given until 9 p.m. to raise objections ([TechSpot](https://www.techspot.com/community/topics/federal-judge-rules-doj-can-publish-google-antitrust-exhibits-online-ending-a-one-week.282459/)).
+
+So the accurate phrasing is "made public by court order", not "released by Google". The distinction matters when you cite them: you're quoting evidence and judicial findings, not Google documentation.
+
+One common mix-up: the May 2024 "Content Warehouse API" leak (around 2,500 pages of ranking attributes) did not come from this lawsuit. It surfaced through an accidental GitHub publication. The trial record corroborates parts of it, but you won't find it on any DOJ page.
+
+## Where to read the files
+
+| Document | What's in it | Link |
+|---|---|---|
+| Search case page (DOJ) | Opinions, Final Judgment, briefs, 2026 compliance reports | [justice.gov](https://www.justice.gov/atr/case/us-and-plaintiff-states-v-google-llc) |
+| Liability trial exhibits (2023) | Apple and Samsung contracts, internal emails, slide decks | [justice.gov](https://www.justice.gov/atr/us-and-plaintiff-states-v-google-llc-2020-trial-exhibits) |
+| Liability opinion (5 Aug 2024) | The ranking findings: Navboost, click data, scale | [PDF](https://oag.dc.gov/sites/default/files/2024-08/1033%20-%20Redacted%20Opinion.pdf) |
+| Remedies hearing exhibits (2025) | Expert demonstratives, GenAI and data-sharing evidence | [justice.gov](https://www.justice.gov/atr/us-and-plaintiff-states-v-google-llc-2020-remedies-hearing-exhibits) |
+| Final Judgment opinion (5 Dec 2025) | How the remedies work in practice | [PDF](https://www.justice.gov/atr/media/1421681/dl?inline) |
+| Ad tech case exhibits (Virginia) | DoubleClick and AdX emails, remedies evidence | [justice.gov](https://www.justice.gov/atr/us-and-plaintiff-states-v-google-llc-2023-trial-exhibits) |
+
+If you only read one, make it the liability opinion. The ranking material sits in the Findings of Fact around pages 34 to 42.
+
+## What the court found about ranking
+
+All of the points below come from the [August 2024 Memorandum Opinion](https://oag.dc.gov/sites/default/files/2024-08/1033%20-%20Redacted%20Opinion.pdf) (Document 1033), with paragraph numbers so you can check them yourself.
+
+- **Navboost memorises clicks.** The court describes it as a signal that pairs queries with documents by memorising user click data. Google trained it on 18 months of data before 2017 and 13 months since (¶96).
+- **"Click data" means more than clicks.** It covers the result you clicked, how long you took to return to the results page, hovering and scrolling (¶88).
+- **Glue is Navboost's relative.** The opinion mentions it only briefly (¶96), so treat detailed claims about Glue as coming from testimony and commentary, not the ruling.
+- **Newer models lean on user data less, not zero.** RankBrain, DeepRank and RankEmbed "rely less on user data" but Google built and still trains them with it (¶97 to ¶98).
+- **Generative AI didn't remove the need.** The court found user data remains a necessary input (¶115).
+- **Google's volume dwarfs rivals.** It gets nine times more daily queries than all rivals combined, and 19 times more on mobile (¶87).
+
+One line from the [trial transcript](https://thecapitolforum.com/wp-content/uploads/2023/10/101823-USA-v-Google-PM.pdf), not the ruling, belongs beside these. Pandu Nayak, Google's VP of Search, testified that Navboost is "certainly a factor, but it's not the only factor by any means" (18 October 2023, pp. 6403–04). It sits with the other core systems that cull "from a lot of documents to fewer documents" before the machine-learned models rank what's left (p. 6405).
+
+![Bar chart: Navboost uses 13 months of Google user data, which the court said equals over 17 years of Bing data](https://cdn.prod.website-files.com/6786a4393ac4d896c722afb6/6adbc324bdd6e49f7c56fac9_6adbc25f91837a5912191570_google-navboost-data-advantage.webp)
+
+The money explains why defaults mattered so much. Google's revenue-share payments to default partners topped $26 billion in 2021 (opinion, p. 3). The court concluded that "Google is a monopolist, and it has acted as one to maintain its monopoly."
+
+## What I'd change in an SEO programme
+
+The findings describe systems as they stood at trial in 2023. Google rebuilds pieces of its stack constantly, so read these as direction, not a spec sheet. With that caveat, three things follow.
+
+1. **Write the snippet your page can honour.** If Navboost learns from what searchers do after the click, a title that overpromises earns a quick return to the results page. I'd rather lose some CTR than train the system that my page disappoints.
+2. **Track brand demand alongside rankings.** People who search for you by name and click straight through feed Navboost for those queries. Neither the court nor Google has said that lifts your non-branded rankings, so I report branded searches as a demand measure, not a ranking lever. PR, events and LinkedIn presence create those searches, even though no one reports them that way.
+3. **Expect slow recovery.** A 13-month training window suggests a bad patch of user behaviour could weigh on a page for about a year. That's my inference, not the court's.
+
+What I wouldn't do: buy click traffic. Click bots break Google's [spam policies](https://developers.google.com/search/docs/essentials/spam-policies). My [evidence versus hype breakdown](/journal/seo-in-2025-what-works-whats-hype-what-fails) covers the wider picture.
+
+## What the remedies mean for search in 2026
+
+Judge Mehta issued a Remedies Opinion on 2 September 2025 and a Final Judgment on 5 December 2025 ([Winston & Strawn summary](https://www.winston.com/en/blogs-and-podcasts/competition-corner/antitrust-remedies-in-united-states-v-google-ai-and-the-evolving-search-market)). The main terms:
+
+- **Six-year term.** Google can't sign exclusive distribution deals for Search, Chrome or its GenAI products, and any distribution agreement must end after one year.
+- **Data sharing.** Approved "Qualified Competitors" can license web search index data and user-side data, with no right to resell it.
+- **Syndication.** The same competitors can license Google search results and search text ads for five years.
+- **Oversight.** A Technical Committee advises the plaintiffs, who enforce the judgment. Compliance reports from May and September 2026 sit on the DOJ case page.
+- **Rejected.** A Chrome sale, mandatory choice screens and a full ban on default payments.
+
+For marketers, the practical upshot is that rival engines and AI answer tools can now build on parts of Google's own index and results. Visibility outside Google (Bing, Copilot, ChatGPT search, Perplexity) carries more weight than it did two years ago, so track it alongside your Google rankings.
+
+## The second case: ad tech
+
+A separate DOJ case in Virginia targets Google's advertising technology. A federal court there declared Google an illegal monopolist in ad tech, and the DOJ went back to court in September 2025 seeking a break-up of that business ([Law360](https://www.law360.co.uk/amp/articles/2389327)). The [remedies exhibits](https://www.justice.gov/atr/us-and-plaintiff-states-v-google-llc-2023-remedies-hearing-exhibits) matter more to publishers and ad buyers than to SEO.
+
+## Takeaway
+
+The trial turned years of SEO folklore about clicks into judicial findings with paragraph numbers. Use the primary sources when you brief a client or a board, and quote the court, not a blog summarising a blog.
+
+If you want your site measured against these signals, see my [SEO services](/services/seo-aberdeen) or [book a free marketing strategy review](/contact).
