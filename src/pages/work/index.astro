@@ -96,7 +96,7 @@ const cases = await getCases();
 
   {/* Web work gets a band of its own, previews and all, so it reads as
       a second body of work rather than a footnote to the first. */}
-  <section class="border-t border-ink bg-stone py-20 md:py-28">
+  <section class="overflow-x-clip border-t border-ink bg-stone py-20 md:py-28">
     <Container data-group class="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-6">
       <div class="lg:col-span-5">
         <Text size="sm" tone="secondary" data-m="fade">Web development</Text>
@@ -106,11 +106,14 @@ const cases = await getCases();
           <Button href="/work/web/" variant="dark" arrow>See the web work</Button>
         </div>
       </div>
-      <a href="/work/web/" class="group block lg:col-span-6 lg:col-start-7" aria-label="See the web work" data-m="frame">
-        <div class="grid grid-cols-3 gap-3" aria-hidden="true">
-          <img src="/work/web/arnlea.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
-          <img src="/work/web/keelson.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
-          <img src="/work/web/emberline.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" class="aspect-[4/5] w-full border border-ink object-cover object-left-top grayscale transition-[filter] duration-500 group-hover:grayscale-0" />
+      {/* A fanned hand of three previews from md up; src/scripts/web-fan.ts
+          unfolds it on scroll and moves it with the pointer. The CSS below
+          holds the resting arc on its own, so it still shows without JS. */}
+      <a href="/work/web/" class="block lg:col-span-6 lg:col-start-7" aria-label="See the web work">
+        <div class="web-fan grid grid-cols-3 gap-3 md:flex md:justify-center md:gap-0 md:pt-8 md:pb-14" aria-hidden="true" data-fan>
+          {['arnlea', 'keelson', 'emberline'].map((name) => (
+            <img src={`/work/web/${name}.webp`} alt="" width="1200" height="750" loading="lazy" decoding="async" class="fan-card aspect-[4/5] w-full border border-ink bg-paper object-cover object-left-top grayscale transition-[filter] duration-500 hover:grayscale-0 md:-mx-[2.2%] md:w-[36%]" />
+          ))}
         </div>
       </a>
     </Container>
@@ -132,3 +135,18 @@ const cases = await getCases();
     </Container>
   </section>
 </Layout>
+
+<style>
+  /* Resting arc: outer cards tilt 7deg about a pivot below the row, the
+     centre card sits 16px higher and on top. Below md it stays a grid. */
+  @media (min-width: 768px) {
+    .fan-card { position: relative; transform-origin: 50% 140%; }
+    .fan-card:nth-child(1) { transform: rotate(-7deg); }
+    .fan-card:nth-child(2) { transform: translateY(-16px); z-index: 2; }
+    .fan-card:nth-child(3) { transform: rotate(7deg); }
+  }
+</style>
+
+<script>
+  import '../../scripts/web-fan.ts';
+</script>
