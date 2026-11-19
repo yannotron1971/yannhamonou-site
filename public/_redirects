@@ -20,6 +20,8 @@
 # ── Pages that changed name ──
 # Webflow published /sitemap.xml and Search Console still lists it.
 /sitemap.xml /sitemap-index.xml 301
+/services/seo /services/seo-aberdeen 301
+/services/seo/ /services/seo-aberdeen 301
 
 /about-me                    /about                        301
 /blogs-page                  /journal                      301

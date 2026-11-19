@@ -37,6 +37,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
   title={post.title}
   description={post.description ?? undefined}
   ogType="article"
+  schemaImage={post.coverImage ?? undefined}
   publishedTime={post.publishedDate ?? undefined}
   modifiedTime={post.modifiedDate ?? post.publishedDate ?? undefined}
   tags={[post.category]}

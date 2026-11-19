@@ -9,6 +9,9 @@ interface Props {
   description?: string;
   ogType?: 'website' | 'article' | 'profile';
   ogImage?: string;
+  /** Image for the Article schema only (post covers are webp, which some
+      social previews ignore, so og:image keeps the PNG default). */
+  schemaImage?: string;
   canonical?: string;
   noindex?: boolean;
   /** Use the title exactly as given, without " — Yann Hamonou". For pages
@@ -29,6 +32,7 @@ const {
   description = 'B2B marketing consultant based in Stonehaven, Scotland. Strategy, SEO, paid media, positioning, and web for Scottish SMEs.',
   ogType = 'website',
   ogImage,
+  schemaImage,
   canonical: canonicalOverride,
   noindex = false,
   publishedTime,
@@ -171,9 +175,9 @@ const ogImageUrl = ogImage
           "name": brand,
           "jobTitle": "B2B Marketing Consultant",
           "url": siteOrigin,
+          "image": `${siteOrigin}/images/signal/portrait-yann.webp`,
           "sameAs": [
             "https://www.linkedin.com/in/yannhamonou",
-            "https://yannhamonou.com",
           ],
           "address": {
             "@type": "PostalAddress",
@@ -190,6 +194,8 @@ const ogImageUrl = ogImage
           "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen",
           "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and conversion-focused websites for SMEs.",
           "url": siteOrigin,
+          "image": `${siteOrigin}/og-default.png`,
+          "logo": `${siteOrigin}/icon-512.png`,
           "telephone": "+447853455816",
           "email": "yanndaman@googlemail.com",
           "founder": { "@id": `${siteOrigin}/#person` },
@@ -228,7 +234,11 @@ const ogImageUrl = ogImage
         },
         ...(ogType === 'article' ? [{
           "@type": "Article",
+          "@id": `${canonical}#article`,
+          "mainEntityOfPage": canonical,
           "headline": title,
+          "image": [schemaImage ? new URL(schemaImage, Astro.site).href : ogImageUrl],
+          "publisher": { "@id": `${siteOrigin}/#person` },
           "description": description,
           "url": canonical,
           "author": { "@id": `${siteOrigin}/#person` },
