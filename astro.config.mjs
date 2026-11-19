@@ -23,7 +23,7 @@ export default defineConfig({
   integrations: [react(), keystatic(), sitemap({
     // The concept pages are noindex; a sitemap should not list them.
     filter: (page) =>
-      !/\/work\/web\/(sparehand|keelson|emberline)/.test(page) &&
+      !/\/work\/web\/(sparehand|keelson|emberline|solar-system)/.test(page) &&
       (auditPublished || !/\/services\/marketing-audit\/?$/.test(page)),
   }),
   // Click-to-comment review notes. Dev server only; adds nothing to builds.
