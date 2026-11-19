@@ -1,0 +1,8 @@
+# Cloudflare Pages response headers.
+#
+# Link headers point AI agents at the machine-readable files before they
+# parse any HTML: llms.txt (the site summary, also linked as
+# rel="alternate" in the page head) and the sitemap index. Cloudflare's
+# Agent Readiness scan checks for them ("Guide AI bots to site data").
+/*
+  Link: </llms.txt>; rel="describedby"; type="text/markdown", </llms-full.txt>; rel="describedby"; type="text/markdown", </sitemap-index.xml>; rel="sitemap"; type="application/xml"
