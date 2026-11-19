@@ -28,7 +28,7 @@ export default defineConfig({
   }),
   // Click-to-comment review notes. Dev server only; adds nothing to builds.
   reviewNotes()],
-  site: 'https://yannhamonou-site.pages.dev',
+  site: 'https://www.yannhamonou.com',
   vite: {
     plugins: [tailwindcss()],
     // Keystatic's API route imports the virtual:keystatic-config module, which

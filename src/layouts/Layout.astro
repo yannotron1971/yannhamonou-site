@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -126,21 +127,29 @@ const ogImageUrl = ogImage
          every local page view into the same property you are trying to compare
          before and after cutover.
 
-         Consent is NOT handled here. The tag sets cookies and there is no
-         banner on this build, which is fine while nothing is deployed and is
-         not fine on the day it is. Either add a consent tool before cutover or
-         move to something cookieless. -->
-    {import.meta.env.PROD && (
-      <Fragment>
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-NEGE3F0RZC"></script>
-        <script is:inline>
+         Consent: the tag sets cookies, so it loads only after the visitor
+         accepts in CookieBanner.astro (choice kept in localStorage under
+         `yh-consent`). Returning visitors who accepted load it here at once. -->
+    <script is:inline define:vars={{ gaOn: import.meta.env.PROD }}>
+      (function () {
+        var ID = 'G-NEGE3F0RZC';
+        var KEY = 'yh-consent';
+        function load() {
+          if (!gaOn || window.__yhGA) return;
+          window.__yhGA = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+          document.head.appendChild(s);
           window.dataLayer = window.dataLayer || [];
-          function gtag(){ dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-NEGE3F0RZC');
-        </script>
-      </Fragment>
-    )}
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', ID);
+        }
+        window.yhConsent = { key: KEY, load: load };
+        try { if (localStorage.getItem(KEY) === 'granted') load(); } catch (e) {}
+      })();
+    </script>
 
     <!-- JSON-LD -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify({
@@ -242,6 +251,7 @@ const ogImageUrl = ogImage
       <slot />
     </main>
     <Footer />
+    <CookieBanner />
 
     <!-- GSAP motion: section entrances, split headings, count-ups, disc slides -->
     <script>

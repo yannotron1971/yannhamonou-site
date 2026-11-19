@@ -1,0 +1,69 @@
+---
+/* Analytics consent. GA4 sets cookies, so under PECR it stays off until the
+   visitor accepts. The choice lives in localStorage under `yh-consent`
+   ('granted' or 'denied'); the loader in Layout.astro reads the same key
+   and exposes window.yhConsent. The footer's "Cookie settings" button
+   reopens this banner. Without JS nothing loads and the banner stays
+   hidden, which is the right default. */
+---
+
+<div
+  id="cookie-banner"
+  hidden
+  role="region"
+  aria-label="Cookie consent"
+  class="fixed inset-x-4 bottom-4 z-[60] max-w-xl border border-ink bg-paper p-5 sm:left-auto sm:right-6 sm:bottom-6"
+>
+  <p class="t-body text-sm">
+    I'd like to use Google Analytics to see which pages people read. It sets cookies, so it stays off unless you say yes.
+    <a href="/privacy" class="text-link">Privacy policy</a>
+  </p>
+  <div class="mt-4 flex flex-wrap gap-3">
+    <button type="button" data-consent="granted" class="h-11 border border-ink bg-ink px-5 text-sm text-paper transition-colors duration-200 hover:bg-signal hover:text-ink hover:border-signal">Accept analytics</button>
+    <button type="button" data-consent="denied" class="h-11 border border-ink bg-paper px-5 text-sm text-ink transition-colors duration-200 hover:bg-ink hover:text-paper">No thanks</button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var banner = document.getElementById('cookie-banner');
+    var c = window.yhConsent;
+    if (!banner || !c) return;
+
+    var stored = null;
+    try { stored = localStorage.getItem(c.key); } catch (e) {}
+    if (stored !== 'granted' && stored !== 'denied') banner.hidden = false;
+
+    // Clear GA cookies on every domain level they may have been set on.
+    function clearGA() {
+      var host = location.hostname.split('.');
+      document.cookie.split(';').forEach(function (part) {
+        var name = part.split('=')[0].trim();
+        if (name !== '_ga' && name.indexOf('_ga_') !== 0) return;
+        for (var i = 0; i < host.length - 1; i++) {
+          var domain = host.slice(i).join('.');
+          document.cookie = name + '=; Max-Age=0; path=/; domain=.' + domain;
+        }
+        document.cookie = name + '=; Max-Age=0; path=/';
+      });
+    }
+
+    banner.addEventListener('click', function (e) {
+      var choice = e.target.closest && e.target.closest('[data-consent]');
+      if (!choice) return;
+      var value = choice.getAttribute('data-consent');
+      try { localStorage.setItem(c.key, value); } catch (err) {}
+      if (value === 'granted') c.load();
+      else clearGA();
+      banner.hidden = true;
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('[data-cookie-settings]')) {
+        banner.hidden = false;
+        var first = banner.querySelector('button');
+        if (first) first.focus();
+      }
+    });
+  })();
+</script>
