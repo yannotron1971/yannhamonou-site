@@ -1,9 +1,23 @@
 # Deploying to Cloudflare Pages
 
-Nothing is deployed yet. The live site at yannhamonou.com is still Webflow; this
-repo has never been built anywhere but a local machine. What follows is the
-one-time setup, and it needs a signed-in Cloudflare account — the repo side is
-already done.
+Live since 19 Nov 2026. https://www.yannhamonou.com is served by the Pages
+project `yannhamonou-site`, which deploys every push to `main`. The bare
+domain 301s to www through a Cloudflare redirect rule (Rules, "Redirect from
+root to WWW"), and Always Use HTTPS is on.
+
+DNS moved from IONOS to Cloudflare the same day (nameservers
+anastasia/kolton.ns.cloudflare.com). Email still runs on IONOS: the MX, SPF,
+DMARC, the three IONOS DKIM CNAMEs, autodiscover, the Resend records and the
+Bing verification CNAME were all copied across as DNS-only records.
+
+Rollback: re-add both domains in Webflow (Site settings, Publishing) and
+set the IONOS nameservers back to ns1022.ui-dns.org, ns1035.ui-dns.com,
+ns1054.ui-dns.de and ns1110.ui-dns.biz. The IONOS DNS table was left untouched.
+
+GA4 loads only after consent (src/components/CookieBanner.astro). Webflow
+also ran Google Tag Manager GTM-NDQSTJ4B; this site does not.
+
+The setup notes below are kept for reference.
 
 ## What the repo already provides
 
