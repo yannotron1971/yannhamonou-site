@@ -18,6 +18,9 @@
 # page that does not exist.
 
 # ── Pages that changed name ──
+# Webflow published /sitemap.xml and Search Console still lists it.
+/sitemap.xml /sitemap-index.xml 301
+
 /about-me                    /about                        301
 /blogs-page                  /journal                      301
 /privacy-policy              /privacy                      301
