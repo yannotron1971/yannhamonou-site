@@ -18,7 +18,7 @@ const { testimonials, faq } = await getSettings();
 const home = await getHomepage();
 const services = await getServices();
 const cases = await getCases();
-const { hero, challenges, servicesIntro, senior, proof, process, pricing, about, journal, faqIntro, cta } = home;
+const { hero, challenges, servicesIntro, senior, proof, process, about, journal, faqIntro, cta } = home;
 const paras = (text: string) => text.split(/\r?\n\s*\r?\n/).map((p) => p.trim()).filter(Boolean);
 
 const quote = testimonials[0];
@@ -213,19 +213,6 @@ const faqSchema = {
           </li>
         ))}
       </ol>
-    </Container>
-  </section>
-
-  <!-- ═══ PRICING: stone band, poster-size day rate ═══ -->
-  <section id="pricing" class="scroll-mt-20 border-t border-ink bg-stone py-20 md:py-28">
-    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
-      <div class="lg:col-span-8">
-        <Heading size="xl" data-m="split">{pricing.heading}</Heading>
-        <Text size="lg" class="mt-6 max-w-lg" data-m="fade">{pricing.body}</Text>
-      </div>
-      <Tag class="lg:col-span-3 lg:col-start-10" data-m="fade">
-        {pricing.facts.map((f) => <span class="block">{f}</span>)}
-      </Tag>
     </Container>
   </section>
 

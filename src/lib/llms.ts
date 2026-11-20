@@ -40,7 +40,6 @@ function facts(d: Awaited<ReturnType<typeof load>>) {
   return [
     `- Based in: Stonehaven, Aberdeenshire, Scotland. Works with clients across Aberdeen, Aberdeenshire, Scotland and remotely across the UK.`,
     `- Experience: 20+ years in B2B marketing strategy, SEO, positioning and lead generation.`,
-    `- Pricing: ${clean(home.pricing.heading)}. ${clean(home.pricing.body)}`,
     `- First step: a free 30-minute review, booked through ${d.url('/contact')}`,
     `- Phone: +44 (0) 785 3455816`,
     `- LinkedIn: https://www.linkedin.com/in/yannhamonou`,
