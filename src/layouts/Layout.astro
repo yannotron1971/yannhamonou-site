@@ -143,8 +143,18 @@ const ogImageUrl = ogImage
       (function () {
         var ID = 'G-NEGE3F0RZC';
         var KEY = 'yh-consent';
+        // Owner opt-out: ?notrack turns GA4 off in this browser for good,
+        // ?track turns it back on. Survives IP changes, unlike a GA4 IP filter.
+        var OFF = 'yh-notrack';
+        var off = false;
+        try {
+          var q = new URLSearchParams(location.search);
+          if (q.has('notrack')) { localStorage.setItem(OFF, '1'); alert('Analytics is now off in this browser. Visit with ?track to turn it back on.'); }
+          if (q.has('track')) { localStorage.removeItem(OFF); alert('Analytics is back on in this browser.'); }
+          off = localStorage.getItem(OFF) === '1';
+        } catch (e) {}
         function load() {
-          if (!gaOn || window.__yhGA) return;
+          if (!gaOn || off || window.__yhGA) return;
           window.__yhGA = true;
           var s = document.createElement('script');
           s.async = true;
@@ -155,7 +165,7 @@ const ogImageUrl = ogImage
           window.gtag('js', new Date());
           window.gtag('config', ID);
         }
-        window.yhConsent = { key: KEY, load: load };
+        window.yhConsent = { key: KEY, load: load, off: off };
         try { if (localStorage.getItem(KEY) === 'granted') load(); } catch (e) {}
       })();
     </script>
