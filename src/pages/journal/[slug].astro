@@ -15,6 +15,11 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+
+/* The template post swaps the newsletter box for a template request.
+   Requests arrive in Formspree with their own subject and Yann replies
+   with the template by hand. */
+const isTemplate = slug === 'free-b2b-marketing-plan-template-for-smes';
 const post = await reader.collections.posts.read(slug!);
 
 if (!post) return Astro.redirect('/journal');
@@ -85,10 +90,12 @@ const renderedContent = Markdoc.renderers.html(transformed);
   <section class="border-t border-ink bg-stone py-20 md:py-28">
     <Container data-group class="grid gap-10 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-6">
-        <Text size="sm" tone="secondary" data-m="fade">Free B2B marketing insights</Text>
-        <Heading size="lg" data-m="split" class="mt-4 max-w-[12ch]">Get the playbook</Heading>
+        <Text size="sm" tone="secondary" data-m="fade">{isTemplate ? 'Free template' : 'Free B2B marketing insights'}</Text>
+        <Heading size="lg" data-m="split" class="mt-4 max-w-[12ch]">{isTemplate ? 'Get the template' : 'Get the playbook'}</Heading>
         <Text tone="secondary" class="mt-6 max-w-md" data-m="fade">
-          Practical B2B marketing strategy — SEO, positioning, and lead gen — sent direct to your inbox. No fluff, no pitch. Unsubscribe any time.
+          {isTemplate
+            ? 'The one-page B2B marketing plan template from this guide. Enter your email and I will send it to you within one working day.'
+            : 'Practical B2B marketing strategy — SEO, positioning, and lead gen — sent direct to your inbox. No fluff, no pitch. Unsubscribe any time.'}
         </Text>
       </div>
       <form
@@ -97,7 +104,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
         class="lg:col-span-5 lg:col-start-8 lg:self-end"
         data-m="rise"
       >
-        <input type="hidden" name="_subject" value="Newsletter signup" />
+        <input type="hidden" name="_subject" value={isTemplate ? 'Template request: B2B marketing plan' : 'Newsletter signup'} />
         <label for="newsletter-email" class="field-label">Email address</label>
         <div class="flex flex-col gap-3 sm:flex-row">
           <input
@@ -109,7 +116,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
             autocomplete="email"
             class="field min-w-0 flex-1"
           />
-          <Button type="submit" variant="dark" class="shrink-0">Subscribe</Button>
+          <Button type="submit" variant="dark" class="shrink-0">{isTemplate ? 'Get my template' : 'Subscribe'}</Button>
         </div>
       </form>
     </Container>
