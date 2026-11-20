@@ -1,9 +1,10 @@
 ---
 /* The consultation form, on paper. Used in the homepage's orange closing band
-   and on /contact. Posts to Formspree; without JavaScript it still submits
+   and on /contact. Posts to /api/form, which checks Turnstile and relays to Formspree; without JavaScript it still submits
    normally, with it the reply arrives inline. The _gotcha field is the
    honeypot: hidden from people, filled by bots, discarded by Formspree. */
 import Button from './ui/Button.astro';
+import Turnstile from './Turnstile.astro';
 
 interface Props {
   buttonLabel?: string;
@@ -14,7 +15,7 @@ interface Props {
 const { buttonLabel = 'Request my free review', id = 'contact-form', class: className, ...rest } = Astro.props;
 ---
 <form
-  action="https://formspree.io/f/xkoabzbd"
+  action="/api/form"
   method="POST"
   id={id}
   data-contact-form
@@ -24,6 +25,7 @@ const { buttonLabel = 'Request my free review', id = 'contact-form', class: clas
   <!-- Honeypot. display:none, as Formspree recommends: browsers never autofill
        a display:none field. An off-screen field DOES get autofilled, which
        filled _gotcha on a real enquiry and sent it to Formspree spam. -->
+  <input type="hidden" name="_form" value="contact" />
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
   <div class="grid gap-5 sm:grid-cols-2" data-fields>
     <div>
@@ -43,6 +45,7 @@ const { buttonLabel = 'Request my free review', id = 'contact-form', class: clas
       <textarea class="field" id={`${id}-message`} name="challenge" required></textarea>
     </div>
   </div>
+  <Turnstile class="mt-5" />
   <Button type="submit" variant="dark" size="lg" class="mt-6 w-full" data-submit>{buttonLabel}</Button>
   <p aria-live="polite" role="status" class="mt-4 min-h-6 text-sm" data-status></p>
 </form>
@@ -75,6 +78,7 @@ const { buttonLabel = 'Request my free review', id = 'contact-form', class: clas
       } catch {
         status.textContent = 'Something went wrong. Please try again or call +44 (0) 785 3455816.';
         status.classList.add('text-error');
+        (window as { turnstile?: { reset: (el?: Element | null) => void } }).turnstile?.reset(form.querySelector('.cf-turnstile'));
         button.disabled = false;
         if (label) label.textContent = original;
       }

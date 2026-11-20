@@ -1,0 +1,22 @@
+---
+/* Cloudflare Turnstile widget. Usually invisible ("interaction-only"): it
+   only shows a checkbox when Cloudflare wants a visitor to prove they are
+   human. Its token is posted as cf-turnstile-response and checked by
+   /api/form. Renders nothing until a site key is set. */
+import { TURNSTILE_SITE_KEY } from '../lib/turnstile';
+interface Props { class?: string }
+const { class: className } = Astro.props;
+---
+{TURNSTILE_SITE_KEY && (
+  <div class:list={['cf-turnstile', className]} data-sitekey={TURNSTILE_SITE_KEY} data-appearance="interaction-only" data-theme="light"></div>
+)}
+
+<script>
+  // Bundled, so Astro includes it once per page however many forms there are.
+  if (document.querySelector('.cf-turnstile') && !document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) {
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true;
+    document.head.append(s);
+  }
+</script>
