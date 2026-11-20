@@ -10,6 +10,7 @@
    so this is a low-cost hedge for other assistants and agents, not an SEO
    lever. Facts only: no claims that are not already on the site. */
 import { reader, getSettings, getHomepage, getServices, getCases, getMarketingAudit } from './keystatic';
+import { ENTITY_DESCRIPTION } from './entity';
 
 const clean = (s: string | null | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
 const paras = (s: string) => s.split(/\r?\n\s*\r?\n/).map(clean).filter(Boolean);
@@ -29,11 +30,7 @@ async function load(site: URL) {
 const auditLine = (d: Awaited<ReturnType<typeof load>>) =>
   `- [Marketing audit](${d.url('/services/marketing-audit')}): A two-week review of positioning, website conversion, measurement, search visibility and enquiry follow-up for B2B firms. Fixed price ${d.audit.price}${d.audit.vatNote ? ` ${d.audit.vatNote}` : ''}.`;
 
-const SUMMARY =
-  'Yann Hamonou is an independent B2B marketing consultant based in Stonehaven, Aberdeenshire, ' +
-  'serving SMEs, startups and tech companies across Aberdeen, Aberdeenshire and Scotland. ' +
-  'He combines senior marketing strategy with hands-on delivery: positioning, SEO and GEO, ' +
-  'paid and organic media, websites and marketing leadership.';
+const SUMMARY = ENTITY_DESCRIPTION;
 
 function facts(d: Awaited<ReturnType<typeof load>>) {
   const { home } = d;
@@ -122,6 +119,9 @@ export async function buildLlmsFullTxt(site: URL) {
     if (stat) out.push(`Headline result: ${stat}`);
     out.push('');
     if (clean(c.summary)) out.push(clean(c.summary), '');
+    const glance = [['Industry', c.industry], ['Location', c.location], ['Role', c.role], ['Duration', c.duration]]
+      .filter(([, v]) => clean(v)).map(([k, v]) => `- ${k}: ${clean(v)}`);
+    if (glance.length) out.push(...glance, '');
     if (clean(c.challenge)) out.push(`Challenge: ${clean(c.challenge)}`, '');
     if (c.approach.length) { out.push('Approach:'); c.approach.forEach((a) => out.push(`- ${clean(a)}`)); out.push(''); }
     if (c.results.length) { out.push('Results:'); c.results.forEach((r) => out.push(`- ${clean(r)}`)); out.push(''); }

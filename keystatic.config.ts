@@ -120,6 +120,12 @@ export default config({
                 { label: 'Proactis Tenders', value: 'proactis' },
               ],
           defaultValue: 'none' }),
+        /* At-a-glance facts, so AI tools can read who, what, where and how
+           long without parsing the prose. Left empty, a row is not shown. */
+        industry: fields.text({ label: 'Industry' }),
+        location: fields.text({ label: 'Client location' }),
+        role: fields.text({ label: "Yann's role", multiline: true }),
+        duration: fields.text({ label: 'Duration' }),
         challenge: fields.text({ label: 'The challenge', multiline: true }),
         approach: fields.array(fields.text({ label: 'Step' }), {
           label: 'The approach', itemLabel: (p) => p.value,

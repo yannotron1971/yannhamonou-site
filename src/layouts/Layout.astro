@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import { ENTITY_DESCRIPTION, BUSINESS_DESCRIPTION, KNOWS_ABOUT } from '../lib/entity';
 
 interface Props {
   title?: string;
@@ -174,6 +175,8 @@ const ogImageUrl = ogImage
           "@id": `${siteOrigin}/#person`,
           "name": brand,
           "jobTitle": "B2B Marketing Consultant",
+          "description": ENTITY_DESCRIPTION,
+          "knowsAbout": KNOWS_ABOUT,
           "url": siteOrigin,
           "image": `${siteOrigin}/images/signal/portrait-yann.webp`,
           "sameAs": [
@@ -192,7 +195,8 @@ const ogImageUrl = ogImage
           "@type": ["ProfessionalService", "LocalBusiness"],
           "@id": `${siteOrigin}/#business`,
           "name": "Yann Hamonou — B2B Marketing Consultant Aberdeen",
-          "description": "B2B marketing consultant serving Aberdeen, Aberdeenshire, and Scotland. Specialist in SEO, digital marketing strategy, paid media, and conversion-focused websites for SMEs.",
+          "description": BUSINESS_DESCRIPTION,
+          "knowsAbout": KNOWS_ABOUT,
           "url": siteOrigin,
           "image": `${siteOrigin}/og-default.png`,
           "logo": `${siteOrigin}/icon-512.png`,

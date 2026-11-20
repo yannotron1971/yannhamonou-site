@@ -27,6 +27,16 @@ const detail = c.challenge ? c : null;
 /* PageHero sets its title with set:html, so escape the client name. */
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const num = (n: number) => String(n + 1).padStart(2, '0');
+
+/* At-a-glance facts; empty ones are left out. */
+const glance = [
+  ['Client', c.client],
+  ['Industry', c.industry],
+  ['Location', c.location],
+  ['My role', c.role],
+  ['Duration', c.duration],
+  ['Year', c.year],
+].filter(([, v]) => v);
 ---
 
 <Layout
@@ -84,6 +94,18 @@ const num = (n: number) => String(n + 1).padStart(2, '0');
   {detail && (
     <section class="border-t border-ink bg-paper py-20 md:py-28">
       <Container data-group>
+        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
+          <Heading as="h2" size="md" class="md:col-span-4">At a glance</Heading>
+          <dl class="divide-y divide-ink md:col-span-7 md:col-start-6">
+            {glance.map(([k, v]) => (
+              <div class="grid gap-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-[9rem_1fr] sm:gap-4">
+                <dt><Text size="sm" tone="secondary">{k}</Text></dt>
+                <dd><Text>{v}</Text></dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
         <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
           <Heading as="h2" size="md" class="md:col-span-4">The challenge</Heading>
           <Text size="lg" class="max-w-xl md:col-span-7 md:col-start-6">{detail.challenge}</Text>
