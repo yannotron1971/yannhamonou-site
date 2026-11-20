@@ -17,8 +17,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 
 /* The template post swaps the newsletter box for a template request.
-   Requests arrive in Formspree with their own subject and Yann replies
-   with the template by hand. */
+   With JS the form posts to Formspree in the background and then shows
+   download links for public/downloads/; without JS it posts normally
+   and Yann replies with the template by hand. */
 const isTemplate = slug === 'free-b2b-marketing-plan-template-for-smes';
 const post = await reader.collections.posts.read(slug!);
 
@@ -94,7 +95,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
         <Heading size="lg" data-m="split" class="mt-4 max-w-[12ch]">{isTemplate ? 'Get the template' : 'Get the playbook'}</Heading>
         <Text tone="secondary" class="mt-6 max-w-md" data-m="fade">
           {isTemplate
-            ? 'The one-page B2B marketing plan template from this guide. Enter your email and I will send it to you within one working day.'
+            ? 'The B2B marketing plan template from this guide: the one-page plan plus worksheets for goals, segments, messages, channels, KPIs and quarterly reviews. Enter your email to download it as a PDF or an editable Word file.'
             : 'Practical B2B marketing strategy — SEO, positioning, and lead gen — sent direct to your inbox. No fluff, no pitch. Unsubscribe any time.'}
         </Text>
       </div>
@@ -103,7 +104,9 @@ const renderedContent = Markdoc.renderers.html(transformed);
         method="POST"
         class="lg:col-span-5 lg:col-start-8 lg:self-end"
         data-m="rise"
+        data-template-form={isTemplate ? '' : undefined}
       >
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
         <input type="hidden" name="_subject" value={isTemplate ? 'Template request: B2B marketing plan' : 'Newsletter signup'} />
         <label for="newsletter-email" class="field-label">Email address</label>
         <div class="flex flex-col gap-3 sm:flex-row">
@@ -118,7 +121,17 @@ const renderedContent = Markdoc.renderers.html(transformed);
           />
           <Button type="submit" variant="dark" class="shrink-0">{isTemplate ? 'Get my template' : 'Subscribe'}</Button>
         </div>
+        {isTemplate && <p class="t-body mt-3 text-sm text-error" data-template-error hidden>That didn't go through. Check the address and try again.</p>}
       </form>
+      {isTemplate && (
+        <div class="lg:col-span-5 lg:col-start-8 lg:self-end" data-template-done hidden>
+          <p class="t-heading text-2xl text-ink">Your template is ready.</p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <Button href="/downloads/b2b-marketing-plan-template.pdf" variant="dark" download>Download the PDF</Button>
+            <Button href="/downloads/b2b-marketing-plan-template.docx" variant="outline" download>Word version</Button>
+          </div>
+        </div>
+      )}
     </Container>
   </section>
 
@@ -139,3 +152,25 @@ const renderedContent = Markdoc.renderers.html(transformed);
     </Container>
   </section>
 </Layout>
+
+<script>
+  // Template post only: submit in the background, then reveal downloads.
+  const form = document.querySelector<HTMLFormElement>('[data-template-form]');
+  if (form) {
+    const done = document.querySelector<HTMLElement>('[data-template-done]');
+    const error = form.querySelector<HTMLElement>('[data-template-error]');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (error) error.hidden = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.hidden = true;
+        if (done) { done.hidden = false; done.querySelector('a')?.focus(); }
+      } catch {
+        if (error) error.hidden = false;
+      }
+    });
+  }
+</script>
+
