@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Temporary, added 21 Nov 2026. Lists the old Webflow URLs so Google recrawls them
+     and follows their 301s to the new pages. Not linked from sitemap-index.xml.
+     Remove it, and its Search Console submission, from about 9 Jan 2027. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.yannhamonou.com/about-me</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/blogs-page</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/privacy-policy</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/b2b-marketing-services</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/aberdeen-marketing-agency</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/marketing-strategy</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/digital-marketing-strategy-aberdeen</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/marketing-positioning</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/seo-aberdeen</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/seo-agency-aberdeen</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/digital-marketing</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services/marketing-audit</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/marketing-services</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/b2b-marketing-services/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/case-study-arnlea</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/proof/case-study-arnlea</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/proof/case-study-viewport3</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/resources</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/seo-aberdeen-the-basics-that-still-win</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/b2b-saas-growth-playbook---lessons-from-base44s-80-m-exit</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/why-every-sme-need-a-marketing-plan</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/b2b-sme-growth-marketing-automation</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/consistency-quiet-engine-b2b-marketing-growth</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/consultancy-agency-or-in-house</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/from-shorts-to-search-4-trends-digital-marketing-2025</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/google-antitrust-documents-seo</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/how-my-marketing-services-work-together</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/how-to-get-your-products-featured-in-chatgpts-shopping-cards</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/is-the-internet-really-dead</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/is-your-content-ready-for-the-ai-search-revolution</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/practical-guide-to-setting-up-marketing-campaigns-for-b2b-smes</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/seo-in-2025-what-works-whats-hype-what-fails</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/the-2026-blueprint-to-ai-agent-commerce-getting-your-products-bought-instead-of-just-discovered</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/the-complete-sme-guide-to-b2b-marketing-strategy-in-scotland-2025-edition</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/b2b-saas-growth-playbook---lessons-from-base44s-80m-exit</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/seo-aberdeen-the-basics-that-still-win-in-2025</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.yannhamonou.com/post/free-b2b-marketing-plan-template-for-smes</loc><lastmod>2026-11-19</lastmod></url>
+</urlset>
