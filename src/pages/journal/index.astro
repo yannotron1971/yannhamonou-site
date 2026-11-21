@@ -68,7 +68,7 @@ function fmtDate(d: string | null) {
           <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3" id="posts-grid" role="list">
             {posts.map(post => (
               <li data-m="rise" class="post-card data-[hidden]:hidden" data-category={post.entry.category}>
-                <a href={`/journal/${post.slug}`} class="group block">
+                <a href={`/journal/${post.slug}/`} class="group block">
                   <div class="relative aspect-[3/2] overflow-hidden bg-stone">
                     {post.entry.coverImage ? (
                       <img

@@ -85,8 +85,8 @@ const principles = [
     image={serviceImages.media}
   >
     <div class="mt-10 flex flex-wrap gap-4">
-      <Button href="/contact" size="lg" arrow>Book a free 30-min review</Button>
-      <Button href="/services" variant="outline" size="lg">See all services</Button>
+      <Button href="/contact/" size="lg" arrow>Book a free 30-min review</Button>
+      <Button href="/services/" variant="outline" size="lg">See all services</Button>
     </div>
   </PageHero>
 
@@ -105,7 +105,7 @@ const principles = [
         <ul class="mt-4 border-b border-ink">
           {services.map((s) => (
             <li data-m="rise" class="border-t border-ink">
-              <a href={`/services/${s.slug}`} class="group flex gap-5 py-6 transition-colors duration-200 hover:bg-stone">
+              <a href={`/services/${s.slug}/`} class="group flex gap-5 py-6 transition-colors duration-200 hover:bg-stone">
                 <span aria-hidden="true" class="font-heading text-2xl font-extrabold leading-none tracking-[-0.04em] [font-stretch:110%]">{s.num}</span>
                 <div>
                   <Heading as="h3" size="sm" class="decoration-signal decoration-2 underline-offset-4 group-hover:underline">{s.title}</Heading>
@@ -145,11 +145,11 @@ const principles = [
         <Text size="sm" tone="secondary" data-m="fade">Most in-demand service</Text>
         <Heading size="xl" data-m="split" class="mt-4">SEO Aberdeen</Heading>
         <Text size="lg" class="mt-8 max-w-xl" data-m="fade">
-          The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen" class="text-link">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
+          The most common request from Aberdeen businesses: get found in Google for the terms your buyers actually search. I combine traditional <a href="/services/seo-aberdeen/" class="text-link">SEO Aberdeen</a> with Generative Engine Optimisation (GEO) — so you appear in both Google results and the AI answers that are increasingly replacing them.
         </Text>
         <div class="mt-10 flex flex-wrap gap-4" data-m="fade">
-          <Button href="/services/seo-aberdeen" variant="dark">SEO Aberdeen service</Button>
-          <Button href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025" variant="outline">Read the Aberdeen SEO guide</Button>
+          <Button href="/services/seo-aberdeen/" variant="dark">SEO Aberdeen service</Button>
+          <Button href="/journal/seo-aberdeen-the-basics-that-still-win-in-2025/" variant="outline">Read the Aberdeen SEO guide</Button>
         </div>
       </div>
       <dl class="grid grid-cols-2 gap-6 lg:col-span-4 lg:col-start-9 lg:grid-cols-1 lg:gap-10">
@@ -175,7 +175,7 @@ const principles = [
           const logo = logoFor(c.client);
           return (
             <li data-m="rise" class="border-t border-ink">
-              <a href={`/work/${c.slug}`} class="group grid gap-6 py-8 transition-colors duration-200 hover:bg-stone md:grid-cols-12 md:items-center md:gap-6 md:py-10">
+              <a href={`/work/${c.slug}/`} class="group grid gap-6 py-8 transition-colors duration-200 hover:bg-stone md:grid-cols-12 md:items-center md:gap-6 md:py-10">
                 <div class="md:col-span-8">
                   {logo && <img src={logo} alt="" loading="lazy" class="mb-5 h-auto max-h-9 w-auto max-w-[150px] object-contain grayscale" />}
                   <Text size="sm" tone="secondary">{c.year} · {c.descriptor}</Text>
@@ -248,7 +248,7 @@ const principles = [
           Book a free 30-minute strategy review. I'll look at your current marketing situation, identify the biggest gap, and tell you exactly what I'd prioritise — with no pitch and no obligation.
         </Text>
         <div class="mt-10" data-m="fade">
-          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+          <Button href="/contact/" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
       <span data-m="fade" class="hidden lg:col-span-4 lg:col-start-9 lg:block"><Icon name="arrow-right" stroke={0.6} class="size-48" /></span>

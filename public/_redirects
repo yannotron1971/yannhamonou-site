@@ -20,54 +20,54 @@
 # ── Pages that changed name ──
 # Webflow published /sitemap.xml and Search Console still lists it.
 /sitemap.xml /sitemap-index.xml 301
-/services/seo /services/seo-aberdeen 301
-/services/seo/ /services/seo-aberdeen 301
+/services/seo /services/seo-aberdeen/ 301
+/services/seo/ /services/seo-aberdeen/ 301
 
-/about-me                    /about                        301
-/blogs-page                  /journal                      301
-/privacy-policy              /privacy                      301
-/b2b-marketing-services      /services                     301
-/aberdeen-marketing-agency   /digital-marketing-aberdeen   301
+/about-me                    /about/                        301
+/blogs-page                  /journal/                      301
+/privacy-policy              /privacy/                      301
+/b2b-marketing-services      /services/                     301
+/aberdeen-marketing-agency   /digital-marketing-aberdeen/   301
 
 # ── Services left /marketing-services/ ──
 # Two live URLs carry the strategy page: its own, and the one the homepage
 # labels "Marketing Leadership". Both land on strategy — the new Leadership
 # service is a different offer, and sending traffic there would be a guess.
-/marketing-services/marketing-strategy                    /services/strategy       301
-/marketing-services/digital-marketing-strategy-aberdeen   /services/strategy       301
-/marketing-services/marketing-positioning                 /services/positioning    301
-/marketing-services/seo-aberdeen                          /services/seo-aberdeen   301
-/marketing-services/seo-agency-aberdeen                   /services/seo-aberdeen   301
-/marketing-services/digital-marketing                     /digital-marketing-aberdeen 301
+/marketing-services/marketing-strategy                    /services/strategy/       301
+/marketing-services/digital-marketing-strategy-aberdeen   /services/strategy/       301
+/marketing-services/marketing-positioning                 /services/positioning/    301
+/marketing-services/seo-aberdeen                          /services/seo-aberdeen/   301
+/marketing-services/seo-agency-aberdeen                   /services/seo-aberdeen/   301
+/marketing-services/digital-marketing                     /digital-marketing-aberdeen/ 301
 # The audit page's planned Webflow URL, in case it was shared before the move.
-/marketing-services/marketing-audit                       /services/marketing-audit 301
-/marketing-services/*                                     /services                301
+/marketing-services/marketing-audit                       /services/marketing-audit/ 301
+/marketing-services/*                                     /services/                301
 # Indexed without the trailing segment, so the wildcard above never sees them.
-/marketing-services                                       /services                301
-/b2b-marketing-services/                                  /services                301
+/marketing-services                                       /services/                301
+/b2b-marketing-services/                                  /services/                301
 
 # ── Renamed inside this build ──
 # Paid Media became Organic & Paid Media, and the slug moved with it. Nothing
 # external points here yet, but the old URL has been in this repo for months
 # and costs one line to keep working.
-/services/paid   /services/media   301
+/services/paid   /services/media/   301
 
 # ── Case studies ──
 # /case-study-arnlea is the pre-/proof/ URL and is STILL LIVE — the sitemap
 # does not list it, nothing on the site links to it, and only the archive knew
 # it existed. Its siblings under that prefix all 404 now, but the wildcard
 # catches any that are still indexed.
-/case-study-arnlea            /work/arnlea      301
-/case-study-*                 /work             301
-/proof/case-study-arnlea      /work/arnlea      301
-/proof/case-study-viewport3   /work/viewport3   301
-/proof/*                      /work             301
+/case-study-arnlea            /work/arnlea/      301
+/case-study-*                 /work/             301
+/proof/case-study-arnlea      /work/arnlea/      301
+/proof/case-study-viewport3   /work/viewport3/   301
+/proof/*                      /work/             301
 
 # ── Gone before the migration ──
 # /resources 404s on the live site already and predates the current structure.
 # Whatever it held, the people who followed a link to it wanted reading, so it
 # goes to the journal rather than the homepage.
-/resources                    /journal          301
+/resources                    /journal/          301
 
 # ── Journal ──
 # Twelve of the fourteen slugs survive the move unchanged, so the wildcard at
@@ -76,10 +76,10 @@
 #   · a post whose title changed between platforms
 #   · the automation post, deleted with the service — no equivalent page, so
 #     it goes to the index rather than to something it isn't
-/post/seo-aberdeen-the-basics-that-still-win   /journal/seo-aberdeen-the-basics-that-still-win-in-2025   301
+/post/seo-aberdeen-the-basics-that-still-win   /journal/seo-aberdeen-the-basics-that-still-win-in-2025/   301
 # Two spellings of the Base44 slug are indexed: 80m and 80-m. Only the first
 # exists here, and the second is the one with the traffic.
-/post/b2b-saas-growth-playbook---lessons-from-base44s-80-m-exit   /journal/b2b-saas-growth-playbook---lessons-from-base44s-80m-exit   301
-/post/why-every-sme-need-a-marketing-plan      /journal/free-b2b-marketing-plan-template-for-smes        301
-/post/b2b-sme-growth-marketing-automation      /journal                                                  301
-/post/*                                        /journal/:splat                                           301
+/post/b2b-saas-growth-playbook---lessons-from-base44s-80-m-exit   /journal/b2b-saas-growth-playbook---lessons-from-base44s-80m-exit/   301
+/post/why-every-sme-need-a-marketing-plan      /journal/free-b2b-marketing-plan-template-for-smes/        301
+/post/b2b-sme-growth-marketing-automation      /journal/                                                  301
+/post/*                                        /journal/:splat/                                           301

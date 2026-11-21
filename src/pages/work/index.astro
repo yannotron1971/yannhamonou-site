@@ -36,7 +36,7 @@ const cases = await getCases();
               i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
             ]}
           >
-            <a href={`/work/${c.slug}`} class="group flex h-full flex-col">
+            <a href={`/work/${c.slug}/`} class="group flex h-full flex-col">
               {/* The plate: the photograph where the case has one with a
                   description, otherwise its headline figure set large. */}
               {c.image && c.imageAlt
@@ -129,7 +129,7 @@ const cases = await getCases();
           Book the free 30-minute review. No commitment — just an honest look at where your biggest marketing opportunity is.
         </Text>
         <div class="mt-8" data-m="fade">
-          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+          <Button href="/contact/" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
     </Container>

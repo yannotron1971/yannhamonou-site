@@ -24,7 +24,7 @@ const services = await getServices();
         </Text>
         <div class="hero-in mt-10 flex flex-wrap gap-4 [--hero-at:0.4s]">
           <Button href="/" size="lg" arrow>Back to the homepage</Button>
-          <Button href="/contact" size="lg" variant="outline">Contact me</Button>
+          <Button href="/contact/" size="lg" variant="outline">Contact me</Button>
         </div>
       </div>
       <div aria-hidden="true" class="hero-sun pointer-events-none absolute -bottom-24 right-0 hidden aspect-square w-[34%] translate-y-1/2 rounded-full bg-signal lg:block"></div>
@@ -36,21 +36,21 @@ const services = await getServices();
       <div class="md:pr-8">
         <Text size="sm" tone="secondary" class="mb-4">Services</Text>
         <ul class="space-y-2">
-          {services.map((s) => <li><a href={`/services/${s.slug}`} class="nav-link text-ink">{s.title}</a></li>)}
+          {services.map((s) => <li><a href={`/services/${s.slug}/`} class="nav-link text-ink">{s.title}</a></li>)}
         </ul>
       </div>
       <div class="md:border-l md:border-ink md:px-8">
         <Text size="sm" tone="secondary" class="mb-4">Proof</Text>
         <ul class="space-y-2">
-          <li><a href="/work" class="nav-link text-ink">Case studies</a></li>
-          <li><a href="/about" class="nav-link text-ink">About me</a></li>
+          <li><a href="/work/" class="nav-link text-ink">Case studies</a></li>
+          <li><a href="/about/" class="nav-link text-ink">About me</a></li>
         </ul>
       </div>
       <div class="md:border-l md:border-ink md:pl-8">
         <Text size="sm" tone="secondary" class="mb-4">Reading</Text>
         <ul class="space-y-2">
-          <li><a href="/journal" class="nav-link text-ink">Journal</a></li>
-          <li><a href="/services/seo-aberdeen" class="nav-link text-ink">SEO Aberdeen</a></li>
+          <li><a href="/journal/" class="nav-link text-ink">Journal</a></li>
+          <li><a href="/services/seo-aberdeen/" class="nav-link text-ink">SEO Aberdeen</a></li>
         </ul>
       </div>
     </Container>

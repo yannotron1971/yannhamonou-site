@@ -12,15 +12,19 @@ import Container from './ui/Container.astro';
 import Icon from './ui/Icon.astro';
 
 const links = [
-  { label: 'Services', href: '/services' },
-  { label: 'Case studies', href: '/work' },
-  { label: 'About me', href: '/about' },
-  { label: 'Journal', href: '/journal' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Case studies', href: '/work/' },
+  { label: 'About me', href: '/about/' },
+  { label: 'Journal', href: '/journal/' },
+  { label: 'Contact', href: '/contact/' },
 ];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+// Links carry a trailing slash (the canonical form), so strip it before comparing.
+const isCurrent = (href: string) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return path === h || (h !== '/' && path.startsWith(h + '/'));
+};
 ---
 
 <header id="site-header" class="sticky top-0 z-50 w-full border-b border-transparent bg-paper transition-colors duration-300 data-[scrolled=true]:border-ink data-[open=true]:border-ink">
@@ -33,7 +37,7 @@ const isCurrent = (href: string) => path === href || (href !== '/' && path.start
       {links.map((l) => (
         <a href={l.href} class="nav-link text-ink" aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
       ))}
-      <Button href="/contact" size="sm">Book a free call</Button>
+      <Button href="/contact/" size="sm">Book a free call</Button>
     </nav>
 
     <button
@@ -60,7 +64,7 @@ const isCurrent = (href: string) => path === href || (href !== '/' && path.start
           >{l.label}</a>
         ))}
       </nav>
-      <Button href="/contact" size="lg" arrow class="mt-8 w-full">Book a free consultation</Button>
+      <Button href="/contact/" size="lg" arrow class="mt-8 w-full">Book a free consultation</Button>
     </Container>
   </div>
 </header>

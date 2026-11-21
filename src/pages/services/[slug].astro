@@ -51,7 +51,7 @@ const heroImage = serviceImages[service.slug];
     image={heroImage}
     size={service.title.length > 14 ? 'lg' : 'xl'}
   >
-    <a href="/services" class="text-link mt-8 inline-block text-sm">← All services</a>
+    <a href="/services/" class="text-link mt-8 inline-block text-sm">← All services</a>
   </PageHero>
 
   <!-- ═══ INTRO + DELIVERABLES ═══ -->
@@ -65,7 +65,7 @@ const heroImage = serviceImages[service.slug];
           {s.why && <Text size="lg" class="max-w-xl">{s.why}</Text>}
         </div>
         <div class="mt-10" data-m="fade">
-          <Button href="/contact">Discuss your situation</Button>
+          <Button href="/contact/">Discuss your situation</Button>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ const heroImage = serviceImages[service.slug];
       <Text size="sm" tone="secondary" data-m="fade">Also available</Text>
       <ul class="mt-6 flex flex-wrap gap-3">
         {otherServices.map((os) => (
-          <li data-m="rise"><Button href={`/services/${os.slug}`} variant="outline" size="sm">{os.title}</Button></li>
+          <li data-m="rise"><Button href={`/services/${os.slug}/`} variant="outline" size="sm">{os.title}</Button></li>
         ))}
       </ul>
     </Container>
@@ -187,7 +187,7 @@ const heroImage = serviceImages[service.slug];
           Book a free 30-minute review. I'll look at your situation and tell you exactly what I'd prioritise.
         </Text>
         <div class="mt-8">
-          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+          <Button href="/contact/" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
     </Container>

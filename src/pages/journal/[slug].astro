@@ -58,7 +58,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
   <header class="border-b border-ink bg-paper">
     <Container class="py-14 md:py-20 lg:py-24">
       <div class="max-w-3xl">
-        <a href="/journal" class="text-link hero-in text-sm">← All posts</a>
+        <a href="/journal/" class="text-link hero-in text-sm">← All posts</a>
         <Text size="sm" tone="secondary" class="hero-in mt-10 [--hero-at:0.1s]">
           {categoryLabels[post.category] ?? post.category}{post.publishedDate ? ` · ${fmtDate(post.publishedDate)}` : ''}
         </Text>
@@ -150,7 +150,7 @@ const renderedContent = Markdoc.renderers.html(transformed);
           Book a free 30-minute strategy review. We'll look at how these ideas apply specifically to your situation.
         </Text>
         <div class="mt-8" data-m="fade">
-          <Button href="/contact" variant="dark" size="lg" arrow>Book the free review</Button>
+          <Button href="/contact/" variant="dark" size="lg" arrow>Book the free review</Button>
         </div>
       </div>
     </Container>

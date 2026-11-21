@@ -27,19 +27,19 @@ const results = [
     client: 'Arnlea Systems',
     body: 'Aberdeen-based Arnlea Systems went from invisible on Google to ranking #2 and eventually #1 for "ATEX inspection software" and other related inquiries within weeks of a Webflow rebuild and SEO/GEO strategy.',
     quote: '"Inbound enquiries are now a primary source of pipeline." Claire Murray, Head of Business Development',
-    href: '/work/arnlea',
+    href: '/work/arnlea/',
     linkLabel: 'Read the Arnlea case study',
   },
   {
     client: 'Bowtie Master from Salus-Technical',
     body: 'A full SEO/GEO audit revealing flaws at the structural, technical and content level. Still ongoing but SEO visibility jumped from "nowhere to be seen" to rank 1 to 5 for targeted keywords a week into the project.',
-    href: '/work/BowtieMaster',
+    href: '/work/BowtieMaster/',
     linkLabel: 'Read the BowtieMaster case study',
   },
   {
     client: 'Viewport3',
     body: 'Here, I started with positioning to get a detailed understanding of the context and environment. This was extremely helpful to develop an SEO strategy that eventually delivered first places for the target keywords we selected. The company is now routinely mentioned in AI answers when the topic of dimensional assurance and subsea photogrammetry match the user requests.',
-    href: '/work/viewport3',
+    href: '/work/viewport3/',
     linkLabel: 'Read the Viewport3 case study',
   },
 ];
@@ -83,9 +83,9 @@ const faq = [
 ];
 
 const posts = [
-  { category: 'Industry insights', title: "What Google's Antitrust Trial Revealed About Ranking", href: '/journal/google-antitrust-documents-seo' },
-  { category: 'Digital marketing', title: 'The 2026 Blueprint to AI Agent Commerce: Getting Your Products Bought (instead of just discovered)', href: '/journal/the-2026-blueprint-to-ai-agent-commerce-getting-your-products-bought-instead-of-just-discovered' },
-  { category: 'Digital marketing', title: 'Is Your Content Ready for the AI Search Revolution?', href: '/journal/is-your-content-ready-for-the-ai-search-revolution' },
+  { category: 'Industry insights', title: "What Google's Antitrust Trial Revealed About Ranking", href: '/journal/google-antitrust-documents-seo/' },
+  { category: 'Digital marketing', title: 'The 2026 Blueprint to AI Agent Commerce: Getting Your Products Bought (instead of just discovered)', href: '/journal/the-2026-blueprint-to-ai-agent-commerce-getting-your-products-bought-instead-of-just-discovered/' },
+  { category: 'Digital marketing', title: 'Is Your Content Ready for the AI Search Revolution?', href: '/journal/is-your-content-ready-for-the-ai-search-revolution/' },
 ];
 
 const schema = {
@@ -277,7 +277,7 @@ const schema = {
             <Text class="font-semibold">Claire Murray</Text>
             <Text size="sm" tone="secondary">Head of Business Development, Arnlea</Text>
           </div>
-          <a href="/work/arnlea" class="text-link text-sm">Read the case study</a>
+          <a href="/work/arnlea/" class="text-link text-sm">Read the case study</a>
         </figcaption>
       </figure>
     </Container>
@@ -307,7 +307,7 @@ const schema = {
     <Container data-group>
       <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <Heading size="lg" data-m="split">Blogs</Heading>
-        <a href="/journal" class="text-link text-sm" data-m="fade">View all posts</a>
+        <a href="/journal/" class="text-link text-sm" data-m="fade">View all posts</a>
       </div>
       <ul class="mt-10">
         {posts.map((p) => (
@@ -328,7 +328,7 @@ const schema = {
     <Container data-group class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
       <Text size="sm" tone="secondary" data-m="fade">Other services</Text>
       <div class="flex flex-wrap gap-3" data-m="fade">
-        {otherServices.map((s) => <Button href={`/services/${s.slug}`} variant="outline" size="sm">{s.title}</Button>)}
+        {otherServices.map((s) => <Button href={`/services/${s.slug}/`} variant="outline" size="sm">{s.title}</Button>)}
       </div>
     </Container>
   </section>

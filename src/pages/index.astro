@@ -120,7 +120,7 @@ const faqSchema = {
         const img = serviceImages[s.slug];
         return (
           <li class="border-t border-ink">
-            <a href={`/services/${s.slug}`} class="group block transition-colors duration-200 hover:bg-stone">
+            <a href={`/services/${s.slug}/`} class="group block transition-colors duration-200 hover:bg-stone">
               <Container data-group class="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
                 <span aria-hidden="true" data-m="fade" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
                   {String(i + 1).padStart(2, '0')}
@@ -193,7 +193,7 @@ const faqSchema = {
             <Heading as="h3" size="md">{c.client}</Heading>
             <Text tone="secondary" class="mt-2">{c.descriptor}</Text>
             {c.stat && <Text size="sm" class="mt-4 font-semibold">{c.stat}{c.statSub ? ` ${c.statSub}` : ''}</Text>}
-            <a href={`/work/${c.slug}`} class="text-link mt-5 inline-block text-sm">Read the {c.client} case study</a>
+            <a href={`/work/${c.slug}/`} class="text-link mt-5 inline-block text-sm">Read the {c.client} case study</a>
           </li>
         ))}
       </ul>
@@ -229,7 +229,7 @@ const faqSchema = {
           {paras(about.body).map((p) => <Text size="lg">{p}</Text>)}
         </div>
         <div class="mt-10 flex flex-wrap gap-4" data-m="fade">
-          <Button href="/about" variant="dark">More about me</Button>
+          <Button href="/about/" variant="dark">More about me</Button>
           <Button href="https://www.linkedin.com/in/yannhamonou" target="_blank" rel="noopener noreferrer" variant="outline">
             <Icon name="linkedin" class="size-4" /> Connect on LinkedIn
           </Button>
@@ -244,12 +244,12 @@ const faqSchema = {
       <Container data-group>
         <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Heading size="lg" data-m="split" class="max-w-[16ch]">{journal.heading}</Heading>
-          <a href="/journal" class="text-link text-sm" data-m="fade">{journal.moreLabel}</a>
+          <a href="/journal/" class="text-link text-sm" data-m="fade">{journal.moreLabel}</a>
         </div>
         <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
           {recentPosts.map((p) => (
             <li data-m="rise">
-              <a href={`/journal/${p.slug}`} class="group block">
+              <a href={`/journal/${p.slug}/`} class="group block">
                 <div class="relative aspect-[3/2] overflow-hidden bg-stone">
                   {p.entry.coverImage ? (
                     <img src={p.entry.coverImage} alt={p.entry.coverAlt ?? ''} loading="lazy"
