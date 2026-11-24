@@ -27,8 +27,8 @@ const isCurrent = (href: string) => {
 };
 ---
 
-<header id="site-header" class="sticky top-0 z-50 w-full border-b border-transparent bg-paper transition-colors duration-300 data-[scrolled=true]:border-ink data-[open=true]:border-ink">
-  <Container class="flex h-16 items-center justify-between gap-6 md:h-20">
+<header id="site-header" class="group/header sticky top-0 z-50 w-full border-b border-transparent bg-paper transition-colors duration-300 data-[scrolled=true]:border-ink data-[open=true]:border-ink">
+  <Container class="flex h-16 items-center justify-between gap-3 md:h-20 lg:gap-6">
     <a href="/" aria-label="Yann Hamonou, home" class="relative z-10">
       <Logo class="text-lg md:text-xl" />
     </a>
@@ -39,6 +39,10 @@ const isCurrent = (href: string) => {
       ))}
       <Button href="/contact/" size="sm">Book a free call</Button>
     </nav>
+
+    <!-- Phones and tablets: the same call to action stays in reach while the
+         links are behind the menu. Below 360px there is no room for it. -->
+    <Button href="/contact/" size="sm" class="relative z-10 ml-auto !hidden !h-11 !px-3 min-[360px]:!inline-flex group-data-[open=true]/header:invisible lg:!hidden">Book a call</Button>
 
     <button
       type="button"

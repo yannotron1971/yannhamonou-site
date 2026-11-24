@@ -43,16 +43,16 @@ const faqSchema = {
 
   <!-- ═══ HERO: poster headline left, orange sun and granite cut-out right ═══ -->
   <section class="relative overflow-hidden border-b border-ink bg-paper">
-    <Container class="relative grid gap-10 pt-10 md:pt-16 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-12 lg:gap-6 lg:pt-20">
+    <Container class="relative grid gap-10 pt-6 sm:pt-10 md:pt-16 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-12 lg:gap-6 lg:pt-20">
       <div class="relative z-10 flex flex-col lg:col-span-6 lg:pb-24">
         <!-- The kicker sits inside the h1: "marketing consultant" + "Aberdeen"
              is the phrase this page ranks for, so it has to stay in the h1. -->
         <Heading as="h1" size="display" class="hero-in">
-          {hero.kicker && <span class="t-eyebrow mb-6 block !normal-case !tracking-normal text-ink">{hero.kicker}</span>}{' '}
-          <span class="block lg:text-[0.7em]">{hero.headline}</span>
+          {hero.kicker && <span class="t-eyebrow mb-4 block sm:mb-6 !normal-case !tracking-normal text-ink">{hero.kicker}</span>}{' '}
+          <span class="block max-sm:text-[clamp(1.75rem,10.4vw,3.25rem)] lg:text-[0.7em]">{hero.headline}</span>
         </Heading>
-        <Text size="lg" class="hero-in mt-8 max-w-md [--hero-at:0.25s]">{hero.sub}</Text>
-        <div class="hero-in mt-10 [--hero-at:0.4s]">
+        <Text size="lg" class="hero-in mt-6 max-w-md sm:mt-8 [--hero-at:0.25s]">{hero.sub}</Text>
+        <div class="hero-in mt-7 sm:mt-10 [--hero-at:0.4s]">
           <Button href="#contact" size="lg" arrow>{hero.ctaLabel}</Button>
         </div>
       </div>
@@ -67,7 +67,7 @@ const faqSchema = {
           fetchpriority="high"
           class="hero-settle absolute bottom-0 right-0 h-auto w-[104%] max-w-none origin-bottom object-contain object-bottom lg:w-full"
         />
-        <Tag align="right" class="hero-in absolute right-5 top-4 sm:right-8 lg:right-10 lg:top-2 [--hero-at:0.6s]">
+        <Tag align="right" class="hero-in absolute hidden lg:right-10 lg:top-2 lg:block [--hero-at:0.6s]">
           {lines(hero.place).map((l, i) => (<>{i > 0 && <br />}{l}</>))}
         </Tag>
       </div>
@@ -197,6 +197,9 @@ const faqSchema = {
           </li>
         ))}
       </ul>
+      <div class="mt-10" data-m="fade">
+        <Button href="#contact" size="lg" arrow>{hero.ctaLabel}</Button>
+      </div>
     </Container>
   </section>
 
