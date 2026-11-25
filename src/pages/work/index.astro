@@ -26,11 +26,10 @@ const cases = await getCases();
   </PageHero>
 
   <section id="cases" class="scroll-mt-20 bg-paper py-20 md:py-28">
-    <Container data-group>
+    <Container>
       <ul class="grid border-t border-ink md:grid-cols-2" role="list">
         {cases.map((c, i) => (
           <li
-            data-m="rise"
             class:list={[
               'border-b border-ink py-10 md:py-12',
               i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
@@ -97,12 +96,12 @@ const cases = await getCases();
   {/* Web work gets a band of its own, previews and all, so it reads as
       a second body of work rather than a footnote to the first. */}
   <section class="overflow-x-clip border-t border-ink bg-stone py-20 md:py-28">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-6">
+    <Container class="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-6">
       <div class="lg:col-span-5">
-        <Text size="sm" tone="secondary" data-m="fade">Web development</Text>
-        <Heading size="lg" data-m="split" class="mt-4 max-w-[14ch]">Sites and landing pages, designed and built.</Heading>
-        <Text tone="secondary" class="mt-6 max-w-md" data-m="fade">A client rebuild in Webflow, this site in Astro, and three concept landing pages in three different design systems.</Text>
-        <div class="mt-8" data-m="fade">
+        <Text size="sm" tone="secondary">Web development</Text>
+        <Heading size="lg" class="mt-4 max-w-[14ch]">Sites and landing pages, designed and built.</Heading>
+        <Text tone="secondary" class="mt-6 max-w-md">A client rebuild in Webflow, this site in Astro, and three concept landing pages in three different design systems.</Text>
+        <div class="mt-8">
           <Button href="/work/web/" variant="dark" arrow>See the web work</Button>
         </div>
       </div>
@@ -120,15 +119,15 @@ const cases = await getCases();
   </section>
 
   <section class="border-t border-ink bg-signal py-20 text-ink md:py-28">
-    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+    <Container class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
       <div class="lg:col-span-7">
-        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Your results could be here</Heading>
+        <Heading size="xl" tone="onAccent" class="max-w-[11ch]">Your results could be here</Heading>
       </div>
       <div class="lg:col-span-5">
-        <Text size="lg" tone="onAccent" class="max-w-md" data-m="fade">
+        <Text size="lg" tone="onAccent" class="max-w-md">
           Book the free 30-minute review. No commitment — just an honest look at where your biggest marketing opportunity is.
         </Text>
-        <div class="mt-8" data-m="fade">
+        <div class="mt-8">
           <Button href="/contact/" variant="dark" size="lg" arrow>Book a free consultation</Button>
         </div>
       </div>

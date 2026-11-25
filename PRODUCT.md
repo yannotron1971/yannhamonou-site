@@ -36,4 +36,4 @@ Precise, confident, free of jargon. Writes as a senior peer who respects the rea
 
 ## Accessibility & Inclusion
 
-Target WCAG 2.2 AA. Body text at 4.5:1 or better and large display type at 3:1, measured per ground in DESIGN.md. Motion plays once and is off under `prefers-reduced-motion`, with a 2.5 second fallback so a section can't stay blank. Skip link, visible focus ring and labelled fields. Analytics stay off until the visitor accepts.
+Target WCAG 2.2 AA. Body text at 4.5:1 or better and large display type at 3:1, measured per ground in DESIGN.md. Motion is off under `prefers-reduced-motion`, and no content waits for a script to appear. Skip link, visible focus ring and labelled fields. Analytics stay off until the visitor accepts.

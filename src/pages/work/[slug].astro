@@ -67,13 +67,13 @@ const glance = [
 
   <!-- Headline figure, with the case image where there is one -->
   <section class="bg-stone py-20 md:py-28">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-6">
+    <Container class="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-6">
       <div class:list={[c.image && c.imageAlt ? 'lg:col-span-5' : 'lg:col-span-12']}>
-        <p class="font-heading text-7xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]" data-m="fade">{c.stat}</p>
-        <Heading as="h2" size="sm" class="mt-6 max-w-[26ch]" data-m="fade">{c.statSub}</Heading>
+        <p class="font-heading text-7xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]">{c.stat}</p>
+        <Heading as="h2" size="sm" class="mt-6 max-w-[26ch]">{c.statSub}</Heading>
       </div>
       {c.image && c.imageAlt && (
-        <figure class="lg:col-span-6 lg:col-start-7" data-m="frame">
+        <figure class="lg:col-span-6 lg:col-start-7">
           <div class="relative aspect-[3/2] overflow-hidden bg-paper">
             <img
               src={c.image}
@@ -93,8 +93,8 @@ const glance = [
   <!-- Challenge + Approach + Results -->
   {detail && (
     <section class="border-t border-ink bg-paper py-20 md:py-28">
-      <Container data-group>
-        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
+      <Container>
+        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12">
           <Heading as="h2" size="md" class="md:col-span-4">At a glance</Heading>
           <dl class="divide-y divide-ink md:col-span-7 md:col-start-6">
             {glance.map(([k, v]) => (
@@ -106,12 +106,12 @@ const glance = [
           </dl>
         </div>
 
-        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
+        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12">
           <Heading as="h2" size="md" class="md:col-span-4">The challenge</Heading>
           <Text size="lg" class="max-w-xl md:col-span-7 md:col-start-6">{detail.challenge}</Text>
         </div>
 
-        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
+        <div class="grid gap-6 border-t border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12">
           <Heading as="h2" size="md" class="md:col-span-4">The approach</Heading>
           <ol class="divide-y divide-ink md:col-span-7 md:col-start-6" role="list">
             {detail.approach.map((item, i) => (
@@ -123,7 +123,7 @@ const glance = [
           </ol>
         </div>
 
-        <div class="grid gap-6 border-y border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12" data-m="rise">
+        <div class="grid gap-6 border-y border-ink py-10 md:grid-cols-12 md:gap-6 md:py-12">
           <Heading as="h2" size="md" class="md:col-span-4">The results</Heading>
           <ul class="divide-y divide-ink md:col-span-7 md:col-start-6" role="list">
             {detail.results.map((item) => (
@@ -140,15 +140,15 @@ const glance = [
 
   <!-- CTA -->
   <section class="border-t border-ink bg-signal py-20 text-ink md:py-28">
-    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+    <Container class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
       <div class="lg:col-span-7">
-        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Want results like these?</Heading>
+        <Heading size="xl" tone="onAccent" class="max-w-[11ch]">Want results like these?</Heading>
       </div>
       <div class="lg:col-span-5">
-        <Text size="lg" tone="onAccent" class="max-w-md" data-m="fade">
+        <Text size="lg" tone="onAccent" class="max-w-md">
           Book a free 30-minute review. I'll tell you where the biggest opportunity is for your business.
         </Text>
-        <div class="mt-8" data-m="fade">
+        <div class="mt-8">
           <Button href="/contact/" variant="dark" size="lg" arrow>Book a free consultation</Button>
         </div>
       </div>

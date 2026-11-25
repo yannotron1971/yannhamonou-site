@@ -36,17 +36,17 @@ const audit = await getMarketingAudit();
         return (
           <li class="border-t border-ink first:border-t-0">
             <a href={`/services/${s.slug}/`} class="group block transition-colors duration-200 hover:bg-stone">
-              <Container data-group class="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
-                <span aria-hidden="true" data-m="fade" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
+              <Container class="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
+                <span aria-hidden="true" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
                   {s.num}
                 </span>
-                <div data-m="rise" class="md:col-span-5">
+                <div class="md:col-span-5">
                   <Heading as="h2" size="md">{s.title}</Heading>
                   <Text class="mt-3 max-w-md">{s.desc}</Text>
                 </div>
                 <Icon name="arrow-right" stroke={1} class="hidden size-14 transition-transform duration-300 group-hover:translate-x-2 md:col-span-2 md:block md:justify-self-center lg:size-16" />
                 {img && (
-                  <div data-m="fade" class="relative col-span-2 flex w-40 items-center sm:w-48 md:col-span-3 md:w-full md:max-w-[15rem] md:justify-self-end">
+                  <div class="relative col-span-2 flex w-40 items-center sm:w-48 md:col-span-3 md:w-full md:max-w-[15rem] md:justify-self-end">
                     <CircleImage src={img.src} alt={img.alt} imgClass={img.imgClass} class="relative z-0 w-[58%]" />
                     <div aria-hidden="true" class="service-disc relative z-10 -ml-[16%] aspect-square w-[58%] rounded-full bg-signal mix-blend-multiply"></div>
                   </div>
@@ -63,15 +63,15 @@ const audit = await getMarketingAudit();
     <!-- ═══ MARKETING AUDIT: fixed-price entry point, stone band ═══ -->
     <section class="border-t border-ink bg-stone">
       <a href="/services/marketing-audit/" class="group block">
-        <Container data-group class="grid gap-6 py-14 md:grid-cols-12 md:items-end md:py-20">
+        <Container class="grid gap-6 py-14 md:grid-cols-12 md:items-end md:py-20">
           <div class="md:col-span-7">
-            <Text size="sm" tone="secondary" data-m="fade">Not sure what to fix first?</Text>
-            <Heading as="h2" size="lg" class="mt-4 decoration-signal decoration-2 underline-offset-8 group-hover:underline" data-m="split">Marketing audit</Heading>
-            <Text size="lg" class="mt-6 max-w-xl" data-m="fade">
+            <Text size="sm" tone="secondary">Not sure what to fix first?</Text>
+            <Heading as="h2" size="lg" class="mt-4 decoration-signal decoration-2 underline-offset-8 group-hover:underline">Marketing audit</Heading>
+            <Text size="lg" class="mt-6 max-w-xl">
               A two-week review of positioning, website conversion, measurement, search visibility and what happens to your enquiries. {audit.price}{audit.vatNote ? ` ${audit.vatNote}` : ''}, fixed.
             </Text>
           </div>
-          <div class="md:col-span-4 md:col-start-9 md:justify-self-end" data-m="fade">
+          <div class="md:col-span-4 md:col-start-9 md:justify-self-end">
             <span class="text-link text-sm">See what the marketing audit covers</span>
           </div>
         </Container>
@@ -81,12 +81,12 @@ const audit = await getMarketingAudit();
 
   <!-- ═══ CLOSING: full orange band, thin arrow ═══ -->
   <section class="bg-signal py-20 text-ink md:py-28">
-    <Container data-group class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+    <Container class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
       <div class="lg:col-span-7">
-        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">Not sure where<br />to start?</Heading>
-        <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
+        <Heading size="xl" tone="onAccent" class="max-w-[11ch]">Not sure where<br />to start?</Heading>
+        <span class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
       </div>
-      <div class="lg:col-span-4 lg:col-start-9" data-m="fade">
+      <div class="lg:col-span-4 lg:col-start-9">
         <Text size="lg" tone="onAccent" class="max-w-md">
           Book the free 30-minute review. I'll listen, diagnose, and tell you where the highest-leverage opportunity is for your business.
         </Text>

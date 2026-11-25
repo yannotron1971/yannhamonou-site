@@ -244,30 +244,10 @@
 
 /* ─────────────────────────────────────────────────────────────
    MOTION
-   Elements carry data-m="fade|rise|scale|split|frame" inside a
-   [data-group]. They start hidden only when JS has marked the page
-   with .js-motion, and the inline head script removes that class
-   after 2.5s if the motion script never arrived, so nothing can be
-   stranded invisible. Opacity and transform only, one pass.
+   Hero entrances, one scroll-linked sun per page (signal-motion.ts), hover
+   and focus states, and count-ups. Nothing is hidden waiting for a script
+   and nothing reveals on scroll.
 ───────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  .js-motion [data-m="fade"],
-  .js-motion [data-m="rise"],
-  .js-motion [data-m="scale"],
-  .js-motion [data-m="split"],
-  .js-motion [data-m="frame"] {
-    opacity: 0;
-  }
-}
-.split-line-mask {
-  padding: 0.2em 0.12em;
-  margin: -0.2em -0.12em;
-}
-[data-m="split"]:has(> .split-line-mask) {
-  display: flex;
-  flex-direction: column;
-}
-
 /* Hero entrance: CSS, so it plays from the first frame */
 @media (prefers-reduced-motion: no-preference) {
   .hero-in {

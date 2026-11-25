@@ -86,7 +86,7 @@ Pages are stacks of full-width bands separated by hairlines. Paper is the defaul
 - One accent colour, used flat.
 - Type carries the hierarchy. Photographs are greyscale; case study and journal images take their colour on hover.
 - No shadows, gradients or rounded boxes. Circles are the only curve.
-- Motion is transform and opacity, plays once, and is off under `prefers-reduced-motion`.
+- Motion is transform and opacity, and is off under `prefers-reduced-motion`.
 
 ## 2. Colors
 
@@ -171,10 +171,12 @@ Flat. Depth comes from hairlines, ground changes and the overlap of photo and di
 ### Page heroes (`PageHero.astro`)
 Headline and lede on the left. On the right, a circular photo with a disc, or the half-sun when the page has no photo.
 
-### Motion (`signal-motion.ts`)
-- Each `[data-group]` plays once. `data-m` picks fade, rise, scale, split or frame. `data-count` counts a figure up. `data-disc` slides a disc over its photo.
-- Content is hidden only while JavaScript has set `.js-motion`, and an inline timer removes that class after 2.5 seconds if the script never arrives.
-- Easing is expo-out. Nothing bounces or loops.
+### Motion (`global.css`, `signal-motion.ts`)
+- **Hero entrance:** CSS, once on load.
+- **Hero sun:** one scroll-linked moment per page. It sinks behind Marischal College on the homepage and below the horizon on inner pages without a photo. The wrapper moves, with a linear scrub.
+- **Service rows:** the disc eclipses its photo on hover (mouse) or keyboard focus, 450ms in and 300ms out.
+- **Count-up:** `data-count` figures, once, when fully in view.
+- Nothing is hidden waiting for a script, nothing reveals on scroll, and nothing loops. All of it is off under `prefers-reduced-motion`.
 
 ## 6. Do's and Don'ts
 
@@ -188,6 +190,6 @@ Headline and lede on the left. On the right, a circular photo with a disc, or th
 ### Don't:
 - **Don't** add shadows, gradients, glass, rounded cards or a second accent.
 - **Don't** set body text in orange, or text in paper on orange.
-- **Don't** add looping or autoplaying background motion.
+- **Don't** add looping or autoplaying background motion, or fade sections in on scroll.
 - **Don't** put a small uppercase label above every heading.
 - **Don't** drift towards the PRODUCT.md anti-references: "cluttered freelancer portfolio", "startup SaaS aesthetic" or "generic agency template".

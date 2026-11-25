@@ -82,11 +82,11 @@ const faqSchema = {
 
   <!-- ═══ CLIENTS ═══ -->
   <section class="border-b border-ink bg-paper">
-    <Container data-group class="flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:gap-12">
-      <Text size="sm" class="shrink-0 lg:w-44" data-m="fade">{home.clientsLabel}</Text>
+    <Container class="flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:gap-12">
+      <Text size="sm" class="shrink-0 lg:w-44">{home.clientsLabel}</Text>
       <ul class="grid min-w-0 flex-1 grid-cols-2 items-center gap-x-10 gap-y-8 sm:grid-cols-3 lg:flex lg:justify-between lg:gap-x-8">
         {homeClients.map((c) => (
-          <li data-m="fade" class="flex min-w-0 max-w-[150px] items-center justify-center justify-self-center lg:justify-start">
+          <li class="flex min-w-0 max-w-[150px] items-center justify-center justify-self-center lg:justify-start">
             <a href={c.href} target="_blank" rel="noopener noreferrer" aria-label={c.name}
                class="block min-w-0 opacity-80 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0">
               <img src={c.logo} alt={`${c.name} logo`} loading="lazy" class="h-auto max-h-9 w-auto max-w-full object-contain md:max-h-10" />
@@ -99,14 +99,14 @@ const faqSchema = {
 
   <!-- ═══ CHALLENGES ═══ -->
   <section class="bg-paper py-20 md:py-32" id="problem">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+    <Container class="grid gap-12 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-5">
-        <Heading size="lg" data-m="split" class="max-w-[12ch]">{challenges.heading}</Heading>
-        <Text tone="secondary" class="mt-6 max-w-sm" data-m="fade">{challenges.intro}</Text>
+        <Heading size="lg" class="max-w-[12ch]">{challenges.heading}</Heading>
+        <Text tone="secondary" class="mt-6 max-w-sm">{challenges.intro}</Text>
       </div>
       <ul class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
         {challenges.items.map((p) => (
-          <li data-m="rise" class="border-t border-ink pt-6">
+          <li class="border-t border-ink pt-6">
             <Heading as="p" size="sm">{p}</Heading>
           </li>
         ))}
@@ -116,9 +116,9 @@ const faqSchema = {
 
   <!-- ═══ SERVICES: numeral, title, thin arrow, circle photo meeting an orange disc ═══ -->
   <section id="services" class="scroll-mt-20 border-t border-ink bg-paper">
-    <Container data-group class="grid gap-6 py-16 md:py-24 lg:grid-cols-12">
-      <Heading size="lg" data-m="split" class="lg:col-span-7">{servicesIntro.heading}</Heading>
-      <Text tone="secondary" data-m="fade" class="max-w-md self-end lg:col-span-4 lg:col-start-9">{servicesIntro.intro}</Text>
+    <Container class="grid gap-6 py-16 md:py-24 lg:grid-cols-12">
+      <Heading size="lg" class="lg:col-span-7">{servicesIntro.heading}</Heading>
+      <Text tone="secondary" class="max-w-md self-end lg:col-span-4 lg:col-start-9">{servicesIntro.intro}</Text>
     </Container>
 
     <ol>
@@ -127,17 +127,17 @@ const faqSchema = {
         return (
           <li class="border-t border-ink">
             <a href={`/services/${s.slug}/`} class="group block transition-colors duration-200 hover:bg-stone">
-              <Container data-group class="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
-                <span aria-hidden="true" data-m="fade" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
+              <Container class="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6 py-8 sm:gap-x-8 md:grid-cols-12 md:gap-6 md:py-10">
+                <span aria-hidden="true" class="font-heading text-6xl font-extrabold leading-none tracking-[-0.05em] [font-stretch:110%] md:col-span-2">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <div data-m="rise" class="md:col-span-5">
+                <div class="md:col-span-5">
                   <Heading as="h3" size="md">{s.title}</Heading>
                   <Text class="mt-3 max-w-md">{s.desc}</Text>
                 </div>
                 <Icon name="arrow-right" stroke={1} class="hidden size-14 transition-transform duration-300 group-hover:translate-x-2 md:col-span-2 md:block md:justify-self-center lg:size-16" />
                 {img && (
-                  <div data-m="fade" class="relative col-span-2 flex w-40 items-center sm:w-48 md:col-span-3 md:w-full md:max-w-[15rem] md:justify-self-end">
+                  <div class="relative col-span-2 flex w-40 items-center sm:w-48 md:col-span-3 md:w-full md:max-w-[15rem] md:justify-self-end">
                     <CircleImage src={img.src} alt={img.alt} imgClass={img.imgClass} class="relative z-0 w-[58%]" />
                     <div aria-hidden="true" class="service-disc relative z-10 -ml-[16%] aspect-square w-[58%] rounded-full bg-signal mix-blend-multiply"></div>
                   </div>
@@ -152,13 +152,13 @@ const faqSchema = {
 
   <!-- ═══ SENIOR: stone statement band ═══ -->
   <section class="border-t border-ink bg-stone py-20 md:py-28">
-    <Container data-group>
-      <Heading size="xl" data-m="split" class="max-w-[16ch]">{senior.heading}</Heading>
+    <Container>
+      <Heading size="xl" class="max-w-[16ch]">{senior.heading}</Heading>
       <div class="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-6">
-        <div class="space-y-4 lg:col-span-6" data-m="fade">
+        <div class="space-y-4 lg:col-span-6">
           {paras(senior.body).map((p) => <Text size="lg">{p}</Text>)}
         </div>
-        <Tag class="lg:col-span-3 lg:col-start-10" data-m="fade">
+        <Tag class="lg:col-span-3 lg:col-start-10">
           {senior.facts.map((f) => <span class="block">{f}</span>)}
         </Tag>
       </div>
@@ -167,15 +167,15 @@ const faqSchema = {
 
   <!-- ═══ PROOF: poster figure and quote, then a plate per case study ═══ -->
   <section id="proof" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-32">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+    <Container class="grid gap-12 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-5">
-        <p class="font-heading text-9xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]" data-m="fade">
+        <p class="font-heading text-9xl font-black leading-[0.85] tracking-[-0.05em] text-signal [font-stretch:115%]">
           <span data-count={proof.statValue} data-suffix={proof.statSuffix}>{proof.statValue}{proof.statSuffix}</span>
         </p>
-        <Heading as="h2" size="sm" class="mt-6 max-w-[22ch]" data-m="fade">{proof.statLabel}</Heading>
+        <Heading as="h2" size="sm" class="mt-6 max-w-[22ch]">{proof.statLabel}</Heading>
       </div>
       {quote && (
-        <figure class="lg:col-span-6 lg:col-start-7" data-m="rise">
+        <figure class="lg:col-span-6 lg:col-start-7">
           <blockquote><Text size="lg">“{quote.quote}”</Text></blockquote>
           <figcaption class="mt-8 flex items-center gap-4 border-t border-ink pt-6">
             <img src={signalImages.tendersDirect.src} alt={signalImages.tendersDirect.alt} loading="lazy" class="size-12 rounded-full object-cover grayscale" />
@@ -188,9 +188,9 @@ const faqSchema = {
       )}
     </Container>
 
-    <Container data-group class="mt-20 flex flex-col gap-4 md:mt-32 md:flex-row md:items-end md:justify-between">
-      <Heading size="lg" data-m="split">{proof.casesLabel}</Heading>
-      <a href="/work/" class="text-link self-start text-sm md:self-auto" data-m="fade">View all case studies</a>
+    <Container class="mt-20 flex flex-col gap-4 md:mt-32 md:flex-row md:items-end md:justify-between">
+      <Heading size="lg">{proof.casesLabel}</Heading>
+      <a href="/work/" class="text-link self-start text-sm md:self-auto">View all case studies</a>
     </Container>
 
     <!-- Each case is a plate: photo, headline figure, client. The link at the
@@ -202,15 +202,15 @@ const faqSchema = {
         const span = diagram ? 'lg:col-span-6' : i % 2 === 0 ? 'lg:col-span-7' : 'lg:col-span-5';
         const said = c.logo && testimonials.find((t) => t.logo === c.logo);
         return (
-          <article data-group class:list={['group relative flex flex-col', span]}>
+          <article class:list={['group relative flex flex-col', span]}>
             {c.image && (
-              <div data-m="frame" class:list={['relative overflow-hidden bg-stone', diagram ? 'aspect-[16/9]' : 'aspect-[3/2] lg:aspect-auto lg:h-[28rem]']}>
+              <div class:list={['relative overflow-hidden bg-stone', diagram ? 'aspect-[16/9]' : 'aspect-[3/2] lg:aspect-auto lg:h-[28rem]']}>
                 <img src={c.image} alt={c.imageAlt} loading="lazy" decoding="async"
                      style={`object-position:${c.imageFocus};`}
                      class:list={['absolute h-full w-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0', diagram && 'mix-blend-multiply', c.slug === 'BowtieMaster' ? 'left-[-6%] top-[-6%] !h-[112%] !w-[112%] max-w-none' : 'inset-0']} />
               </div>
             )}
-            <div data-m="fade" class="mt-6">
+            <div class="mt-6">
               <p class="font-heading text-6xl font-black leading-none tracking-[-0.04em] text-signal [font-stretch:110%]">{c.stat}</p>
               <Heading as="p" size="sm" class="mt-4 max-w-[26ch] md:min-h-[2.2em]">{c.statSub}</Heading>
               <div class="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink pt-4">
@@ -220,7 +220,7 @@ const faqSchema = {
               </div>
             </div>
             {said && (
-              <figure data-m="fade" class="relative z-10 mt-6 max-w-xl">
+              <figure class="relative z-10 mt-6 max-w-xl">
                 <blockquote><Text>“{said.quote}”</Text></blockquote>
                 <figcaption class="mt-3">
                   <Text size="sm"><span class="font-semibold">{said.name}</span>, {said.role}, {said.company}</Text>
@@ -232,8 +232,8 @@ const faqSchema = {
       })}
     </Container>
 
-    <Container data-group class="mt-16 md:mt-20">
-      <div data-m="fade">
+    <Container class="mt-16 md:mt-20">
+      <div>
         <Button href="#contact" size="lg" arrow>{hero.ctaLabel}</Button>
       </div>
     </Container>
@@ -241,11 +241,11 @@ const faqSchema = {
 
   <!-- ═══ PROCESS: three columns, orange numbered circles ═══ -->
   <section class="border-t border-ink bg-paper py-20 md:py-28">
-    <Container data-group>
-      <Heading size="lg" data-m="split" class="max-w-[18ch]">{process.heading}</Heading>
+    <Container>
+      <Heading size="lg" class="max-w-[18ch]">{process.heading}</Heading>
       <ol class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-0">
         {process.steps.map((s, i) => (
-          <li data-m="rise" class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
+          <li class="md:border-l md:border-ink md:px-8 md:first:border-l-0 md:first:pl-0">
             <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-signal font-body text-lg font-semibold text-ink">{i + 1}</span>
             <Heading as="h3" size="md" class="mt-6">{s.title}</Heading>
             <Text class="mt-3 max-w-xs">{s.body}</Text>
@@ -257,17 +257,17 @@ const faqSchema = {
 
   <!-- ═══ ABOUT: circle portrait on an orange disc ═══ -->
   <section id="about" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-32">
-    <Container data-group class="grid items-center gap-12 lg:grid-cols-12 lg:gap-6">
-      <div class="relative mx-auto w-full max-w-sm lg:col-span-5 lg:mx-0 lg:max-w-md" data-m="fade">
+    <Container class="grid items-center gap-12 lg:grid-cols-12 lg:gap-6">
+      <div class="relative mx-auto w-full max-w-sm lg:col-span-5 lg:mx-0 lg:max-w-md">
         <div aria-hidden="true" class="absolute right-0 top-[8%] aspect-square w-[78%] rounded-full bg-signal"></div>
         <CircleImage src={signalImages.portrait.src} alt={signalImages.portrait.alt} class="relative w-[82%]" />
       </div>
       <div class="lg:col-span-6 lg:col-start-7">
-        <Heading size="lg" data-m="split" class="max-w-[14ch]">{about.heading}</Heading>
-        <div class="mt-8 space-y-4" data-m="fade">
+        <Heading size="lg" class="max-w-[14ch]">{about.heading}</Heading>
+        <div class="mt-8 space-y-4">
           {paras(about.body).map((p) => <Text size="lg">{p}</Text>)}
         </div>
-        <div class="mt-10 flex flex-wrap gap-4" data-m="fade">
+        <div class="mt-10 flex flex-wrap gap-4">
           <Button href="/about/" variant="dark">More about me</Button>
           <Button href="https://www.linkedin.com/in/yannhamonou" target="_blank" rel="noopener noreferrer" variant="outline">
             <Icon name="linkedin" class="size-4" /> Connect on LinkedIn
@@ -280,14 +280,14 @@ const faqSchema = {
   <!-- ═══ JOURNAL ═══ -->
   {recentPosts.length > 0 && (
     <section id="journal" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-28">
-      <Container data-group>
+      <Container>
         <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <Heading size="lg" data-m="split" class="max-w-[16ch]">{journal.heading}</Heading>
-          <a href="/journal/" class="text-link text-sm" data-m="fade">{journal.moreLabel}</a>
+          <Heading size="lg" class="max-w-[16ch]">{journal.heading}</Heading>
+          <a href="/journal/" class="text-link text-sm">{journal.moreLabel}</a>
         </div>
         <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
           {recentPosts.map((p) => (
-            <li data-m="rise">
+            <li>
               <a href={`/journal/${p.slug}/`} class="group block">
                 <div class="relative aspect-[3/2] overflow-hidden bg-stone">
                   {p.entry.coverImage ? (
@@ -312,13 +312,13 @@ const faqSchema = {
 
   <!-- ═══ FAQ: kept in full, it is the FAQ-schema and AI-answer surface ═══ -->
   <section id="faq" class="scroll-mt-20 border-t border-ink bg-paper py-20 md:py-28">
-    <Container data-group class="grid gap-12 lg:grid-cols-12 lg:gap-6">
+    <Container class="grid gap-12 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-4">
-        <Heading size="lg" data-m="split">{faqIntro.heading}</Heading>
+        <Heading size="lg">{faqIntro.heading}</Heading>
       </div>
       <dl class="lg:col-span-7 lg:col-start-6">
         {faq.map((f) => (
-          <div data-m="rise" class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
+          <div class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
             <dt><Heading as="h3" size="sm">{f.q}</Heading></dt>
             <dd><Text>{f.a}</Text></dd>
           </div>
@@ -329,17 +329,17 @@ const faqSchema = {
 
   <!-- ═══ CLOSING: full orange band, thin arrow, form on paper ═══ -->
   <section id="contact" class="scroll-mt-20 bg-signal py-20 text-ink md:py-28">
-    <Container data-group class="grid gap-14 lg:grid-cols-12 lg:gap-6">
+    <Container class="grid gap-14 lg:grid-cols-12 lg:gap-6">
       <div class="lg:col-span-6">
-        <Heading size="xl" tone="onAccent" data-m="split" class="max-w-[11ch]">{cta.heading}</Heading>
-        <span data-m="fade" class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
-        <Text size="lg" tone="onAccent" class="mt-8 max-w-md lg:mt-4" data-m="fade">{cta.body}</Text>
-        <div class="mt-8 space-y-1" data-m="fade">
+        <Heading size="xl" tone="onAccent" class="max-w-[11ch]">{cta.heading}</Heading>
+        <span class="mt-6 hidden lg:block"><Icon name="arrow-right" stroke={0.6} class="size-40" /></span>
+        <Text size="lg" tone="onAccent" class="mt-8 max-w-md lg:mt-4">{cta.body}</Text>
+        <div class="mt-8 space-y-1">
           <Text tone="onAccent"><a href="tel:+447853455816" class="underline underline-offset-4">+44 (0) 785 3455816</a></Text>
           <Text tone="onAccent">Based in Stonehaven, Scotland</Text>
         </div>
       </div>
-      <ContactForm id="home-contact" buttonLabel={cta.buttonLabel} class="lg:col-span-5 lg:col-start-8 lg:self-start" data-m="rise" />
+      <ContactForm id="home-contact" buttonLabel={cta.buttonLabel} class="lg:col-span-5 lg:col-start-8 lg:self-start" />
     </Container>
   </section>
 </Layout>

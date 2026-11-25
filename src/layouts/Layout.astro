@@ -64,18 +64,6 @@ const ogImageUrl = ogImage
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fafaf7" />
 
-    <!-- Motion gate: hidden entrance states apply only once JS marks the page,
-         and come off after 2.5s if the motion script never arrives, so a
-         failed script cannot leave content invisible. -->
-    <script is:inline>
-      (function () {
-        var d = document.documentElement;
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        d.classList.add('js-motion');
-        setTimeout(function () { if (!d.dataset.motionReady) d.classList.remove('js-motion'); }, 2500);
-      })();
-    </script>
-
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -281,7 +269,7 @@ const ogImageUrl = ogImage
     <Footer />
     <CookieBanner />
 
-    <!-- GSAP motion: section entrances, split headings, count-ups, disc slides -->
+    <!-- GSAP motion: hero suns and count-ups -->
     <script>
       import '../scripts/signal-motion.ts';
     </script>
