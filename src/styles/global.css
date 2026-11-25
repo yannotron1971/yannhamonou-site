@@ -193,7 +193,9 @@
   line-height: 1.7;
   max-width: 68ch;
 }
-.prose-signal > * + * { margin-top: 1.25em; }
+/* Markdoc wraps a post in <article>, so the rhythm has to reach one level in. */
+.prose-signal > * + *,
+.prose-signal > article > * + * { margin-top: 1.25em; }
 .prose-signal h2,
 .prose-signal h3,
 .prose-signal h4 {
