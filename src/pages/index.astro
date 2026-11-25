@@ -62,7 +62,9 @@ const faqSchema = {
       </div>
 
       <div class="relative -mx-5 aspect-square sm:-mx-8 lg:absolute lg:inset-y-0 lg:right-0 lg:mx-0 lg:aspect-auto lg:w-[54%]">
-        <div aria-hidden="true" class="hero-sun absolute left-[14%] top-[6%] aspect-square w-[78%] rounded-full bg-signal lg:left-[10%] lg:top-[10%] lg:w-[74%]"></div>
+        <div aria-hidden="true" data-sun="0.62" class="pointer-events-none absolute inset-0">
+          <div class="hero-sun absolute left-[14%] top-[6%] aspect-square w-[78%] rounded-full bg-signal lg:left-[10%] lg:top-[10%] lg:w-[74%]"></div>
+        </div>
         <img
           src={signalImages.hero.src}
           alt={signalImages.hero.alt}

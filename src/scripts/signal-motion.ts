@@ -9,6 +9,7 @@
      rise   moves up 24px
      scale  grows from 96%
    [data-count] numbers count up once, when fully in view.
+   [data-sun] hero suns sink as the page scrolls past them.
    [data-disc] orange discs slide left 42% to overlap their circle photo.
 
    Every hidden state ends visible, also after a font re-split. With
@@ -110,6 +111,30 @@ function revealGroup(group: HTMLElement) {
   });
 }
 
+/* The page's one scroll-linked moment: a hero sun sinks as its section leaves
+   the screen. The wrapper moves, never the sun itself, because the sun carries
+   its own entrance animation and, on inner pages, a CSS translate that GSAP
+   would overwrite. data-sun is how far it sinks, in sun heights. */
+function setSuns(root: ParentNode) {
+  root.querySelectorAll<HTMLElement>('[data-sun]').forEach((wrap) => {
+    const sun = wrap.firstElementChild as HTMLElement | null;
+    const section = wrap.closest('section');
+    if (!sun || !section) return;
+    const depth = Number(wrap.dataset.sun) || 0.5;
+    gsap.fromTo(wrap, { y: 0 }, {
+      y: () => sun.offsetHeight * depth,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'clamp(bottom bottom)',
+        end: 'bottom top',
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  });
+}
+
 function slideDiscs(root: ParentNode) {
   root.querySelectorAll<HTMLElement>('[data-disc]').forEach((disc) => {
     gsap.fromTo(disc, { xPercent: 0 }, {
@@ -130,6 +155,7 @@ function init() {
       root.classList.remove('js-motion');
       return;
     }
+    setSuns(document);
     document.querySelectorAll<HTMLElement>('[data-group]').forEach(revealGroup);
     slideDiscs(document);
   });
