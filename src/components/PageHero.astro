@@ -51,7 +51,9 @@ const { label, title, lede, image, size = 'xl', class: className } = Astro.props
           <div aria-hidden="true" class="hero-sun relative z-10 -ml-[24%] aspect-square w-[62%] rounded-full bg-signal mix-blend-multiply"></div>
         </div>
       ) : (
-        <div aria-hidden="true" class="hero-sun pointer-events-none absolute -bottom-14 right-0 hidden aspect-square w-[78%] translate-y-1/2 rounded-full bg-signal md:-bottom-20 lg:-bottom-24 lg:block"></div>
+        <div aria-hidden="true" data-sun="0.5" class="pointer-events-none absolute inset-0 hidden lg:block">
+          <div class="hero-sun absolute -bottom-24 right-0 aspect-square w-[78%] translate-y-1/2 rounded-full bg-signal"></div>
+        </div>
       )}
       <Tag align="right" class="hero-in absolute right-0 top-0 hidden lg:block [--hero-at:0.6s]">
         Stonehaven<br />Aberdeenshire
