@@ -281,6 +281,17 @@
     animation: hero-settle 1.2s var(--ease-out-poster) 0.35s both;
   }
 }
+/* Service rows: the disc rests over part of its photo and eclipses it when the
+   row is pointed at or focused. 72.4% is the gap between the two circles
+   (42% of the pair) in disc widths (58%). */
+.service-disc { transform: translateX(-42%); }
+@media (prefers-reduced-motion: no-preference) {
+  .service-disc { transition: transform 300ms var(--ease-settle); }
+  .group:focus-visible .service-disc { transform: translateX(-72.4%); transition-duration: 450ms; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .group:hover .service-disc { transform: translateX(-72.4%); transition-duration: 450ms; }
+}
 @keyframes hero-rise {
   from { opacity: 0.01; transform: translateY(0.35em); }
 }

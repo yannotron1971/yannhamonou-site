@@ -10,7 +10,6 @@
      scale  grows from 96%
    [data-count] numbers count up once, when fully in view.
    [data-sun] hero suns sink as the page scrolls past them.
-   [data-disc] orange discs slide left 42% to overlap their circle photo.
 
    Every hidden state ends visible, also after a font re-split. With
    prefers-reduced-motion nothing is hidden and nothing runs. */
@@ -135,17 +134,6 @@ function setSuns(root: ParentNode) {
   });
 }
 
-function slideDiscs(root: ParentNode) {
-  root.querySelectorAll<HTMLElement>('[data-disc]').forEach((disc) => {
-    gsap.fromTo(disc, { xPercent: 0 }, {
-      xPercent: Number(disc.dataset.disc) || -42,
-      duration: 1.2,
-      ease: MOTION.ease,
-      scrollTrigger: { trigger: disc, start: 'top 80%', once: true },
-    });
-  });
-}
-
 function init() {
   const root = document.documentElement;
   root.dataset.motionReady = '1';
@@ -157,7 +145,6 @@ function init() {
     }
     setSuns(document);
     document.querySelectorAll<HTMLElement>('[data-group]').forEach(revealGroup);
-    slideDiscs(document);
   });
 
   const refresh = () => ScrollTrigger.refresh();
