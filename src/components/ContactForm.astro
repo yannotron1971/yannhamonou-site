@@ -12,7 +12,7 @@ interface Props {
   class?: string;
   [key: string]: unknown;
 }
-const { buttonLabel = 'Request my free review', id = 'contact-form', class: className, ...rest } = Astro.props;
+const { buttonLabel = 'Request my consultation', id = 'contact-form', class: className, ...rest } = Astro.props;
 ---
 <form
   action="/api/form"

@@ -1,214 +1,193 @@
-# Design — The Edge
+---
+name: Signal Poster
+description: Type-led Swiss poster on light paper for yannhamonou.com
+colors:
+  paper: "#fafaf7"
+  stone: "#f0efea"
+  ink: "#111111"
+  muted: "#4a4a46"
+  signal: "#ff4f1a"
+  inverse-muted: "#c9c8c2"
+  error: "#b42318"
+typography:
+  display:
+    fontFamily: "Archivo, Helvetica Neue, Arial, sans-serif"
+    fontSize: "clamp(3.25rem, 7.6vw, 7rem)"
+    fontWeight: 800
+    lineHeight: 0.95
+    letterSpacing: "-0.035em"
+    fontVariation: "wdth 110"
+  headline:
+    fontFamily: "Archivo, Helvetica Neue, Arial, sans-serif"
+    fontSize: "clamp(2.125rem, 4vw, 3.5rem)"
+    fontWeight: 800
+    lineHeight: 0.95
+    letterSpacing: "-0.035em"
+  title:
+    fontFamily: "Archivo, Helvetica Neue, Arial, sans-serif"
+    fontSize: "clamp(1.5rem, 2.4vw, 2rem)"
+    fontWeight: 800
+    lineHeight: 1.05
+  body:
+    fontFamily: "JetBrains Mono, ui-monospace, Menlo, monospace"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.6
+    letterSpacing: "-0.01em"
+  label:
+    fontFamily: "JetBrains Mono, ui-monospace, Menlo, monospace"
+    fontSize: "0.8125rem"
+    fontWeight: 500
+    letterSpacing: "0.04em"
+rounded:
+  none: "0"
+  full: "9999px"
+components:
+  button-primary:
+    backgroundColor: "{colors.signal}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    height: "48px"
+    padding: "0 24px"
+  button-primary-hover:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
+  button-dark:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+  button-dark-hover:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+  field:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    height: "48px"
+---
 
-Documents the design as built on the `edge-concept` branch. `main` carries the
-earlier v4 design and its own copy of this file; the two have diverged
-deliberately.
+# Design System: Signal Poster
 
-## The idea
+As built on 25 November 2026. Tokens live in `src/styles/global.css`, which wins if this file disagrees with it. The earlier Edge design is in `_Archive/edge-v4/`.
 
-One near-black ground, one enormous light-weight line, and mono micro-labels as
-the only second voice. The restraint is the design. Inspired by topology.vc, and
-built fresh rather than by degrading the Oak & Coast concept toward it — the two
-languages are opposites, and mixing them is what made an earlier attempt fail.
+## 1. Overview
 
-The season/theme system was removed on this branch, not overridden: the Edge has
-one ground, so there is nothing to switch between.
+**Creative North Star: "The Signal Poster"**
 
-## Theme
+A Swiss poster printed on light paper. Heavy Archivo headlines, one orange, black-and-white photographs of north-east Scotland, sharp corners and 1px ink hairlines. The orange disc is the only ornament: a sun behind Marischal College on the homepage, a half-sun on the horizon of inner pages, and a disc overlapping a circular photo elsewhere.
 
-No toggle, no `localStorage`, no light modes. `body` carries `v4 edge`.
+Pages are stacks of full-width bands separated by hairlines. Paper is the default ground, stone marks a statement, and most pages close on a full orange band with one action. Content sits in a 1360px container with 20, 32 or 40px side padding, on a 12-column grid from 1024px.
 
-Every page has the same shape: a near-black hero, then a white sheet whose
-sections each declare a ground, then a pitch-black footer. The homepage's hero
-is the full screen, sticky, and holds the field; the sheet rises over it. An
-inner page's hero is a little over half a screen, scrolls away normally, and
-carries no field — it says what the document is and gets out of the way.
+**Key Characteristics:**
+- One accent colour, used flat.
+- Type carries the hierarchy. Photographs are greyscale; case study and journal images take their colour on hover.
+- No shadows, gradients or rounded boxes. Circles are the only curve.
+- Motion is transform and opacity, plays once, and is off under `prefers-reduced-motion`.
 
-## Colour
+## 2. Colors
 
-### The ground ladder
+Near-monochrome, with a single saturated orange.
 
-Tokens live in `global.css` on `body.v4`. One monochrome ladder — warm
-off-whites, cool off-whites, three depths of near-black. No hues: a page built
-on one light line and mono labels can give every section its own ground and
-still read as one material; colour would break it.
+### Primary
+- **Signal** (#ff4f1a): the main button, discs, big figures, the closing band, the dot in the wordmark.
 
-| Token | Value | Used by |
+### Neutral
+- **Paper** (#fafaf7): default page ground.
+- **Stone** (#f0efea): statement bands, image plates, row hover.
+- **Ink** (#111111): text, hairlines, dark buttons.
+- **Muted** (#4a4a46): secondary text.
+- **Inverse muted** (#c9c8c2): secondary text on ink.
+- **Error** (#b42318): form errors only.
+
+### Contrast, measured
+
+| Pair | Ratio | Use |
 |---|---|---|
-| `--edge-white` | `#ffffff` | 01 Proposition |
-| `--edge-paper` | `#f3f2ee` | Current projects |
-| `--edge-ink` | `#151515` | 02 Work, and the hero ground |
-| `--edge-mist` | `#eceeee` | 03 Services |
-| `--edge-slate` | `#22262a` | 04 Proof |
-| `--edge-sand` | `#e8e4dc` | 05 FAQ |
-| `--edge-bone` | `#f7f6f3` | 06 Journal |
-| `--edge-pitch` | `#0b0c0c` | The close, and the footer |
+| Ink on paper | 18.1 | any text |
+| Ink on stone | 16.4 | any text |
+| Muted on paper | 8.5 | any text |
+| Muted on stone | 7.7 | any text |
+| Error on paper | 6.3 | any text |
+| Ink on signal | 5.7 | any text |
+| Signal on ink | 5.7 | any text |
+| Signal on paper | 3.2 | display sizes only |
+| Signal on stone | 2.9 | not for text |
 
-A block changes ground by swapping one class, anywhere on the site. `--dark`
-carries the light token rebinding; each ground class carries only a background.
-`--clear` lets the hero field show through.
+### Named Rules
+**The Ink On Orange Rule.** Text on orange is ink. Paper on orange is 3.2:1 and fails for body text.
+**The Paper Figure Rule.** Orange figures sit on paper. On stone they miss 3:1.
 
-Grounds are assigned per page rather than by a repeating pattern: Services runs
-white then pitch, a case study white then pitch, the SEO page white, paper,
-white, mist, white, sand, white, pitch.
+## 3. Typography
 
-`.edge-sheet` rebinds `--v4-bg` and the panel tokens as well as the ink ones.
-The inner pages are inline-styled against those, which is what carries their
-markup onto a light ground untouched.
+**Display Font:** Archivo 800 to 900 at 110% width (with Helvetica Neue, Arial)
+**Body and Label Font:** JetBrains Mono 400 to 600 (with ui-monospace, Menlo)
 
-### Ink
+**Character:** a loud poster headline against quiet, even mono text.
 
-Three levels, on both the light and the dark sets. Every value is measured, not
-picked by eye — the muted levels carry 11–12px text (section labels, row
-descriptors, captions), so they need 4.5:1.
+### Hierarchy
+- **Display** (800, `text-8xl`): the homepage h1. Its headline span is about 10.4vw on phones and 0.7em from 1024px.
+- **Statement** (800, `text-7xl`): inner page h1s with short titles, stone statements, closing bands.
+- **Headline** (800, `text-5xl`): section h2s and long h1s.
+- **Title** (800, `text-3xl` or `text-2xl`): rows, plates, FAQ questions.
+- **Figure** (900, `text-6xl` to `text-9xl`, signal): results.
+- **Body** (400, 15px; lead 17px): keep paragraphs near `max-w-xl`, because mono runs wide. Long-form copy caps at 68ch.
+- **Label** (500, 13px): sentence case by default. `Tag.astro` sets uppercase for real facts such as place.
 
-| | Light set (on the sheet) | Worst-case ratio | Dark set | Worst-case ratio |
-|---|---|---|---|---|
-| ink | `#151515` | 14.4 on sand | `#f2f1ec` | 13.5 on slate |
-| mute | `#45484a` | 7.27 on sand | `#a2a5a3` | 6.13 on slate |
-| dim | `#616467` | 4.70 on sand | `#909391` | 4.91 on slate |
+### Named Rules
+**The Sentence Case Rule.** Headings are in sentence case.
+**The Tight Heading Rule.** Headings sit at -0.035em. Large figures go to -0.05em and no further.
 
-The `body.v4` OKLCH tokens are what the heroes and any block outside a sheet
-use: mute `oklch(0.70 0.004 75)` at 6.84:1 on `#151515`, dim
-`oklch(0.60 0.003 75)` at 4.63:1.
+## 4. Elevation
 
-Client logos are monochrome site-wide and take their colour back under the
-pointer, on any link that holds one. Four brand palettes side by side read as a
-jumble; desaturated, the marks line up as one set. `darkInvert` flips dark-ink
-artwork on dark grounds, `lightInk` is the mirror for white-ink artwork on light
-ones — and both say through `--logo-hover` that they cannot return to colour,
-because a silhouette has none, so they lift their opacity instead.
+Flat. Depth comes from hairlines, ground changes and the overlap of photo and disc (`mix-blend-multiply`). There are no shadows and no blur.
 
-## Typography
+## 5. Components
 
-| Role | Face | Notes |
-|---|---|---|
-| Display | Space Grotesk 300 | Light weight at size is the whole trick |
-| Body | Inter | 200–500 |
-| Labels | Space Mono | 11px, uppercase, 0.16em |
+### Buttons (`Button.astro`)
+- **Shape:** square, 1px border. Heights 40, 48 and 56px. The phone header button is 44px.
+- **Variants:** primary (signal), dark, light, outline. Colours swap on hover over 200ms.
+- **Arrow:** only on a page's main action. It moves 4px on hover.
+- **Label:** "Book a free consultation" for links to the enquiry form, and "Request my consultation" to submit it. "Book a call" is the short form in the phone header. Audit offers keep their own audit label.
 
-All three are free on Google Fonts; topology's Magnetik and LazareGrotesk are
-commercial licences.
+### Cards / Containers
+- **Service row:** numeral, title, thin arrow, circular photo meeting an orange disc. The row turns stone on hover.
+- **Case plate** (homepage proof): image, orange figure, caption, hairline, client name and a link stretched over the plate. A matching quote sits above that link so it stays selectable. Product diagrams are multiplied onto stone.
+- **Journal card:** 3:2 greyscale cover, category, title.
 
-- `.edge-h1` — `clamp(52px, 11.5vw, 220px)`, line-height 0.88, `-0.03em`
-- `.edge-h2` / `.v4-section-h` — `clamp(36px, 5vw, 72px)`, line-height 1.02
-- `.edge-label` / `.v4-eyebrow` — 11px mono, uppercase, 0.16em, ink-dim
-- Headings carry `text-wrap: balance`
+### Inputs / Fields
+- **Style:** paper ground, 1px ink border, square, 48px high, visible label above.
+- **Focus:** 2px ink outline.
+- **Error:** message in Error under the button, in an `aria-live` region.
 
-Sentence case throughout. The display face has no 800 weight and no width axis,
-so nothing asks for one — an earlier Archivo-era `font-weight: 800` +
-`font-stretch: 75%` pair was being synthesised by the browser on every inner
-page.
+### Navigation (`Nav.astro`)
+- Sticky paper bar, 64px on phones and 80px from 768px. A hairline appears once the page scrolls.
+- Mono links with a 2px orange underline on hover and for the current page.
+- Below 1024px: "Book a call" from 360px wide, and a menu button that opens a full-height panel.
 
-## Layout
+### Page heroes (`PageHero.astro`)
+Headline and lede on the left. On the right, a circular photo with a disc, or the half-sun when the page has no photo.
 
-- `.edge-wrap` — `min(100% - clamp(24px, 6vw, 96px), 1440px)`
-- `.edge-block` — the shared rhythm, `clamp(80px, 12vh, 180px)`
-- `.edge-block--full` — `min-height: 100svh`, contents centred. One screen per
-  section is a homepage device: a page of eight statements, each given the
-  viewport. A services page, a case study or a post is a document, and it would
-  fight the reading there.
-- `min-height`, never `height`: a phone, a short laptop or a long FAQ grows past
-  the viewport rather than clipping.
-- Single breakpoint at 860px on the homepage, 760px for the nav.
-- Flat throughout. This design draws with lines, not rounded panels; the pill
-  button is the one round thing.
+### Motion (`signal-motion.ts`)
+- Each `[data-group]` plays once. `data-m` picks fade, rise, scale, split or frame. `data-count` counts a figure up. `data-disc` slides a disc over its photo.
+- Content is hidden only while JavaScript has set `.js-motion`, and an inline timer removes that class after 2.5 seconds if the script never arrives.
+- Easing is expo-out. Nothing bounces or loops.
 
-## Components
+## 6. Do's and Don'ts
 
-### Nav (`.v4-nav`)
+### Do:
+- **Do** keep one orange and use it flat.
+- **Do** use real photographs of Scotland, clients or Yann, in greyscale.
+- **Do** route every page to the one action.
+- **Do** put all text in the HTML. Motion only enhances it.
+- **Do** keep "Marketing consultant in Aberdeen" in the homepage h1 and the About h1. Both were kept for search.
 
-Sticky. One voice — Space Mono, 11px, uppercase, 0.1em — across brand, links,
-dropdown and CTA. Translucent, with `backdrop-filter: blur(14px)` only over the
-hero, where there is a live shader to soften; the blur comes off under
-`.sheet-active`, where the ground is flat and it would repaint for nothing.
-
-Flips to a light token set past 0.62vh. The services dropdown is a disclosure
-(`aria-expanded` + `aria-controls`), not a menu widget.
-
-### The field (`.edge-field`)
-
-Raw WebGL2, no dependency — a full-screen triangle and one fragment shader;
-Three.js would be ~150KB gzipped to draw one quad. Behind every hero on the
-site, in one of two modes:
-
-- **Fixed** (`homepage`, via a Layout prop): full-bleed at `z-index: -1` under
-  the whole page, fading out as the sheet rises over the held hero.
-- **Contained** (`--in-hero`, every other page): inside the hero itself, above
-  that section's ground and beneath its type. An inner hero is not sticky and
-  has opaque sections scrolling past it, so a fixed canvas would have nothing
-  to show through. The hero keeps its own near-black background underneath, so
-  where WebGL is unavailable the canvas removes itself and the ground is simply
-  flat rather than the hero turning transparent over a white page.
-
-The canvas measures its own box rather than the viewport, so a hero at 58svh
-shades 58svh. Visibility follows the handover when fixed, and an
-IntersectionObserver when contained — either way it stops drawing the moment
-there is nothing to see.
-
-Budgeted for the integrated GPU this site's visitors are on:
-`PIXEL_BUDGET` 1.2e6 fragments (~12ms/frame on Intel UHD, against 31ms at the
-original 3.2e6), capped at 30fps, and it stops drawing entirely once it has
-faded out. `INTENSITY` is the one dial worth turning. Survives context loss:
-`webglcontextlost` calls `preventDefault()` and stops the loop, and one rebuild
-is attempted on restore.
-
-### The handover (`edge-handover.js`)
-
-Owns everything that happens as the sheet rises: the field's opacity, the nav's
-light state, and `inert` on the hero once it is covered. It lives apart from the
-field module so that a browser with no WebGL still gets a working nav.
-
-It handles both heroes. The homepage's is sticky and held under the sheet, so
-the nav flips at 0.62 of the viewport and the hero leaves the tab order; an
-inner page's scrolls away, so the flip waits until its last pixel passes under
-the nav, and nothing goes inert — that hero comes back when you scroll up.
-
-### PageHero (`PageHero.astro`)
-
-The inner-page hero: label, title capped at 104px against the homepage's 220,
-and an optional lede. `align-content: end`, so the title sits on the fold rather
-than floating in an empty band.
-
-### Rows (`.edge-row`)
-
-One rhythm for work, services and journal. Work rows are mark / descriptor /
-number — no client name, because the logo is the name, which is also why the alt
-text carries it. Journal rows align title and description on their first
-baseline above 860px.
-
-## Motion
-
-- `edge-motion.js` — every page. One entrance vocabulary, a short rise on the
-  way in: section heads, item groups, the page hero, the close, and a structural
-  pass over any `.edge-block` whose contents no hand-tuned moment already owns —
-  which is what the converted inner pages rely on, since their markup is
-  inline-styled with no hooks beyond the block and the wrap. `once: true`,
-  opacity and transform only, nothing scrubbed. Item groups use
-  `ScrollTrigger.batch` so a list stacked into one column on a phone does not run
-  its whole stagger off the first item.
-- `motion.js` — reads `.v4-*` markup, which no page on this branch writes any
-  more. It stays because it is shared with the other branches; here it no-ops.
-- `smooth-anchors.js` — same-page anchors glide via GSAP's ScrollToPlugin. It
-  has to be JS: ScrollTrigger writes `scroll-behavior: auto` inline on `<html>`
-  at init, so the stylesheet's `scroll-behavior: smooth` never applies on a page
-  that loads motion. No scroll hijack; wheel, trackpad, scrollbar and keyboard
-  keep native behaviour.
-
-Everything runs inside a `prefers-reduced-motion: no-preference` gate, and a
-watchdog force-finishes every pending reveal if the GSAP ticker never advances —
-`gsap.from()` writes `opacity: 0` immediately, so without it a throttled tab
-could ship a blank section.
-
-## Accessibility
-
-WCAG AA. Body text ≥ 4.5:1, large display ≥ 3:1 — the ink table above is the
-record of that, measured per ground.
-
-- Skip link to `#main` past the nav and its six-service dropdown
-- Global `:focus-visible` ring, 2px at `--v4-ink-mute`, 3px offset
-- The sticky hero is `inert` once covered, so focus cannot land on it unseen
-- The nav CTA is shown and hidden by media query, never by script
-- Client logos: the accessible name sits on the link when the mark is a link,
-  and on the `alt` when it is not — never both
-- The field canvas is `aria-hidden`
+### Don't:
+- **Don't** add shadows, gradients, glass, rounded cards or a second accent.
+- **Don't** set body text in orange, or text in paper on orange.
+- **Don't** add looping or autoplaying background motion.
+- **Don't** put a small uppercase label above every heading.
+- **Don't** drift towards the PRODUCT.md anti-references: "cluttered freelancer portfolio", "startup SaaS aesthetic" or "generic agency template".

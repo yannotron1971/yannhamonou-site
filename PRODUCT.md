@@ -6,34 +6,34 @@ brand
 
 ## Users
 
-SME owners, directors, and senior managers across Aberdeen, Aberdeenshire, and Scotland. Typically 35–60, time-poor, sceptical of agencies, and frustrated by unpredictable marketing ROI. They arrive via search (often "marketing consultant Aberdeen") or referral. They're evaluating Yann against doing nothing or hiring in-house. Decision is personal and trust-based — they need to feel confident Yann understands their world before they'll make contact.
+Owners, directors and senior managers of B2B SMEs with 5 to 100 employees in Aberdeen, Aberdeenshire and across Scotland, mainly engineering and technology firms. They are short of time, sceptical of agencies and frustrated by marketing they can't measure. They arrive by referral or by search, often on "marketing consultant Aberdeen". The alternatives are doing nothing, hiring in-house or using an agency. The decision is personal, so they need to trust that Yann understands their world before they make contact.
 
 ## Product Purpose
 
-Personal marketing site and portfolio for Yann Hamonou, B2B marketing consultant based in Stonehaven, Scotland. 20+ years experience. Specialises in strategy, SEO & GEO, positioning, content, paid media, and web & CRO for B2B SMEs. The site exists to convert cold visitors into booked consultations — primarily through the free 30-minute strategy review offer. Secondary goals: establish authority in Aberdeen/Scotland B2B marketing, and support word-of-mouth referrals with a site that reflects Yann's calibre.
+Personal marketing site and portfolio for Yann Hamonou, independent B2B marketing consultant in Stonehaven, Scotland. Services are positioning, marketing strategy, SEO and AI search visibility (GEO), organic and paid media, web design and build in Webflow and Astro with conversion work, and marketing leadership. The site turns visitors into booked consultations through one offer, a free 30-minute review. It also supports referrals, so it has to match the standard of the work.
+
+The approved description of Yann lives in `src/lib/entity.ts`. Reuse it rather than writing a new one.
 
 ## Brand Personality
 
 Expert · Direct · Trusted
 
-Voice: precise, confident, no jargon. Writes like a senior peer who respects the reader's intelligence. Never oversells. Results speak louder than adjectives. Tone is warm but business-like — not a faceless agency, not a casual freelancer.
+Precise, confident, free of jargon. Writes as a senior peer who respects the reader. Never oversells. Yann is a named individual, so no copy implies a team. Warm and business-like.
 
 ## Anti-references
 
-- **Cluttered freelancer portfolio** — everything on one scrolling page, no hierarchy, no clear call to action, every section competing for attention
-- **Startup SaaS aesthetic** — glassmorphism cards, Inter everywhere, hero metric tiles with big numbers, feature-grid layouts, purple gradients, "game-changing" copy
-- **Generic agency template** — stock handshake photography, carousel heroes, "We deliver results" headlines, navy-and-grey corporate palette, zero personality
+- **Cluttered freelancer portfolio**: everything on one scrolling page, no hierarchy, no clear call to action, every section competing for attention
+- **Startup SaaS aesthetic**: glassmorphism cards, Inter everywhere, hero metric tiles, feature-grid layouts, purple gradients, "game-changing" copy
+- **Generic agency template**: stock handshake photography, carousel heroes, "We deliver results" headlines, navy-and-grey palette, no personality
 
 ## Design Principles
 
-1. **Practice what you preach.** A marketing consultant's site must itself be a demonstration of great marketing: clear positioning, compelling copy, singular next step. If the site doesn't convert, the pitch undermines itself.
-2. **Confidence over decoration.** Every visual choice must read as deliberate and authoritative. The dark premium palette does the heavy lifting; ornament is a sign of insecurity.
-3. **Results over credentials.** Resist listing qualifications. Case study stats (500% organic traffic, #3 ranking in a week), client names, and direct testimonials outperform any paragraph about years of experience.
-4. **One next step per page.** Every page routes to a single action: book the free consultation. Navigation exists to help visitors find the right page, not to offer infinite exits from committing.
-5. **Premium signals, not premium noise.** The site should feel expensive without announcing it. Careful type scale, deliberate negative space, and restrained animation do the work — not glow effects or hero animations that shout "look at me."
+1. **Practice what you preach.** The site must demonstrate good marketing: clear positioning, plain copy and one next step.
+2. **Confidence over decoration.** Type, one orange and black-and-white photographs do the work. The disc is the only ornament.
+3. **Results over credentials.** Lead with case study figures, client names and quotes. Never state a result that is not in a dated file, and never publish a quote Yann has not confirmed.
+4. **One next step per page.** Every page routes to "Book a free consultation". Navigation helps people find the right page.
+5. **Premium signals, not premium noise.** Type scale, space and restrained motion carry the quality.
 
 ## Accessibility & Inclusion
 
-WCAG AA minimum. Body text contrast ≥ 4.5:1; large display type ≥ 3:1, measured against every section ground rather than assumed — see the ink table in DESIGN.md. Entrance animations gated behind `prefers-reduced-motion`, with a watchdog so a stalled ticker can never leave a section blank. Keyboard: skip link, visible focus ring, and no focus on the covered hero.
-
-On the `edge-concept` branch there is a single ground and no theme toggle, so nothing is persisted to localStorage.
+Target WCAG 2.2 AA. Body text at 4.5:1 or better and large display type at 3:1, measured per ground in DESIGN.md. Motion plays once and is off under `prefers-reduced-motion`, with a 2.5 second fallback so a section can't stay blank. Skip link, visible focus ring and labelled fields. Analytics stay off until the visitor accepts.

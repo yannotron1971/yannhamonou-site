@@ -1,6 +1,6 @@
 ---
 /* Sticky header: wordmark left, mono links right with an orange underline on
-   hover, small orange "Book a free call" button. A hairline appears under it
+   hover, small orange "Book a free consultation" button. A hairline appears under it
    once the page scrolls. Below lg a 44px toggle opens a full-height paper
    panel with Archivo links split by hairlines and a full-width orange CTA.
 
@@ -37,7 +37,7 @@ const isCurrent = (href: string) => {
       {links.map((l) => (
         <a href={l.href} class="nav-link text-ink" aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
       ))}
-      <Button href="/contact/" size="sm">Book a free call</Button>
+      <Button href="/contact/" size="sm">Book a free consultation</Button>
     </nav>
 
     <!-- Phones and tablets: the same call to action stays in reach while the
