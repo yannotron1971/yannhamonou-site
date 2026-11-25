@@ -7,6 +7,7 @@ import Button from '../../components/ui/Button.astro';
 import { reader } from '../../lib/keystatic';
 import Markdoc from '@markdoc/markdoc';
 import Turnstile from '../../components/Turnstile.astro';
+import ReadingProgress from '../../components/ReadingProgress.astro';
 
 export async function getStaticPaths() {
   const posts = await reader.collections.posts.all();
@@ -80,6 +81,8 @@ const renderedContent = Markdoc.renderers.html(transformed);
       )}
     </Container>
   </header>
+
+  <ReadingProgress target=".prose-signal" />
 
   <!-- Body -->
   <section class="bg-paper py-16 md:py-24">

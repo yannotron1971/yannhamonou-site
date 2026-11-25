@@ -1,0 +1,86 @@
+---
+/* Reading progress for journal posts: a small sun travels along the header
+   line as the article scrolls past, and fades once it is read. Decorative, so
+   hidden from assistive tech, and absent without JavaScript or under
+   prefers-reduced-motion. */
+interface Props {
+  /** Selector of the article body being read. */
+  target: string;
+}
+const { target } = Astro.props;
+---
+<div class="reading-progress" data-reading={target} aria-hidden="true">
+  <span class="reading-trail"></span>
+  <span class="reading-sun"></span>
+</div>
+
+<style>
+  .reading-progress {
+    --sun: 18px;
+    position: fixed;
+    inset-inline: 0;
+    top: calc(4rem - var(--sun) / 2);
+    height: calc(var(--sun) / 2);
+    z-index: 51;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  .reading-progress[data-on] { opacity: 1; }
+  .reading-trail {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-signal);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .reading-sun {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--sun);
+    height: var(--sun);
+    border-radius: 9999px;
+    background: var(--color-signal);
+  }
+  @media (min-width: 768px) {
+    .reading-progress { --sun: 24px; top: calc(5rem - var(--sun) / 2); }
+  }
+  :global(html:has(#site-header[data-open="true"])) .reading-progress { visibility: hidden; }
+  @media (prefers-reduced-motion: reduce) { .reading-progress { display: none; } }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const bar = document.querySelector<HTMLElement>('[data-reading]');
+  const article = bar && document.querySelector<HTMLElement>(bar.dataset.reading ?? '');
+  const sun = bar?.querySelector<HTMLElement>('.reading-sun');
+  const trail = bar?.querySelector<HTMLElement>('.reading-trail');
+
+  if (bar && article && sun && trail) {
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+      const header = document.getElementById('site-header');
+      gsap
+        .timeline({
+          defaults: { ease: 'none', duration: 1 },
+          scrollTrigger: {
+            trigger: article,
+            start: () => `top ${header?.offsetHeight ?? 80}px`,
+            end: 'bottom bottom',
+            scrub: true,
+            invalidateOnRefresh: true,
+            onToggle: (self) => bar.toggleAttribute('data-on', self.isActive),
+          },
+        })
+        .fromTo(sun, { x: 0 }, { x: () => bar.offsetWidth - sun.offsetWidth }, 0)
+        .fromTo(trail, { scaleX: 0 }, { scaleX: () => 1 - sun.offsetWidth / 2 / bar.offsetWidth }, 0);
+    });
+  }
+</script>

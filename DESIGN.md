@@ -174,6 +174,7 @@ Headline and lede on the left. On the right, a circular photo with a disc, or th
 ### Motion (`global.css`, `signal-motion.ts`)
 - **Hero entrance:** CSS, once on load.
 - **Hero sun:** one scroll-linked moment per page. It sinks behind Marischal College on the homepage and below the horizon on inner pages without a photo. The wrapper moves, with a linear scrub.
+- **Reading progress** (`ReadingProgress.astro`): on journal posts, a small sun travels along the header line while the article is being read.
 - **Service rows:** the disc eclipses its photo on hover (mouse) or keyboard focus, 450ms in and 300ms out.
 - **Count-up:** `data-count` figures, once, when fully in view.
 - Nothing is hidden waiting for a script, nothing reveals on scroll, and nothing loops. All of it is off under `prefers-reduced-motion`.
