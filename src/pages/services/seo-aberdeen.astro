@@ -70,12 +70,15 @@ const different = [
 const sectors = ['Professional Services', 'Trade', 'Property', 'Tech & Engineering', 'SaaS', 'Healthcare', 'Legal'];
 
 const faq = [
+  { q: 'How much does SEO cost?', a: 'My day rate is £500. A short audit with a list of priority fixes takes half a day and costs £250. A full SEO and GEO audit usually takes two days, so it starts at about £1,000, and larger sites with more keywords or audiences take longer. Ongoing SEO and GEO starts at £500 a month, which buys one day of my time. For comparison, UK price guides published in 2026 put most small-business SEO at £500 to £5,000 a month, nearly all of it agency retainers. With me, the fee pays for my hours on your site, with no account manager or agency overhead on top.' },
   { q: 'What makes local (Aberdeen) SEO different from general SEO?', a: "Local SEO requires understanding local search behaviour, specific sector terminology, and the B2B buying cycle typical of Scottish companies. Optimising your Google Business Profile, building local citations in Aberdeen, Scottish business directories or even global ones, and earning industry-specific backlinks all play a role. Aberdeen's economy has specific characteristics (the energy sector transition, a growing technology cluster, and a dense professional services market) that shape what works." },
   { q: 'How long does SEO take to work?', a: 'Most Aberdeen businesses see measurable improvements in 3-4 months. Local SEO can show results faster (4-8 weeks) than national or global campaigns. Competitive keywords like "engineering services Aberdeen" may take 6-12 months. I have experienced instances where results can be achieved within weeks.' },
-  { q: 'What does an SEO & GEO audit include?', a: 'A one-off assessment of how your website performs in Google and in AI answer engines. It covers the technical issues that stop pages ranking, content gaps against the searches your buyers use, your Google Business Profile and local listings, and whether AI tools can read and cite your pages. You get a prioritised action list you can implement yourself or with me. Audits start at £500.' },
+  { q: 'What does an SEO & GEO audit include?', a: 'A one-off assessment of how your website performs in Google and in AI answer engines. It covers the technical issues that stop pages ranking, content gaps against the searches your buyers use, your Google Business Profile and local listings, and whether AI tools can read and cite your pages. You get a prioritised action list you can implement yourself or with me. A short audit costs £250 and a full audit starts at about £1,000.' },
   { q: 'Can you guarantee results?', a: 'No one can guarantee #1 rankings, but I use proven strategies that consistently improve visibility and traffic for your business.' },
-  { q: 'How much does SEO cost?', a: 'Pricing varies by scope. For local or global businesses, expect a minimum of £250 per month for ongoing SEO and GEO. One-off technical audits start at £500.' },
   { q: 'Should I hire an SEO consultant or an agency in Aberdeen?', a: 'It depends on the amount of work, not on which sounds bigger. An agency suits large sites that need several people producing content every week. A consultant suits SMEs that need senior judgement from the person doing the work. With me, the person who audits your site is the one who writes the pages and reports the results, with no account manager in between and no agency overhead in the fee.' },
+  { q: 'What does an SEO consultant do?', a: "An SEO consultant works out why buyers aren't finding your site and then fixes it. In my case that means checking how Google and AI crawlers read your pages, writing or rewriting pages around what your buyers search for, earning links from sites in your sector, and making answers easy for AI Overviews and ChatGPT to quote. Each month I report what changed in Search Console and Analytics. How the time splits depends on the audit: some sites need mostly technical fixes, others need new pages." },
+  { q: 'Is SEO worth it for a small business?', a: "It is if your buyers search for what you sell. Check that first: Google Search Console shows which searches already bring you impressions, and a keyword tool shows how many people search each month. For B2B firms in Aberdeen those numbers are often small, sometimes under a hundred searches a month, but in technical B2B one new client can be worth more than a year of SEO fees. SEO is a poor fit when almost nobody searches for the service, for example a product so new that buyers don't have a name for it yet. In that case events, LinkedIn and direct outreach will usually reach them sooner." },
+  { q: 'Is SEO dead in 2026?', a: `No, but the payoff has changed. AI Overviews, AI Mode and ChatGPT search build their answers from pages they can crawl and index, and <a href="https://developers.google.com/search/docs/appearance/ai-features" class="text-link">Google's guidance on AI features</a> says the usual SEO practices still apply. What has dropped is the click. The work now has two parts: getting the page to rank, and writing it so AI tools quote it and name you as the source. I cover what still works in <a href="/journal/seo-in-2025-what-works-whats-hype-what-fails/" class="text-link">SEO in 2025: what works, what's hype, what fails</a>.` },
   { q: 'How do I choose an SEO company in Aberdeen?', a: "Ask for named results: which clients, which searches, and what changed. Ask whether they looked at your Search Console data before quoting, because a plan built without it is a package. Ask how they handle AI search too. Anyone selling llms.txt files or special AI markup as the answer is selling something Google says its AI features don't need. Then ask to speak to a current client." },
   { q: 'What is GEO and how does it affect business?', a: "Generative Engine Optimisation (GEO) is the practice of structuring your website content so that AI-powered search tools (ChatGPT, Perplexity, Claude, Google Gemini, Microsoft Copilot) cite your business in their generated answers. As more B2B buyers use these tools to research suppliers, businesses that aren't optimised for AI search will lose visibility to competitors who are. GEO is particularly relevant in professional services and technology sectors, where buyers increasingly ask AI tools for recommendations before contacting providers." },
   { q: 'Do I need GEO if I already have SEO?', a: 'SEO and GEO are complementary, not competing. Good SEO gives you the foundation: fast site, clean structure, relevant content. GEO builds on that foundation by ensuring your content is formatted so AI engines can reliably extract and cite it. If your current SEO is solid, adding GEO optimisation is a relatively low-effort upgrade with significant upside as AI search adoption grows.' },
@@ -106,14 +109,14 @@ const schema = {
         '@type': 'OfferCatalog',
         name: 'SEO & GEO services',
         itemListElement: [
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO & GEO audit' }, price: '500', priceCurrency: 'GBP' },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Ongoing SEO & GEO' }, price: '250', priceCurrency: 'GBP' },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO & GEO audit' }, price: '1000', priceCurrency: 'GBP' },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Ongoing SEO & GEO' }, price: '500', priceCurrency: 'GBP' },
         ],
       },
     },
     {
       '@type': 'FAQPage',
-      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<[^>]+>/g, '') } })),
     },
   ],
 };
@@ -122,7 +125,7 @@ const schema = {
 <Layout
   title="Aberdeen SEO | AEO/GEO Consultant for B2B companies in Scotland"
   exactTitle
-  description="Aberdeen SEO consultant combining traditional SEO with AI search optimisation (GEO). Audits from £500, ongoing from £250–£2,000/month. Free consultation."
+  description="Aberdeen SEO consultant combining traditional SEO with AI search optimisation (GEO). Audits from £1,000, ongoing from £500/month. Free consultation."
   breadcrumbs={[
     { name: 'Home', item: `${Astro.site}` },
     { name: 'Services', item: `${Astro.site}services` },
@@ -295,7 +298,7 @@ const schema = {
         {faq.map((f) => (
           <div class="grid gap-3 border-t border-ink py-8 last:border-b md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-8">
             <dt><Heading as="h3" size="sm">{f.q}</Heading></dt>
-            <dd><Text>{f.a}</Text></dd>
+            <dd><Text><Fragment set:html={f.a} /></Text></dd>
           </div>
         ))}
       </dl>
